@@ -11,3 +11,35 @@ suppressPackageStartupMessages(library(tidyverse))  # The tidyverse contains ggp
 suppressPackageStartupMessages(library(gapminder))
 knitr::opts_chunk$set(fig.width=4, fig.height=3)
 ```
+
+### Smell test of data
+Here are some ways to explore some characteristics of the gapminder dataset.
+
+Using the 
+```{r}
+class(gapminder)
+typeof(gapminder)
+str(gapminder)
+```
+
+I found the Help documentation very useful to understand better the concept of an object in R coding.
+```{r}
+?class
+?tbl_df
+?tbl
+?data.frame
+?typeof
+?str
+```
+
+Therefore, I now understand that gapminder is a tibble. It seems like using tibbles over classic data.frame() has several advantages, like avoiding problems such as accidental conversion of string as factor. I read this interesting [wiki page](http://www.sthda.com/english/wiki/tibble-data-format-in-r-best-and-modern-way-to-work-with-your-data) on the topic.
+
+The gapminder data set has 3 classes  
+* tbl_df  
+* tbl  
+* data
+
+```{r}
+
+```
+

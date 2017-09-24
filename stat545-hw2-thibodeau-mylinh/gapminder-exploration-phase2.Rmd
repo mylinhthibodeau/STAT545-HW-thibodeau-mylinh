@@ -39,7 +39,7 @@ The gapminder data set has 3 classes
 * tbl  
 * data.frame  
 
-** I found class() to be the most informative function for me **   
+**I found class() to be the most informative function for me**   
 
 The class function told me that there were 6 variables (columns) and 1704 observations (rows) in gapminder dataset, but I could also use this:
 ```{r}
@@ -70,12 +70,17 @@ View(gapminder)
 summary(gapminder)
 ```
 
+Another way is to use individual functions to obtain the information. Below, these functions respectively informs on the minimum value, maximum value, range of value (minimum and maximum) and all possible distinct values of specific columns. 
 ```{r}
-range(gapminder, na.rm = TRUE)
+min(gapminder$lifeExp)
+max(gapminder$lifeExp)
+range(gapminder$gdpPercap)
+distinct(gapminder, country)
 ```
 
+I also found this ![website](https://info201-s17.github.io/book/introduction-to-data-frames.html) useful. 
 
-*Q? What values are typical? What’s the spread? What’s the distribution? Etc., tailored to the variable at hand.*  
+*Q? What values are typical? What’s the spread? What’s the distribution? Etc., tailored to the variable at hand.Feel free to use summary stats, tables, figures. We’re NOT expecting high production value (yet).*  
 
 If we group data according to their column, another useful function is summarise() to get some statistics on a variable, but data needs to be grouped before doing so. For example, if we group by continent, we can use the function to know the mean year of entry, lifeExp, pop and gdpPercap for each continent.
 ```{r}
@@ -83,9 +88,84 @@ gapminder %>%
   group_by(continent) %>%
   summarise_if(is.numeric, mean, na.rm=TRUE)
 ```
+Again, I find that the most useful function is summary(), as it provides the range (minimum, maximum), and summary statistics such as 1st quartile, mean and 3rd quartile.
+```{r}
+View(gapminder)
+summary(gapminder)
+```
 
-*Q? Feel free to use summary stats, tables, figures. We’re NOT expecting high production value (yet).*  
-
+```{r}
+gapminder %>% 
+  group_by(country) %>% 
+  summarise_if(is.numeric, median)
+```
 
 ### Explore various plot types
+#### POINT PLOTS
+Now, I will explore diverse plot types.
+
+Let's start with a basic data point plot of the life expectancy relative to the year of assesment for each country.
+```{r}
+p <- gapminder %>%
+  group_by(country) %>%
+  ggplot(aes(x=year, y=lifeExp))
+p + geom_point()
+```
+Overall, it seems that life expectancy has improved with years for the majority of countries, but I wonder what are the outliers at the bottom of the plot. 
+
+Let us see what is the minimum life expectancy for each year to find out.
+```{r}
+gapminder %>%
+  group_by(country, year, lifeExp, pop, gdpPercap) %>%
+  summarise_if(is.numeric, min) %>%
+  arrange(lifeExp)
+```
+The lowest life expectancy recorder in the gapminder dataset is 23.5999 years in Rwanda in 1992, which corresponds to the tragedy of the Rwandan genocide.
+
+Another way to find this outlier was thought to me by a student of STAT545 (thanks Alistair Barton!):
+```{r}
+outlier_lifeExp <- filter(gapminder, lifeExp == min(lifeExp))
+View(outlier_lifeExp)
+```
+
+***  
+
+Let us carry on in our analysis. Of course, one may suspect there will be a relationship between the lifeExp and gdpPercap variables, so let's plot these. 
+```{r}
+p <- gapminder %>%
+  group_by(country) %>%
+  ggplot(aes(x=gdpPercap, y=lifeExp))
+p + geom_point()
+```
+
+However, since I am still wondering if the size of the population has an effect on the life expectancy, I will plot the size of each dots according to the population, and I would also like to see if some continents segregate from each other, so I will use colours for this. I will also use some transparencies in order to see the dots when they layer on top of each other.
+
+```{r}
+p + geom_point(aes(size=pop, colour = continent), alpha=0.25)
+```
+
+A log scale would be useful to see the lower values better. This ressembles the exercise we completed in class last time, so let me switch up the variables a little to population and life expectancy, so that we don't feel like doing the same thing. I will plot the size of the dot as a function of the gdpPerCap this time.
+```{r}
+p2 <- ggplot(gapminder, aes(x=log10(pop), y=lifeExp)) +
+  geom_point(aes(colour=continent, size=gdpPercap), alpha=0.25)
+p2
+```
+
+
+We can immediately take note of obvious discrepancies when looking at this plot. For example, the red dots are at the lower part of the graph, telling us that countries of Africa have lower life expectancy, and the dots are smaller, revealing lower gdpPercap. 
+
+#### LINE PLOTS
+```{r}
+p3 <- gapminder %>%
+  group_by(country) %>%
+  ggplot(aes(x=year, y=lifeExp)) 
+p3 + geom_path(aes(colour=continent), alpha = 0.50)
+```
+```{r}
+p3 <- gapminder %>%
+  ggplot(aes(x=year, y=lifeExp)) 
+p3 + geom_line(aes(colour=continent), alpha = 0.50)
+```
+This is very pretty, but I don't know if it is very informative since this plots in a stepwise fashion the data, which collapses the values at each measurement year into a vertical line. I still kept is, for interest.
+
 

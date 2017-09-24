@@ -172,10 +172,26 @@ p4 <- gapminder %>%
 p4 + geom_bar(aes(colour=continent, alpha=year), stat="identity", na.rm=TRUE)
 ```
 
-Here is an histogram. 
+Here is an histogram of the "stacked up" life expectancies of all the countries in each continent, plotted according to the year.
 ```{r}
 p5 <- gapminder %>%
-  ggplot(aes(x=log10(gdpPercap), y=lifeExp)) 
-p5 + geom_histogram(aes(colour=continent), binwidth=0.2, stat="identity", na.rm=TRUE)
+  ggplot(aes(x=year, y=lifeExp)) 
+p5 + geom_histogram(aes(colour=continent), stat="identity", na.rm=TRUE)
+```
+
+#### SUMMARY STATISTICS PLOTS
+Here is a way to plot some summary statistics for each continent. Below, you can see the median life expectancy for each continent according to the year.
+```{r}
+p6 <- gapminder %>%
+  ggplot(aes(x=year, y=lifeExp)) 
+p6 + stat_summary_bin(mapping = aes(group = continent, colour=continent), fun.y = "median", geom="line")
+```
+
+You can do the same thing with other parameters, or in the case below, layering the gdp information in the same plot.
+```{r}
+p7 <- gapminder %>%
+  ggplot(aes(x=year, y=lifeExp))
+p7 + stat_summary_bin(mapping = aes(group = continent, colour=continent), fun.y = "median", geom="line") +
+  scale_y_continuous(gapminder$gdpPercap, sec.axis = sec_axis(~./500))
 ```
 

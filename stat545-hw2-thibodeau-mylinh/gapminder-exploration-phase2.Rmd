@@ -66,21 +66,23 @@ dim(gapminder)
 *Q? What are possible values (or range, whichever is appropriate) of each variable?*  
 I have used the summary() function to know the possible values and range of each variable.
 ```{r}
+View(gapminder)
 summary(gapminder)
 ```
 
-
-If we group data according to their column, another useful function is summarize() to get some statistics on a variable, but data needs to be grouped before doing so.
 ```{r}
-overview <- gapminder %>%
-  group_by_all() %>%
-  summarise_all(funs(mean, median, sum, count=n()))
-View(overview)
+range(gapminder, na.rm = TRUE)
 ```
 
 
-
 *Q? What values are typical? What’s the spread? What’s the distribution? Etc., tailored to the variable at hand.*  
+
+If we group data according to their column, another useful function is summarise() to get some statistics on a variable, but data needs to be grouped before doing so. For example, if we group by continent, we can use the function to know the mean year of entry, lifeExp, pop and gdpPercap for each continent.
+```{r}
+gapminder %>%
+  group_by(continent) %>%
+  summarise_if(is.numeric, mean, na.rm=TRUE)
+```
 
 *Q? Feel free to use summary stats, tables, figures. We’re NOT expecting high production value (yet).*  
 

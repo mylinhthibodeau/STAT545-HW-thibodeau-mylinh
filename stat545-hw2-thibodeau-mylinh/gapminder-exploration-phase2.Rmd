@@ -39,7 +39,7 @@ The gapminder data set has 3 classes
 * tbl  
 * data.frame  
 
-** I found class() to be the most informative function for me **   
+**I found class() to be the most informative function for me**   
 
 The class function told me that there were 6 variables (columns) and 1704 observations (rows) in gapminder dataset, but I could also use this:
 ```{r}
@@ -70,12 +70,17 @@ View(gapminder)
 summary(gapminder)
 ```
 
+Another way is to use individual functions to obtain the information. Below, these functions respectively informs on the minimum value, maximum value, range of value (minimum and maximum) and all possible distinct values of specific columns. 
 ```{r}
-range(gapminder, na.rm = TRUE)
+min(gapminder$lifeExp)
+max(gapminder$lifeExp)
+range(gapminder$gdpPercap)
+distinct(gapminder, country)
 ```
 
+I also found this ![website](https://info201-s17.github.io/book/introduction-to-data-frames.html) useful. 
 
-*Q? What values are typical? What’s the spread? What’s the distribution? Etc., tailored to the variable at hand.*  
+*Q? What values are typical? What’s the spread? What’s the distribution? Etc., tailored to the variable at hand.Feel free to use summary stats, tables, figures. We’re NOT expecting high production value (yet).*  
 
 If we group data according to their column, another useful function is summarise() to get some statistics on a variable, but data needs to be grouped before doing so. For example, if we group by continent, we can use the function to know the mean year of entry, lifeExp, pop and gdpPercap for each continent.
 ```{r}
@@ -83,8 +88,17 @@ gapminder %>%
   group_by(continent) %>%
   summarise_if(is.numeric, mean, na.rm=TRUE)
 ```
+Again, I find that the most useful function is summary(), as it provides the range (minimum, maximum), and summary statistics such as 1st quartile, mean and 3rd quartile.
+```{r}
+View(gapminder)
+summary(gapminder)
+```
 
-*Q? Feel free to use summary stats, tables, figures. We’re NOT expecting high production value (yet).*  
+```{r}
+gapminder %>% 
+  group_by(country) %>% 
+  summarise_if(is.numeric, median)
+```
 
 
 ### Explore various plot types

@@ -157,13 +157,18 @@ We can immediately take note of obvious discrepancies when looking at this plot.
 #### LINE PLOTS
 ```{r}
 p3 <- gapminder %>%
-  group_by(country) %>%
-  ggplot(aes(x=year, y=lifeExp)) 
-p3 + geom_path(aes(colour=continent), alpha = 0.50)
-```
-```{r}
-p3 <- gapminder %>%
   ggplot(aes(x=year, y=lifeExp)) 
 p3 + geom_line(aes(colour=continent), alpha = 0.50)
 ```
 This is very pretty, but I don't know if it is very informative since this plots in a stepwise fashion the data, which collapses the values at each measurement year into a vertical line. I still kept is, for interest.
+
+*I found the reference manual on the tidyverse ![website](http://ggplot2.tidyverse.org/reference/) very useful.
+
+#### BAR PLOTS
+Let's go back to a plot of the life expectancy and gdp per capita to show a bar plot example. 
+```{r}
+p4 <- gapminder %>%
+  ggplot(aes(x=log10(gdpPercap), y=lifeExp))
+p4 + geom_bar(aes(colour=continent, alpha=year), stat="identity", na.rm=TRUE)
+```
+

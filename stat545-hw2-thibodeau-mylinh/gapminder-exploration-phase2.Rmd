@@ -157,12 +157,6 @@ We can immediately take note of obvious discrepancies when looking at this plot.
 #### LINE PLOTS
 ```{r}
 p3 <- gapminder %>%
-  group_by(country) %>%
-  ggplot(aes(x=year, y=lifeExp)) 
-p3 + geom_path(aes(colour=continent), alpha = 0.50)
-```
-```{r}
-p3 <- gapminder %>%
   ggplot(aes(x=year, y=lifeExp)) 
 p3 + geom_line(aes(colour=continent), alpha = 0.50)
 ```

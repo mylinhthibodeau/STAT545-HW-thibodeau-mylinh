@@ -172,3 +172,10 @@ p4 <- gapminder %>%
 p4 + geom_bar(aes(colour=continent, alpha=year), stat="identity", na.rm=TRUE)
 ```
 
+Here is an histogram. 
+```{r}
+p5 <- gapminder %>%
+  ggplot(aes(x=log10(gdpPercap), y=lifeExp)) 
+p5 + geom_histogram(aes(colour=continent), binwidth=0.2, stat="identity", na.rm=TRUE)
+```
+

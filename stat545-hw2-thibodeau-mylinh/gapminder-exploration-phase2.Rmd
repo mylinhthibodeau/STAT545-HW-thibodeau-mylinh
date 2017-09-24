@@ -37,9 +37,53 @@ Therefore, I now understand that gapminder is a tibble. It seems like using tibb
 The gapminder data set has 3 classes  
 * tbl_df  
 * tbl  
-* data
+* data.frame  
 
+** I found class() to be the most informative function for me **   
+
+The class function told me that there were 6 variables (columns) and 1704 observations (rows) in gapminder dataset, but I could also use this:
 ```{r}
-
+ncol(gapminder)
+nrow(gapminder)
 ```
+
+It also revealed that the specific data type of each variable!  
+* country  : Factor  
+* continent: Factor  
+* year     : int  
+* lifeExp  : num  
+* pop      : int  
+* gdpPercap: num  
+
+Here are some other useful functions to learn more about the dataset. I will not explain what each simple function does at this time, but please be reassured that I used the Help function to understand the use and output of these functions. If you have a specific question about the dataset, you can use more specific functions as well, like dim() which provides the dimension of the data tibble.
+```{r}
+dim(gapminder)
+```
+
+### Explore individual variables
+> To ensure I address all the requirements of this assignment, I have decided to include the STAT545 homework 2 questions above my answers in bold. 
+
+*Q? What are possible values (or range, whichever is appropriate) of each variable?*  
+I have used the summary() function to know the possible values and range of each variable.
+```{r}
+summary(gapminder)
+```
+
+
+If we group data according to their column, another useful function is summarize() to get some statistics on a variable, but data needs to be grouped before doing so.
+```{r}
+overview <- gapminder %>%
+  group_by_all() %>%
+  summarise_all(funs(mean, median, sum, count=n()))
+View(overview)
+```
+
+
+
+*Q? What values are typical? What’s the spread? What’s the distribution? Etc., tailored to the variable at hand.*  
+
+*Q? Feel free to use summary stats, tables, figures. We’re NOT expecting high production value (yet).*  
+
+
+### Explore various plot types
 

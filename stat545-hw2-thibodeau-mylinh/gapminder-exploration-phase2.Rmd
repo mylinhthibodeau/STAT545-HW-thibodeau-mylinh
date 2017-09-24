@@ -167,5 +167,3 @@ p3 <- gapminder %>%
 p3 + geom_line(aes(colour=continent), alpha = 0.50)
 ```
 This is very pretty, but I don't know if it is very informative since this plots in a stepwise fashion the data, which collapses the values at each measurement year into a vertical line. I still kept is, for interest.
-
-

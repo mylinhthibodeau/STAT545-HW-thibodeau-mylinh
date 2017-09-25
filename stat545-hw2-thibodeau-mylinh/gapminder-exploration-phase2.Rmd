@@ -10,7 +10,7 @@ output:
 ```{r}
 suppressPackageStartupMessages(library(tidyverse))  # The tidyverse contains ggplot2!
 suppressPackageStartupMessages(library(gapminder))
-knitr::opts_chunk$set(fig.width=10, fig.height=8)
+knitr::opts_chunk$set(fig.width=8, fig.height=6)
 ```
 
 ### Smell test of data
@@ -110,7 +110,7 @@ Let's start with a basic data point plot of the life expectancy relative to the 
 p <- gapminder %>%
   group_by(country) %>%
   ggplot(aes(x=year, y=lifeExp))
-p + geom_point()
+p + geom_point() + labs(title = "Life expectancy per year")
 ```
 Overall, it seems that life expectancy has improved with years for the majority of countries, but I wonder what are the outliers at the bottom of the plot. 
 
@@ -135,7 +135,8 @@ Let us carry on in our analysis. Of course, one may suspect there will be a rela
 ```{r}
 p1 <- gapminder %>%
   group_by(country) %>%
-  ggplot(aes(x=gdpPercap, y=lifeExp))
+  ggplot(aes(x=gdpPercap, y=lifeExp))+
+  labs(title = "Life expectancy according to gdp per capita")
 p1 + geom_point()
 ```
 
@@ -149,6 +150,7 @@ A log scale would be useful to see the lower values better. This ressembles the 
 ```{r}
 p2 <- ggplot(gapminder, aes(x=log10(pop), y=lifeExp)) +
   geom_point(aes(colour=continent, size=gdpPercap), alpha=0.25) +
+  labs(title = "Life expectancy according to gdp per capita") +
   scale_x_log10()
 p2
 ```
@@ -160,7 +162,8 @@ We can immediately take note of obvious discrepancies when looking at this plot.
 ```{r}
 p3 <- gapminder %>%
   ggplot(aes(x=year, y=lifeExp)) 
-p3 + geom_line(aes(colour=continent), alpha = 0.50)
+p3 + geom_line(aes(colour=continent), alpha = 0.50) +
+    labs(title = "Life expectancy per year and continent")
 ```
 This is very pretty, but I don't know if it is very informative since this plots in a stepwise fashion the data, which collapses the values at each measurement year into a vertical line. I still kept is, for interest.
 
@@ -179,6 +182,7 @@ p4 + geom_bar(stat="identity", na.rm=TRUE) +
 
 Here is an histogram of the "stacked up" life expectancies of all the countries in each continent, plotted according to the year. 
 > After doing the dataset manipulation exercises (see below), I decided to go back at my plots and change them for presenting more relevant information.
+
 ```{r}
 my_gap <- gapminder
 my_gap_life <- my_gap %>%

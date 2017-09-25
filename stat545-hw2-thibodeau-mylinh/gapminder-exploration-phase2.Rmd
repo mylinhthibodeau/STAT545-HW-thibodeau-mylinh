@@ -36,9 +36,9 @@ I found the Help documentation very useful to understand better the concept of a
 Therefore, I now understand that gapminder is a tibble. It seems like using tibbles over classic data.frame() has several advantages, like avoiding problems such as accidental conversion of string as factor. I read this interesting [wiki page](http://www.sthda.com/english/wiki/tibble-data-format-in-r-best-and-modern-way-to-work-with-your-data) on the topic.
 
 The gapminder data set has 3 classes  
-* tbl_df  
-* tbl  
-* data.frame  
+*tbl_df  
+*tbl  
+*data.frame  
 
 **I found class() to be the most informative function for me**   
 It revealed the specific data type of each variable!  
@@ -66,11 +66,20 @@ dim(gapminder)
 *Q? What are possible values (or range, whichever is appropriate) of each variable?*  
 I have used the summary() function to know the possible values and range of each variable.
 ```{r}
-View(gapminder)
-summary(gapminder)
+overview <- summary(gapminder)
+overview
 ```
 
-
+**Or the prettier version with knitr::kable**
+```{r kable, results= 'asis'}
+knitr::kable(overview, 
+             format = "pandoc", 
+             digits = 2,
+             caption = "Summary Stats - Gapminder dataset",
+             align = c("l"),
+             longtable = TRUE,
+             padding = 5)
+```
 
 Another way is to use individual functions to obtain the information. Below, these functions respectively informs on the minimum value, maximum value, range of value (minimum and maximum) and all possible distinct values of specific columns. 
 ```{r}
@@ -90,11 +99,8 @@ gapminder %>%
   group_by(continent) %>%
   summarise_if(is.numeric, mean, na.rm=TRUE)
 ```
-Again, I find that the most useful function is summary(), as it provides the range (minimum, maximum), and summary statistics such as 1st quartile, mean and 3rd quartile.
-```{r}
-View(gapminder)
-summary(gapminder)
-```
+
+Again, I find that the most useful function is summary(), as it provides the range (minimum, maximum), and summary statistics such as 1st quartile, mean and 3rd quartile (see above for data).
 
 ```{r}
 gapminder %>% 
@@ -113,15 +119,20 @@ p <- gapminder %>%
   ggplot(aes(x=year, y=lifeExp))
 p + geom_point() + labs(title = "Life expectancy per year")
 ```
+
 Overall, it seems that life expectancy has improved with years for the majority of countries, but I wonder what are the outliers at the bottom of the plot. 
 
 Let us see what is the minimum life expectancy for each year to find out.
 ```{r}
-gapminder %>%
+t <- gapminder %>%
   group_by(country, year, lifeExp, pop, gdpPercap) %>%
   summarise_if(is.numeric, min) %>%
   arrange(lifeExp)
+t
 ```
+
+
+
 The lowest life expectancy recorder in the gapminder dataset is 23.5999 years in Rwanda in 1992, which corresponds to the tragedy of the Rwandan genocide.
 
 Another way to find this outlier was thought to me by a student of STAT545 (thanks Alistair Barton!):
@@ -147,12 +158,13 @@ However, since I am still wondering if the size of the population has an effect 
 p1 + geom_point(aes(size=pop, colour = continent), alpha=0.25)
 ```
 
-A log scale would be useful to see the lower values better. This ressembles the exercise we completed in class last time, so let me switch up the variables a little to population and life expectancy, so that we don't feel like doing the same thing. I will plot the size of the dot as a function of the gdpPerCap this time.
+A log scale would be useful to see the lower values better. This ressembles the exercise we completed in class last time, so let me switch up the variables a little to population and life expectancy, so that we don't feel like doing the same thing. I will plot the size of the dot as a function of the gdpPerCap this time and add the geom_smooth() line with a generalized additive model (gam).
 ```{r}
 p2 <- ggplot(gapminder, aes(x=log10(pop), y=lifeExp)) +
   geom_point(aes(colour=continent, size=gdpPercap), alpha=0.25) +
   labs(title = "Life expectancy according to gdp per capita") +
-  scale_x_log10()
+  scale_x_log10() +
+  geom_smooth(aes(colour = continent), lwd=2, se=FALSE)
 p2
 ```
 
@@ -160,11 +172,14 @@ p2
 We can immediately take note of obvious discrepancies when looking at this plot. For example, the red dots are at the lower part of the graph, telling us that countries of Africa have lower life expectancy, and the dots are smaller, revealing lower gdpPercap. 
 
 #### LINE PLOTS
+Let's plot some lines tracking the life expectancy per year, but use the facet_wrap() function to divide the data by continent into 4 plots (omitting Oceania, given very little data).  
+
 ```{r}
-p3 <- gapminder %>%
-  ggplot(aes(x=year, y=lifeExp)) 
-p3 + geom_line(aes(colour=continent), alpha = 0.50) +
-    labs(title = "Life expectancy per year and continent")
+p3 <- ggplot(subset(gapminder, continent != "Oceania"), aes(x=year, y=lifeExp, group = country, color = country)) 
+p3 + geom_line(lwd=1, show_guide = FALSE) +
+  facet_wrap(~continent) +
+  scale_color_manual(values = country_colors) +
+  labs(title = "Life expectancy per year and continent")
 ```
 This is very pretty, but I don't know if it is very informative since this plots in a stepwise fashion the data, which collapses the values at each measurement year into a vertical line. I still kept is, for interest.
 
@@ -298,10 +313,12 @@ knitr::kable(head(gapminder),
              caption = "Gapminder (head)",
              align = c("l"),
              longtable = TRUE,
-             padding = 5)
+             padding = 3)
 ```
 
-> Oh, I just understood that you have to "knit" this document in order to see the nice table made with knitr::kable !
+> Oh, I just understood that you have to "knit" this document in order to see the nice table made with knitr::kable !  
+
+### I will re-make some of the tables above with knitr::kable to compare the regular RMarkdown output to the "more readable" kable output.
 
 I have used this [website](http://pandoc.org/installing.html) as well to install some complementary packages 
 

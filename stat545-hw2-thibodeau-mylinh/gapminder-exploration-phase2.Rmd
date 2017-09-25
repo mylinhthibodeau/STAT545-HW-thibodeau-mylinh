@@ -16,7 +16,7 @@ knitr::opts_chunk$set(fig.width=8, fig.height=6)
 ### Smell test of data
 Here are some ways to explore some characteristics of the gapminder dataset.
 
-Using the 
+Using the following functions, I have been able to determine some of the gapminder dataset characteristics.
 ```{r}
 class(gapminder)
 typeof(gapminder)
@@ -41,22 +41,21 @@ The gapminder data set has 3 classes
 * data.frame  
 
 **I found class() to be the most informative function for me**   
+It revealed the specific data type of each variable!  
+*country  : Factor  
+*continent: Factor  
+*year     : int  
+*lifeExp  : num  
+*pop      : int  
+*gdpPercap  : num  
 
-The class function told me that there were 6 variables (columns) and 1704 observations (rows) in gapminder dataset, but I could also use this:
+The class function told me that there were 6 variables (columns) and 1704 observations (rows) in gapminder dataset, but I could also use these:
 ```{r}
 ncol(gapminder)
 nrow(gapminder)
 ```
 
-It also revealed that the specific data type of each variable!  
-* country  : Factor  
-* continent: Factor  
-* year     : int  
-* lifeExp  : num  
-* pop      : int  
-* gdpPercap: num  
-
-Here are some other useful functions to learn more about the dataset. I will not explain what each simple function does at this time, but please be reassured that I used the Help function to understand the use and output of these functions. If you have a specific question about the dataset, you can use more specific functions as well, like dim() which provides the dimension of the data tibble.
+Here are some other useful functions to learn more about the dataset. If you have a specific question about the dataset, you can use more specific functions as well, like dim() which provides the dimension of the data tibble.
 ```{r}
 dim(gapminder)
 ```
@@ -70,6 +69,8 @@ I have used the summary() function to know the possible values and range of each
 View(gapminder)
 summary(gapminder)
 ```
+
+
 
 Another way is to use individual functions to obtain the information. Below, these functions respectively informs on the minimum value, maximum value, range of value (minimum and maximum) and all possible distinct values of specific columns. 
 ```{r}
@@ -304,5 +305,4 @@ knitr::kable(head(gapminder),
 
 I have used this [website](http://pandoc.org/installing.html) as well to install some complementary packages 
 
-
-
+## Now I feel like I have a good grasp on how to use these new tools.

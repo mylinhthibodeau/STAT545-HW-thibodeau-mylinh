@@ -2,7 +2,7 @@
 title: "gapminder-exploration-phase2"
 author: "My Linh Thibodeau"
 date: '2017-09-22'
-output: html_document
+output: pdf_document
   toc: true
 ---
 
@@ -266,7 +266,13 @@ Wow, Turkey has not been doing well for a long time ...
 
 ### Using the knitr library to make prettier tables
 
-```{r}
-kable(head(gapminder), format = "html")
+```{r kable, results= 'asis'}
+knitr::kable(head(gapminder), 
+             format = "pandoc", 
+             digits = 2,
+             caption = "Gapminder (head)",
+             align = c("l"),
+             longtable = TRUE,
+             padding = 5)
 ```
 

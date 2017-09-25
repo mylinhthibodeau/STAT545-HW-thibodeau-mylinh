@@ -187,11 +187,13 @@ p6 <- gapminder %>%
 p6 + stat_summary_bin(mapping = aes(group = continent, colour=continent), fun.y = "median", geom="line")
 ```
 
-You can do the same thing with other parameters, or in the case below, layering the gdp information in the same plot.
+You can do the same thing with other parameters.
 ```{r}
 p7 <- gapminder %>%
-  ggplot(aes(x=year, y=lifeExp))
-p7 + stat_summary_bin(mapping = aes(group = continent, colour=continent), fun.y = "median", geom="line") +
-  scale_y_continuous(gapminder$gdpPercap, sec.axis = sec_axis(~./500))
+  ggplot(aes(x=year, y=lifeExp)) 
+p7 + 
+  geom_point(mapping = aes(colour = continent), alpha=0.5, size=3, shape=21)  +
+  stat_summary(fun.data = "mean_se", mapping = aes(colour=continent), geom = "crossbar", na.rm=TRUE) +
+  labs(title = "Life expectancy according to year", subtitle = "Box representing mean and SD for each continent")
 ```
 

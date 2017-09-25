@@ -13,7 +13,7 @@ suppressPackageStartupMessages(library(gapminder))
 knitr::opts_chunk$set(fig.width=8, fig.height=6)
 ```
 
-### Smell test of data
+## Smell test of data
 Here are some ways to explore some characteristics of the gapminder dataset.
 
 Using the following functions, I have been able to determine some of the gapminder dataset characteristics.
@@ -60,7 +60,7 @@ Here are some other useful functions to learn more about the dataset. If you hav
 dim(gapminder)
 ```
 
-### Explore individual variables
+## Explore individual variables
 > To ensure I address all the requirements of this assignment, I have decided to include the STAT545 homework 2 questions above my answers in bold. 
 
 *Q? What are possible values (or range, whichever is appropriate) of each variable?*  
@@ -71,7 +71,7 @@ overview
 ```
 
 **Or the prettier version with knitr::kable**
-```{r kable, results= 'asis'}
+```{r, results= 'asis'}
 knitr::kable(overview, 
              format = "pandoc", 
              digits = 2,
@@ -108,7 +108,9 @@ gapminder %>%
   summarise_if(is.numeric, median)
 ```
 
-### Explore various plot types
+## Explore various plot types
+*NOTE: The main resource used is the [stat545 github repository of Jenny Bryan](https://github.com/jennybc/ggplot2-tutorial/blob/master/gapminder-ggplot2-univariate-quantitative.md)*  
+
 #### POINT PLOTS
 Now, I will explore diverse plot types.
 
@@ -196,8 +198,9 @@ p4 + geom_bar(stat="identity", na.rm=TRUE) +
   labs(title = "Number of measurements for each continents")
 ```
 
-Here is an histogram of the "stacked up" life expectancies of all the countries in each continent, plotted according to the year. 
-> After doing the dataset manipulation exercises (see below), I decided to go back at my plots and change them for presenting more relevant information.
+> After doing the dataset manipulation exercises (see below), I decided to go back at my plots and change them for presenting more relevant information.  
+
+Here is an histogram of the "stacked up" life expectancies of all the countries (population x life expectancy) in each continent, plotted according to the year.
 
 ```{r}
 my_gap <- gapminder
@@ -218,14 +221,14 @@ p6 + stat_summary_bin(mapping = aes(group = continent, colour=continent), fun.y 
   labs(title = "Median life expectancy per continent")
 ```
 
-You can do the same thing with other parameters.
+You can do the same thing with other parameters, like below showing the mean in a b
 ```{r}
 p7 <- gapminder %>%
   ggplot(aes(x=year, y=lifeExp)) 
 p7 + 
   geom_point(mapping = aes(colour = continent), alpha=0.5, size=3, shape=21)  +
   stat_summary(fun.data = "mean_se", mapping = aes(colour=continent), geom = "crossbar", na.rm=TRUE) +
-  labs(title = "Mean life expectancy according to year", subtitle = "Box representing mean and SD for each continent")
+  labs(title = "Mean life expectancy according to year")
 ```
 
 This plot is a bit crowed, we should subdivide it by continent and add a linear regression function to it.
@@ -234,13 +237,50 @@ This plot is a bit crowed, we should subdivide it by continent and add a linear 
 p8 <- gapminder %>%
   ggplot(aes(x=year, y=lifeExp)) +
   geom_point(mapping = aes(colour = continent), alpha=0.5, shape=21)
-p8 + facet_wrap(~continent) + geom_smooth(se=FALSE, method = "lm", colour = "purple", lwd = 1) + labs(title = "Life expectancy per year")
+p8 + facet_wrap(~continent) + geom_smooth(se=FALSE, colour = "purple", lwd = 1, alpha = 0.8)+
+  labs(title = "Life expectancy per year") 
+```
+
+Or we can show the same plot and plot the mean life expectancy (and standard deviation) with geom_boxplot() function:  
+```{r}
+p8 + facet_wrap(~continent) + geom_boxplot(aes(group=year), alpha=0.1) +
+  labs(title = "Life expectancy per year") 
 ```
 
 
+#### DISTRIBUTION PLOTS
+Let us explore a histogram to see the life expectancy measures distribution according to the continent.  
+```{r}
+p9 <- gapminder %>%
+  ggplot()
+p9 + geom_histogram(binwidth = 1, alpha = 0.8, position = "identity", aes(x=lifeExp, fill = continent)) 
+```
+
+Now, let's use a frequency polygon to show the same information (but let's use a binwidth of 1 year).  
+```{r}
+p10 <- gapminder %>%
+  ggplot()
+p10 + geom_freqpoly(binwidth = 1, alpha = 0.8, position = "identity", aes(x=lifeExp, color = continent))
+```
+
+Now, let's look at a smoother plot, which geom_density() can help with.
+```{r}
+p11 <- gapminder %>%
+  ggplot(aes(x = lifeExp, fill = continent))
+p11 + geom_density(alpha=0.15)
+```
+
+Another option is the geom_violin and geom_violin functions, to present our data in the most readible way.  
+```{r}
+p12 <- gapminder %>%
+  ggplot(aes(x=year, y =lifeExp, colour = continent))
+p12 + geom_violin(aes(group=year)) +
+  geom_jitter(alpha=0.3)
+```
+
 ***
 
-### Let's explore filter(), select() and piping (%>%), and others
+## Let's explore filter(), select() and piping (%>%), and others
 
 #### filter() exploration
 
@@ -306,7 +346,7 @@ Wow, Turkey has not been doing well for a long time ...
 
 ### Using the knitr library to make prettier tables
 
-```{r kable, results= 'asis'}
+```{r, results= 'asis'}
 knitr::kable(head(gapminder), 
              format = "pandoc", 
              digits = 2,

@@ -1,0 +1,304 @@
+---
+title: "gapminder-exploration-phase2"
+author: "My Linh Thibodeau"
+date: '2017-09-22'
+output: 
+  html_document:
+    toc: true
+---
+
+```{r}
+suppressPackageStartupMessages(library(tidyverse))  # The tidyverse contains ggplot2!
+suppressPackageStartupMessages(library(gapminder))
+knitr::opts_chunk$set(fig.width=10, fig.height=8)
+```
+
+### Smell test of data
+Here are some ways to explore some characteristics of the gapminder dataset.
+
+Using the 
+```{r}
+class(gapminder)
+typeof(gapminder)
+str(gapminder)
+```
+
+I found the Help documentation very useful to understand better the concept of an object in R coding.
+```{r}
+?class
+?tbl_df
+?tbl
+?data.frame
+?typeof
+?str
+```
+
+Therefore, I now understand that gapminder is a tibble. It seems like using tibbles over classic data.frame() has several advantages, like avoiding problems such as accidental conversion of string as factor. I read this interesting [wiki page](http://www.sthda.com/english/wiki/tibble-data-format-in-r-best-and-modern-way-to-work-with-your-data) on the topic.
+
+The gapminder data set has 3 classes  
+* tbl_df  
+* tbl  
+* data.frame  
+
+**I found class() to be the most informative function for me**   
+
+The class function told me that there were 6 variables (columns) and 1704 observations (rows) in gapminder dataset, but I could also use this:
+```{r}
+ncol(gapminder)
+nrow(gapminder)
+```
+
+It also revealed that the specific data type of each variable!  
+* country  : Factor  
+* continent: Factor  
+* year     : int  
+* lifeExp  : num  
+* pop      : int  
+* gdpPercap: num  
+
+Here are some other useful functions to learn more about the dataset. I will not explain what each simple function does at this time, but please be reassured that I used the Help function to understand the use and output of these functions. If you have a specific question about the dataset, you can use more specific functions as well, like dim() which provides the dimension of the data tibble.
+```{r}
+dim(gapminder)
+```
+
+### Explore individual variables
+> To ensure I address all the requirements of this assignment, I have decided to include the STAT545 homework 2 questions above my answers in bold. 
+
+*Q? What are possible values (or range, whichever is appropriate) of each variable?*  
+I have used the summary() function to know the possible values and range of each variable.
+```{r}
+View(gapminder)
+summary(gapminder)
+```
+
+Another way is to use individual functions to obtain the information. Below, these functions respectively informs on the minimum value, maximum value, range of value (minimum and maximum) and all possible distinct values of specific columns. 
+```{r}
+min(gapminder$lifeExp)
+max(gapminder$lifeExp)
+range(gapminder$gdpPercap)
+distinct(gapminder, country)
+```
+
+I also found this [website](https://info201-s17.github.io/book/introduction-to-data-frames.html) useful. 
+
+*Q? What values are typical? What’s the spread? What’s the distribution? Etc., tailored to the variable at hand.Feel free to use summary stats, tables, figures. We’re NOT expecting high production value (yet).*  
+
+If we group data according to their column, another useful function is summarise() to get some statistics on a variable, but data needs to be grouped before doing so. For example, if we group by continent, we can use the function to know the mean year of entry, lifeExp, pop and gdpPercap for each continent.
+```{r}
+gapminder %>%
+  group_by(continent) %>%
+  summarise_if(is.numeric, mean, na.rm=TRUE)
+```
+Again, I find that the most useful function is summary(), as it provides the range (minimum, maximum), and summary statistics such as 1st quartile, mean and 3rd quartile.
+```{r}
+View(gapminder)
+summary(gapminder)
+```
+
+```{r}
+gapminder %>% 
+  group_by(country) %>% 
+  summarise_if(is.numeric, median)
+```
+
+### Explore various plot types
+#### POINT PLOTS
+Now, I will explore diverse plot types.
+
+Let's start with a basic data point plot of the life expectancy relative to the year of assesment for each country.
+```{r}
+p <- gapminder %>%
+  group_by(country) %>%
+  ggplot(aes(x=year, y=lifeExp))
+p + geom_point()
+```
+Overall, it seems that life expectancy has improved with years for the majority of countries, but I wonder what are the outliers at the bottom of the plot. 
+
+Let us see what is the minimum life expectancy for each year to find out.
+```{r}
+gapminder %>%
+  group_by(country, year, lifeExp, pop, gdpPercap) %>%
+  summarise_if(is.numeric, min) %>%
+  arrange(lifeExp)
+```
+The lowest life expectancy recorder in the gapminder dataset is 23.5999 years in Rwanda in 1992, which corresponds to the tragedy of the Rwandan genocide.
+
+Another way to find this outlier was thought to me by a student of STAT545 (thanks Alistair Barton!):
+```{r}
+outlier_lifeExp <- filter(gapminder, lifeExp == min(lifeExp))
+View(outlier_lifeExp)
+```
+
+***  
+
+Let us carry on in our analysis. Of course, one may suspect there will be a relationship between the lifeExp and gdpPercap variables, so let's plot these. 
+```{r}
+p1 <- gapminder %>%
+  group_by(country) %>%
+  ggplot(aes(x=gdpPercap, y=lifeExp))
+p1 + geom_point()
+```
+
+However, since I am still wondering if the size of the population has an effect on the life expectancy, I will plot the size of each dots according to the population, and I would also like to see if some continents segregate from each other, so I will use colours for this. I will also use some transparencies in order to see the dots when they layer on top of each other.
+
+```{r}
+p1 + geom_point(aes(size=pop, colour = continent), alpha=0.25)
+```
+
+A log scale would be useful to see the lower values better. This ressembles the exercise we completed in class last time, so let me switch up the variables a little to population and life expectancy, so that we don't feel like doing the same thing. I will plot the size of the dot as a function of the gdpPerCap this time.
+```{r}
+p2 <- ggplot(gapminder, aes(x=log10(pop), y=lifeExp)) +
+  geom_point(aes(colour=continent, size=gdpPercap), alpha=0.25) +
+  scale_x_log10()
+p2
+```
+
+
+We can immediately take note of obvious discrepancies when looking at this plot. For example, the red dots are at the lower part of the graph, telling us that countries of Africa have lower life expectancy, and the dots are smaller, revealing lower gdpPercap. 
+
+#### LINE PLOTS
+```{r}
+p3 <- gapminder %>%
+  ggplot(aes(x=year, y=lifeExp)) 
+p3 + geom_line(aes(colour=continent), alpha = 0.50)
+```
+This is very pretty, but I don't know if it is very informative since this plots in a stepwise fashion the data, which collapses the values at each measurement year into a vertical line. I still kept is, for interest.
+
+*I found the reference manual on the tidyverse [website](http://ggplot2.tidyverse.org/reference/) very useful.
+
+#### BAR PLOTS
+Let's go back to a plot of the life expectancy and gdp per capita to show a bar plot example. 
+```{r}
+my_gap <- gapminder
+continent_freq <- gapminder %>% count(continent)
+p4 <- continent_freq %>% 
+  ggplot(aes(x=continent, y=n))
+p4 + geom_bar(stat="identity", na.rm=TRUE) +
+  labs(title = "Number of measurements for each continents")
+```
+
+Here is an histogram of the "stacked up" life expectancies of all the countries in each continent, plotted according to the year. 
+> After doing the dataset manipulation exercises (see below), I decided to go back at my plots and change them for presenting more relevant information.
+```{r}
+my_gap <- gapminder
+my_gap_life <- my_gap %>%
+  mutate(total_life_exp_pop = pop*lifeExp)
+p5 <- my_gap_life %>%
+  ggplot(aes(x=year, y=total_life_exp_pop)) 
+p5 + geom_histogram(aes(fill = continent), stat="identity", na.rm=TRUE) +
+  labs(title = "Cumulative life expectancy values per year, population and continent")
+```
+
+#### SUMMARY STATISTICS PLOTS
+Here is a way to plot some summary statistics for each continent. Below, you can see the median life expectancy for each continent according to the year.
+```{r}
+p6 <- gapminder %>%
+  ggplot(aes(x=year, y=lifeExp)) 
+p6 + stat_summary_bin(mapping = aes(group = continent, colour=continent), fun.y = "median", geom="line") + 
+  labs(title = "Median life expectancy per continent")
+```
+
+You can do the same thing with other parameters.
+```{r}
+p7 <- gapminder %>%
+  ggplot(aes(x=year, y=lifeExp)) 
+p7 + 
+  geom_point(mapping = aes(colour = continent), alpha=0.5, size=3, shape=21)  +
+  stat_summary(fun.data = "mean_se", mapping = aes(colour=continent), geom = "crossbar", na.rm=TRUE) +
+  labs(title = "Mean life expectancy according to year", subtitle = "Box representing mean and SD for each continent")
+```
+
+This plot is a bit crowed, we should subdivide it by continent and add a linear regression function to it.
+
+```{r}
+p8 <- gapminder %>%
+  ggplot(aes(x=year, y=lifeExp)) +
+  geom_point(mapping = aes(colour = continent), alpha=0.5, shape=21)
+p8 + facet_wrap(~continent) + geom_smooth(se=FALSE, method = "lm", colour = "purple", lwd = 1) + labs(title = "Life expectancy per year")
+```
+
+
+***
+
+### Let's explore filter(), select() and piping (%>%), and others
+
+#### filter() exploration
+
+Filter ther data to only keep information related to Ireland and France before 2000.
+```{r}
+my_gap <- gapminder
+my_trip <- my_gap %>%
+  filter(country %in% c("Ireland", "France"), year<= 2000)
+View(my_trip)
+```
+
+#### select() and arrange() exploration
+
+Then we can retrieve specific columns using select, for example, the country, year, gdpPercap and lifeExp variables. Then we can arrange the data according to the gpdPercap for example.
+```{r}
+my_gap %>%
+  filter(country %in% c("Ireland", "France"), year<= 2000) %>%
+  select(country, year, gdpPercap, lifeExp) %>%
+  arrange(gdpPercap)
+```
+
+#### mutate() exploration
+
+The cumulative gdp per country can be added to the my_gap dataset using the mutate function.
+```{r}
+my_gap %>%
+  mutate(gdp = pop*gdpPercap)
+```
+
+#### group_by() and summarize() exploration 
+Considering only year 2000 and before, if we group by continent, year and country, we can use the summarize_each() function to obtain the mean and median for the lifeExp and gdpPercap variables. Then, we can arrange according to the lifeExp_mean variable to see which continents, years and countries had the lowest lifeExp_mean values.   
+```{r}
+my_gap %>%
+  filter(year <=2000) %>%
+  group_by(continent, year, country) %>%
+  summarize_each(funs(mean, median), lifeExp, gdpPercap) %>%
+  arrange(lifeExp_mean)
+```
+Let us explore the outlier values of life expectancy in Europe. I have used this [stat545 tutorial](http://stat545.com/block010_dplyr-end-single-table.html) to learn more about these functions. 
+
+```{r}
+my_gap %>%
+  filter(continent == "Europe") %>%
+  select(year, country, lifeExp) %>%
+  group_by(year) %>%
+  filter(min_rank(desc(lifeExp)) <2 | min_rank(lifeExp) <2) %>%
+  arrange(year, lifeExp) %>%
+  print(n = Inf)
+```
+
+Let's re-initialize my European dataset and then perform some further analyses and may be even plotting. Let's start with looking at the worst European life expectancy every year. 
+```{r}
+rm(my_europe)
+my_europe <- my_gap %>%
+  filter(continent == "Europe") %>%
+  select(year, country, lifeExp) %>%
+  group_by(year) %>%
+  top_n(1, wt=desc(lifeExp))
+my_europe
+```
+
+Wow, Turkey has not been doing well for a long time ...
+
+### Using the knitr library to make prettier tables
+
+```{r kable, results= 'asis'}
+knitr::kable(head(gapminder), 
+             format = "pandoc", 
+             digits = 2,
+             caption = "Gapminder (head)",
+             align = c("l"),
+             longtable = TRUE,
+             padding = 5)
+```
+
+> Oh, I just understood that you have to "knit" this document in order to see the nice table made with knitr::kable !
+
+I have used this [website](http://pandoc.org/installing.html) as well to install some complementary packages 
+
+
+

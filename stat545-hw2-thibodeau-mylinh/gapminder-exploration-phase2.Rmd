@@ -133,22 +133,23 @@ View(outlier_lifeExp)
 
 Let us carry on in our analysis. Of course, one may suspect there will be a relationship between the lifeExp and gdpPercap variables, so let's plot these. 
 ```{r}
-p <- gapminder %>%
+p1 <- gapminder %>%
   group_by(country) %>%
   ggplot(aes(x=gdpPercap, y=lifeExp))
-p + geom_point()
+p1 + geom_point()
 ```
 
 However, since I am still wondering if the size of the population has an effect on the life expectancy, I will plot the size of each dots according to the population, and I would also like to see if some continents segregate from each other, so I will use colours for this. I will also use some transparencies in order to see the dots when they layer on top of each other.
 
 ```{r}
-p + geom_point(aes(size=pop, colour = continent), alpha=0.25)
+p1 + geom_point(aes(size=pop, colour = continent), alpha=0.25)
 ```
 
 A log scale would be useful to see the lower values better. This ressembles the exercise we completed in class last time, so let me switch up the variables a little to population and life expectancy, so that we don't feel like doing the same thing. I will plot the size of the dot as a function of the gdpPerCap this time.
 ```{r}
 p2 <- ggplot(gapminder, aes(x=log10(pop), y=lifeExp)) +
-  geom_point(aes(colour=continent, size=gdpPercap), alpha=0.25)
+  geom_point(aes(colour=continent, size=gdpPercap), alpha=0.25) +
+  scale_x_log10()
 p2
 ```
 
@@ -168,16 +169,24 @@ This is very pretty, but I don't know if it is very informative since this plots
 #### BAR PLOTS
 Let's go back to a plot of the life expectancy and gdp per capita to show a bar plot example. 
 ```{r}
-p4 <- gapminder %>%
-  ggplot(aes(x=log10(gdpPercap), y=lifeExp))
-p4 + geom_bar(aes(colour=continent), stat="identity", na.rm=TRUE)
+my_gap <- gapminder
+continent_freq <- gapminder %>% count(continent)
+p4 <- continent_freq %>% 
+  ggplot(aes(x=continent, y=n))
+p4 + geom_bar(stat="identity", na.rm=TRUE) +
+  labs(title = "Number of measurements for each continents")
 ```
 
-Here is an histogram of the "stacked up" life expectancies of all the countries in each continent, plotted according to the year.
+Here is an histogram of the "stacked up" life expectancies of all the countries in each continent, plotted according to the year. 
+> After doing the dataset manipulation exercises (see below), I decided to go back at my plots and change them for presenting more relevant information.
 ```{r}
-p5 <- gapminder %>%
-  ggplot(aes(x=year, y=lifeExp)) 
-p5 + geom_histogram(aes(colour=continent), stat="identity", na.rm=TRUE)
+my_gap <- gapminder
+my_gap_life <- my_gap %>%
+  mutate(total_life_exp_pop = pop*lifeExp)
+p5 <- my_gap_life %>%
+  ggplot(aes(x=year, y=total_life_exp_pop)) 
+p5 + geom_histogram(aes(fill = continent), stat="identity", na.rm=TRUE) +
+  labs(title = "Cumulative life expectancy values per year, population and continent")
 ```
 
 #### SUMMARY STATISTICS PLOTS
@@ -185,7 +194,8 @@ Here is a way to plot some summary statistics for each continent. Below, you can
 ```{r}
 p6 <- gapminder %>%
   ggplot(aes(x=year, y=lifeExp)) 
-p6 + stat_summary_bin(mapping = aes(group = continent, colour=continent), fun.y = "median", geom="line")
+p6 + stat_summary_bin(mapping = aes(group = continent, colour=continent), fun.y = "median", geom="line") + 
+  labs(title = "Median life expectancy per continent")
 ```
 
 You can do the same thing with other parameters.
@@ -195,8 +205,18 @@ p7 <- gapminder %>%
 p7 + 
   geom_point(mapping = aes(colour = continent), alpha=0.5, size=3, shape=21)  +
   stat_summary(fun.data = "mean_se", mapping = aes(colour=continent), geom = "crossbar", na.rm=TRUE) +
-  labs(title = "Life expectancy according to year", subtitle = "Box representing mean and SD for each continent")
+  labs(title = "Mean life expectancy according to year", subtitle = "Box representing mean and SD for each continent")
 ```
+
+This plot is a bit crowed, we should subdivide it by continent and add a linear regression function to it.
+
+```{r}
+p8 <- gapminder %>%
+  ggplot(aes(x=year, y=lifeExp)) +
+  geom_point(mapping = aes(colour = continent), alpha=0.5, shape=21)
+p8 + facet_wrap(~continent) + geom_smooth(se=FALSE, method = "lm", colour = "purple", lwd = 1) + labs(title = "Life expectancy per year")
+```
+
 
 ***
 

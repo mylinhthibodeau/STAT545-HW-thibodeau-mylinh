@@ -262,6 +262,11 @@ my_europe <- my_gap %>%
 my_europe
 ```
 
-Wow, Turkey has not been doing well ...
+Wow, Turkey has not been doing well for a long time ...
 
+### Using the knitr library to make prettier tables
+
+```{r}
+kable(head(gapminder), format = "html")
+```
 

@@ -199,9 +199,69 @@ p7 +
 
 ***
 
-#### Let's explore filter(), select() and piping (%>%)  
+### Let's explore filter(), select() and piping (%>%), and others
+
+#### filter() exploration
+
+Filter ther data to only keep information related to Ireland and France before 2000.
 ```{r}
 my_gap <- gapminder
+my_trip <- my_gap %>%
+  filter(country %in% c("Ireland", "France"), year<= 2000)
+View(my_trip)
 ```
+
+#### select() and arrange() exploration
+
+Then we can retrieve specific columns using select, for example, the country, year, gdpPercap and lifeExp variables. Then we can arrange the data according to the gpdPercap for example.
+```{r}
+my_gap %>%
+  filter(country %in% c("Ireland", "France"), year<= 2000) %>%
+  select(country, year, gdpPercap, lifeExp) %>%
+  arrange(gdpPercap)
+```
+
+#### mutate() exploration
+
+The cumulative gdp per country can be added to the my_gap dataset using the mutate function.
+```{r}
+my_gap %>%
+  mutate(gdp = pop*gdpPercap)
+```
+
+#### group_by() and summarize() exploration 
+Considering only year 2000 and before, if we group by continent, year and country, we can use the summarize_each() function to obtain the mean and median for the lifeExp and gdpPercap variables. Then, we can arrange according to the lifeExp_mean variable to see which continents, years and countries had the lowest lifeExp_mean values.   
+```{r}
+my_gap %>%
+  filter(year <=2000) %>%
+  group_by(continent, year, country) %>%
+  summarize_each(funs(mean, median), lifeExp, gdpPercap) %>%
+  arrange(lifeExp_mean)
+```
+
+Let us explore the outlier values of life expectancy in Europe. I have used this ![stat545 tutorial](http://stat545.com/block010_dplyr-end-single-table.html) to learn more about these functions. 
+
+```{r}
+my_gap %>%
+  filter(continent == "Europe") %>%
+  select(year, country, lifeExp) %>%
+  group_by(year) %>%
+  filter(min_rank(desc(lifeExp)) <2 | min_rank(lifeExp) <2) %>%
+  arrange(year, lifeExp) %>%
+  print(n = Inf)
+```
+
+Let's re-initialize my European dataset and then perform some further analyses and may be even plotting. Let's start with looking at the worst European life expectancy every year. 
+```{r}
+rm(my_europe)
+my_europe <- my_gap %>%
+  filter(continent == "Europe") %>%
+  select(year, country, lifeExp) %>%
+  group_by(year) %>%
+  top_n(1, wt=desc(lifeExp))
+my_europe
+```
+
+Wow, Turkey has not been doing well ...
 
 

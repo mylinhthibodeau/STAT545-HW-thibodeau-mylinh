@@ -197,3 +197,11 @@ p7 +
   labs(title = "Life expectancy according to year", subtitle = "Box representing mean and SD for each continent")
 ```
 
+***
+
+#### Let's explore filter(), select() and piping (%>%)  
+```{r}
+my_gap <- gapminder
+```
+
+

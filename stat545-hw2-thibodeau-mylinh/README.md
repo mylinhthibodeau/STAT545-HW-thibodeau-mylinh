@@ -12,7 +12,7 @@ I would like your reading to be as pleasant as possible.
 - [gapminder-exploration-phase2-output-github.md](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw2-thibodeau-mylinh/gapminder-exploration-phase2-output-github/gapminder-exploration-phase2-output-github.md)  
 - [gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw2-thibodeau-mylinh/gapminder-exploration-phase2-output-github/gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers)  
 
-### OUTPUT = pdf_document   
+### OUTPUT = pdf_document
 #### Optional reading: contains the exact same information as folder above, but the Rmd file was knitr to a pdf_document output.  
 [gapminder-exploration-phase2-output-pdf](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw2-thibodeau-mylinh/gapminder-exploration-phase2-output-pdf)  
 - [gapminder-exploration-phase2-output-pdf.Rmd](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw2-thibodeau-mylinh/gapminder-exploration-phase2-output-pdf/gapminder-exploration-phase2-output-pdf.Rmd)  

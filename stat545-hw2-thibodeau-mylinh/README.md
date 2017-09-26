@@ -6,14 +6,14 @@ I would like your reading to be as pleasant as possible.
 
 ***  
 ## FOLDERS OR FILES IN THIS REPOSITORY
-### OUTPUT = github_document  
+### OUTPUT = github_document = folder to assess for marking homework  
 [gapminder-exploration-phase2-output-github](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw2-thibodeau-mylinh/gapminder-exploration-phase2-output-github)   
 - [gapminder-exploration-phase2-output-github.Rmd](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw2-thibodeau-mylinh/gapminder-exploration-phase2-output-github/gapminder-exploration-phase2-output-github.Rmd)  
 - [gapminder-exploration-phase2-output-github.md](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw2-thibodeau-mylinh/gapminder-exploration-phase2-output-github/gapminder-exploration-phase2-output-github.md)  
 - [gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw2-thibodeau-mylinh/gapminder-exploration-phase2-output-github/gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers)  
 
 ***
-#### OUTPUT = pdf_document -> optional reading, as it contains the exact same information as folder above, but the Rmd file was knitr to a pdf_document output.
+#### OUTPUT = pdf_document = optional reading, as it contains the exact same information as folder above, but the Rmd file was knitr to a pdf_document output.
 [gapminder-exploration-phase2-output-pdf](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw2-thibodeau-mylinh/gapminder-exploration-phase2-output-pdf)  
 - [gapminder-exploration-phase2-output-pdf.Rmd](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw2-thibodeau-mylinh/gapminder-exploration-phase2-output-pdf/gapminder-exploration-phase2-output-pdf.Rmd)  
 - [gapminder-exploration-phase2.pdf](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw2-thibodeau-mylinh/gapminder-exploration-phase2-output-pdf/gapminder-exploration-phase2.pdf)  

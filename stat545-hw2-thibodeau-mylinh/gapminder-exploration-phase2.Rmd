@@ -2,9 +2,7 @@
 title: "gapminder-exploration-phase2"
 author: "My Linh Thibodeau"
 date: '2017-09-22'
-output: 
-  pdf_document:
-    toc: true
+output: pdf_document
 ---
 
 ```{r}

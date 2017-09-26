@@ -4,3 +4,4 @@
 
 I would like your reading to be as pleasant as possible.  
 
+![cat reading](cat_read_militarystrategy.mp4)

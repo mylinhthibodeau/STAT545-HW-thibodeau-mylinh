@@ -356,8 +356,11 @@ knitr::kable(head(gapminder),
 
 > Oh, I just understood that you have to "knit" this document in order to see the nice table made with knitr::kable !  
 
-### I will re-make some of the tables above with knitr::kable to compare the regular RMarkdown output to the "more readable" kable output.
+### I am planning to use knitr::kable function mure in my future homework.
 
-I have used this [website](http://pandoc.org/installing.html) as well to install some complementary packages 
+I have used this [pandoc website](http://pandoc.org/installing.html) as well to install some complementary packages. 
 
-## Now I feel like I have a good grasp on how to use these new tools.
+## I am looking forward to apply this newly gained knowledge to genomic data analyses such as gene expression, copy number, mutational signatures and pathway analysis.
+
+# Now I feel like I have a better grasp on how to use these new tools.
+

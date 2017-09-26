@@ -41,7 +41,7 @@ I have been reading from a lot of different resources in order to learn how to c
 ## HOMEWORK 2 - BRIEF NARATIVE  
 *Please note that the brief narrative below is not exhaustive and you may refer to the Rmd files in this repository in order to read the narrative alongside with gapminder data exploration exercises.*  
 
-*Please note that although the hyperlinks are present in the pdf file, I was not able to highlight them in a different colors, so it is nonot obvious to the reader when they are present in the text.*  
+*Please note that for the [gapminder-exploration-phase2.pdf file](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw2-thibodeau-mylinh/gapminder-exploration-phase2-output-pdf/gapminder-exploration-phase2.pdf), although the hyperlinks are present and working, I was not able to highlight them in a different colors, so it is not obvious to the reader when they are present and "clikable" in the text.*   
 
 1. Review courses notes and material  
 2. Reading from diverse resources (see above)    

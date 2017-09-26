@@ -31,10 +31,17 @@ Please note that the brief narrative below is not exhaustive and you may refer t
 1. Review courses notes and material  
 2. Reading from diverse resources (see above)    
 3. Gapminder data exploration in RStudio  
-**Functions explored in more detail**  
+**Functions explored in more detail**
 - characterize the dataset: class(), typeof(), str(), summary(), ncol(), nrow(), dim(), min(), max(), range(), distinct()  
 4. Gapminder data manipulation in RStudio  
 **Functions explored in more detail**  
+- manipulate the data: select(), arrange(), mutate(), filter(), group_by()  
+5. Gapminder data - plotting with ggplot2  
+**Functions explored in more detail**  
+- plot the data: ggplot(), geom_point(), geom_line(), geom_smooth(), facet_wrap(), geom_boxplot(), stat_summary(), geom_freqpoly(), geom_histogram()  
+- characterize the dataset: class(), typeof(), str(), summary(), ncol(), nrow(), dim(), min(), max(), range(), distinct()  
+4. Gapminder data manipulation in RStudio  
+**Functions explored in more detail**   
 - manipulate the data: select(), arrange(), mutate(), filter(), group_by()  
 5. Gapminder data - plotting with ggplot2  
 **Functions explored in more detail**  
@@ -44,4 +51,5 @@ Please note that the brief narrative below is not exhaustive and you may refer t
 **Here are somes examples of issues or challenges I experienced**  
 * I found it challenging to understand the required input for each function. Although the help documentation of RStudio is very helpful, even after reading some help pages (e.g. geom_bar), I still had a hard time to understand the mapping/aes() required.  
 * The arrange() function has posed difficulties when dealing with my research dataset. Even after applying it to my data, when I plot my dataset, the data "returns" to being "disorganized" (not ordered according to the column specified).  
-* I found it difficult to plot summary statistics and I had to read several blogs and consult diverse websites to understand the basic functions.
+* I found it difficult to plot summary statistics and I had to read several blogs and consult diverse websites to understand the basic functions.  
+* I found it hard to plot summary statistics and I had to read several blogs and consult diverse websites to understand the basic functions.

@@ -1,0 +1,1071 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={gapminder-exploration-phase2},
+            pdfauthor={My Linh Thibodeau},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{{#1}}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{{#1}}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\ImportTok}[1]{{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{{#1}}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{{#1}}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{{#1}}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{{#1}}}}
+\newcommand{\BuiltInTok}[1]{{#1}}
+\newcommand{\ExtensionTok}[1]{{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{{#1}}}
+\newcommand{\RegionMarkerTok}[1]{{#1}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{{#1}}}}
+\newcommand{\NormalTok}[1]{{#1}}
+\usepackage{longtable,booktabs}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+  \title{gapminder-exploration-phase2}
+  \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+  \author{My Linh Thibodeau}
+  \preauthor{\centering\large\emph}
+  \postauthor{\par}
+  \predate{\centering\large\emph}
+  \postdate{\par}
+  \date{2017-09-22}
+
+
+\begin{document}
+\maketitle
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{suppressPackageStartupMessages}\NormalTok{(}\KeywordTok{library}\NormalTok{(tidyverse))  }\CommentTok{# The tidyverse contains ggplot2!}
+\KeywordTok{suppressPackageStartupMessages}\NormalTok{(}\KeywordTok{library}\NormalTok{(gapminder))}
+\NormalTok{knitr::opts_chunk$}\KeywordTok{set}\NormalTok{(}\DataTypeTok{fig.width=}\DecValTok{8}\NormalTok{, }\DataTypeTok{fig.height=}\DecValTok{6}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Smell test of data}\label{smell-test-of-data}
+
+Here are some ways to explore some characteristics of the gapminder
+dataset.
+
+Using the following functions, I have been able to determine some of the
+gapminder dataset characteristics.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{class}\NormalTok{(gapminder)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "tbl_df"     "tbl"        "data.frame"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{typeof}\NormalTok{(gapminder)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "list"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{str}\NormalTok{(gapminder)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Classes 'tbl_df', 'tbl' and 'data.frame':    1704 obs. of  6 variables:
+##  $ country  : Factor w/ 142 levels "Afghanistan",..: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ continent: Factor w/ 5 levels "Africa","Americas",..: 3 3 3 3 3 3 3 3 3 3 ...
+##  $ year     : int  1952 1957 1962 1967 1972 1977 1982 1987 1992 1997 ...
+##  $ lifeExp  : num  28.8 30.3 32 34 36.1 ...
+##  $ pop      : int  8425333 9240934 10267083 11537966 13079460 14880372 12881816 13867957 16317921 22227415 ...
+##  $ gdpPercap: num  779 821 853 836 740 ...
+\end{verbatim}
+
+I found the Help documentation very useful to understand better the
+concept of an object in R coding.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{?class}
+\NormalTok{?tbl_df}
+\NormalTok{?tbl}
+\NormalTok{?data.frame}
+\NormalTok{?typeof}
+\NormalTok{?str}
+\end{Highlighting}
+\end{Shaded}
+
+Therefore, I now understand that gapminder is a tibble. It seems like
+using tibbles over classic data.frame() has several advantages, like
+avoiding problems such as accidental conversion of string as factor. I
+read this interesting
+\href{http://www.sthda.com/english/wiki/tibble-data-format-in-r-best-and-modern-way-to-work-with-your-data}{wiki
+page} on the topic.
+
+The gapminder data set has 3 classes\\
+\emph{tbl\_df\\
+}tbl\\
+*data.frame
+
+\textbf{I found class() to be the most informative function for me}\\
+It revealed the specific data type of each variable!\\
+\emph{country : Factor\\
+}continent: Factor\\
+\emph{year : int\\
+}lifeExp : num\\
+\emph{pop : int\\
+}gdpPercap : num
+
+The class function told me that there were 6 variables (columns) and
+1704 observations (rows) in gapminder dataset, but I could also use
+these:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ncol}\NormalTok{(gapminder)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 6
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{nrow}\NormalTok{(gapminder)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1704
+\end{verbatim}
+
+Here are some other useful functions to learn more about the dataset. If
+you have a specific question about the dataset, you can use more
+specific functions as well, like dim() which provides the dimension of
+the data tibble.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{dim}\NormalTok{(gapminder)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1704    6
+\end{verbatim}
+
+\subsection{Explore individual
+variables}\label{explore-individual-variables}
+
+\begin{quote}
+To ensure I address all the requirements of this assignment, I have
+decided to include the STAT545 homework 2 questions above my answers in
+bold.
+\end{quote}
+
+\emph{Q? What are possible values (or range, whichever is appropriate)
+of each variable?}\\
+I have used the summary() function to know the possible values and range
+of each variable.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{overview <-}\StringTok{ }\KeywordTok{summary}\NormalTok{(gapminder)}
+\NormalTok{overview}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##         country        continent        year         lifeExp     
+##  Afghanistan:  12   Africa  :624   Min.   :1952   Min.   :23.60  
+##  Albania    :  12   Americas:300   1st Qu.:1966   1st Qu.:48.20  
+##  Algeria    :  12   Asia    :396   Median :1980   Median :60.71  
+##  Angola     :  12   Europe  :360   Mean   :1980   Mean   :59.47  
+##  Argentina  :  12   Oceania : 24   3rd Qu.:1993   3rd Qu.:70.85  
+##  Australia  :  12                  Max.   :2007   Max.   :82.60  
+##  (Other)    :1632                                                
+##       pop              gdpPercap       
+##  Min.   :6.001e+04   Min.   :   241.2  
+##  1st Qu.:2.794e+06   1st Qu.:  1202.1  
+##  Median :7.024e+06   Median :  3531.8  
+##  Mean   :2.960e+07   Mean   :  7215.3  
+##  3rd Qu.:1.959e+07   3rd Qu.:  9325.5  
+##  Max.   :1.319e+09   Max.   :113523.1  
+## 
+\end{verbatim}
+
+\textbf{Or the prettier version with knitr::kable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{knitr::}\KeywordTok{kable}\NormalTok{(overview, }
+             \DataTypeTok{format =} \StringTok{"pandoc"}\NormalTok{, }
+             \DataTypeTok{digits =} \DecValTok{2}\NormalTok{,}
+             \DataTypeTok{caption =} \StringTok{"Summary Stats - Gapminder dataset"}\NormalTok{,}
+             \DataTypeTok{align =} \KeywordTok{c}\NormalTok{(}\StringTok{"l"}\NormalTok{),}
+             \DataTypeTok{longtable =} \OtherTok{TRUE}\NormalTok{,}
+             \DataTypeTok{padding =} \DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lcccccc@{}}
+\caption{Summary Stats - Gapminder dataset}\tabularnewline
+\toprule
+& country & continent & year & lifeExp & pop & gdpPercap\tabularnewline
+\midrule
+\endfirsthead
+\toprule
+& country & continent & year & lifeExp & pop & gdpPercap\tabularnewline
+\midrule
+\endhead
+& Afghanistan: 12 & Africa :624 & Min. :1952 & Min. :23.60 & Min.
+:6.001e+04 & Min. : 241.2\tabularnewline
+& Albania : 12 & Americas:300 & 1st Qu.:1966 & 1st Qu.:48.20 & 1st
+Qu.:2.794e+06 & 1st Qu.: 1202.1\tabularnewline
+& Algeria : 12 & Asia :396 & Median :1980 & Median :60.71 & Median
+:7.024e+06 & Median : 3531.8\tabularnewline
+& Angola : 12 & Europe :360 & Mean :1980 & Mean :59.47 & Mean :2.960e+07
+& Mean : 7215.3\tabularnewline
+& Argentina : 12 & Oceania : 24 & 3rd Qu.:1993 & 3rd Qu.:70.85 & 3rd
+Qu.:1.959e+07 & 3rd Qu.: 9325.5\tabularnewline
+& Australia : 12 & NA & Max. :2007 & Max. :82.60 & Max. :1.319e+09 &
+Max. :113523.1\tabularnewline
+& (Other) :1632 & NA & NA & NA & NA & NA\tabularnewline
+\bottomrule
+\end{longtable}
+
+Another way is to use individual functions to obtain the information.
+Below, these functions respectively informs on the minimum value,
+maximum value, range of value (minimum and maximum) and all possible
+distinct values of specific columns.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{min}\NormalTok{(gapminder$lifeExp)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 23.599
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{max}\NormalTok{(gapminder$lifeExp)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 82.603
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{range}\NormalTok{(gapminder$gdpPercap)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1]    241.1659 113523.1329
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{distinct}\NormalTok{(gapminder, country)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 142 x 1
+##        country
+##         <fctr>
+##  1 Afghanistan
+##  2     Albania
+##  3     Algeria
+##  4      Angola
+##  5   Argentina
+##  6   Australia
+##  7     Austria
+##  8     Bahrain
+##  9  Bangladesh
+## 10     Belgium
+## # ... with 132 more rows
+\end{verbatim}
+
+I also found this
+\href{https://info201-s17.github.io/book/introduction-to-data-frames.html}{website}
+useful.
+
+\emph{Q? What values are typical? What's the spread? What's the
+distribution? Etc., tailored to the variable at hand.Feel free to use
+summary stats, tables, figures. We're NOT expecting high production
+value (yet).}
+
+If we group data according to their column, another useful function is
+summarise() to get some statistics on a variable, but data needs to be
+grouped before doing so. For example, if we group by continent, we can
+use the function to know the mean year of entry, lifeExp, pop and
+gdpPercap for each continent.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gapminder %>%}
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(continent) %>%}
+\StringTok{  }\KeywordTok{summarise_if}\NormalTok{(is.numeric, mean, }\DataTypeTok{na.rm=}\OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 5 x 5
+##   continent   year  lifeExp      pop gdpPercap
+##      <fctr>  <dbl>    <dbl>    <dbl>     <dbl>
+## 1    Africa 1979.5 48.86533  9916003  2193.755
+## 2  Americas 1979.5 64.65874 24504795  7136.110
+## 3      Asia 1979.5 60.06490 77038722  7902.150
+## 4    Europe 1979.5 71.90369 17169765 14469.476
+## 5   Oceania 1979.5 74.32621  8874672 18621.609
+\end{verbatim}
+
+Again, I find that the most useful function is summary(), as it provides
+the range (minimum, maximum), and summary statistics such as 1st
+quartile, mean and 3rd quartile (see above for data).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gapminder %>%}\StringTok{ }
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(country) %>%}\StringTok{ }
+\StringTok{  }\KeywordTok{summarise_if}\NormalTok{(is.numeric, median)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 142 x 5
+##        country   year lifeExp        pop  gdpPercap
+##         <fctr>  <dbl>   <dbl>      <dbl>      <dbl>
+##  1 Afghanistan 1979.5 39.1460 13473708.5   803.4832
+##  2     Albania 1979.5 69.6750  2644572.5  3253.2384
+##  3     Algeria 1979.5 59.6910 18593278.5  4853.8559
+##  4      Angola 1979.5 39.6945  6589529.5  3264.6288
+##  5   Argentina 1979.5 69.2115 28162601.0  9068.7844
+##  6   Australia 1979.5 74.1150 14629150.0 18905.6034
+##  7     Austria 1979.5 72.6750  7571521.5 20673.2530
+##  8     Bahrain 1979.5 67.3225   337688.5 18779.8016
+##  9  Bangladesh 1979.5 48.4660 86751356.0   703.7638
+## 10     Belgium 1979.5 73.3650  9839051.5 20048.9102
+## # ... with 132 more rows
+\end{verbatim}
+
+\subsection{Explore various plot
+types}\label{explore-various-plot-types}
+
+\emph{NOTE: The main resource used is the
+\href{https://github.com/jennybc/ggplot2-tutorial/blob/master/gapminder-ggplot2-univariate-quantitative.md}{stat545
+github repository of Jenny Bryan}}
+
+\paragraph{POINT PLOTS}\label{point-plots}
+
+Now, I will explore diverse plot types.
+
+Let's start with a basic data point plot of the life expectancy relative
+to the year of assesment for each country.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p <-}\StringTok{ }\NormalTok{gapminder %>%}
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(country) %>%}
+\StringTok{  }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{year, }\DataTypeTok{y=}\NormalTok{lifeExp))}
+\NormalTok{p +}\StringTok{ }\KeywordTok{geom_point}\NormalTok{() +}\StringTok{ }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"Life expectancy per year"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{gapminder-exploration-phase2_files/figure-latex/unnamed-chunk-11-1.pdf}
+
+Overall, it seems that life expectancy has improved with years for the
+majority of countries, but I wonder what are the outliers at the bottom
+of the plot.
+
+Let us see what is the minimum life expectancy for each year to find
+out.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{t <-}\StringTok{ }\NormalTok{gapminder %>%}
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(country, year, lifeExp, pop, gdpPercap) %>%}
+\StringTok{  }\KeywordTok{summarise_if}\NormalTok{(is.numeric, min) %>%}
+\StringTok{  }\KeywordTok{arrange}\NormalTok{(lifeExp)}
+\NormalTok{t}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 1,704 x 5
+## # Groups:   country, year, lifeExp, pop [1,704]
+##         country  year lifeExp     pop gdpPercap
+##          <fctr> <int>   <dbl>   <int>     <dbl>
+##  1       Rwanda  1992  23.599 7290203  737.0686
+##  2  Afghanistan  1952  28.801 8425333  779.4453
+##  3       Gambia  1952  30.000  284320  485.2307
+##  4       Angola  1952  30.015 4232095 3520.6103
+##  5 Sierra Leone  1952  30.331 2143249  879.7877
+##  6  Afghanistan  1957  30.332 9240934  820.8530
+##  7     Cambodia  1977  31.220 6978607  524.9722
+##  8   Mozambique  1952  31.286 6446316  468.5260
+##  9 Sierra Leone  1957  31.570 2295678 1004.4844
+## 10 Burkina Faso  1952  31.975 4469979  543.2552
+## # ... with 1,694 more rows
+\end{verbatim}
+
+The lowest life expectancy recorder in the gapminder dataset is 23.5999
+years in Rwanda in 1992, which corresponds to the tragedy of the Rwandan
+genocide.
+
+Another way to find this outlier was thought to me by a student of
+STAT545 (thanks Alistair Barton!):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{outlier_lifeExp <-}\StringTok{ }\KeywordTok{filter}\NormalTok{(gapminder, lifeExp ==}\StringTok{ }\KeywordTok{min}\NormalTok{(lifeExp))}
+\KeywordTok{View}\NormalTok{(outlier_lifeExp)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
+
+Let us carry on in our analysis. Of course, one may suspect there will
+be a relationship between the lifeExp and gdpPercap variables, so let's
+plot these.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p1 <-}\StringTok{ }\NormalTok{gapminder %>%}
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(country) %>%}
+\StringTok{  }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{gdpPercap, }\DataTypeTok{y=}\NormalTok{lifeExp))+}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"Life expectancy according to gdp per capita"}\NormalTok{)}
+\NormalTok{p1 +}\StringTok{ }\KeywordTok{geom_point}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{gapminder-exploration-phase2_files/figure-latex/unnamed-chunk-14-1.pdf}
+
+However, since I am still wondering if the size of the population has an
+effect on the life expectancy, I will plot the size of each dots
+according to the population, and I would also like to see if some
+continents segregate from each other, so I will use colours for this. I
+will also use some transparencies in order to see the dots when they
+layer on top of each other.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p1 +}\StringTok{ }\KeywordTok{geom_point}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{size=}\NormalTok{pop, }\DataTypeTok{colour =} \NormalTok{continent), }\DataTypeTok{alpha=}\FloatTok{0.25}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{gapminder-exploration-phase2_files/figure-latex/unnamed-chunk-15-1.pdf}
+
+A log scale would be useful to see the lower values better. This
+ressembles the exercise we completed in class last time, so let me
+switch up the variables a little to population and life expectancy, so
+that we don't feel like doing the same thing. I will plot the size of
+the dot as a function of the gdpPerCap this time and add the
+geom\_smooth() line with a generalized additive model (gam).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p2 <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(gapminder, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\KeywordTok{log10}\NormalTok{(pop), }\DataTypeTok{y=}\NormalTok{lifeExp)) +}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{colour=}\NormalTok{continent, }\DataTypeTok{size=}\NormalTok{gdpPercap), }\DataTypeTok{alpha=}\FloatTok{0.25}\NormalTok{) +}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"Life expectancy according to gdp per capita"}\NormalTok{) +}
+\StringTok{  }\KeywordTok{scale_x_log10}\NormalTok{() +}
+\StringTok{  }\KeywordTok{geom_smooth}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{colour =} \NormalTok{continent), }\DataTypeTok{lwd=}\DecValTok{2}\NormalTok{, }\DataTypeTok{se=}\OtherTok{FALSE}\NormalTok{)}
+\NormalTok{p2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `geom_smooth()` using method = 'loess'
+\end{verbatim}
+
+\includegraphics{gapminder-exploration-phase2_files/figure-latex/unnamed-chunk-16-1.pdf}
+
+We can immediately take note of obvious discrepancies when looking at
+this plot. For example, the red dots are at the lower part of the graph,
+telling us that countries of Africa have lower life expectancy, and the
+dots are smaller, revealing lower gdpPercap.
+
+\paragraph{LINE PLOTS}\label{line-plots}
+
+Let's plot some lines tracking the life expectancy per year, but use the
+facet\_wrap() function to divide the data by continent into 4 plots
+(omitting Oceania, given very little data).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p3 <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{subset}\NormalTok{(gapminder, continent !=}\StringTok{ "Oceania"}\NormalTok{), }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{year, }\DataTypeTok{y=}\NormalTok{lifeExp, }\DataTypeTok{group =} \NormalTok{country, }\DataTypeTok{color =} \NormalTok{country)) }
+\NormalTok{p3 +}\StringTok{ }\KeywordTok{geom_line}\NormalTok{(}\DataTypeTok{lwd=}\DecValTok{1}\NormalTok{, }\DataTypeTok{show_guide =} \OtherTok{FALSE}\NormalTok{) +}
+\StringTok{  }\KeywordTok{facet_wrap}\NormalTok{(~continent) +}
+\StringTok{  }\KeywordTok{scale_color_manual}\NormalTok{(}\DataTypeTok{values =} \NormalTok{country_colors) +}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"Life expectancy per year and continent"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: `show_guide` has been deprecated. Please use `show.legend`
+## instead.
+\end{verbatim}
+
+\includegraphics{gapminder-exploration-phase2_files/figure-latex/unnamed-chunk-17-1.pdf}
+This is very pretty, but I don't know if it is very informative since
+this plots in a stepwise fashion the data, which collapses the values at
+each measurement year into a vertical line. I still kept is, for
+interest.
+
+*I found the reference manual on the tidyverse
+\href{http://ggplot2.tidyverse.org/reference/}{website} very useful.
+
+\paragraph{BAR PLOTS}\label{bar-plots}
+
+Let's go back to a plot of the life expectancy and gdp per capita to
+show a bar plot example.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my_gap <-}\StringTok{ }\NormalTok{gapminder}
+\NormalTok{continent_freq <-}\StringTok{ }\NormalTok{gapminder %>%}\StringTok{ }\KeywordTok{count}\NormalTok{(continent)}
+\NormalTok{p4 <-}\StringTok{ }\NormalTok{continent_freq %>%}\StringTok{ }
+\StringTok{  }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{continent, }\DataTypeTok{y=}\NormalTok{n))}
+\NormalTok{p4 +}\StringTok{ }\KeywordTok{geom_bar}\NormalTok{(}\DataTypeTok{stat=}\StringTok{"identity"}\NormalTok{, }\DataTypeTok{na.rm=}\OtherTok{TRUE}\NormalTok{) +}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"Number of measurements for each continents"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{gapminder-exploration-phase2_files/figure-latex/unnamed-chunk-18-1.pdf}
+
+\begin{quote}
+After doing the dataset manipulation exercises (see below), I decided to
+go back at my plots and change them for presenting more relevant
+information.
+\end{quote}
+
+Here is an histogram of the ``stacked up'' life expectancies of all the
+countries (population x life expectancy) in each continent, plotted
+according to the year.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my_gap <-}\StringTok{ }\NormalTok{gapminder}
+\NormalTok{my_gap_life <-}\StringTok{ }\NormalTok{my_gap %>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{total_life_exp_pop =} \NormalTok{pop*lifeExp)}
+\NormalTok{p5 <-}\StringTok{ }\NormalTok{my_gap_life %>%}
+\StringTok{  }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{year, }\DataTypeTok{y=}\NormalTok{total_life_exp_pop)) }
+\NormalTok{p5 +}\StringTok{ }\KeywordTok{geom_histogram}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{fill =} \NormalTok{continent), }\DataTypeTok{stat=}\StringTok{"identity"}\NormalTok{, }\DataTypeTok{na.rm=}\OtherTok{TRUE}\NormalTok{) +}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"Cumulative life expectancy values per year, population and continent"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: Ignoring unknown parameters: binwidth, bins, pad
+\end{verbatim}
+
+\includegraphics{gapminder-exploration-phase2_files/figure-latex/unnamed-chunk-19-1.pdf}
+
+\paragraph{SUMMARY STATISTICS PLOTS}\label{summary-statistics-plots}
+
+Here is a way to plot some summary statistics for each continent. Below,
+you can see the median life expectancy for each continent according to
+the year.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p6 <-}\StringTok{ }\NormalTok{gapminder %>%}
+\StringTok{  }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{year, }\DataTypeTok{y=}\NormalTok{lifeExp)) }
+\NormalTok{p6 +}\StringTok{ }\KeywordTok{stat_summary_bin}\NormalTok{(}\DataTypeTok{mapping =} \KeywordTok{aes}\NormalTok{(}\DataTypeTok{group =} \NormalTok{continent, }\DataTypeTok{colour=}\NormalTok{continent), }\DataTypeTok{fun.y =} \StringTok{"median"}\NormalTok{, }\DataTypeTok{geom=}\StringTok{"line"}\NormalTok{) +}\StringTok{ }
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"Median life expectancy per continent"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{gapminder-exploration-phase2_files/figure-latex/unnamed-chunk-20-1.pdf}
+
+You can do the same thing with other parameters, like below showing the
+mean in a b
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p7 <-}\StringTok{ }\NormalTok{gapminder %>%}
+\StringTok{  }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{year, }\DataTypeTok{y=}\NormalTok{lifeExp)) }
+\NormalTok{p7 +}\StringTok{ }
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{mapping =} \KeywordTok{aes}\NormalTok{(}\DataTypeTok{colour =} \NormalTok{continent), }\DataTypeTok{alpha=}\FloatTok{0.5}\NormalTok{, }\DataTypeTok{size=}\DecValTok{3}\NormalTok{, }\DataTypeTok{shape=}\DecValTok{21}\NormalTok{)  +}
+\StringTok{  }\KeywordTok{stat_summary}\NormalTok{(}\DataTypeTok{fun.data =} \StringTok{"mean_se"}\NormalTok{, }\DataTypeTok{mapping =} \KeywordTok{aes}\NormalTok{(}\DataTypeTok{colour=}\NormalTok{continent), }\DataTypeTok{geom =} \StringTok{"crossbar"}\NormalTok{, }\DataTypeTok{na.rm=}\OtherTok{TRUE}\NormalTok{) +}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"Mean life expectancy according to year"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{gapminder-exploration-phase2_files/figure-latex/unnamed-chunk-21-1.pdf}
+
+This plot is a bit crowed, we should subdivide it by continent and add a
+linear regression function to it.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p8 <-}\StringTok{ }\NormalTok{gapminder %>%}
+\StringTok{  }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{year, }\DataTypeTok{y=}\NormalTok{lifeExp)) +}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{mapping =} \KeywordTok{aes}\NormalTok{(}\DataTypeTok{colour =} \NormalTok{continent), }\DataTypeTok{alpha=}\FloatTok{0.5}\NormalTok{, }\DataTypeTok{shape=}\DecValTok{21}\NormalTok{)}
+\NormalTok{p8 +}\StringTok{ }\KeywordTok{facet_wrap}\NormalTok{(~continent) +}\StringTok{ }\KeywordTok{geom_smooth}\NormalTok{(}\DataTypeTok{se=}\OtherTok{FALSE}\NormalTok{, }\DataTypeTok{colour =} \StringTok{"purple"}\NormalTok{, }\DataTypeTok{lwd =} \DecValTok{1}\NormalTok{, }\DataTypeTok{alpha =} \FloatTok{0.8}\NormalTok{)+}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"Life expectancy per year"}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `geom_smooth()` using method = 'loess'
+\end{verbatim}
+
+\includegraphics{gapminder-exploration-phase2_files/figure-latex/unnamed-chunk-22-1.pdf}
+
+Or we can show the same plot and plot the mean life expectancy (and
+standard deviation) with geom\_boxplot() function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p8 +}\StringTok{ }\KeywordTok{facet_wrap}\NormalTok{(~continent) +}\StringTok{ }\KeywordTok{geom_boxplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{group=}\NormalTok{year), }\DataTypeTok{alpha=}\FloatTok{0.1}\NormalTok{) +}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"Life expectancy per year"}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{gapminder-exploration-phase2_files/figure-latex/unnamed-chunk-23-1.pdf}
+
+\paragraph{DISTRIBUTION PLOTS}\label{distribution-plots}
+
+Let us explore a histogram to see the life expectancy measures
+distribution according to the continent.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p9 <-}\StringTok{ }\NormalTok{gapminder %>%}
+\StringTok{  }\KeywordTok{ggplot}\NormalTok{()}
+\NormalTok{p9 +}\StringTok{ }\KeywordTok{geom_histogram}\NormalTok{(}\DataTypeTok{binwidth =} \DecValTok{1}\NormalTok{, }\DataTypeTok{alpha =} \FloatTok{0.8}\NormalTok{, }\DataTypeTok{position =} \StringTok{"identity"}\NormalTok{, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{lifeExp, }\DataTypeTok{fill =} \NormalTok{continent)) }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{gapminder-exploration-phase2_files/figure-latex/unnamed-chunk-24-1.pdf}
+
+Now, let's use a frequency polygon to show the same information (but
+let's use a binwidth of 1 year).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p10 <-}\StringTok{ }\NormalTok{gapminder %>%}
+\StringTok{  }\KeywordTok{ggplot}\NormalTok{()}
+\NormalTok{p10 +}\StringTok{ }\KeywordTok{geom_freqpoly}\NormalTok{(}\DataTypeTok{binwidth =} \DecValTok{1}\NormalTok{, }\DataTypeTok{alpha =} \FloatTok{0.8}\NormalTok{, }\DataTypeTok{position =} \StringTok{"identity"}\NormalTok{, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{lifeExp, }\DataTypeTok{color =} \NormalTok{continent))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{gapminder-exploration-phase2_files/figure-latex/unnamed-chunk-25-1.pdf}
+
+Now, let's look at a smoother plot, which geom\_density() can help with.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p11 <-}\StringTok{ }\NormalTok{gapminder %>%}
+\StringTok{  }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{lifeExp, }\DataTypeTok{fill =} \NormalTok{continent))}
+\NormalTok{p11 +}\StringTok{ }\KeywordTok{geom_density}\NormalTok{(}\DataTypeTok{alpha=}\FloatTok{0.15}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{gapminder-exploration-phase2_files/figure-latex/unnamed-chunk-26-1.pdf}
+
+Another option is the geom\_violin and geom\_violin functions, to
+present our data in the most readible way.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p12 <-}\StringTok{ }\NormalTok{gapminder %>%}
+\StringTok{  }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{year, }\DataTypeTok{y =}\NormalTok{lifeExp, }\DataTypeTok{colour =} \NormalTok{continent))}
+\NormalTok{p12 +}\StringTok{ }\KeywordTok{geom_violin}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{group=}\NormalTok{year)) +}
+\StringTok{  }\KeywordTok{geom_jitter}\NormalTok{(}\DataTypeTok{alpha=}\FloatTok{0.3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{gapminder-exploration-phase2_files/figure-latex/unnamed-chunk-27-1.pdf}
+
+\begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
+
+\subsection{Let's explore filter(), select() and piping
+(\%\textgreater{}\%), and
+others}\label{lets-explore-filter-select-and-piping-and-others}
+
+\paragraph{filter() exploration}\label{filter-exploration}
+
+Filter ther data to only keep information related to Ireland and France
+before 2000.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my_gap <-}\StringTok{ }\NormalTok{gapminder}
+\NormalTok{my_trip <-}\StringTok{ }\NormalTok{my_gap %>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(country %in%}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Ireland"}\NormalTok{, }\StringTok{"France"}\NormalTok{), year<=}\StringTok{ }\DecValTok{2000}\NormalTok{)}
+\KeywordTok{View}\NormalTok{(my_trip)}
+\end{Highlighting}
+\end{Shaded}
+
+\paragraph{select() and arrange()
+exploration}\label{select-and-arrange-exploration}
+
+Then we can retrieve specific columns using select, for example, the
+country, year, gdpPercap and lifeExp variables. Then we can arrange the
+data according to the gpdPercap for example.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my_gap %>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(country %in%}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Ireland"}\NormalTok{, }\StringTok{"France"}\NormalTok{), year<=}\StringTok{ }\DecValTok{2000}\NormalTok{) %>%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(country, year, gdpPercap, lifeExp) %>%}
+\StringTok{  }\KeywordTok{arrange}\NormalTok{(gdpPercap)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 20 x 4
+##    country  year gdpPercap lifeExp
+##     <fctr> <int>     <dbl>   <dbl>
+##  1 Ireland  1952  5210.280  66.910
+##  2 Ireland  1957  5599.078  68.900
+##  3 Ireland  1962  6631.597  70.290
+##  4  France  1952  7029.809  67.410
+##  5 Ireland  1967  7655.569  71.080
+##  6  France  1957  8662.835  68.930
+##  7 Ireland  1972  9530.773  71.280
+##  8  France  1962 10560.486  70.510
+##  9 Ireland  1977 11150.981  72.030
+## 10 Ireland  1982 12618.321  73.100
+## 11  France  1967 12999.918  71.550
+## 12 Ireland  1987 13872.867  74.360
+## 13  France  1972 16107.192  72.380
+## 14 Ireland  1992 17558.816  75.467
+## 15  France  1977 18292.635  73.830
+## 16  France  1982 20293.897  74.890
+## 17  France  1987 22066.442  76.340
+## 18 Ireland  1997 24521.947  76.122
+## 19  France  1992 24703.796  77.460
+## 20  France  1997 25889.785  78.640
+\end{verbatim}
+
+\paragraph{mutate() exploration}\label{mutate-exploration}
+
+The cumulative gdp per country can be added to the my\_gap dataset using
+the mutate function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my_gap %>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{gdp =} \NormalTok{pop*gdpPercap)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 1,704 x 7
+##        country continent  year lifeExp      pop gdpPercap         gdp
+##         <fctr>    <fctr> <int>   <dbl>    <int>     <dbl>       <dbl>
+##  1 Afghanistan      Asia  1952  28.801  8425333  779.4453  6567086330
+##  2 Afghanistan      Asia  1957  30.332  9240934  820.8530  7585448670
+##  3 Afghanistan      Asia  1962  31.997 10267083  853.1007  8758855797
+##  4 Afghanistan      Asia  1967  34.020 11537966  836.1971  9648014150
+##  5 Afghanistan      Asia  1972  36.088 13079460  739.9811  9678553274
+##  6 Afghanistan      Asia  1977  38.438 14880372  786.1134 11697659231
+##  7 Afghanistan      Asia  1982  39.854 12881816  978.0114 12598563401
+##  8 Afghanistan      Asia  1987  40.822 13867957  852.3959 11820990309
+##  9 Afghanistan      Asia  1992  41.674 16317921  649.3414 10595901589
+## 10 Afghanistan      Asia  1997  41.763 22227415  635.3414 14121995875
+## # ... with 1,694 more rows
+\end{verbatim}
+
+\paragraph{group\_by() and summarize()
+exploration}\label{group_by-and-summarize-exploration}
+
+Considering only year 2000 and before, if we group by continent, year
+and country, we can use the summarize\_each() function to obtain the
+mean and median for the lifeExp and gdpPercap variables. Then, we can
+arrange according to the lifeExp\_mean variable to see which continents,
+years and countries had the lowest lifeExp\_mean values.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my_gap %>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(year <=}\DecValTok{2000}\NormalTok{) %>%}
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(continent, year, country) %>%}
+\StringTok{  }\KeywordTok{summarize_each}\NormalTok{(}\KeywordTok{funs}\NormalTok{(mean, median), lifeExp, gdpPercap) %>%}
+\StringTok{  }\KeywordTok{arrange}\NormalTok{(lifeExp_mean)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `summarise_each()` is deprecated.
+## Use `summarise_all()`, `summarise_at()` or `summarise_if()` instead.
+## To map `funs` over a selection of variables, use `summarise_at()`
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 1,420 x 7
+## # Groups:   continent, year [50]
+##    continent  year      country lifeExp_mean gdpPercap_mean lifeExp_median
+##       <fctr> <int>       <fctr>        <dbl>          <dbl>          <dbl>
+##  1    Africa  1992       Rwanda       23.599       737.0686         23.599
+##  2      Asia  1952  Afghanistan       28.801       779.4453         28.801
+##  3    Africa  1952       Gambia       30.000       485.2307         30.000
+##  4    Africa  1952       Angola       30.015      3520.6103         30.015
+##  5    Africa  1952 Sierra Leone       30.331       879.7877         30.331
+##  6      Asia  1957  Afghanistan       30.332       820.8530         30.332
+##  7      Asia  1977     Cambodia       31.220       524.9722         31.220
+##  8    Africa  1952   Mozambique       31.286       468.5260         31.286
+##  9    Africa  1957 Sierra Leone       31.570      1004.4844         31.570
+## 10    Africa  1952 Burkina Faso       31.975       543.2552         31.975
+## # ... with 1,410 more rows, and 1 more variables: gdpPercap_median <dbl>
+\end{verbatim}
+
+Let us explore the outlier values of life expectancy in Europe. I have
+used this
+\href{http://stat545.com/block010_dplyr-end-single-table.html}{stat545
+tutorial} to learn more about these functions.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my_gap %>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(continent ==}\StringTok{ "Europe"}\NormalTok{) %>%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(year, country, lifeExp) %>%}
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(year) %>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(}\KeywordTok{min_rank}\NormalTok{(}\KeywordTok{desc}\NormalTok{(lifeExp)) <}\DecValTok{2} \NormalTok{|}\StringTok{ }\KeywordTok{min_rank}\NormalTok{(lifeExp) <}\DecValTok{2}\NormalTok{) %>%}
+\StringTok{  }\KeywordTok{arrange}\NormalTok{(year, lifeExp) %>%}
+\StringTok{  }\KeywordTok{print}\NormalTok{(}\DataTypeTok{n =} \OtherTok{Inf}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 24 x 3
+## # Groups:   year [12]
+##     year     country lifeExp
+##    <int>      <fctr>   <dbl>
+##  1  1952      Turkey  43.585
+##  2  1952      Norway  72.670
+##  3  1957      Turkey  48.079
+##  4  1957     Iceland  73.470
+##  5  1962      Turkey  52.098
+##  6  1962     Iceland  73.680
+##  7  1967      Turkey  54.336
+##  8  1967      Sweden  74.160
+##  9  1972      Turkey  57.005
+## 10  1972      Sweden  74.720
+## 11  1977      Turkey  59.507
+## 12  1977     Iceland  76.110
+## 13  1982      Turkey  61.036
+## 14  1982     Iceland  76.990
+## 15  1987      Turkey  63.108
+## 16  1987 Switzerland  77.410
+## 17  1992      Turkey  66.146
+## 18  1992     Iceland  78.770
+## 19  1997      Turkey  68.835
+## 20  1997      Sweden  79.390
+## 21  2002      Turkey  70.845
+## 22  2002 Switzerland  80.620
+## 23  2007      Turkey  71.777
+## 24  2007     Iceland  81.757
+\end{verbatim}
+
+Let's re-initialize my European dataset and then perform some further
+analyses and may be even plotting. Let's start with looking at the worst
+European life expectancy every year.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{rm}\NormalTok{(my_europe)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in rm(my_europe): object 'my_europe' not found
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my_europe <-}\StringTok{ }\NormalTok{my_gap %>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(continent ==}\StringTok{ "Europe"}\NormalTok{) %>%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(year, country, lifeExp) %>%}
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(year) %>%}
+\StringTok{  }\KeywordTok{top_n}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DataTypeTok{wt=}\KeywordTok{desc}\NormalTok{(lifeExp))}
+\NormalTok{my_europe}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 12 x 3
+## # Groups:   year [12]
+##     year country lifeExp
+##    <int>  <fctr>   <dbl>
+##  1  1952  Turkey  43.585
+##  2  1957  Turkey  48.079
+##  3  1962  Turkey  52.098
+##  4  1967  Turkey  54.336
+##  5  1972  Turkey  57.005
+##  6  1977  Turkey  59.507
+##  7  1982  Turkey  61.036
+##  8  1987  Turkey  63.108
+##  9  1992  Turkey  66.146
+## 10  1997  Turkey  68.835
+## 11  2002  Turkey  70.845
+## 12  2007  Turkey  71.777
+\end{verbatim}
+
+Wow, Turkey has not been doing well for a long time \ldots{}
+
+\subsubsection{Using the knitr library to make prettier
+tables}\label{using-the-knitr-library-to-make-prettier-tables}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{knitr::}\KeywordTok{kable}\NormalTok{(}\KeywordTok{head}\NormalTok{(gapminder), }
+             \DataTypeTok{format =} \StringTok{"pandoc"}\NormalTok{, }
+             \DataTypeTok{digits =} \DecValTok{2}\NormalTok{,}
+             \DataTypeTok{caption =} \StringTok{"Gapminder (head)"}\NormalTok{,}
+             \DataTypeTok{align =} \KeywordTok{c}\NormalTok{(}\StringTok{"l"}\NormalTok{),}
+             \DataTypeTok{longtable =} \OtherTok{TRUE}\NormalTok{,}
+             \DataTypeTok{padding =} \DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}llllll@{}}
+\caption{Gapminder (head)}\tabularnewline
+\toprule
+country & continent & year & lifeExp & pop & gdpPercap\tabularnewline
+\midrule
+\endfirsthead
+\toprule
+country & continent & year & lifeExp & pop & gdpPercap\tabularnewline
+\midrule
+\endhead
+Afghanistan & Asia & 1952 & 28.80 & 8425333 & 779.45\tabularnewline
+Afghanistan & Asia & 1957 & 30.33 & 9240934 & 820.85\tabularnewline
+Afghanistan & Asia & 1962 & 32.00 & 10267083 & 853.10\tabularnewline
+Afghanistan & Asia & 1967 & 34.02 & 11537966 & 836.20\tabularnewline
+Afghanistan & Asia & 1972 & 36.09 & 13079460 & 739.98\tabularnewline
+Afghanistan & Asia & 1977 & 38.44 & 14880372 & 786.11\tabularnewline
+\bottomrule
+\end{longtable}
+
+\begin{quote}
+Oh, I just understood that you have to ``knit'' this document in order
+to see the nice table made with knitr::kable !
+\end{quote}
+
+\subsubsection{I am planning to use knitr::kable function mure in my
+future
+homework.}\label{i-am-planning-to-use-knitrkable-function-mure-in-my-future-homework.}
+
+I have used this \href{http://pandoc.org/installing.html}{pandoc
+website} as well to install some complementary packages.
+
+\subsection{I am looking forward to apply this newly gained knowledge to
+genomic data analyses such as gene expression, copy number, mutational
+signatures and pathway
+analysis.}\label{i-am-looking-forward-to-apply-this-newly-gained-knowledge-to-genomic-data-analyses-such-as-gene-expression-copy-number-mutational-signatures-and-pathway-analysis.}
+
+\section{Now I feel like I have a better grasp on how to use these new
+tools.}\label{now-i-feel-like-i-have-a-better-grasp-on-how-to-use-these-new-tools.}
+
+
+\end{document}

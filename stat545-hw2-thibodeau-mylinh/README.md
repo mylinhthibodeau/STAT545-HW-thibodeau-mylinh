@@ -1,6 +1,5 @@
-# README 
-## Homework 2 - STAT545
-### My Linh Thibodeau
+# README - HOMEWORK 2 FOR STAT545
+My Linh Thibodeau
 
 I would like your reading to be as pleasant as possible.  
 ![cat reading](/scratch-space/cat_read.gif)  
@@ -11,3 +10,14 @@ I would like your reading to be as pleasant as possible.
 Unfortunately, I was born with a curse called stubbornness, which leads me to look for answers relentlessly to the detriment of efficiency. 
 
 For example, I have struggled with the folder organization of git and github repositories, and therefore, when I noted I was not able to add the reading cat gif above, I have to figure out why. Well now I understand that it is better to put my images and git into a ![separate folder](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/scratch-space) to keep my workspace clean, and then I can put the path of this space relative to the master origin.
+
+# Summary of homework 2 process  
+## Reading, reading, reading  
+
+I have been reading from a lot of different resources in order to learn how to complete this homework on gapminder data exploration and use of tidyverse packages:  
+*STAT545: course material covered on ![class 4](http://stat545.com/cm004_claim-repo-test-drive-rmd.html), ![class 5](http://stat545.com/cm005_tidyverse-tibbles.html) and ![class 6](http://stat545.com/cm006_tibbles-dplyr-ggplot2.html)  
+*Wikipedia: [wiki page on tibble](http://www.sthda.com/english/wiki/tibble-data-format-in-r-best-and-modern-way-to-work-with-your-data)   
+*[Tidyverse website](http://ggplot2.tidyverse.org/reference/)  
+*A lot of blogs on the use of tidyverse in data science, for example this one on the [dplyr functions (e.g. select)](https://info201-s17.github.io/book/introduction-to-the-dplyr-package.html), or this one on the [filter combined to grepl function](https://stackoverflow.com/questions/22850026/filtering-row-which-contains-a-certain-string-using-dplyr).   
+*RMarkdown [website on LaTeX options](http://rmarkdown.rstudio.com/pdf_document_format.html) (which I have installed, as well as Pandocs, as I thought it might reveal useful in the future).  
+*

@@ -6,7 +6,10 @@ I would like your reading to be as pleasant as possible.
 
 ***  
 ## FOLDERS IN THIS REPOSITORY  
-- [gapminder-exploration-phase2.Rmd](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw2-thibodeau-mylinh/gapminder-exploration-phase2.Rmd)
+- [gapminder-exploration-phase2.Rmd](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw2-thibodeau-mylinh/gapminder-exploration-phase2.Rmd)  
+- [gapminder-exploration-phase2.pdf](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw2-thibodeau-mylinh/gapminder-exploration-phase2.pdf)  
+- [gapminder-exploration-phase2.tex](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw2-thibodeau-mylinh/gapminder-exploration-phase2.tex)  
+- [gapminder-exploration-phase2_files/figure-latex/](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw2-thibodeau-mylinh/gapminder-exploration-phase2_files/figure-latex)  
 
 ***
 

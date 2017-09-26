@@ -24,7 +24,7 @@ I have been reading from a lot of different resources in order to learn how to c
 *You might be wondering why I have taken such an interest in reading on novel functions such as grepl and join. The reason is that I need to use R and it's functionalities to carry some genomic data analyses in the short term period.*  
 
 ## HOMEWORK 2 - BRIEF NARATIVE  
-### Note: All the work was completed in the [gapminder-exploration-phase2.Rmd](STAT545-HW-thibodeau-mylinh/stat545-hw2-thibodeau-mylinh/gapminder-exploration-phase2.Rmd) file, but please do use this [MUCH prettier pdf knitted file]() 
+### Note: All the work was completed in the [gapminder-exploration-phase2.Rmd](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw2-thibodeau-mylinh/gapminder-exploration-phase2.Rmd) file, but please do use this [MUCH prettier pdf knitted file](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw2-thibodeau-mylinh/gapminder-exploration-phase2.pdf) 
 1. Review courses notes and material  
 2. Reading from diverse resources (see above)  
 3. Gapminder data exploration in RStudio

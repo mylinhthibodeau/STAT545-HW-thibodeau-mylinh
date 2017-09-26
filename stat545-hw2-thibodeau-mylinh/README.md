@@ -51,9 +51,4 @@ Please note that the brief narrative below is not exhaustive and you may refer t
 **Here are somes examples of issues or challenges I experienced**  
 * I found it challenging to understand the required input for each function. Although the help documentation of RStudio is very helpful, even after reading some help pages (e.g. geom_bar), I still had a hard time to understand the mapping/aes() required.  
 * The arrange() function has posed difficulties when dealing with my research dataset. Even after applying it to my data, when I plot my dataset, the data "returns" to being "disorganized" (not ordered according to the column specified).  
-<<<<<<< HEAD
 * I found it difficult to plot summary statistics and I had to read several blogs and consult diverse websites to understand the basic functions.
-=======
-* I found it difficult to plot summary statistics and I had to read several blogs and consult diverse websites to understand the basic functions.  
-* 
->>>>>>> f546a69f990073acf12d972e9c7cee3e7f6d1967

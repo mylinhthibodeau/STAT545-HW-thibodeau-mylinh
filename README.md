@@ -8,6 +8,11 @@ This file provides a general overview of the content in this repository.
 ## STAT545-HW-thibodeau-mylinh: repository organization
 # FOLDERS - SUMMARY  
 *Each homework folder will contain a README.md file, but not the scratch-space as it is used to store non essential images or gif*    
+<<<<<<< HEAD
 [stat545-hw2-thibodeau-mylinh](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw2-thibodeau-mylinh): contains gapminder data exploration exercises with tidyverse, including data query, data manipulation and data plotting.  
 - [scratch-space](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/scratch-space): contains non essential material.  
 [stat545-hw2-thibodeau-mylinh](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw2-thibodeau-mylinh): contains gapminder data exploration exercises with tidyverse, including data query, data manipulation and data plotting. 
+=======
+- [stat545-hw2-thibodeau-mylinh](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw2-thibodeau-mylinh): contains gapminder data exploration exercises with tidyverse, including data query, data manipulation and data plotting.  
+- [scratch-space](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/scratch-space): contains non essential material.  
+>>>>>>> 83347ddf6ecc791f219d497cc6ee5ce96a3eca0a

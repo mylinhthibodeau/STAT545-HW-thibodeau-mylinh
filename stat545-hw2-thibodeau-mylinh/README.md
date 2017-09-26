@@ -19,5 +19,16 @@ I have been reading from a lot of different resources in order to learn how to c
 - Wikipedia: [wiki page on tibble](http://www.sthda.com/english/wiki/tibble-data-format-in-r-best-and-modern-way-to-work-with-your-data)
 - RMarkdown [website on LaTeX options](http://rmarkdown.rstudio.com/pdf_document_format.html) (which I have installed, as well as Pandocs, as I thought it might reveal useful in the future).  
 - [Tidyverse website](http://ggplot2.tidyverse.org/reference/)  
-- A lot of blogs on the use of tidyverse in data science, for example this one on the [dplyr functions (e.g. select)](https://info201-s17.github.io/book/introduction-to-the-dplyr-package.html), this one on [summarise() function](http://www.datacarpentry.org/R-genomics/04-dplyr.html), this one on [filter combined to grepl function](https://stackoverflow.com/questions/22850026/filtering-row-which-contains-a-certain-string-using-dplyr) and this one on the [join functions](http://www.datacarpentry.org/R-genomics/04-dplyr.html) of dplyr.  
-**You might be wondering why I have taken such an interest in reading on novel functions such as grepl and join. The reason is that I need to use R and it's functionalities to carry some genomic data analyses in the short term period.**  
+- A lot of blogs on the use of tidyverse in data science, for example this one on the [dplyr functions (e.g. select)](https://info201-s17.github.io/book/introduction-to-the-dplyr-package.html), this one on [summarise() function](http://www.datacarpentry.org/R-genomics/04-dplyr.html), this one on [filter combined to grepl function](https://stackoverflow.com/questions/22850026/filtering-row-which-contains-a-certain-string-using-dplyr) and this one on the [join functions](http://www.datacarpentry.org/R-genomics/04-dplyr.html) of dplyr.   
+
+*You might be wondering why I have taken such an interest in reading on novel functions such as grepl and join. The reason is that I need to use R and it's functionalities to carry some genomic data analyses in the short term period.*  
+
+## HOMEWORK 2 - BRIEF NARATIVE  
+### Note: All the work was completed in the [gapminder-exploration-phase2.Rmd](STAT545-HW-thibodeau-mylinh/stat545-hw2-thibodeau-mylinh/gapminder-exploration-phase2.Rmd) file, but please do use this [MUCH prettier pdf knitted file]() 
+1. Review courses notes and material  
+2. Reading from diverse resources (see above)  
+3. Gapminder data exploration in RStudio
+**Functions explored in more detail**  
+* characterize the dataset: class(), typeof(), str(), ncol(), nrow(), dim(), min(), max(), range(), distinct()  
+4. Gapminder data manipulation in RStudio
+4. 

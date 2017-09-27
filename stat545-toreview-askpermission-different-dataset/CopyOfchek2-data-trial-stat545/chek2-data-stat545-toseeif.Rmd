@@ -1,0 +1,64 @@
+---
+title: "CHEK2 data - Trial "
+output: github_document
+
+---
+
+```{r}
+suppressPackageStartupMessages(library(tidyverse))
+knitr::opts_chunk$set(fig.width=12, fig.height=10)
+library("ggpmisc")
+```
+## SOURCE OF DATA - supplementary files of published article:
+Thibodeau, M. L. et al. Genomic profiling of pelvic genital type leiomyosarcoma in a woman with a germline CHEK2:c.1100delC mutation and a concomitant diagnosis of metastatic invasive ductal breast carcinoma. Cold Spring Harb Mol Case Stud mcs.a001628 (2017). doi:10.1101/mcs.a001628  
+Open access article and data available [here](http://molecularcasestudies.cshlp.org/content/3/5/a001628.long)  
+
+**Load the text file version of CHEK2 paper supplementary data on rna expression and copy number variant (cnv)**  
+```{r}
+rna_cnv <- read.table("/Users/mylinh/Desktop/chek2-data-trial-stat545/chek2-rna-expression-cnv-data.txt", sep="\t",  strip.white = TRUE, header = TRUE)
+head(rna_cnv)
+summary(rna_cnv)
+class(rna_cnv)
+typeof(rna_cnv)
+str(rna_cnv)
+```
+
+[source code below](https://stackoverflow.com/questions/37494969/ggplot2-add-regression-equations-and-r2-and-adjust-their-positions-on-plot)  
+[This stackoverflow](https://stackoverflow.com/questions/37254279/dynamic-label-position-stat-poly-eq-and-ggplot2) discussion was also useful.  
+
+[This cran rstudio website](https://cran.rstudio.com/web/packages/ggpmisc/vignettes/user-guide-1.html) has also been very helpful.
+
+Initial plot, function of cna and TCGA percentile, copy change coloured. Faceted to the gene category (e.g. oncogene)
+```{r}
+formula <- y ~ x
+p1 <- rna_cnv %>%
+  ggplot(aes(x=avg.cna.by.gene, y=avg.TCGA.percentile, colour=copy.change), na.rm = TRUE, alpha = 0.8) 
+p1 +
+  geom_point() + 
+  scale_colour_gradient2() +
+  facet_wrap(~ cancer.gene.type, scales = "free_y") +
+  geom_smooth(method="lm", formula = formula, se=FALSE, size=0.2) +
+  stat_smooth(method = "lm") +
+  stat_poly_eq(aes(label = paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")), label.x.npc = "left",
+               formula = formula, parse = TRUE, size = 3,
+               geom="label")
+```
+option 2 of plot
+```{r}
+p2 <- rna_cnv %>%
+  ggplot(aes(x=avg.cna.by.gene, y=avg.TCGA.percentile, colour=copy.category), na.rm = TRUE, alpha = 0.8) 
+p2 + geom_point(shape =21) + 
+  geom_smooth(method="lm", formula = formula, se=FALSE, size=0.2) +
+  stat_smooth(method = "lm") +
+  stat_poly_eq(aes(label = paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")), label.x.npc = "left", formula = formula, parse = TRUE, size = 3, geom="label")
+```
+option 3 of plot
+```{r}
+p3 <- rna_cnv %>%
+  ggplot(aes(x=avg.cna.by.gene, y=avg.TCGA.percentile, colour=copy.category), na.rm = TRUE, alpha = 0.8) 
+p3 + geom_point(shape =21) + 
+  geom_smooth(method="lm", formula = formula, size=0.2) +
+  stat_smooth(method = "lm", formula=formula) +
+  facet_wrap(~ cancer.gene.type, scales = "free_y")+
+  stat_poly_eq(aes(label = paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")), label.x.npc = "left", formula = formula, parse = TRUE, size = 3, geom="label")
+```

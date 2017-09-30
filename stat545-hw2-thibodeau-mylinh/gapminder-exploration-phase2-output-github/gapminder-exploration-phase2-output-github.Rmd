@@ -9,6 +9,9 @@ output: github_document
 suppressPackageStartupMessages(library(tidyverse))  # The tidyverse contains ggplot2!
 suppressPackageStartupMessages(library(gapminder))
 knitr::opts_chunk$set(fig.width=8, fig.height=6)
+library(knitr)
+library(kableExtra)
+options(knitr.table.format = "html")
 ```
 
 ## Smell test of data
@@ -48,7 +51,7 @@ It revealed the specific data type of each variable!
 *gdpPercap  : num  
 
 *** 
-## Learned from abishekarun  
+# Learned from abishekarun  
 The class function told me that there were 6 variables (columns) and 1704 observations (rows) in gapminder dataset, but I could also use these:
 ```{r}
 ncol(gapminder)
@@ -88,6 +91,36 @@ ncol(m)
 #Vector
 NCOL(v)
 NROW(v)
+```
+
+3) The length() function can be used to get length of a list or vector. For matrix or dataframe it returns the number of variables.
+```{r}
+#Vector
+length(v)
+
+#Matrix
+length(m)
+
+#Data frame
+length(gapminder)
+```
+
+4) summary() function can also be used to understand the extent and size of a variable.  
+
+```{r}
+kable(summary(gapminder))
+```
+
+5)range() function can be used to get the range(minimum and maximum value) of continuous variables.
+
+```{r}
+range(gapminder$gdpPercap)
+range(gapminder$lifeExp)
+```
+
+Lets find the Data type of each variable/column in gapminder dataset
+```{r}
+kable(sapply(gapminder, class))
 ```
 
 *** 
@@ -140,6 +173,62 @@ gapminder %>%
   group_by(country) %>% 
   summarise_if(is.numeric, median)
 ```
+
+***
+# Learned from abishekarun
+
+SOme plots to analyze the continent variable
+```{r}
+summary(gapminder$continent)
+# table(gapminder$continent) does the same thing.
+plot(gapminder$continent)
+
+counts = table(gapminder$continent)  ## get counts
+labs=levels(gapminder$continent)
+pct <- round(counts/sum(counts)*100)
+labs <- paste(labs, pct) # add percents to labels 
+labs <- paste(labs,"%",sep="") # ad % to labels 
+pie(counts, labels = labs,col=rainbow(length(labs)),
+  	main="Pie Chart of Continents")  ## plot
+```
+
+This shows that Africa is the typical value since it is observed maximum number of times. This also shows that there is very less data for Oceania. 
+
+Lets look at another factor variable say country. Take a subset of data for this plot.
+```{r}
+a<-subset(gapminder,gapminder$country %in% c("Afghanistan","Bangladesh","China","Sri Lanka","Indonesia","Pakistan"))
+plot(a$country)
+```
+
+###Lets take a continous variable, say population.
+
+Analyze range and summary. Also plot few graphs to know the distribution.
+```{r}
+range(gapminder$pop) # to get the range of the values for population
+summary(gapminder$pop) # to get the summary of the values.
+#table(gapminder$pop)
+
+plot(density(gapminder$pop))   # density plot
+plot(density(log10(gapminder$pop)))  # transformed density plot
+```
+
+The range of the population shows the minimum and maximum value. The summary function gives the mean,median and other details. The transformed density graph show the Gaussian distribution present in the population variable. 
+
+Lets explore another continuous variable, say lifeExp by plotting histogram.
+```{r}
+hist(gapminder$lifeExp)   # histogram plot
+hist(log10(gapminder$lifeExp))   #transformed histogram plot
+```
+
+Lets explore another continuous variable, say gdpPercap by plotting box plot and scatter plot.
+```{r}
+boxplot(log10(gapminder$gdpPercap)) # Box plot
+plot(type='p',gapminder$gdpPercap)   # scatter plot
+plot(type='p',log10(gapminder$gdpPercap))  # transformed scatter plot
+
+```
+
+***
 
 ## Explore various plot types
 *NOTE: The main resource used is the [stat545 github repository of Jenny Bryan](https://github.com/jennybc/ggplot2-tutorial/blob/master/gapminder-ggplot2-univariate-quantitative.md)*  
@@ -398,4 +487,34 @@ I have used this [pandoc website](http://pandoc.org/installing.html) as well to 
 ## I am looking forward to apply this newly gained knowledge to genomic data analyses such as gene expression, copy number, mutational signatures and pathway analysis.
 
 # Now I feel like I have a better grasp on how to use these new tools.
+
+# Learned from abishekarun  
+Command using rename() function
+
+(Not in R chunk because missing a piece of code, kept for example only)
+gapminder %>%
+  filter(country %in% country_list & lifeExp<=45) %>%
+  mutate(gdpPercapRel = gdpPercap/max(gapminder$gdpPercap))%>%
+  rename(gdpRel = gdpPercapRel)%>%
+  select(country,gdpRel)%>%
+  kable("html") %>%
+  kable_styling()
+
+The given piece of code given is as follows
+
+```{r}
+filter(gapminder, country == c("Rwanda", "Afghanistan"))%>%
+  kable("html") %>%
+  kable_styling()
+```
+The user doesnt succeed in getting all the entries of rwanda and afghanistan.The correct way to do this is as below using %in% operator.
+
+```{r}
+filter(gapminder, country %in% c("Rwanda", "Afghanistan"))%>%
+  kable("html") %>%
+  kable_styling()
+```
+
+The difference is %in% checks whether or not the object is contained in the other object. Whereas == is a logical operator that checks for identity properties.
+
 

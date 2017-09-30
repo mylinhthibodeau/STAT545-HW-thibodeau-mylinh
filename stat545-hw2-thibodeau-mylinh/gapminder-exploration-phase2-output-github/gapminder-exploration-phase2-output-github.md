@@ -7,9 +7,6 @@ My Linh Thibodeau
 suppressPackageStartupMessages(library(tidyverse))  # The tidyverse contains ggplot2!
 suppressPackageStartupMessages(library(gapminder))
 knitr::opts_chunk$set(fig.width=8, fig.height=6)
-library(knitr)
-library(kableExtra)
-options(knitr.table.format = "html")
 ```
 
 Smell test of data
@@ -70,11 +67,6 @@ It revealed the specific data type of each variable!
 *pop : int
 *gdpPercap : num
 
-------------------------------------------------------------------------
-
-Learned from abishekarun
-========================
-
 The class function told me that there were 6 variables (columns) and 1704 observations (rows) in gapminder dataset, but I could also use these:
 
 ``` r
@@ -96,353 +88,6 @@ dim(gapminder)
 ```
 
     ## [1] 1704    6
-
-1.  dim() - Retrieves all the dimensions of an R object such as array,matrix or a data frame. It returns null for a vector.
-
-``` r
-# Matrix
-m <- matrix(1:15, 3, 5)
-dim(m)
-```
-
-    ## [1] 3 5
-
-``` r
-# Array
-a <- array(1:12, dim = 2:4)
-dim(a) 
-```
-
-    ## [1] 2 3 4
-
-``` r
-#data frame
-dim(gapminder)
-```
-
-    ## [1] 1704    6
-
-``` r
-# Vector
-v <- 1:9
-dim(v)
-```
-
-    ## NULL
-
-1.  nrow() and ncol() returns the number of rows and columns of an array or data frame. NROW() and NCOL() does the same thing by treating the vector as a 1 column matrix.
-
-``` r
-#Matrix
-nrow(m)
-```
-
-    ## [1] 3
-
-``` r
-ncol(m)
-```
-
-    ## [1] 5
-
-``` r
-#Vector
-NCOL(v)
-```
-
-    ## [1] 1
-
-``` r
-NROW(v)
-```
-
-    ## [1] 9
-
-1.  The length() function can be used to get length of a list or vector. For matrix or dataframe it returns the number of variables.
-
-``` r
-#Vector
-length(v)
-```
-
-    ## [1] 9
-
-``` r
-#Matrix
-length(m)
-```
-
-    ## [1] 15
-
-``` r
-#Data frame
-length(gapminder)
-```
-
-    ## [1] 6
-
-1.  summary() function can also be used to understand the extent and size of a variable.
-
-``` r
-kable(summary(gapminder))
-```
-
-<table>
-<thead>
-<tr>
-<th style="text-align:left;">
-</th>
-<th style="text-align:left;">
-        country </th>
-
-<th style="text-align:left;">
-    continent </th>
-
-<th style="text-align:left;">
-      year </th>
-
-<th style="text-align:left;">
-    lifeExp </th>
-
-<th style="text-align:left;">
-      pop </th>
-
-<th style="text-align:left;">
-gdpPercap
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-Afghanistan: 12
-</td>
-<td style="text-align:left;">
-Africa :624
-</td>
-<td style="text-align:left;">
-Min. :1952
-</td>
-<td style="text-align:left;">
-Min. :23.60
-</td>
-<td style="text-align:left;">
-Min. :6.001e+04
-</td>
-<td style="text-align:left;">
-Min. : 241.2
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-Albania : 12
-</td>
-<td style="text-align:left;">
-Americas:300
-</td>
-<td style="text-align:left;">
-1st Qu.:1966
-</td>
-<td style="text-align:left;">
-1st Qu.:48.20
-</td>
-<td style="text-align:left;">
-1st Qu.:2.794e+06
-</td>
-<td style="text-align:left;">
-1st Qu.: 1202.1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-Algeria : 12
-</td>
-<td style="text-align:left;">
-Asia :396
-</td>
-<td style="text-align:left;">
-Median :1980
-</td>
-<td style="text-align:left;">
-Median :60.71
-</td>
-<td style="text-align:left;">
-Median :7.024e+06
-</td>
-<td style="text-align:left;">
-Median : 3531.8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-Angola : 12
-</td>
-<td style="text-align:left;">
-Europe :360
-</td>
-<td style="text-align:left;">
-Mean :1980
-</td>
-<td style="text-align:left;">
-Mean :59.47
-</td>
-<td style="text-align:left;">
-Mean :2.960e+07
-</td>
-<td style="text-align:left;">
-Mean : 7215.3
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-Argentina : 12
-</td>
-<td style="text-align:left;">
-Oceania : 24
-</td>
-<td style="text-align:left;">
-3rd Qu.:1993
-</td>
-<td style="text-align:left;">
-3rd Qu.:70.85
-</td>
-<td style="text-align:left;">
-3rd Qu.:1.959e+07
-</td>
-<td style="text-align:left;">
-3rd Qu.: 9325.5
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-Australia : 12
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-Max. :2007
-</td>
-<td style="text-align:left;">
-Max. :82.60
-</td>
-<td style="text-align:left;">
-Max. :1.319e+09
-</td>
-<td style="text-align:left;">
-Max. :113523.1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-(Other) :1632
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-</tbody>
-</table>
-5)range() function can be used to get the range(minimum and maximum value) of continuous variables.
-
-``` r
-range(gapminder$gdpPercap)
-```
-
-    ## [1]    241.1659 113523.1329
-
-``` r
-range(gapminder$lifeExp)
-```
-
-    ## [1] 23.599 82.603
-
-Lets find the Data type of each variable/column in gapminder dataset
-
-``` r
-kable(sapply(gapminder, class))
-```
-
-<table>
-<tbody>
-<tr>
-<td style="text-align:left;">
-country
-</td>
-<td style="text-align:left;">
-factor
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-continent
-</td>
-<td style="text-align:left;">
-factor
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-year
-</td>
-<td style="text-align:left;">
-integer
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-lifeExp
-</td>
-<td style="text-align:left;">
-numeric
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-pop
-</td>
-<td style="text-align:left;">
-integer
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-gdpPercap
-</td>
-<td style="text-align:left;">
-numeric
-</td>
-</tr>
-</tbody>
-</table>
-
-------------------------------------------------------------------------
 
 Explore individual variables
 ----------------------------
@@ -579,119 +224,6 @@ gapminder %>%
     ## 10     Belgium 1979.5 73.3650  9839051.5 20048.9102
     ## # ... with 132 more rows
 
-------------------------------------------------------------------------
-
-Learned from abishekarun
-========================
-
-SOme plots to analyze the continent variable
-
-``` r
-summary(gapminder$continent)
-```
-
-    ##   Africa Americas     Asia   Europe  Oceania 
-    ##      624      300      396      360       24
-
-``` r
-# table(gapminder$continent) does the same thing.
-plot(gapminder$continent)
-```
-
-![](gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-17-1.png)
-
-``` r
-counts = table(gapminder$continent)  ## get counts
-labs=levels(gapminder$continent)
-pct <- round(counts/sum(counts)*100)
-labs <- paste(labs, pct) # add percents to labels 
-labs <- paste(labs,"%",sep="") # ad % to labels 
-pie(counts, labels = labs,col=rainbow(length(labs)),
-    main="Pie Chart of Continents")  ## plot
-```
-
-![](gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-17-2.png)
-
-This shows that Africa is the typical value since it is observed maximum number of times. This also shows that there is very less data for Oceania.
-
-Lets look at another factor variable say country. Take a subset of data for this plot.
-
-``` r
-a<-subset(gapminder,gapminder$country %in% c("Afghanistan","Bangladesh","China","Sri Lanka","Indonesia","Pakistan"))
-plot(a$country)
-```
-
-![](gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-18-1.png)
-
-### Lets take a continous variable, say population.
-
-Analyze range and summary. Also plot few graphs to know the distribution.
-
-``` r
-range(gapminder$pop) # to get the range of the values for population
-```
-
-    ## [1]      60011 1318683096
-
-``` r
-summary(gapminder$pop) # to get the summary of the values.
-```
-
-    ##      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
-    ## 6.001e+04 2.794e+06 7.024e+06 2.960e+07 1.959e+07 1.319e+09
-
-``` r
-#table(gapminder$pop)
-
-plot(density(gapminder$pop))   # density plot
-```
-
-![](gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-19-1.png)
-
-``` r
-plot(density(log10(gapminder$pop)))  # transformed density plot
-```
-
-![](gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-19-2.png)
-
-The range of the population shows the minimum and maximum value. The summary function gives the mean,median and other details. The transformed density graph show the Gaussian distribution present in the population variable.
-
-Lets explore another continuous variable, say lifeExp by plotting histogram.
-
-``` r
-hist(gapminder$lifeExp)   # histogram plot
-```
-
-![](gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-20-1.png)
-
-``` r
-hist(log10(gapminder$lifeExp))   #transformed histogram plot
-```
-
-![](gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-20-2.png)
-
-Lets explore another continuous variable, say gdpPercap by plotting box plot and scatter plot.
-
-``` r
-boxplot(log10(gapminder$gdpPercap)) # Box plot
-```
-
-![](gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-21-1.png)
-
-``` r
-plot(type='p',gapminder$gdpPercap)   # scatter plot
-```
-
-![](gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-21-2.png)
-
-``` r
-plot(type='p',log10(gapminder$gdpPercap))  # transformed scatter plot
-```
-
-![](gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-21-3.png)
-
-------------------------------------------------------------------------
-
 Explore various plot types
 --------------------------
 
@@ -710,7 +242,7 @@ p <- gapminder %>%
 p + geom_point() + labs(title = "Life expectancy per year")
 ```
 
-![](gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-22-1.png)
+![](gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-11-1.png)
 
 Overall, it seems that life expectancy has improved with years for the majority of countries, but I wonder what are the outliers at the bottom of the plot.
 
@@ -761,7 +293,7 @@ p1 <- gapminder %>%
 p1 + geom_point()
 ```
 
-![](gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-25-1.png)
+![](gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-14-1.png)
 
 However, since I am still wondering if the size of the population has an effect on the life expectancy, I will plot the size of each dots according to the population, and I would also like to see if some continents segregate from each other, so I will use colours for this. I will also use some transparencies in order to see the dots when they layer on top of each other.
 
@@ -769,7 +301,7 @@ However, since I am still wondering if the size of the population has an effect 
 p1 + geom_point(aes(size=pop, colour = continent), alpha=0.25)
 ```
 
-![](gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-26-1.png)
+![](gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-15-1.png)
 
 A log scale would be useful to see the lower values better. This ressembles the exercise we completed in class last time, so let me switch up the variables a little to population and life expectancy, so that we don't feel like doing the same thing. I will plot the size of the dot as a function of the gdpPerCap this time and add the geom\_smooth() line with a generalized additive model (gam).
 
@@ -784,7 +316,7 @@ p2
 
     ## `geom_smooth()` using method = 'loess'
 
-![](gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-27-1.png)
+![](gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-16-1.png)
 
 We can immediately take note of obvious discrepancies when looking at this plot. For example, the red dots are at the lower part of the graph, telling us that countries of Africa have lower life expectancy, and the dots are smaller, revealing lower gdpPercap.
 
@@ -803,7 +335,7 @@ p3 + geom_line(lwd=1, show_guide = FALSE) +
     ## Warning: `show_guide` has been deprecated. Please use `show.legend`
     ## instead.
 
-![](gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-28-1.png) This is very pretty, but I don't know if it is very informative since this plots in a stepwise fashion the data, which collapses the values at each measurement year into a vertical line. I still kept is, for interest.
+![](gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-17-1.png) This is very pretty, but I don't know if it is very informative since this plots in a stepwise fashion the data, which collapses the values at each measurement year into a vertical line. I still kept is, for interest.
 
 \*I found the reference manual on the tidyverse [website](http://ggplot2.tidyverse.org/reference/) very useful.
 
@@ -820,7 +352,7 @@ p4 + geom_bar(stat="identity", na.rm=TRUE) +
   labs(title = "Number of measurements for each continents")
 ```
 
-![](gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-29-1.png)
+![](gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-18-1.png)
 
 > After doing the dataset manipulation exercises (see below), I decided to go back at my plots and change them for presenting more relevant information.
 
@@ -838,7 +370,7 @@ p5 + geom_histogram(aes(fill = continent), stat="identity", na.rm=TRUE) +
 
     ## Warning: Ignoring unknown parameters: binwidth, bins, pad
 
-![](gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-30-1.png)
+![](gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-19-1.png)
 
 #### SUMMARY STATISTICS PLOTS
 
@@ -851,7 +383,7 @@ p6 + stat_summary_bin(mapping = aes(group = continent, colour=continent), fun.y 
   labs(title = "Median life expectancy per continent")
 ```
 
-![](gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-31-1.png)
+![](gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-20-1.png)
 
 You can do the same thing with other parameters, like below showing the mean in a b
 
@@ -864,7 +396,7 @@ p7 +
   labs(title = "Mean life expectancy according to year")
 ```
 
-![](gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-32-1.png)
+![](gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-21-1.png)
 
 This plot is a bit crowed, we should subdivide it by continent and add a linear regression function to it.
 
@@ -878,7 +410,7 @@ p8 + facet_wrap(~continent) + geom_smooth(se=FALSE, colour = "purple", lwd = 1, 
 
     ## `geom_smooth()` using method = 'loess'
 
-![](gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-33-1.png)
+![](gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-22-1.png)
 
 Or we can show the same plot and plot the mean life expectancy (and standard deviation) with geom\_boxplot() function:
 
@@ -887,7 +419,7 @@ p8 + facet_wrap(~continent) + geom_boxplot(aes(group=year), alpha=0.1) +
   labs(title = "Life expectancy per year") 
 ```
 
-![](gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-34-1.png)
+![](gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-23-1.png)
 
 #### DISTRIBUTION PLOTS
 
@@ -899,7 +431,7 @@ p9 <- gapminder %>%
 p9 + geom_histogram(binwidth = 1, alpha = 0.8, position = "identity", aes(x=lifeExp, fill = continent)) 
 ```
 
-![](gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-35-1.png)
+![](gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-24-1.png)
 
 Now, let's use a frequency polygon to show the same information (but let's use a binwidth of 1 year).
 
@@ -909,7 +441,7 @@ p10 <- gapminder %>%
 p10 + geom_freqpoly(binwidth = 1, alpha = 0.8, position = "identity", aes(x=lifeExp, color = continent))
 ```
 
-![](gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-36-1.png)
+![](gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-25-1.png)
 
 Now, let's look at a smoother plot, which geom\_density() can help with.
 
@@ -919,7 +451,7 @@ p11 <- gapminder %>%
 p11 + geom_density(alpha=0.15)
 ```
 
-![](gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-37-1.png)
+![](gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-26-1.png)
 
 Another option is the geom\_violin and geom\_violin functions, to present our data in the most readible way.
 
@@ -930,7 +462,7 @@ p12 + geom_violin(aes(group=year)) +
   geom_jitter(alpha=0.3)
 ```
 
-![](gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-38-1.png)
+![](gapminder-exploration-phase2-output-github_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-27-1.png)
 
 ------------------------------------------------------------------------
 
@@ -1148,800 +680,3 @@ I am looking forward to apply this newly gained knowledge to genomic data analys
 
 Now I feel like I have a better grasp on how to use these new tools.
 ====================================================================
-
-Learned from abishekarun
-========================
-
-Command using rename() function
-
-(Not in R chunk because missing a piece of code, kept for example only) gapminder %&gt;% filter(country %in% country\_list & lifeExp&lt;=45) %&gt;% mutate(gdpPercapRel = gdpPercap/max(gapminder$gdpPercap))%&gt;% rename(gdpRel = gdpPercapRel)%&gt;% select(country,gdpRel)%&gt;% kable("html") %&gt;% kable\_styling()
-
-The given piece of code given is as follows
-
-``` r
-filter(gapminder, country == c("Rwanda", "Afghanistan"))%>%
-  kable("html") %>%
-  kable_styling()
-```
-
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-country
-</th>
-<th style="text-align:left;">
-continent
-</th>
-<th style="text-align:right;">
-year
-</th>
-<th style="text-align:right;">
-lifeExp
-</th>
-<th style="text-align:right;">
-pop
-</th>
-<th style="text-align:right;">
-gdpPercap
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-Afghanistan
-</td>
-<td style="text-align:left;">
-Asia
-</td>
-<td style="text-align:right;">
-1957
-</td>
-<td style="text-align:right;">
-30.332
-</td>
-<td style="text-align:right;">
-9240934
-</td>
-<td style="text-align:right;">
-820.8530
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Afghanistan
-</td>
-<td style="text-align:left;">
-Asia
-</td>
-<td style="text-align:right;">
-1967
-</td>
-<td style="text-align:right;">
-34.020
-</td>
-<td style="text-align:right;">
-11537966
-</td>
-<td style="text-align:right;">
-836.1971
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Afghanistan
-</td>
-<td style="text-align:left;">
-Asia
-</td>
-<td style="text-align:right;">
-1977
-</td>
-<td style="text-align:right;">
-38.438
-</td>
-<td style="text-align:right;">
-14880372
-</td>
-<td style="text-align:right;">
-786.1134
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Afghanistan
-</td>
-<td style="text-align:left;">
-Asia
-</td>
-<td style="text-align:right;">
-1987
-</td>
-<td style="text-align:right;">
-40.822
-</td>
-<td style="text-align:right;">
-13867957
-</td>
-<td style="text-align:right;">
-852.3959
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Afghanistan
-</td>
-<td style="text-align:left;">
-Asia
-</td>
-<td style="text-align:right;">
-1997
-</td>
-<td style="text-align:right;">
-41.763
-</td>
-<td style="text-align:right;">
-22227415
-</td>
-<td style="text-align:right;">
-635.3414
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Afghanistan
-</td>
-<td style="text-align:left;">
-Asia
-</td>
-<td style="text-align:right;">
-2007
-</td>
-<td style="text-align:right;">
-43.828
-</td>
-<td style="text-align:right;">
-31889923
-</td>
-<td style="text-align:right;">
-974.5803
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rwanda
-</td>
-<td style="text-align:left;">
-Africa
-</td>
-<td style="text-align:right;">
-1952
-</td>
-<td style="text-align:right;">
-40.000
-</td>
-<td style="text-align:right;">
-2534927
-</td>
-<td style="text-align:right;">
-493.3239
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rwanda
-</td>
-<td style="text-align:left;">
-Africa
-</td>
-<td style="text-align:right;">
-1962
-</td>
-<td style="text-align:right;">
-43.000
-</td>
-<td style="text-align:right;">
-3051242
-</td>
-<td style="text-align:right;">
-597.4731
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rwanda
-</td>
-<td style="text-align:left;">
-Africa
-</td>
-<td style="text-align:right;">
-1972
-</td>
-<td style="text-align:right;">
-44.600
-</td>
-<td style="text-align:right;">
-3992121
-</td>
-<td style="text-align:right;">
-590.5807
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rwanda
-</td>
-<td style="text-align:left;">
-Africa
-</td>
-<td style="text-align:right;">
-1982
-</td>
-<td style="text-align:right;">
-46.218
-</td>
-<td style="text-align:right;">
-5507565
-</td>
-<td style="text-align:right;">
-881.5706
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rwanda
-</td>
-<td style="text-align:left;">
-Africa
-</td>
-<td style="text-align:right;">
-1992
-</td>
-<td style="text-align:right;">
-23.599
-</td>
-<td style="text-align:right;">
-7290203
-</td>
-<td style="text-align:right;">
-737.0686
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rwanda
-</td>
-<td style="text-align:left;">
-Africa
-</td>
-<td style="text-align:right;">
-2002
-</td>
-<td style="text-align:right;">
-43.413
-</td>
-<td style="text-align:right;">
-7852401
-</td>
-<td style="text-align:right;">
-785.6538
-</td>
-</tr>
-</tbody>
-</table>
-The user doesnt succeed in getting all the entries of rwanda and afghanistan.The correct way to do this is as below using %in% operator.
-
-``` r
-filter(gapminder, country %in% c("Rwanda", "Afghanistan"))%>%
-  kable("html") %>%
-  kable_styling()
-```
-
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-country
-</th>
-<th style="text-align:left;">
-continent
-</th>
-<th style="text-align:right;">
-year
-</th>
-<th style="text-align:right;">
-lifeExp
-</th>
-<th style="text-align:right;">
-pop
-</th>
-<th style="text-align:right;">
-gdpPercap
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-Afghanistan
-</td>
-<td style="text-align:left;">
-Asia
-</td>
-<td style="text-align:right;">
-1952
-</td>
-<td style="text-align:right;">
-28.801
-</td>
-<td style="text-align:right;">
-8425333
-</td>
-<td style="text-align:right;">
-779.4453
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Afghanistan
-</td>
-<td style="text-align:left;">
-Asia
-</td>
-<td style="text-align:right;">
-1957
-</td>
-<td style="text-align:right;">
-30.332
-</td>
-<td style="text-align:right;">
-9240934
-</td>
-<td style="text-align:right;">
-820.8530
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Afghanistan
-</td>
-<td style="text-align:left;">
-Asia
-</td>
-<td style="text-align:right;">
-1962
-</td>
-<td style="text-align:right;">
-31.997
-</td>
-<td style="text-align:right;">
-10267083
-</td>
-<td style="text-align:right;">
-853.1007
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Afghanistan
-</td>
-<td style="text-align:left;">
-Asia
-</td>
-<td style="text-align:right;">
-1967
-</td>
-<td style="text-align:right;">
-34.020
-</td>
-<td style="text-align:right;">
-11537966
-</td>
-<td style="text-align:right;">
-836.1971
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Afghanistan
-</td>
-<td style="text-align:left;">
-Asia
-</td>
-<td style="text-align:right;">
-1972
-</td>
-<td style="text-align:right;">
-36.088
-</td>
-<td style="text-align:right;">
-13079460
-</td>
-<td style="text-align:right;">
-739.9811
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Afghanistan
-</td>
-<td style="text-align:left;">
-Asia
-</td>
-<td style="text-align:right;">
-1977
-</td>
-<td style="text-align:right;">
-38.438
-</td>
-<td style="text-align:right;">
-14880372
-</td>
-<td style="text-align:right;">
-786.1134
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Afghanistan
-</td>
-<td style="text-align:left;">
-Asia
-</td>
-<td style="text-align:right;">
-1982
-</td>
-<td style="text-align:right;">
-39.854
-</td>
-<td style="text-align:right;">
-12881816
-</td>
-<td style="text-align:right;">
-978.0114
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Afghanistan
-</td>
-<td style="text-align:left;">
-Asia
-</td>
-<td style="text-align:right;">
-1987
-</td>
-<td style="text-align:right;">
-40.822
-</td>
-<td style="text-align:right;">
-13867957
-</td>
-<td style="text-align:right;">
-852.3959
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Afghanistan
-</td>
-<td style="text-align:left;">
-Asia
-</td>
-<td style="text-align:right;">
-1992
-</td>
-<td style="text-align:right;">
-41.674
-</td>
-<td style="text-align:right;">
-16317921
-</td>
-<td style="text-align:right;">
-649.3414
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Afghanistan
-</td>
-<td style="text-align:left;">
-Asia
-</td>
-<td style="text-align:right;">
-1997
-</td>
-<td style="text-align:right;">
-41.763
-</td>
-<td style="text-align:right;">
-22227415
-</td>
-<td style="text-align:right;">
-635.3414
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Afghanistan
-</td>
-<td style="text-align:left;">
-Asia
-</td>
-<td style="text-align:right;">
-2002
-</td>
-<td style="text-align:right;">
-42.129
-</td>
-<td style="text-align:right;">
-25268405
-</td>
-<td style="text-align:right;">
-726.7341
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Afghanistan
-</td>
-<td style="text-align:left;">
-Asia
-</td>
-<td style="text-align:right;">
-2007
-</td>
-<td style="text-align:right;">
-43.828
-</td>
-<td style="text-align:right;">
-31889923
-</td>
-<td style="text-align:right;">
-974.5803
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rwanda
-</td>
-<td style="text-align:left;">
-Africa
-</td>
-<td style="text-align:right;">
-1952
-</td>
-<td style="text-align:right;">
-40.000
-</td>
-<td style="text-align:right;">
-2534927
-</td>
-<td style="text-align:right;">
-493.3239
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rwanda
-</td>
-<td style="text-align:left;">
-Africa
-</td>
-<td style="text-align:right;">
-1957
-</td>
-<td style="text-align:right;">
-41.500
-</td>
-<td style="text-align:right;">
-2822082
-</td>
-<td style="text-align:right;">
-540.2894
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rwanda
-</td>
-<td style="text-align:left;">
-Africa
-</td>
-<td style="text-align:right;">
-1962
-</td>
-<td style="text-align:right;">
-43.000
-</td>
-<td style="text-align:right;">
-3051242
-</td>
-<td style="text-align:right;">
-597.4731
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rwanda
-</td>
-<td style="text-align:left;">
-Africa
-</td>
-<td style="text-align:right;">
-1967
-</td>
-<td style="text-align:right;">
-44.100
-</td>
-<td style="text-align:right;">
-3451079
-</td>
-<td style="text-align:right;">
-510.9637
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rwanda
-</td>
-<td style="text-align:left;">
-Africa
-</td>
-<td style="text-align:right;">
-1972
-</td>
-<td style="text-align:right;">
-44.600
-</td>
-<td style="text-align:right;">
-3992121
-</td>
-<td style="text-align:right;">
-590.5807
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rwanda
-</td>
-<td style="text-align:left;">
-Africa
-</td>
-<td style="text-align:right;">
-1977
-</td>
-<td style="text-align:right;">
-45.000
-</td>
-<td style="text-align:right;">
-4657072
-</td>
-<td style="text-align:right;">
-670.0806
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rwanda
-</td>
-<td style="text-align:left;">
-Africa
-</td>
-<td style="text-align:right;">
-1982
-</td>
-<td style="text-align:right;">
-46.218
-</td>
-<td style="text-align:right;">
-5507565
-</td>
-<td style="text-align:right;">
-881.5706
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rwanda
-</td>
-<td style="text-align:left;">
-Africa
-</td>
-<td style="text-align:right;">
-1987
-</td>
-<td style="text-align:right;">
-44.020
-</td>
-<td style="text-align:right;">
-6349365
-</td>
-<td style="text-align:right;">
-847.9912
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rwanda
-</td>
-<td style="text-align:left;">
-Africa
-</td>
-<td style="text-align:right;">
-1992
-</td>
-<td style="text-align:right;">
-23.599
-</td>
-<td style="text-align:right;">
-7290203
-</td>
-<td style="text-align:right;">
-737.0686
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rwanda
-</td>
-<td style="text-align:left;">
-Africa
-</td>
-<td style="text-align:right;">
-1997
-</td>
-<td style="text-align:right;">
-36.087
-</td>
-<td style="text-align:right;">
-7212583
-</td>
-<td style="text-align:right;">
-589.9445
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rwanda
-</td>
-<td style="text-align:left;">
-Africa
-</td>
-<td style="text-align:right;">
-2002
-</td>
-<td style="text-align:right;">
-43.413
-</td>
-<td style="text-align:right;">
-7852401
-</td>
-<td style="text-align:right;">
-785.6538
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rwanda
-</td>
-<td style="text-align:left;">
-Africa
-</td>
-<td style="text-align:right;">
-2007
-</td>
-<td style="text-align:right;">
-46.242
-</td>
-<td style="text-align:right;">
-8860588
-</td>
-<td style="text-align:right;">
-863.0885
-</td>
-</tr>
-</tbody>
-</table>
-The difference is %in% checks whether or not the object is contained in the other object. Whereas == is a logical operator that checks for identity properties.

@@ -47,6 +47,8 @@ It revealed the specific data type of each variable!
 *pop      : int  
 *gdpPercap  : num  
 
+*** 
+## Learned from abishekarun  
 The class function told me that there were 6 variables (columns) and 1704 observations (rows) in gapminder dataset, but I could also use these:
 ```{r}
 ncol(gapminder)
@@ -57,6 +59,39 @@ Here are some other useful functions to learn more about the dataset. If you hav
 ```{r}
 dim(gapminder)
 ```
+
+1) dim() - Retrieves all the dimensions of an R object such as array,matrix or a data frame. It returns null for a vector.
+```{r}
+# Matrix
+m <- matrix(1:15, 3, 5)
+dim(m)
+
+# Array
+a <- array(1:12, dim = 2:4)
+dim(a) 
+
+#data frame
+dim(gapminder)
+
+# Vector
+v <- 1:9
+dim(v)
+```
+
+2) nrow() and ncol() returns the number of rows and columns of an array or data frame. NROW() and NCOL() does the same thing by treating the vector as a 1 column matrix.
+
+```{r}
+#Matrix
+nrow(m)
+ncol(m)
+
+#Vector
+NCOL(v)
+NROW(v)
+```
+
+*** 
+
 
 ## Explore individual variables
 > To ensure I address all the requirements of this assignment, I have decided to include the STAT545 homework 2 questions above my answers in bold. 

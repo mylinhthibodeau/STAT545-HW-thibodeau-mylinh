@@ -1,0 +1,16 @@
+---
+title: "stat545-hw03-thibodeau-mylinh"
+author: "My Linh Thibodeau"
+date: '2017-09-22'
+output: github_document
+---
+
+
+```{r}
+suppressPackageStartupMessages(library(tidyverse))  # The tidyverse contains ggplot2!
+suppressPackageStartupMessages(library(gapminder))
+knitr::opts_chunk$set(fig.width=8, fig.height=6)
+library(knitr)
+library(kableExtra)
+options(knitr.table.format = "html")
+```

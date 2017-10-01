@@ -14,3 +14,15 @@ library(knitr)
 library(kableExtra)
 options(knitr.table.format = "html")
 ```
+
+# Homework requirements - copied from [stat545 hw03 website](http://stat545.com/hw03_dplyr-and-more-ggplot2.html) 
+
+Pick at least three of the tasks below and attack each with a table and figure.
+
+* dplyr should be your data manipulation tool
+* ggplot2 should be your visualization tool
+
+Make observations about what your tables/figures show and about the process.
+
+# Task menu - Interpretation of tasks in the context of my genomic data
+

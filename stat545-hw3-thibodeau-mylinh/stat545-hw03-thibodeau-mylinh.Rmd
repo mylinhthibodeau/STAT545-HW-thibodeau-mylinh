@@ -24,5 +24,29 @@ Pick at least three of the tasks below and attack each with a table and figure.
 
 Make observations about what your tables/figures show and about the process.
 
+***
+# Request to use published genomic data approved by Vincenzo Coia
+
+## SOURCE OF DATA - supplementary files of published article:
+Thibodeau, M. L. et al. Genomic profiling of pelvic genital type leiomyosarcoma in a woman with a germline CHEK2:c.1100delC mutation and a concomitant diagnosis of metastatic invasive ductal breast carcinoma. Cold Spring Harb Mol Case Stud mcs.a001628 (2017). doi:10.1101/mcs.a001628  
+Open access article and data available [here](http://molecularcasestudies.cshlp.org/content/3/5/a001628.long)  
+
+**Load the text file version of CHEK2 paper supplementary data on rna expression and copy number variant (cnv)**  
+```{r}
+rna_cnv <- read.table("/Users/mylinh/Desktop/chek2-data-trial-stat545/chek2-rna-expression-cnv-data.txt", sep="\t",  strip.white = TRUE, header = TRUE)
+head(rna_cnv)
+summary(rna_cnv)
+class(rna_cnv)
+typeof(rna_cnv)
+str(rna_cnv)
+```
+
 # Task menu - Interpretation of tasks in the context of my genomic data
+
+1. Get the maximum and minimum RPKM (Reads Per Kilobase of transcript per Million mapped reads), you can find more information about this genomic parameter with [this blog](http://www.rna-seqblog.com/rpkm-fpkm-and-tpm-clearly-explained/) if you are curious.
+
+
+
+***
+# Companion graphs
 

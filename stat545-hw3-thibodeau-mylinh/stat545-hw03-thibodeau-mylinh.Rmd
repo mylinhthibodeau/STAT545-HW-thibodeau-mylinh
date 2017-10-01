@@ -86,10 +86,12 @@ dim(rna_cnv)
 *** 
 Let's select a subset of data that contains only the genomic data of genes with non-empty fields in the column cancer.gene.type, which will tell us how many genes have been described with a role in oncogenesis. 
 ```{r}
-rna_cnv_cancer_gene_subset <- with(rna_cnv, rna_cnv[!(cancer.gene.type ==""),])
+rna_cnv_cancer_gene_subset <- with(rna_cnv, rna_cnv[!(cancer.gene.type =="NA"),])
+dim(rna_cnv_cancer_gene_subset)
+kable(sapply(rna_cnv_cancer_gene_subset, class))
 kable(summary(rna_cnv_cancer_gene_subset))
 ```
-
+So this is a subset with 1281 genes that have been implicated in oncogenesis. 
 
 # Task menu - Interpretation of tasks in the context of my genomic data
 
@@ -189,23 +191,36 @@ p5 + geom_point(aes(colour=cancer.gene.type), alpha = 0.6) +
   theme(text = element_text(size=10), axis.title.x=element_blank(), axis.text.x = element_blank(), axis.ticks.x=element_blank())
 ```
 
-Hmm, I have had this problem in the past. I talked about it to Vincenzo Coia and he mentioned that I need to looking into factor and levels, so it took me a very very very long time to figure out the following:
+Hmm, I have had this problem in the past: even if I arrange the data points in ascending order of RPKM values, they still show on the graph as "randomly" distributed. I talked about it to Vincenzo Coia and he mentioned that I need to looking into factor and levels, so it took me a very very very long time to figure out the following:
 
 * I had duplicated values in the hugo column (genes) and had to remove them before doing ordering the data. 
 * Then after reading a lot of different things online (like [here](https://developmentality.wordpress.com/2010/02/12/r-sorting-a-data-frame-by-the-contents-of-a-column/) and  [here](http://www.statmethods.net/management/sorting.html) and  [here](https://stackoverflow.com/questions/1296646/how-to-sort-a-dataframe-by-columns) and  [here](https://developmentality.wordpress.com/2010/02/12/r-sorting-a-data-frame-by-the-contents-of-a-column/))   
 
+Let's try again thi plot with the factor ordering of hugo (genes) and use a log2 scale for better visualization. Let's also remove the NA values, since they overlap all the others.  
 ```{r}
 d1 <- rna_cnv
 d1$hugo <- factor(d1$hugo, levels = d1$hugo[order(d1$RPKM)]) 
+
+p5 <- d1 %>%
+  group_by(hugo) %>%
+  arrange(RPKM) %>%
+  filter(cancer.gene.type != "NA") %>%
+  ggplot(aes(x=hugo, y=log2(RPKM)))
+p5 + geom_point(aes(colour=cancer.gene.type), alpha = 0.6) + 
+  theme(text = element_text(size=10), axis.title.x=element_blank(), axis.text.x = element_blank(), axis.ticks.x=element_blank())
+```
+My understanding is that I have to treat the gene name (hugo) column as a factor and re-order this column according to the RPKM value if I want ascending RPKM values when I am ploting x=hugo and y=RPKM.
+
+Let's use facet_wrap() for better display.
+```{r}
 p6 <- d1 %>%
   filter(RPKM != 0) %>%
   group_by(cancer.gene.type) %>%
   ggplot(aes(x=hugo, y=log2(RPKM)))
 p6 + geom_point(aes(colour=cancer.gene.type)) + 
   theme(text = element_text(size=10), axis.title.x=element_blank(), axis.text.x = element_blank(), axis.ticks.x=element_blank()) + facet_wrap(~cancer.gene.type)
-```
 
-My understanding is that I have to treat the gene name (hugo) column as a factor and re-order this column according to the RPKM value if I want ascending RPKM values when I am ploting x=hugo and y=RPKM.
+```
 
 Maybe I should bin the data into subgroups according to a range of RPKM eventually. 
 
@@ -275,8 +290,8 @@ Since I do not have a time variable, I have chosen the avg.TCGA.percentile becau
 Let's keep two significant digits only, as explained [in the R manual](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Round.html)
 ```{r}
 d2 <- group_by(rna_cnv, hugo) %>%
-  transform(rna_cnv, bin = cut(avg.TCGA.percentile, 10)) %>%
-  aggregate(avg.TCGA.percentile ~bin, data=d2, sum) %>%
+  transform(rna_cnv, bin = cut(avg.TCGA.percentile, 10))
+
 d2 %>% 
   group_by(bin) %>%
   summarize(mean_FC= signif(mean(FC.mean.Bodymap),2), sd_FC = signif(sd(FC.mean.Bodymap), 2), median_FC = signif(median(FC.mean.Bodymap),2), count = n()) %>%
@@ -311,7 +326,66 @@ p8 + geom_bar(stat="identity", aes(fill=cancer.gene.type))
 Some oncogenes have high gene expression compared to cancer (avg.TCGA.percentile) and compared to normal tissues (FC.mean.Bodymap).
 
 5. Reporting absolute and relative values
-I don't have a "time" value in my dataset, so again, I will use the avg.TCGA.percentile since it is an integer.
+
+**The homework instruction was:Report the absolute and/or relative abundance of countries with low life expectancy over time by continent.**
+
+I don't have a "time" value in my dataset, so I will use these equivalences for genomic data:
+
+* Countries -> hugo (genes)
+* Life expectancy -> avg.TCGA.percentile (low values will be defined as <10th percentile)
+* Time -> copy.change
+* Continent -> cytoband (this represent the cytogenetic band location of a gene, but I will need to group by chromosome, as the same cytoband number can be on 23 chromomosomes)
+
+Absolute:
+```{r}
+d3 <- rna_cnv %>%
+  group_by(hugo, chr, cytoband, copy.change) %>%
+  filter(avg.TCGA.percentile <= 10) %>%
+  ggplot(aes(x=copy.change))
+d3+geom_bar(aes(stat="identity"), group=chr)
+```
+
+[resource](http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html)
+Relative - Including cancer.gene.type = NA
+```{r}
+p9 <- rna_cnv %>%
+  group_by(cancer.gene.type, copy.change) %>%
+  ggplot(aes(RPKM), na.rm=TRUE) + scale_fill_brewer(palette = "Spectral")
+p9 + geom_line(aes(y=avg.TCGA.percentile, colour=cancer.gene.type)) + facet_wrap(~copy.change)
+
+
+p9 + geom_histogram(aes(x=avg.TCGA.percentile, stat="identity", fill =cancer.gene.type))
+```
+Relative - Excluding cancer.gene.type = NA
+```{r}
+p10 <- rna_cnv %>%
+  group_by(cancer.gene.type, copy.change) %>%
+  filter(cancer.gene.type != "NA") %>%
+  ggplot(aes(avg.TCGA.percentile), na.rm=TRUE) + scale_fill_brewer(palette = "Spectral")
+p10 + geom_histogram(aes(x=avg.TCGA.percentile, stat="identity", fill =cancer.gene.type)) + facet_wrap(~copy.change)
+
+p10 + geom_histogram(aes(x=avg.TCGA.percentile, stat="identity", fill =copy.category), bins = 4) + facet_wrap(~cancer.gene.type)
+```
+
+Relative -density plot
+```{r}
+p11 <- rna_cnv %>%
+  ggplot(aes(avg.TCGA.percentile))
+p11 + geom_density(aes(fill=factor(cancer.gene.type)), alpha=0.3)
+```
+A bit too much superposing here, let's just plot the most biologically characterized cancer.gene.type subgroupts ONC, p-ONC, TS and p-TS:
+
+```{r}
+p12 <- rna_cnv %>%
+  filter(cancer.gene.type %in% c("ONC", "p- ONC", "TS", "p- TS")) %>%
+  ggplot(aes(avg.TCGA.percentile))
+p12 + geom_density(aes(fill=factor(cancer.gene.type)), alpha=0.3)
+```
+
+```{r}
+
+```
+
 
 ***
 # Companion graphs

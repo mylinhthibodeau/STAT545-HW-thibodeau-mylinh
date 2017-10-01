@@ -382,8 +382,11 @@ p12 <- rna_cnv %>%
 p12 + geom_density(aes(fill=factor(cancer.gene.type)), alpha=0.3)
 ```
 
+Let's take chromosome 10 and consider the chromosome position as a variable "time" ?
 ```{r}
-
+chr10 <- rna_cnv %>%
+  filter(chr == 10)
+View(chr10)
 ```
 
 

@@ -56,12 +56,6 @@ I have been reading from a lot of different resources in order to learn how to c
 **Functions explored in more detail**  
 - plot the data: ggplot(), geom_point(), geom_line(), geom_smooth(), facet_wrap(), geom_boxplot(), stat_summary(), geom_freqpoly(), geom_histogram()  
 * characterize the dataset: class(), typeof(), str(), summary(), ncol(), nrow(), dim(), min(), max(), range(), distinct()  
-4. Gapminder data manipulation in RStudio  
-**Functions explored in more detail**   
-* manipulate the data: select(), arrange(), mutate(), filter(), group_by()  
-5. Gapminder data - plotting with ggplot2  
-**Functions explored in more detail**  
-* plot the data: ggplot(), geom_point(), geom_line(), geom_smooth(), facet_wrap(), geom_boxplot(), stat_summary(), geom_freqpoly(), geom_histogram()  
 
 ## ISSUES - EXAMPLES  
 **Here are somes examples of issues or challenges I experienced**  

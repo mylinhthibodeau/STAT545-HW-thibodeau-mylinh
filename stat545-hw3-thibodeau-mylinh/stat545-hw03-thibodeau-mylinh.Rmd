@@ -7,9 +7,8 @@ output: github_document
 
 
 ```{r}
-suppressPackageStartupMessages(library(tidyverse))  # The tidyverse contains ggplot2!
-suppressPackageStartupMessages(library(gapminder))
-knitr::opts_chunk$set(fig.width=8, fig.height=6)
+suppressPackageStartupMessages(library(tidyverse))
+knitr::opts_chunk$set(fig.width=12, fig.height=9)
 library(knitr)
 library(kableExtra)
 options(knitr.table.format = "html")
@@ -35,17 +34,284 @@ Open access article and data available [here](http://molecularcasestudies.cshlp.
 ```{r}
 rna_cnv <- read.table("/Users/mylinh/Desktop/chek2-data-trial-stat545/chek2-rna-expression-cnv-data.txt", sep="\t",  strip.white = TRUE, header = TRUE)
 head(rna_cnv)
+kable(sapply(rna_cnv, class))
 summary(rna_cnv)
 class(rna_cnv)
 typeof(rna_cnv)
 str(rna_cnv)
+dim(rna_cnv)
 ```
+
+Let's clean up the data first. I will remove the rows for which there is no empty values for these columns, because we don't want keep genomic data on uncharacterized genes (this is included in the data set because whole genome sequencing was performed, so it includes all possible transcripts, characterized or not):
+
+* chr
+* start
+* end
+* strand
+* Ensembl.gene.ID
+* hugo
+
+And let's fill the cancer.gene.type empty cells with the mention "NA" as well.
+```{r}
+rna_cnv <- with(rna_cnv, rna_cnv[!(chr==""),])
+rna_cnv <- with(rna_cnv, rna_cnv[!(start==""),])
+rna_cnv <- with(rna_cnv, rna_cnv[!(end==""),])
+rna_cnv <- with(rna_cnv, rna_cnv[!(Ensembl.gene.ID==""),])
+rna_cnv <- with(rna_cnv, rna_cnv[!(hugo==""),])
+rna_cnv$cancer.gene.type <- as.character(rna_cnv$cancer.gene.type)
+rna_cnv$cancer.gene.type[rna_cnv$cancer.gene.type==""] <- "NA"
+rna_cnv$cancer.gene.type <- as.factor(rna_cnv$cancer.gene.type)
+gene_types <- levels(rna_cnv$cancer.gene.type)
+```
+Note. I have stored a list of the cancer.gene.type in gene_types for later use.  
+Note. I found how do remove rows according to an empty column with [this stackoverflow discussion](https://stackoverflow.com/questions/9126840/delete-rows-with-blank-values-in-one-particular-column) and how to replace empty cells with [this stackoverflow discussion](https://stackoverflow.com/questions/24172111/change-the-blank-cells-to-na)
+
+Now lets check what are the dimensions of the new data.frame:
+```{r}
+dim(rna_cnv)
+```
+So we got rid of 414 rows !
+
+I have experienced problems trying to plot the data in later stages of the homework, and I think there might be some duplicated hugo gene mentions. I had the following error message:
+Error in `levels<-`(`*tmp*`, value = if (nl == nL) as.character(labels) else paste0(labels,  : 
+  factor level [670] is duplicated
+This [stackoverflow discussion](https://stackoverflow.com/questions/29349466/removing-rows-based-on-duplicates-within-column-r) made me suspect this possible problem. 
+```{r}
+rna_cnv <- rna_cnv %>%
+  group_by(hugo) %>%
+  slice(1L)
+dim(rna_cnv)
+```
+
+*** 
+Let's select a subset of data that contains only the genomic data of genes with non-empty fields in the column cancer.gene.type, which will tell us how many genes have been described with a role in oncogenesis. 
+```{r}
+rna_cnv_cancer_gene_subset <- with(rna_cnv, rna_cnv[!(cancer.gene.type ==""),])
+kable(summary(rna_cnv_cancer_gene_subset))
+```
+
 
 # Task menu - Interpretation of tasks in the context of my genomic data
 
-1. Get the maximum and minimum RPKM (Reads Per Kilobase of transcript per Million mapped reads), you can find more information about this genomic parameter with [this blog](http://www.rna-seqblog.com/rpkm-fpkm-and-tpm-clearly-explained/) if you are curious.
+1. Get the maximum and minimum RPKM (Reads Per Kilobase of transcript per Million mapped reads) for each cancer.gene.type. You can find more information about this genomic parameter with [this blog](http://www.rna-seqblog.com/rpkm-fpkm-and-tpm-clearly-explained/) if you are curious.
+
+Rna-seq data (or transcriptome) is used as a surrogate of gene expression in genomic analyses.
+
+```{r}
+rna_cnv %>%
+  group_by(cancer.gene.type) %>%
+  summarize(min_rpkm = min(RPKM), max_rpkm=max(RPKM)) %>%
+  kable("html") %>%
+  kable_styling()
+```
+
+It is not surprising that the minimum value of RPKM be zero, since many genes are either not expressed in certain tissues, or they may be silenced in the process of oncogenesis.
+
+Note. I have learned how to use kable and piping from [Rajendran Arun](https://github.com/abishekarun/STAT545-hw-rajendran-arun/blob/master/hw02/hw02_gapminder.Rmd)
+
+***
+
+2. Look at the spread of RPKM for all each cancer.gene.type group.
+
+I am not sure that the word "spread" refers to here, it might be because of translation issues (unfortunately, the [Collins dictionary](https://www.collinsdictionary.com/dictionary/english-french/spread) did not help me much either), so I will make a table with the summary statistics for each category (mean, standard deviation, median, minimum, maximum, etc.)
+
+```{r}
+rna_cnv %>%
+  group_by(cancer.gene.type) %>%
+  summarise(mean_rpkm= mean(RPKM), sd_rpkm = sd(RPKM), median_rpkm=median(RPKM), min_rpkm = min(RPKM), max_rpkm=max(RPKM), count = n()) %>%
+  kable("html") %>%
+  kable_styling()
+```
+We can see that the oncogene and putative oncogene groups have higher expression than the tumour suppressor and putative tumour suppressor. 
+
+The values of cancer.gene.type (stored in gene_types) are too long:
+```{r}
+gene_types
+```
+So I will need ot use abbreviations for the plots (I am sure there is a more efficient way, but that works). Here is the table of abbreviations:
+```{r}
+abbreviations_gene_types  <- factor(c("NA", "ONC", "ONC;p-TS", "ONC;TS", "p-ONC", "p-ONC;p-TS", "p-ONC;TS", "p-TS", "TS"))
+abbreviations_gene_types <- as.character(abbreviations_gene_types)
+abbr_table <- data.frame(Abbreviation = abbreviations_gene_types, cancer.gene.type = gene_types)
+abbr_table %>% kable("html") %>% kable_styling()
+```
+Actually, now that I think about it, it would be a better approach to replace the cancer.gene.type values in the rna_cnv as well. 
+```{r}
+rna_cnv$cancer.gene.type <- as.character(rna_cnv$cancer.gene.type)
+rna_cnv$cancer.gene.type <- gsub("oncogene", "ONC", rna_cnv$cancer.gene.type)
+rna_cnv$cancer.gene.type <- gsub("tumour suppressor", "TS", rna_cnv$cancer.gene.type)
+rna_cnv$cancer.gene.type <- gsub("putative", "p-", rna_cnv$cancer.gene.type)
+rna_cnv$cancer.gene.type <- as.vector(rna_cnv$cancer.gene.type)
+View(rna_cnv)
+```
+I have converted the cancer.gene.type column to character to use gsub, then back to its original class factor.
+
+We will need to arrange the data (ascending RPKM values) before making a boxplot. 
+```{r}
+p1 <- rna_cnv %>%
+  group_by(cancer.gene.type) %>% 
+  ggplot(aes(x=cancer.gene.type, y=RPKM))
+p1+ geom_boxplot() + theme(text = element_text(size=8), axis.text.x = element_text(angle=90, hjust=1)) 
+```
+
+The visual is not ideal because of one outlier value in a certain gene.
+```{r}
+rna_cnv %>%
+  filter(cancer.gene.type =="NA", RPKM == max(RPKM)) %>% kable("html") %>% kable_styling()
+```
+This FTL genes has a high expression (RPKM = 4239.69) and it is involved in cancer pathophysiology, I will remove it for now in order to have a better data visualization. 
+
+```{r}
+p2 <- rna_cnv %>%
+  select_all() %>%
+  filter(!hugo %in% c("FTL")) %>%
+  group_by(hugo, cancer.gene.type) %>% 
+  ggplot(aes(x=cancer.gene.type, y=RPKM))
+p2+ geom_boxplot(aes(colour=cancer.gene.type)) + theme(text = element_text(size=10), axis.text.x = element_text(angle=90, hjust=1)) + theme_bw()
+```
+Hmm, that didn't help that much. Perhaps a changing the RPKM scale and ignoring the RPKM = 0
+
+```{r}
+p4 <- rna_cnv %>%
+  group_by(hugo, cancer.gene.type) %>%
+  filter(RPKM !=0) %>%
+  ggplot(aes(x=cancer.gene.type, y=log(RPKM), colour = cancer.gene.type)) 
+p4 + geom_boxplot() + theme(text = element_text(size=10), axis.text.x = element_text(angle=90, hjust=1))
+```
+
+Another way to visualize this could be arranging the RPKM data and using geom_line for each cancer.gene.type
+```{r}
+p5 <- rna_cnv %>%
+  group_by(hugo) %>%
+  arrange(RPKM) %>%
+  ggplot(aes(x=hugo, y=RPKM))
+p5 + geom_point(aes(colour=cancer.gene.type), alpha = 0.6) + 
+  theme(text = element_text(size=10), axis.title.x=element_blank(), axis.text.x = element_blank(), axis.ticks.x=element_blank())
+```
+
+Hmm, I have had this problem in the past. I talked about it to Vincenzo Coia and he mentioned that I need to looking into factor and levels, so it took me a very very very long time to figure out the following:
+
+* I had duplicated values in the hugo column (genes) and had to remove them before doing ordering the data. 
+* Then after reading a lot of different things online (like [here](https://developmentality.wordpress.com/2010/02/12/r-sorting-a-data-frame-by-the-contents-of-a-column/) and  [here](http://www.statmethods.net/management/sorting.html) and  [here](https://stackoverflow.com/questions/1296646/how-to-sort-a-dataframe-by-columns) and  [here](https://developmentality.wordpress.com/2010/02/12/r-sorting-a-data-frame-by-the-contents-of-a-column/))   
+
+```{r}
+d1 <- rna_cnv
+d1$hugo <- factor(d1$hugo, levels = d1$hugo[order(d1$RPKM)]) 
+p6 <- d1 %>%
+  filter(RPKM != 0) %>%
+  group_by(cancer.gene.type) %>%
+  ggplot(aes(x=hugo, y=log2(RPKM)))
+p6 + geom_point(aes(colour=cancer.gene.type)) + 
+  theme(text = element_text(size=10), axis.title.x=element_blank(), axis.text.x = element_blank(), axis.ticks.x=element_blank()) + facet_wrap(~cancer.gene.type)
+```
+
+My understanding is that I have to treat the gene name (hugo) column as a factor and re-order this column according to the RPKM value if I want ascending RPKM values when I am ploting x=hugo and y=RPKM.
+
+Maybe I should bin the data into subgroups according to a range of RPKM eventually. 
+
+3. A) Compute a trimmed mean of RPKM for diverse copy.change value. 
+
+Let's remove 5 outliers values at both ends.
+```{r}
+rna_cnv %>%
+  group_by(copy.change) %>%
+  summarize(mean_RPKM = mean(RPKM, trim=5)) %>%
+  kable("html") %>%
+  kable_styling()
+```
+
+Let's remove the RPKM values of zero now.
+```{r}
+rna_cnv %>%
+  group_by(copy.change) %>%
+  filter(RPKM != 0) %>%
+  summarize(mean_RPKM = mean(RPKM, trim=5)) %>%
+  kable("html") %>%
+  kable_styling()
+```
+It is an interesting result. One would have though that the copy losses (-1 and -2) would have lower gene expression (RPKM) than the copy gains (+1 and +2), but it is actually sometimes seen as DNA damage upregulates the expression of several genes, including some tumour supressors that can sometimes be highly expressed despite a copy loss, trying to "compensate" by high expression.  
+
+I had picked a categorical variable (copy.change), but it would be more interesting to use the cancer.gene.type and I am removing the RPKM values of 0:
+```{r}
+rna_cnv %>%
+  group_by(cancer.gene.type) %>%
+  filter(RPKM != 0) %>%
+  summarize(mean_RPKM = mean(RPKM, trim=5)) %>%
+  kable("html") %>%
+  kable_styling()
+```
 
 
+Resources:  
+
+[R documentation on Trim](https://www.rdocumentation.org/packages/DescTools/versions/0.99.19/topics/Trim) and this [R manual](https://stat.ethz.ch/R-manual/R-devel/library/base/html/mean.html)
+
+3. B) Weighted mean
+Now, let's weight the mean RPKM value according to the FC.mean.Bodymap column. This represents the fold change of gene expression compared to normal tissue. For example, if a gene has low RPKM and there is a negative fold change tissue expression, I would expect the mean to be lower using a weighted mean function. 
+```{r}
+rna_cnv %>%
+  group_by(copy.change) %>%
+  filter(RPKM != 0) %>%
+  summarize(mean_RPKM_FCweighted = weighted.mean(RPKM, FC.mean.Bodymap)) %>%
+  kable("html") %>%
+  kable_styling()
+```
+
+Again, let's do this exercise with the cancer.gene.type.
+```{r}
+rna_cnv %>%
+  group_by(cancer.gene.type) %>%
+  filter(RPKM != 0) %>%
+  summarize(mean_RPKM_FCweighted = weighted.mean(RPKM, FC.mean.Bodymap)) %>%
+  kable("html") %>%
+  kable_styling()
+```
+The cancer.gene.type groups including ONC (oncogene) appear to have more extreme values.
+
+4. How is the normal tissue expression (FC.mean.Bodymap) changing according to gene expression percentile of TCGA cancers (avg.TCGA.percentile - this percentile is proportional to RPKM values)
+
+Since I do not have a time variable, I have chosen the avg.TCGA.percentile because the values are integers. Since there are 100 values, I will bin them for a summary table ([reference here](https://stats.stackexchange.com/questions/14313/grouping-data-in-ranges-in-r-by-summing-them/14318)).
+
+Let's keep two significant digits only, as explained [in the R manual](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Round.html)
+```{r}
+d2 <- group_by(rna_cnv, hugo) %>%
+  transform(rna_cnv, bin = cut(avg.TCGA.percentile, 10)) %>%
+  aggregate(avg.TCGA.percentile ~bin, data=d2, sum) %>%
+d2 %>% 
+  group_by(bin) %>%
+  summarize(mean_FC= signif(mean(FC.mean.Bodymap),2), sd_FC = signif(sd(FC.mean.Bodymap), 2), median_FC = signif(median(FC.mean.Bodymap),2), count = n()) %>%
+  kable("html") %>%
+  kable_styling()
+  
+```
+
+I will start by ordering the date and then plot the FC.mean.Bodymap according to avg.TCGA.percentile.
+```{r}
+p7 <- rna_cnv %>%
+  arrange(avg.TCGA.percentile) %>%
+  group_by(avg.TCGA.percentile) %>%
+  ggplot(aes(x=avg.TCGA.percentile, y=FC.mean.Bodymap))
+p7 + geom_bar(stat="identity", aes(fill=cancer.gene.type))
+```
+A bit difficult to see with the data superposing. Let's try faceting. 
+```{r}
+p7 + geom_bar(stat="identity", aes(fill=cancer.gene.type)) + facet_wrap(~cancer.gene.type)
+```
+
+Let's try to visualize the data removing the group with no cancer.gene.type specified.
+
+```{r}
+p8 <- rna_cnv %>%
+  arrange(avg.TCGA.percentile) %>%
+  filter(cancer.gene.type != "NA") %>%
+  group_by(avg.TCGA.percentile) %>%
+  ggplot(aes(x=avg.TCGA.percentile, y=FC.mean.Bodymap))
+p8 + geom_bar(stat="identity", aes(fill=cancer.gene.type))
+```
+Some oncogenes have high gene expression compared to cancer (avg.TCGA.percentile) and compared to normal tissues (FC.mean.Bodymap).
+
+5. Reporting absolute and relative values
+I don't have a "time" value in my dataset, so again, I will use the avg.TCGA.percentile since it is an integer.
 
 ***
 # Companion graphs

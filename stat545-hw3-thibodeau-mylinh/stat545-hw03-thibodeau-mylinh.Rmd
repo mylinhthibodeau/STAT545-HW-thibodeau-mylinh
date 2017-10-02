@@ -14,7 +14,7 @@ library(kableExtra)
 options(knitr.table.format = "html")
 ```
 
-# Homework requirements - copied from [stat545 hw03 website](http://stat545.com/hw03_dplyr-and-more-ggplot2.html) 
+## Homework requirements - copied from [stat545 hw03 website](http://stat545.com/hw03_dplyr-and-more-ggplot2.html) 
 
 Pick at least three of the tasks below and attack each with a table and figure.
 
@@ -24,11 +24,21 @@ Pick at least three of the tasks below and attack each with a table and figure.
 Make observations about what your tables/figures show and about the process.
 
 ***
-# Request to use published genomic data approved by Vincenzo Coia
+# Genomic dataset - A few clarifications
+Vincenzo Coia has approved my request to use published genomic data for the next assignments, therefore, I want to provide a few clarifications:
 
-## SOURCE OF DATA - supplementary files of published article:
+* I have tried to introducte some basic explanations about the genomic dataset, but my objective is to explore and learn how to use R and its packages, not to teach complex notions of cancer genomic analysis. Therefore, I don't expect everyone to understand what the data and plots represent if they haven't studied in related fields. 
+* I would recommend you make abstraction of the underlying biological context and simply try to read this homework based on the variable types (e.g. copy.category is a categorical variable like "gain" or "loss") rather than what they represent.
+
+Now that we have set expectations, let's start !
+
+***
+
+### SOURCE OF DATA - supplementary files of published article:
 Thibodeau, M. L. et al. Genomic profiling of pelvic genital type leiomyosarcoma in a woman with a germline CHEK2:c.1100delC mutation and a concomitant diagnosis of metastatic invasive ductal breast carcinoma. Cold Spring Harb Mol Case Stud mcs.a001628 (2017). doi:10.1101/mcs.a001628  
 Open access article and data available [here](http://molecularcasestudies.cshlp.org/content/3/5/a001628.long)  
+
+***
 
 **Load the text file version of CHEK2 paper supplementary data on rna expression and copy number variant (cnv)**  
 ```{r}
@@ -159,7 +169,7 @@ p1+ geom_boxplot() + theme(text = element_text(size=8), axis.text.x = element_te
 The visual is not ideal because of one outlier value in a certain gene.
 ```{r}
 rna_cnv %>%
-  filter(RPKM == max(RPKM)) %>% kable("html") %>% kable_styling()
+  filter(RPKM == max(rna_cnv$RPKM)) %>% kable("html") %>% kable_styling()
 ```
 This FTL genes has a high expression (RPKM = 4239.69) and it is involved in cancer pathophysiology, I will remove it for now in order to have a better data visualization. 
 
@@ -244,7 +254,21 @@ rna_cnv %>%
   kable("html") %>%
   kable_styling()
 ```
-It is an interesting result. One would have though that the copy losses (-1 and -2) would have lower gene expression (RPKM) than the copy gains (+1 and +2), but it is actually sometimes seen as DNA damage upregulates the expression of several genes, including some tumour supressors that can sometimes be highly expressed despite a copy loss, trying to "compensate" by high expression.  
+It is an interesting result. One would have though that the copy losses (-1 and -2) would have lower gene expression (RPKM) than the copy gains (+1 and +2), but since we removed the genes with null expression (RPKM), it might disproportionally skew the copy loss grou, which probably contains some tumour suppressor genes.
+
+Let's look at the composition of genes with zero expression according to the cancer.gene.type (excluding the group "NA" for better visual)
+
+```{r}
+rna_cnv %>%
+  filter(RPKM ==0, cancer.gene.type != "NA") %>%
+  group_by(copy.change) %>%
+  ggplot(aes(x=cancer.gene.type, fill=copy.category)) +
+  geom_bar(aes(stat = "identity"))
+```
+
+
+***
+
 
 I had picked a categorical variable (copy.change), but it would be more interesting to use the cancer.gene.type and I am removing the RPKM values of 0:
 ```{r}
@@ -338,11 +362,11 @@ I don't have a "time" value in my dataset, so I will use these equivalences for 
 
 Absolute:
 ```{r}
-d3 <- rna_cnv %>%
-  group_by(hugo, chr, cytoband, copy.change) %>%
+p <- rna_cnv %>%
+  group_by(chr) %>%
   filter(avg.TCGA.percentile <= 10) %>%
-  ggplot(aes(x=copy.change))
-d3+geom_bar(aes(stat="identity"), group=chr)
+  ggplot(aes(x=avg.cna.by.gene, fill=chr))
+p + geom_histogram(aes(stat="identity"))
 ```
 
 [resource](http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html)
@@ -354,7 +378,7 @@ p9 <- rna_cnv %>%
 p9 + geom_line(aes(y=avg.TCGA.percentile, colour=cancer.gene.type)) + facet_wrap(~copy.change)
 
 
-p9 + geom_histogram(aes(x=avg.TCGA.percentile, stat="identity", fill =cancer.gene.type))
+p9 + geom_histogram(aes(x=avg.TCGA.percentile, stat="identity", fill =cancer.gene.type), binwidth = 5)
 ```
 Relative - Excluding cancer.gene.type = NA
 ```{r}

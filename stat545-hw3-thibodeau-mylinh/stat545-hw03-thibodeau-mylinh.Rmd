@@ -30,8 +30,6 @@ Vincenzo Coia has approved my request to use published genomic data for the next
 * I have tried to introducte some basic explanations about the genomic dataset, but obviously, this is not a genetics course and my objective is to explore and learn how to use R and its packages, not to teach complex notions of cancer genomic analysis. Therefore, I don't expect everyone to understand what the data and plots represent if they haven't studied in related fields. 
 * I would recommend you make abstraction of the underlying biological context and simply try to read this homework based on the variable types (e.g. copy.category is a categorical variable like "gain" or "loss") rather than what they represent.
 
-*Now that we have set expectations, let's start !*
-
 ***
 
 ### SOURCE OF DATA - supplementary files of published article:

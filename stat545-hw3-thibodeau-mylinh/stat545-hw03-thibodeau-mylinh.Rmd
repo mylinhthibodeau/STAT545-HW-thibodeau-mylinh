@@ -36,6 +36,7 @@ Vincenzo Coia has approved my request to use published genomic data for the next
 ***
 
 ### SOURCE OF DATA - supplementary files of published article:
+
 Thibodeau, M. L. et al. Genomic profiling of pelvic genital type leiomyosarcoma in a woman with a germline CHEK2:c.1100delC mutation and a concomitant diagnosis of metastatic invasive ductal breast carcinoma. Cold Spring Harb Mol Case Stud mcs.a001628 (2017). doi:10.1101/mcs.a001628  
 Open access article and data available [here](http://molecularcasestudies.cshlp.org/content/3/5/a001628.long)  
 

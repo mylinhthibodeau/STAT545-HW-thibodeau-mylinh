@@ -13,6 +13,7 @@
 * I would recommend you make abstraction of the underlying biological context and simply try to read this homework based on the variable types (e.g. copy.category is a categorical variable like "gain" or "loss") rather than what they represent.
 
 *SOURCE OF DATA - supplementary files of published article*
+
 Thibodeau, M. L. et al. Genomic profiling of pelvic genital type leiomyosarcoma in a woman with a germline CHEK2:c.1100delC mutation and a concomitant diagnosis of metastatic invasive ductal breast carcinoma. Cold Spring Harb Mol Case Stud mcs.a001628 (2017). doi:10.1101/mcs.a001628  
 Open access article and data available [here](http://molecularcasestudies.cshlp.org/content/3/5/a001628.long)  
 

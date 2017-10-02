@@ -100,8 +100,8 @@ Let's select a subset of data that contains only the genomic data of genes with 
 ```{r}
 rna_cnv_cancer_gene_subset <- with(rna_cnv, rna_cnv[!(cancer.gene.type =="NA"),])
 dim(rna_cnv_cancer_gene_subset)
-kable(sapply(rna_cnv_cancer_gene_subset, class))
-kable(summary(rna_cnv_cancer_gene_subset))
+#kable(sapply(rna_cnv_cancer_gene_subset, class))
+#kable(summary(rna_cnv_cancer_gene_subset))
 ```
 So this is a subset with 1281 genes that have been implicated in oncogenesis. 
 
@@ -540,4 +540,3 @@ p12 + geom_density(aes(fill=cancer.gene.type), alpha=0.3)
 
 
 ***
-

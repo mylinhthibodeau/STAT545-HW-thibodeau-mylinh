@@ -126,7 +126,7 @@ Let's see the minimum and maximum values of RPKM per cancer.gene.type.
 ```{r}
 rna_cnv %>%
   group_by(cancer.gene.type) %>%
-  summarize(min_rpkm = min(RPKM), max_rpkm=max(RPKM)) %>%
+  summarize(min.rpkm = min(RPKM), max.rpkm=max(RPKM)) %>%
   kable("html") %>%
   kable_styling()
 ```
@@ -134,6 +134,30 @@ rna_cnv %>%
 It is not surprising that the minimum value of RPKM be zero, since many genes are either not expressed in certain tissues, or they may be silenced in the process of oncogenesis.
 
 Note. I have learned how to use kable and piping from [Rajendran Arun](https://github.com/abishekarun/STAT545-hw-rajendran-arun/blob/master/hw02/hw02_gapminder.Rmd)
+
+**ABBREVIATIONS**
+
+The values of cancer.gene.type (stored in gene_types) are too long:
+```{r}
+gene_types
+```
+So I will need ot use abbreviations for the plots (I am sure there is a more efficient way, but that works). Here is the table of abbreviations:
+```{r}
+abbreviations_gene_types  <- factor(c("NA", "ONC", "ONC;p-TS", "ONC;TS", "p-ONC", "p-ONC;p-TS", "p-ONC;TS", "p-TS", "TS"))
+abbreviations_gene_types <- as.character(abbreviations_gene_types)
+abbr_table <- data.frame(Abbreviation = abbreviations_gene_types, cancer.gene.type = gene_types)
+abbr_table %>% kable("html") %>% kable_styling()
+```
+Actually, now that I think about it, it would be a better approach to replace the cancer.gene.type values in the rna_cnv as well. 
+```{r}
+rna_cnv$cancer.gene.type <- as.character(rna_cnv$cancer.gene.type)
+rna_cnv$cancer.gene.type <- gsub("oncogene", "ONC", rna_cnv$cancer.gene.type)
+rna_cnv$cancer.gene.type <- gsub("tumour suppressor", "TS", rna_cnv$cancer.gene.type)
+rna_cnv$cancer.gene.type <- gsub("putative", "p-", rna_cnv$cancer.gene.type)
+rna_cnv$cancer.gene.type <- as.vector(rna_cnv$cancer.gene.type)
+View(rna_cnv)
+```
+I have converted the cancer.gene.type column to character to use gsub, then back to its original class factor.
 
 **PLOT**
 
@@ -160,33 +184,11 @@ I am not sure that the word "spread" refers to here, it might be because of tran
 ```{r}
 rna_cnv %>%
   group_by(cancer.gene.type) %>%
-  summarise(mean_rpkm= mean(RPKM), sd_rpkm = sd(RPKM), median_rpkm=median(RPKM), min_rpkm = min(RPKM), max_rpkm=max(RPKM), count = n()) %>%
+  summarise(mean.rpkm= mean(RPKM), sd.rpkm = sd(RPKM), median.rpkm=median(RPKM), min.rpkm = min(RPKM), max.rpkm=max(RPKM), count = n()) %>%
   kable("html") %>%
   kable_styling()
 ```
 We can see that the oncogene and putative oncogene groups have higher expression than the tumour suppressor and putative tumour suppressor. 
-
-The values of cancer.gene.type (stored in gene_types) are too long:
-```{r}
-gene_types
-```
-So I will need ot use abbreviations for the plots (I am sure there is a more efficient way, but that works). Here is the table of abbreviations:
-```{r}
-abbreviations_gene_types  <- factor(c("NA", "ONC", "ONC;p-TS", "ONC;TS", "p-ONC", "p-ONC;p-TS", "p-ONC;TS", "p-TS", "TS"))
-abbreviations_gene_types <- as.character(abbreviations_gene_types)
-abbr_table <- data.frame(Abbreviation = abbreviations_gene_types, cancer.gene.type = gene_types)
-abbr_table %>% kable("html") %>% kable_styling()
-```
-Actually, now that I think about it, it would be a better approach to replace the cancer.gene.type values in the rna_cnv as well. 
-```{r}
-rna_cnv$cancer.gene.type <- as.character(rna_cnv$cancer.gene.type)
-rna_cnv$cancer.gene.type <- gsub("oncogene", "ONC", rna_cnv$cancer.gene.type)
-rna_cnv$cancer.gene.type <- gsub("tumour suppressor", "TS", rna_cnv$cancer.gene.type)
-rna_cnv$cancer.gene.type <- gsub("putative", "p-", rna_cnv$cancer.gene.type)
-rna_cnv$cancer.gene.type <- as.vector(rna_cnv$cancer.gene.type)
-View(rna_cnv)
-```
-I have converted the cancer.gene.type column to character to use gsub, then back to its original class factor.
 
 **PLOT**
 
@@ -220,7 +222,7 @@ p4 <- rna_cnv %>%
   group_by(hugo, cancer.gene.type) %>%
   filter(RPKM !=0) %>%
   ggplot(aes(x=cancer.gene.type, y=log(RPKM), colour = cancer.gene.type)) 
-p4 + geom_boxplot() + theme(text = element_text(size=10), axis.text.x = element_text(angle=90, hjust=1))
+p4 + geom_boxplot() + theme(text = element_text(size=12), axis.text.x = element_text(angle=90, hjust=1))
 ```
 
 Another way to visualize this could be arranging the RPKM data and using geom_line for each cancer.gene.type
@@ -230,7 +232,7 @@ p5 <- rna_cnv %>%
   arrange(RPKM) %>%
   ggplot(aes(x=hugo, y=RPKM))
 p5 + geom_point(aes(colour=cancer.gene.type), alpha = 0.6) + 
-  theme(text = element_text(size=10), axis.title.x=element_blank(), axis.text.x = element_blank(), axis.ticks.x=element_blank())
+  theme(text = element_text(size=12), axis.title.x=element_blank(), axis.text.x = element_blank(), axis.ticks.x=element_blank())
 ```
 
 Hmm, I have had this problem in the past: even if I arrange the data points in ascending order of RPKM values, they still show on the graph as "randomly" distributed. I talked about it to Vincenzo Coia and he mentioned that I need to looking into factor and levels, so it took me a very very very long time to figure out the following:
@@ -249,7 +251,7 @@ p5 <- d1 %>%
   filter(cancer.gene.type != "NA") %>%
   ggplot(aes(x=hugo, y=log2(RPKM)))
 p5 + geom_point(aes(colour=cancer.gene.type), alpha = 0.6) + 
-  theme(text = element_text(size=10), axis.title.x=element_blank(), axis.text.x = element_blank(), axis.ticks.x=element_blank())
+  theme(text = element_text(size=12), axis.title.x=element_blank(), axis.text.x = element_blank(), axis.ticks.x=element_blank())
 ```
 My understanding is that I have to treat the gene name (hugo) column as a factor and re-order this column according to the RPKM value if I want ascending RPKM values when I am ploting x=hugo and y=RPKM.
 
@@ -260,7 +262,7 @@ p6 <- d1 %>%
   group_by(cancer.gene.type) %>%
   ggplot(aes(x=hugo, y=log2(RPKM)))
 p6 + geom_point(aes(colour=cancer.gene.type)) + 
-  theme(text = element_text(size=10), axis.title.x=element_blank(), axis.text.x = element_blank(), axis.ticks.x=element_blank()) + facet_wrap(~cancer.gene.type)
+  theme(text = element_text(size=12), axis.title.x=element_blank(), axis.text.x = element_blank(), axis.ticks.x=element_blank()) + facet_wrap(~cancer.gene.type)
 
 ```
 
@@ -268,7 +270,7 @@ Maybe I should bin the data into subgroups according to a range of RPKM eventual
 
 ***
 
-3. (A) Compute a trimmed mean of RPKM for diverse copy.change value. 
+3. Part1:Compute a trimmed mean of RPKM for diverse copy.change value. 
 
 **TABLE**
 
@@ -276,7 +278,7 @@ Let's remove 5 outliers values at both ends.
 ```{r}
 rna_cnv %>%
   group_by(copy.change) %>%
-  summarize(mean_RPKM = mean(RPKM, trim=5)) %>%
+  summarize(mean.RPKM.trim5 = mean(RPKM, trim=5)) %>%
   kable("html") %>%
   kable_styling()
 ```
@@ -286,7 +288,7 @@ Let's remove the RPKM values of zero now.
 rna_cnv %>%
   group_by(copy.change) %>%
   filter(RPKM != 0) %>%
-  summarize(mean_RPKM = mean(RPKM, trim=5)) %>%
+  summarize(mean.RPKM.trim5 = mean(RPKM, trim=5)) %>%
   kable("html") %>%
   kable_styling()
 ```
@@ -308,15 +310,14 @@ I had picked a categorical variable (copy.change), but it would be more interest
 rna_cnv %>%
   group_by(cancer.gene.type) %>%
   filter(RPKM != 0) %>%
-  summarize(mean_RPKM = mean(RPKM, trim=5)) %>%
+  summarize(mean.RPKM.trim5 = mean(RPKM, trim=5)) %>%
   kable("html") %>%
   kable_styling()
 ```
 
-
 Resources:[R documentation on Trim](https://www.rdocumentation.org/packages/DescTools/versions/0.99.19/topics/Trim) and this [R manual](https://stat.ethz.ch/R-manual/R-devel/library/base/html/mean.html)
 
-3. (B) Weighted mean
+3. Part2: Weighted mean
 
 **TABLE**
 
@@ -325,7 +326,7 @@ Now, let's weight the mean RPKM value according to the FC.mean.Bodymap column. T
 rna_cnv %>%
   group_by(copy.change) %>%
   filter(RPKM != 0) %>%
-  summarize(mean_RPKM_FCweighted = weighted.mean(RPKM, FC.mean.Bodymap)) %>%
+  summarize(mean.RPKM.FCweighted = weighted.mean(RPKM, FC.mean.Bodymap)) %>%
   kable("html") %>%
   kable_styling()
 ```
@@ -335,7 +336,7 @@ Again, let's do this exercise with the cancer.gene.type.
 rna_cnv %>%
   group_by(cancer.gene.type) %>%
   filter(RPKM != 0) %>%
-  summarize(mean_RPKM_FCweighted = weighted.mean(RPKM, FC.mean.Bodymap)) %>%
+  summarize(mean.RPKM.FCweighted = weighted.mean(RPKM, FC.mean.Bodymap)) %>%
   kable("html") %>%
   kable_styling()
 ```
@@ -356,7 +357,7 @@ d2 <- group_by(rna_cnv, hugo) %>%
 
 d2 %>% 
   group_by(bin) %>%
-  summarize(mean_FC= signif(mean(FC.mean.Bodymap),2), sd_FC = signif(sd(FC.mean.Bodymap), 2), median_FC = signif(median(FC.mean.Bodymap),2), count = n()) %>%
+  summarize(mean.FC= signif(mean(FC.mean.Bodymap),2), sd.FC = signif(sd(FC.mean.Bodymap), 2), median.FC = signif(median(FC.mean.Bodymap),2), count = n()) %>%
   kable("html") %>%
   kable_styling()
   
@@ -442,8 +443,8 @@ It is not that pretty, but the information is here. I have learned this from thi
 d3 <- with(rna_cnv, rna_cnv[!(avg.TCGA.percentile==""),])
 d3$avg.TCGA.percentile <- as.numeric(d3$avg.TCGA.percentile)
 d3 %>% 
-  mutate(exp_category = c("<10%ile", ">10%ile")[(avg.TCGA.percentile >10) + 1]) %>%
-  group_by(cancer.gene.type, exp_category) %>%
+  mutate(expression.category = c("<10%ile", ">10%ile")[(avg.TCGA.percentile >10) + 1]) %>%
+  group_by(cancer.gene.type, expression.category) %>%
   summarise (n=n()) %>%
   mutate(rel.freq = paste0(round(100 * n/sum(n), 0), "%"))
 ```

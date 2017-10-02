@@ -1456,7 +1456,7 @@ Let's see the minimum and maximum values of RPKM per cancer.gene.type.
 ``` r
 rna_cnv %>%
   group_by(cancer.gene.type) %>%
-  summarize(min_rpkm = min(RPKM), max_rpkm=max(RPKM)) %>%
+  summarize(min.rpkm = min(RPKM), max.rpkm=max(RPKM)) %>%
   kable("html") %>%
   kable_styling()
 ```
@@ -1468,10 +1468,10 @@ rna_cnv %>%
 cancer.gene.type
 </th>
 <th style="text-align:right;">
-min\_rpkm
+min.rpkm
 </th>
 <th style="text-align:right;">
-max\_rpkm
+max.rpkm
 </th>
 </tr>
 </thead>
@@ -1581,272 +1581,7 @@ It is not surprising that the minimum value of RPKM be zero, since many genes ar
 
 Note. I have learned how to use kable and piping from [Rajendran Arun](https://github.com/abishekarun/STAT545-hw-rajendran-arun/blob/master/hw02/hw02_gapminder.Rmd)
 
-**PLOT**
-
-Here is a visual representation of the minimum and maximum value of RPKM for each cancer.gene.type. [This tidyverse website article](http://ggplot2.tidyverse.org/reference/stat_summary.html) was very helpful.
-
-``` r
-rna_cnv %>%
-  group_by(cancer.gene.type) %>%
-  ggplot(aes(x=cancer.gene.type, y=RPKM, colour = cancer.gene.type)) + stat_summary(fun.y = mean, fun.ymin = min, fun.ymax = max,
-  colour = "red") + theme(text = element_text(size=12), axis.text.x = element_text(angle=90, hjust=1)) 
-```
-
-![](stat545-hw03-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-8-1.png)
-
-------------------------------------------------------------------------
-
-1.  Look at the spread of RPKM for all each cancer.gene.type group.
-
-I am not sure that the word "spread" refers to here, it might be because of translation issues (unfortunately, the [Collins dictionary](https://www.collinsdictionary.com/dictionary/english-french/spread) did not help me much either), so I will make a table with the summary statistics for each category (mean, standard deviation, median, minimum, maximum, etc.)
-
-**TABLE**
-
-``` r
-rna_cnv %>%
-  group_by(cancer.gene.type) %>%
-  summarise(mean_rpkm= mean(RPKM), sd_rpkm = sd(RPKM), median_rpkm=median(RPKM), min_rpkm = min(RPKM), max_rpkm=max(RPKM), count = n()) %>%
-  kable("html") %>%
-  kable_styling()
-```
-
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-cancer.gene.type
-</th>
-<th style="text-align:right;">
-mean\_rpkm
-</th>
-<th style="text-align:right;">
-sd\_rpkm
-</th>
-<th style="text-align:right;">
-median\_rpkm
-</th>
-<th style="text-align:right;">
-min\_rpkm
-</th>
-<th style="text-align:right;">
-max\_rpkm
-</th>
-<th style="text-align:right;">
-count
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-11.38773
-</td>
-<td style="text-align:right;">
-55.81334
-</td>
-<td style="text-align:right;">
-3.080
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-4239.69
-</td>
-<td style="text-align:right;">
-17901
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-oncogene
-</td>
-<td style="text-align:right;">
-23.30538
-</td>
-<td style="text-align:right;">
-87.44023
-</td>
-<td style="text-align:right;">
-6.160
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-1029.04
-</td>
-<td style="text-align:right;">
-303
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-oncogene; putative tumour suppressor
-</td>
-<td style="text-align:right;">
-20.42587
-</td>
-<td style="text-align:right;">
-54.45144
-</td>
-<td style="text-align:right;">
-6.990
-</td>
-<td style="text-align:right;">
-0.01
-</td>
-<td style="text-align:right;">
-364.85
-</td>
-<td style="text-align:right;">
-46
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-oncogene; tumour suppressor
-</td>
-<td style="text-align:right;">
-16.13083
-</td>
-<td style="text-align:right;">
-16.30120
-</td>
-<td style="text-align:right;">
-10.090
-</td>
-<td style="text-align:right;">
-1.45
-</td>
-<td style="text-align:right;">
-57.99
-</td>
-<td style="text-align:right;">
-12
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-putative oncogene
-</td>
-<td style="text-align:right;">
-50.22096
-</td>
-<td style="text-align:right;">
-204.52790
-</td>
-<td style="text-align:right;">
-7.885
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-1773.78
-</td>
-<td style="text-align:right;">
-114
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-putative oncogene; putative tumour suppressor
-</td>
-<td style="text-align:right;">
-37.02250
-</td>
-<td style="text-align:right;">
-87.56354
-</td>
-<td style="text-align:right;">
-5.555
-</td>
-<td style="text-align:right;">
-1.13
-</td>
-<td style="text-align:right;">
-253.42
-</td>
-<td style="text-align:right;">
-8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-putative oncogene; tumour suppressor
-</td>
-<td style="text-align:right;">
-75.04000
-</td>
-<td style="text-align:right;">
-124.36519
-</td>
-<td style="text-align:right;">
-4.230
-</td>
-<td style="text-align:right;">
-2.25
-</td>
-<td style="text-align:right;">
-218.64
-</td>
-<td style="text-align:right;">
-3
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-putative tumour suppressor
-</td>
-<td style="text-align:right;">
-20.08799
-</td>
-<td style="text-align:right;">
-62.99144
-</td>
-<td style="text-align:right;">
-5.710
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-962.72
-</td>
-<td style="text-align:right;">
-667
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-tumour suppressor
-</td>
-<td style="text-align:right;">
-18.50219
-</td>
-<td style="text-align:right;">
-59.97576
-</td>
-<td style="text-align:right;">
-7.160
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-624.79
-</td>
-<td style="text-align:right;">
-128
-</td>
-</tr>
-</tbody>
-</table>
-We can see that the oncogene and putative oncogene groups have higher expression than the tumour suppressor and putative tumour suppressor.
+**ABBREVIATIONS**
 
 The values of cancer.gene.type (stored in gene\_types) are too long:
 
@@ -1971,6 +1706,273 @@ View(rna_cnv)
 ```
 
 I have converted the cancer.gene.type column to character to use gsub, then back to its original class factor.
+
+**PLOT**
+
+Here is a visual representation of the minimum and maximum value of RPKM for each cancer.gene.type. [This tidyverse website article](http://ggplot2.tidyverse.org/reference/stat_summary.html) was very helpful.
+
+``` r
+rna_cnv %>%
+  group_by(cancer.gene.type) %>%
+  ggplot(aes(x=cancer.gene.type, y=RPKM, colour = cancer.gene.type)) + stat_summary(fun.y = mean, fun.ymin = min, fun.ymax = max,
+  colour = "red") + theme(text = element_text(size=12), axis.text.x = element_text(angle=90, hjust=1)) 
+```
+
+![](stat545-hw03-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-11-1.png)
+
+------------------------------------------------------------------------
+
+1.  Look at the spread of RPKM for all each cancer.gene.type group.
+
+I am not sure that the word "spread" refers to here, it might be because of translation issues (unfortunately, the [Collins dictionary](https://www.collinsdictionary.com/dictionary/english-french/spread) did not help me much either), so I will make a table with the summary statistics for each category (mean, standard deviation, median, minimum, maximum, etc.)
+
+**TABLE**
+
+``` r
+rna_cnv %>%
+  group_by(cancer.gene.type) %>%
+  summarise(mean.rpkm= mean(RPKM), sd.rpkm = sd(RPKM), median.rpkm=median(RPKM), min.rpkm = min(RPKM), max.rpkm=max(RPKM), count = n()) %>%
+  kable("html") %>%
+  kable_styling()
+```
+
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+cancer.gene.type
+</th>
+<th style="text-align:right;">
+mean.rpkm
+</th>
+<th style="text-align:right;">
+sd.rpkm
+</th>
+<th style="text-align:right;">
+median.rpkm
+</th>
+<th style="text-align:right;">
+min.rpkm
+</th>
+<th style="text-align:right;">
+max.rpkm
+</th>
+<th style="text-align:right;">
+count
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+11.38773
+</td>
+<td style="text-align:right;">
+55.81334
+</td>
+<td style="text-align:right;">
+3.080
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+4239.69
+</td>
+<td style="text-align:right;">
+17901
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ONC
+</td>
+<td style="text-align:right;">
+23.30538
+</td>
+<td style="text-align:right;">
+87.44023
+</td>
+<td style="text-align:right;">
+6.160
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+1029.04
+</td>
+<td style="text-align:right;">
+303
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ONC; p- TS
+</td>
+<td style="text-align:right;">
+20.42587
+</td>
+<td style="text-align:right;">
+54.45144
+</td>
+<td style="text-align:right;">
+6.990
+</td>
+<td style="text-align:right;">
+0.01
+</td>
+<td style="text-align:right;">
+364.85
+</td>
+<td style="text-align:right;">
+46
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ONC; TS
+</td>
+<td style="text-align:right;">
+16.13083
+</td>
+<td style="text-align:right;">
+16.30120
+</td>
+<td style="text-align:right;">
+10.090
+</td>
+<td style="text-align:right;">
+1.45
+</td>
+<td style="text-align:right;">
+57.99
+</td>
+<td style="text-align:right;">
+12
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+p- ONC
+</td>
+<td style="text-align:right;">
+50.22096
+</td>
+<td style="text-align:right;">
+204.52790
+</td>
+<td style="text-align:right;">
+7.885
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+1773.78
+</td>
+<td style="text-align:right;">
+114
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+p- ONC; p- TS
+</td>
+<td style="text-align:right;">
+37.02250
+</td>
+<td style="text-align:right;">
+87.56354
+</td>
+<td style="text-align:right;">
+5.555
+</td>
+<td style="text-align:right;">
+1.13
+</td>
+<td style="text-align:right;">
+253.42
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+p- ONC; TS
+</td>
+<td style="text-align:right;">
+75.04000
+</td>
+<td style="text-align:right;">
+124.36519
+</td>
+<td style="text-align:right;">
+4.230
+</td>
+<td style="text-align:right;">
+2.25
+</td>
+<td style="text-align:right;">
+218.64
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+p- TS
+</td>
+<td style="text-align:right;">
+20.08799
+</td>
+<td style="text-align:right;">
+62.99144
+</td>
+<td style="text-align:right;">
+5.710
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+962.72
+</td>
+<td style="text-align:right;">
+667
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+TS
+</td>
+<td style="text-align:right;">
+18.50219
+</td>
+<td style="text-align:right;">
+59.97576
+</td>
+<td style="text-align:right;">
+7.160
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+624.79
+</td>
+<td style="text-align:right;">
+128
+</td>
+</tr>
+</tbody>
+</table>
+We can see that the oncogene and putative oncogene groups have higher expression than the tumour suppressor and putative tumour suppressor.
 
 **PLOT**
 
@@ -2181,7 +2183,7 @@ p4 <- rna_cnv %>%
   group_by(hugo, cancer.gene.type) %>%
   filter(RPKM !=0) %>%
   ggplot(aes(x=cancer.gene.type, y=log(RPKM), colour = cancer.gene.type)) 
-p4 + geom_boxplot() + theme(text = element_text(size=10), axis.text.x = element_text(angle=90, hjust=1))
+p4 + geom_boxplot() + theme(text = element_text(size=12), axis.text.x = element_text(angle=90, hjust=1))
 ```
 
 ![](stat545-hw03-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-16-1.png)
@@ -2194,7 +2196,7 @@ p5 <- rna_cnv %>%
   arrange(RPKM) %>%
   ggplot(aes(x=hugo, y=RPKM))
 p5 + geom_point(aes(colour=cancer.gene.type), alpha = 0.6) + 
-  theme(text = element_text(size=10), axis.title.x=element_blank(), axis.text.x = element_blank(), axis.ticks.x=element_blank())
+  theme(text = element_text(size=12), axis.title.x=element_blank(), axis.text.x = element_blank(), axis.ticks.x=element_blank())
 ```
 
 ![](stat545-hw03-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-17-1.png)
@@ -2216,7 +2218,7 @@ p5 <- d1 %>%
   filter(cancer.gene.type != "NA") %>%
   ggplot(aes(x=hugo, y=log2(RPKM)))
 p5 + geom_point(aes(colour=cancer.gene.type), alpha = 0.6) + 
-  theme(text = element_text(size=10), axis.title.x=element_blank(), axis.text.x = element_blank(), axis.ticks.x=element_blank())
+  theme(text = element_text(size=12), axis.title.x=element_blank(), axis.text.x = element_blank(), axis.ticks.x=element_blank())
 ```
 
 ![](stat545-hw03-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-18-1.png) My understanding is that I have to treat the gene name (hugo) column as a factor and re-order this column according to the RPKM value if I want ascending RPKM values when I am ploting x=hugo and y=RPKM.
@@ -2229,7 +2231,7 @@ p6 <- d1 %>%
   group_by(cancer.gene.type) %>%
   ggplot(aes(x=hugo, y=log2(RPKM)))
 p6 + geom_point(aes(colour=cancer.gene.type)) + 
-  theme(text = element_text(size=10), axis.title.x=element_blank(), axis.text.x = element_blank(), axis.ticks.x=element_blank()) + facet_wrap(~cancer.gene.type)
+  theme(text = element_text(size=12), axis.title.x=element_blank(), axis.text.x = element_blank(), axis.ticks.x=element_blank()) + facet_wrap(~cancer.gene.type)
 ```
 
 ![](stat545-hw03-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-19-1.png)
@@ -2238,7 +2240,7 @@ Maybe I should bin the data into subgroups according to a range of RPKM eventual
 
 ------------------------------------------------------------------------
 
-1.  1.  Compute a trimmed mean of RPKM for diverse copy.change value.
+1.  Part1:Compute a trimmed mean of RPKM for diverse copy.change value.
 
 **TABLE**
 
@@ -2247,7 +2249,7 @@ Let's remove 5 outliers values at both ends.
 ``` r
 rna_cnv %>%
   group_by(copy.change) %>%
-  summarize(mean_RPKM = mean(RPKM, trim=5)) %>%
+  summarize(mean.RPKM.trim5 = mean(RPKM, trim=5)) %>%
   kable("html") %>%
   kable_styling()
 ```
@@ -2259,7 +2261,7 @@ rna_cnv %>%
 copy.change
 </th>
 <th style="text-align:right;">
-mean\_RPKM
+mean.RPKM.trim5
 </th>
 </tr>
 </thead>
@@ -2312,7 +2314,7 @@ Let's remove the RPKM values of zero now.
 rna_cnv %>%
   group_by(copy.change) %>%
   filter(RPKM != 0) %>%
-  summarize(mean_RPKM = mean(RPKM, trim=5)) %>%
+  summarize(mean.RPKM.trim5 = mean(RPKM, trim=5)) %>%
   kable("html") %>%
   kable_styling()
 ```
@@ -2324,7 +2326,7 @@ rna_cnv %>%
 copy.change
 </th>
 <th style="text-align:right;">
-mean\_RPKM
+mean.RPKM.trim5
 </th>
 </tr>
 </thead>
@@ -2395,7 +2397,7 @@ I had picked a categorical variable (copy.change), but it would be more interest
 rna_cnv %>%
   group_by(cancer.gene.type) %>%
   filter(RPKM != 0) %>%
-  summarize(mean_RPKM = mean(RPKM, trim=5)) %>%
+  summarize(mean.RPKM.trim5 = mean(RPKM, trim=5)) %>%
   kable("html") %>%
   kable_styling()
 ```
@@ -2407,7 +2409,7 @@ rna_cnv %>%
 cancer.gene.type
 </th>
 <th style="text-align:right;">
-mean\_RPKM
+mean.RPKM.trim5
 </th>
 </tr>
 </thead>
@@ -2488,7 +2490,7 @@ TS
 </table>
 Resources:[R documentation on Trim](https://www.rdocumentation.org/packages/DescTools/versions/0.99.19/topics/Trim) and this [R manual](https://stat.ethz.ch/R-manual/R-devel/library/base/html/mean.html)
 
-1.  1.  Weighted mean
+1.  Part2: Weighted mean
 
 **TABLE**
 
@@ -2498,7 +2500,7 @@ Now, let's weight the mean RPKM value according to the FC.mean.Bodymap column. T
 rna_cnv %>%
   group_by(copy.change) %>%
   filter(RPKM != 0) %>%
-  summarize(mean_RPKM_FCweighted = weighted.mean(RPKM, FC.mean.Bodymap)) %>%
+  summarize(mean.RPKM.FCweighted = weighted.mean(RPKM, FC.mean.Bodymap)) %>%
   kable("html") %>%
   kable_styling()
 ```
@@ -2510,7 +2512,7 @@ rna_cnv %>%
 copy.change
 </th>
 <th style="text-align:right;">
-mean\_RPKM\_FCweighted
+mean.RPKM.FCweighted
 </th>
 </tr>
 </thead>
@@ -2563,7 +2565,7 @@ Again, let's do this exercise with the cancer.gene.type.
 rna_cnv %>%
   group_by(cancer.gene.type) %>%
   filter(RPKM != 0) %>%
-  summarize(mean_RPKM_FCweighted = weighted.mean(RPKM, FC.mean.Bodymap)) %>%
+  summarize(mean.RPKM.FCweighted = weighted.mean(RPKM, FC.mean.Bodymap)) %>%
   kable("html") %>%
   kable_styling()
 ```
@@ -2575,7 +2577,7 @@ rna_cnv %>%
 cancer.gene.type
 </th>
 <th style="text-align:right;">
-mean\_RPKM\_FCweighted
+mean.RPKM.FCweighted
 </th>
 </tr>
 </thead>
@@ -2672,7 +2674,7 @@ d2 <- group_by(rna_cnv, hugo) %>%
 
 d2 %>% 
   group_by(bin) %>%
-  summarize(mean_FC= signif(mean(FC.mean.Bodymap),2), sd_FC = signif(sd(FC.mean.Bodymap), 2), median_FC = signif(median(FC.mean.Bodymap),2), count = n()) %>%
+  summarize(mean.FC= signif(mean(FC.mean.Bodymap),2), sd.FC = signif(sd(FC.mean.Bodymap), 2), median.FC = signif(median(FC.mean.Bodymap),2), count = n()) %>%
   kable("html") %>%
   kable_styling()
 ```
@@ -2684,13 +2686,13 @@ d2 %>%
 bin
 </th>
 <th style="text-align:right;">
-mean\_FC
+mean.FC
 </th>
 <th style="text-align:right;">
-sd\_FC
+sd.FC
 </th>
 <th style="text-align:right;">
-median\_FC
+median.FC
 </th>
 <th style="text-align:right;">
 count
@@ -3069,35 +3071,35 @@ It is not that pretty, but the information is here. I have learned this from thi
 d3 <- with(rna_cnv, rna_cnv[!(avg.TCGA.percentile==""),])
 d3$avg.TCGA.percentile <- as.numeric(d3$avg.TCGA.percentile)
 d3 %>% 
-  mutate(exp_category = c("<10%ile", ">10%ile")[(avg.TCGA.percentile >10) + 1]) %>%
-  group_by(cancer.gene.type, exp_category) %>%
+  mutate(expression.category = c("<10%ile", ">10%ile")[(avg.TCGA.percentile >10) + 1]) %>%
+  group_by(cancer.gene.type, expression.category) %>%
   summarise (n=n()) %>%
   mutate(rel.freq = paste0(round(100 * n/sum(n), 0), "%"))
 ```
 
     ## # A tibble: 19 x 4
     ## # Groups:   cancer.gene.type [10]
-    ##    cancer.gene.type exp_category     n rel.freq
-    ##               <chr>        <chr> <int>    <chr>
-    ##  1               NA      <10%ile  2266      13%
-    ##  2               NA      >10%ile 15269      87%
-    ##  3              ONC      <10%ile    39      13%
-    ##  4              ONC      >10%ile   259      87%
-    ##  5       ONC; p- TS      <10%ile     7      16%
-    ##  6       ONC; p- TS      >10%ile    38      84%
-    ##  7          ONC; TS      <10%ile     3      25%
-    ##  8          ONC; TS      >10%ile     9      75%
-    ##  9           p- ONC      <10%ile    12      11%
-    ## 10           p- ONC      >10%ile   100      89%
-    ## 11    p- ONC; p- TS      <10%ile     1      14%
-    ## 12    p- ONC; p- TS      >10%ile     6      86%
-    ## 13       p- ONC; TS      <10%ile     1      33%
-    ## 14       p- ONC; TS      >10%ile     2      67%
-    ## 15            p- TS      <10%ile    67      10%
-    ## 16            p- TS      >10%ile   583      90%
-    ## 17               TS      <10%ile    22      17%
-    ## 18               TS      >10%ile   106      83%
-    ## 19             <NA>         <NA>   392     100%
+    ##    cancer.gene.type expression.category     n rel.freq
+    ##               <chr>               <chr> <int>    <chr>
+    ##  1               NA             <10%ile  2266      13%
+    ##  2               NA             >10%ile 15269      87%
+    ##  3              ONC             <10%ile    39      13%
+    ##  4              ONC             >10%ile   259      87%
+    ##  5       ONC; p- TS             <10%ile     7      16%
+    ##  6       ONC; p- TS             >10%ile    38      84%
+    ##  7          ONC; TS             <10%ile     3      25%
+    ##  8          ONC; TS             >10%ile     9      75%
+    ##  9           p- ONC             <10%ile    12      11%
+    ## 10           p- ONC             >10%ile   100      89%
+    ## 11    p- ONC; p- TS             <10%ile     1      14%
+    ## 12    p- ONC; p- TS             >10%ile     6      86%
+    ## 13       p- ONC; TS             <10%ile     1      33%
+    ## 14       p- ONC; TS             >10%ile     2      67%
+    ## 15            p- TS             <10%ile    67      10%
+    ## 16            p- TS             >10%ile   583      90%
+    ## 17               TS             <10%ile    22      17%
+    ## 18               TS             >10%ile   106      83%
+    ## 19             <NA>                <NA>   392     100%
 
 **PLOT**
 

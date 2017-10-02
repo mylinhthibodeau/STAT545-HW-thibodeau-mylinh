@@ -446,7 +446,6 @@ d3 %>%
   group_by(cancer.gene.type, exp_category) %>%
   summarise (n=n()) %>%
   mutate(rel.freq = paste0(round(100 * n/sum(n), 0), "%"))
-
 ```
 
 **PLOT**

@@ -16,6 +16,8 @@ options(knitr.table.format = "html")
 library(scales)
 ```
 
+> I have installed the package scale to ease annotation of my scales in my plots. [Here is a stackoverflow example](https://stackoverflow.com/questions/3695497/show-instead-of-counts-in-charts-of-categorical-variables).
+
 ## Homework requirements - copied from [stat545 hw03 website](http://stat545.com/hw03_dplyr-and-more-ggplot2.html) 
 
 Pick at least three of the tasks below and attack each with a table and figure.
@@ -351,16 +353,29 @@ Some oncogenes have high gene expression compared to cancer (avg.TCGA.percentile
 
 5. Reporting absolute and relative values
 
-**The homework instruction was:Report the absolute and/or relative abundance of countries with low life expectancy over time by continent.**
+**The homework instruction was: Report the absolute and/or relative abundance of countries with low life expectancy over time by continent: Compute some measure of worldwide life expectancy – you decide – a mean or median or some other quantile or perhaps your current age. Then determine how many countries on each continent have a life expectancy less than this benchmark, for each year.**
 
-I don't have a "time" value in my dataset, so I will use these equivalences for genomic data:
+I don't have a "time" value in my dataset, so I will use some equivalences for genomic data:
 
-* Countries -> hugo (genes)
+* Countries -> categorical variables (e.g. cancer.gene.type)
 * Life expectancy -> avg.TCGA.percentile (low values will be defined as <10th percentile)
 * Time -> chromosome (chr) or avg.cna.by.gene
-* Continent -> cytoband (this represent the cytogenetic band location of a gene, but I will need to group by chromosome, as the same cytoband number can be on 23 chromomosomes)
+* Continent -> cancer.gene.type
 
 *Absolute abundance of genes with low expression by cancer.gene.type*
+
+**TABLE**
+```{r}
+rna_cnv %>%
+  filter(avg.TCGA.percentile <= 10) %>%
+  group_by(cancer.gene.type) %>%
+  summarize("Number of genes with <10%ile" = n()) %>%
+  kable("html") %>%
+  kable_styling()
+```
+
+
+**PLOT**
 
 Pie chart of counts for genes with avg.TCGA percentile of less than 10 (colour representing individual chromosomes) in each cancer.gene.type.
 ```{r}
@@ -373,6 +388,16 @@ p + geom_bar(width =1) + coord_polar("y")
 [resource on pie charts](http://www.sthda.com/english/wiki/ggplot2-pie-chart-quick-start-guide-r-software-and-data-visualization)
 
 [resource](http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html)
+
+Let's remove the "NA" category again.
+```{r}
+p <- rna_cnv %>%
+  filter(avg.TCGA.percentile <= 10, cancer.gene.type != "NA") %>%
+  ggplot(aes(x=factor(1), fill=cancer.gene.type))
+p + geom_bar(width =1) + coord_polar("y")
+```
+Considering only the genes involved in cancer, the group with the highest proportion of number of low expression genes (<10th percentile) is the p-TS (putative tumour suppressor).
+
 
 *Relative abundance of genes with low expression by cancer.gene.type*
 
@@ -387,40 +412,55 @@ d4 <- d3 %>%
 d4 + geom_bar(aes(x=cancer.gene.type, fill=exp_category)) + theme(text = element_text(size=12), axis.text.x = element_text(angle=90, hjust=1)) 
 ```
 
-
-Let's remove the "NA" group for better visual.
+Let's remove the "NA" group for better visual and let's use the scales library, as exemplified in this [stackoverflow](https://stackoverflow.com/questions/29869862/how-to-add-percentage-or-count-labels-above-percentage-bar-plot)
 
 ```{r}
 d5 <- d3 %>%
   mutate(exp_category = c("<10%ile", ">10%ile")[(avg.TCGA.percentile >10) + 1]) %>%
   filter(cancer.gene.type != "NA") %>%
   group_by(cancer.gene.type) %>%
-  ggplot(aes(x =cancer.gene.type))
+  ggplot(aes(x = exp_category, fill = exp_category))
+
 d5 + geom_bar(aes(x=cancer.gene.type, fill=exp_category)) + theme(text = element_text(size=12), axis.text.x = element_text(angle=90, hjust=1)) 
 ```
-Considering only the genes involved in cancer, the group with the highest proportion of low expression gene (<10th percentile) is the oncogene group.
+This provide a gross visual representation of the relative proportion of genes with a gene expression below or above the 10%ile, but I would like to have percentage numbers for these proportions now.
+```{r}
+d5 + geom_bar(aes(y = (..count..)/sum(..count..)))+
+  geom_text(aes(y = ((..count..)/sum(..count..)), label = scales::percent((..count..)/sum(..count..))), stat = "count", vjust = -0.25) +
+  scale_y_continuous(labels = percent)  + theme(text = element_text(size=12)) + facet_wrap(~cancer.gene.type)
+```
+And now, if I want to visualize the different types of genes contributing to each expression data group (<10%ile versus >10%ile), I can use this method.
+```{r}
+d6 <- d3 %>%
+  mutate(exp_category = c("<10%ile", ">10%ile")[(avg.TCGA.percentile >10) + 1]) %>%
+  filter(cancer.gene.type != "NA") %>%
+  group_by(cancer.gene.type) %>%
+  ggplot(aes(x = exp_category))
+d6 + geom_bar(aes(y =(..count..)/sum(..count..), fill= cancer.gene.type), stat="count") +
+  geom_text(aes(label = scales::percent((..count..)/sum(..count..)),
+                y=..prop..), stat="count", vjust=-.5) + scale_y_continuous(labels=percent) +
+  theme(text = element_text(size=12)) 
+```
 
 ***
 
+*Another way to see the relative abundance of genes with low expression by cancer.gene.type*
 
-```{r}
-rna_cnv %>%
-  group_by 
-```
-
-
-Relative - Including cancer.gene.type = NA
+Let's exclude the "NA" group and divide the avg.TCGA.percentile into bins of 5 percentile, and use colours to highlight different cancer.gene.type !
 ```{r}
 p9 <- rna_cnv %>%
   group_by(cancer.gene.type, copy.change) %>%
-  ggplot(aes(RPKM), na.rm=TRUE) + scale_fill_brewer(palette = "Spectral")
-p9 + geom_line(aes(y=avg.TCGA.percentile, colour=cancer.gene.type)) + facet_wrap(~copy.change)
+  filter(cancer.gene.type != "NA") %>%
+  ggplot(aes(avg.TCGA.percentile), na.rm=TRUE) 
 
+p9 +geom_bar(aes(y =(..count..)/sum(..count..), fill= cancer.gene.type), stat="count", binwidth = 5)  + scale_y_continuous(labels=percent) +
+  theme(text = element_text(size=12)) 
 
-p9 + geom_histogram(aes(x=avg.TCGA.percentile, stat="identity", fill =cancer.gene.type), binwidth = 5)
+p9 +geom_bar(aes(y =(..count..)/sum(..count..), fill= cancer.gene.type), stat="count", binwidth = 5)  + scale_y_continuous(labels=percent) +
+  theme(text = element_text(size=12)) + facet_wrap(~cancer.gene.type)
 ```
 
-Relative - Excluding cancer.gene.type = NA
+Purely for interest, we can also do a similar exercise, but facet the plots according to the copy.change (e.g. -1) or the copy.category (e.g.loss).
 ```{r}
 p10 <- rna_cnv %>%
   group_by(cancer.gene.type, copy.change) %>%
@@ -443,17 +483,15 @@ A bit too much superposing here, let's just plot the most biologically character
 p12 <- rna_cnv %>%
   filter(cancer.gene.type %in% c("ONC", "p- ONC", "TS", "p- TS")) %>%
   ggplot(aes(avg.TCGA.percentile))
-p12 + geom_density(aes(fill=factor(cancer.gene.type)), alpha=0.3) 
+p12 + geom_density(aes(fill=cancer.gene.type), alpha=0.3) 
 ```
 
-Let's take chromosome 10 and consider the chromosome position as a variable "time" ?
+Let's take chromosome 10. 
 ```{r}
 chr10 <- rna_cnv %>%
   filter(chr == 10)
 View(chr10)
 ```
-
-**The homework request "some measure of worldwide life expectancy – you decide – a mean or median or some other quantile or perhaps your current age. Then determine how many countries on each continent have a life expectancy less than this benchmark, for each year."**
 
 
 

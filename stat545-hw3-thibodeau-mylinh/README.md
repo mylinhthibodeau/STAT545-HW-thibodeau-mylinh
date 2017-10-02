@@ -37,4 +37,6 @@ However, overall, what I learned will be so much more useful for my research in 
 4. I have read a lot a lot a lot of different resources online, including useful stackoverflow discussions, and I have put all the links in my homework.
 5. I have learned a lof from the peer review process in this course, so I thank all the students for participating in this great group learning experience !!
 
+### I admit it: I have a git addiction
 
+![dna](/scratch-space/200w_d.gif)  

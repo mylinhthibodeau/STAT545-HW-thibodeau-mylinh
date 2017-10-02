@@ -5,7 +5,6 @@ date: '2017-09-22'
 output: github_document
 ---
 
-
 ```{r}
 suppressPackageStartupMessages(library(tidyverse))
 knitr::opts_chunk$set(fig.width=12, fig.height=9)
@@ -107,10 +106,23 @@ So this is a subset with 1281 genes that have been implicated in oncogenesis.
 
 # Task menu - Interpretation of tasks in the context of my genomic data
 
+I don't have a "time" value in my dataset, so I will use some equivalences for genomic data, this would be an example:
+* Countries -> class factor variable (e.g. hugo)
+* Continent -> class factor variable that overarch another factor variable (e.g. cancer.gene.type)
+* Life expectancy -> class numeric (e.g. avg.TCGA.percentile)
+* Year -> chromosome (chr) or avg.cna.by.gene
+
+I took the liberty to change the class of my variables in order to answer the homework requirements. For example, avg.TCGA.percentile can be either an integer or a numeric class, depending on my needs.
+
+***
+
 1. Get the maximum and minimum RPKM (Reads Per Kilobase of transcript per Million mapped reads) for each cancer.gene.type. You can find more information about this genomic parameter with [this blog](http://www.rna-seqblog.com/rpkm-fpkm-and-tpm-clearly-explained/) if you are curious.
 
-Rna-seq data (or transcriptome) is used as a surrogate of gene expression in genomic analyses.
+Note. Rna-seq data (or transcriptome) is used as a surrogate of gene expression in genomic analyses.
 
+**TABLE**
+
+Let's see the minimum and maximum values of RPKM per cancer.gene.type.
 ```{r}
 rna_cnv %>%
   group_by(cancer.gene.type) %>%
@@ -123,11 +135,27 @@ It is not surprising that the minimum value of RPKM be zero, since many genes ar
 
 Note. I have learned how to use kable and piping from [Rajendran Arun](https://github.com/abishekarun/STAT545-hw-rajendran-arun/blob/master/hw02/hw02_gapminder.Rmd)
 
+**PLOT**
+
+Here is a visual representation of the minimum and maximum value of RPKM for each cancer.gene.type.
+[This tidyverse website article](http://ggplot2.tidyverse.org/reference/stat_summary.html) was very helpful.
+
+```{r}
+rna_cnv %>%
+  group_by(cancer.gene.type) %>%
+  ggplot(aes(x=cancer.gene.type, y=RPKM, colour = cancer.gene.type)) + stat_summary(fun.y = mean, fun.ymin = min, fun.ymax = max,
+  colour = "red") + theme(text = element_text(size=12), axis.text.x = element_text(angle=90, hjust=1)) 
+
+```
+
+
 ***
 
 2. Look at the spread of RPKM for all each cancer.gene.type group.
 
 I am not sure that the word "spread" refers to here, it might be because of translation issues (unfortunately, the [Collins dictionary](https://www.collinsdictionary.com/dictionary/english-french/spread) did not help me much either), so I will make a table with the summary statistics for each category (mean, standard deviation, median, minimum, maximum, etc.)
+
+**TABLE**
 
 ```{r}
 rna_cnv %>%
@@ -160,12 +188,14 @@ View(rna_cnv)
 ```
 I have converted the cancer.gene.type column to character to use gsub, then back to its original class factor.
 
+**PLOT**
+
 We will need to arrange the data (ascending RPKM values) before making a boxplot. 
 ```{r}
 p1 <- rna_cnv %>%
   group_by(cancer.gene.type) %>% 
   ggplot(aes(x=cancer.gene.type, y=RPKM))
-p1+ geom_boxplot() + theme(text = element_text(size=8), axis.text.x = element_text(angle=90, hjust=1)) 
+p1+ geom_boxplot() + theme(text = element_text(size=12), axis.text.x = element_text(angle=90, hjust=1)) 
 ```
 
 The visual is not ideal because of one outlier value in a certain gene.
@@ -236,7 +266,11 @@ p6 + geom_point(aes(colour=cancer.gene.type)) +
 
 Maybe I should bin the data into subgroups according to a range of RPKM eventually. 
 
-3. A) Compute a trimmed mean of RPKM for diverse copy.change value. 
+***
+
+3. (A) Compute a trimmed mean of RPKM for diverse copy.change value. 
+
+**TABLE**
 
 Let's remove 5 outliers values at both ends.
 ```{r}
@@ -258,8 +292,9 @@ rna_cnv %>%
 ```
 It is an interesting result. One would have though that the copy losses (-1 and -2) would have lower gene expression (RPKM) than the copy gains (+1 and +2), but since we removed the genes with null expression (RPKM), it might disproportionally skew the copy loss grou, which probably contains some tumour suppressor genes.
 
-Let's look at the composition of genes with zero expression according to the cancer.gene.type (excluding the group "NA" for better visual)
+**PLOT**
 
+Just for fun, let's look at the composition of genes with zero expression according to the cancer.gene.type (excluding the group "NA" for better visual).
 ```{r}
 rna_cnv %>%
   filter(RPKM ==0, cancer.gene.type != "NA") %>%
@@ -267,10 +302,6 @@ rna_cnv %>%
   ggplot(aes(x=cancer.gene.type, fill=copy.category)) +
   geom_bar(aes(stat = "identity"))
 ```
-
-
-***
-
 
 I had picked a categorical variable (copy.change), but it would be more interesting to use the cancer.gene.type and I am removing the RPKM values of 0:
 ```{r}
@@ -283,11 +314,12 @@ rna_cnv %>%
 ```
 
 
-Resources:  
+Resources:[R documentation on Trim](https://www.rdocumentation.org/packages/DescTools/versions/0.99.19/topics/Trim) and this [R manual](https://stat.ethz.ch/R-manual/R-devel/library/base/html/mean.html)
 
-[R documentation on Trim](https://www.rdocumentation.org/packages/DescTools/versions/0.99.19/topics/Trim) and this [R manual](https://stat.ethz.ch/R-manual/R-devel/library/base/html/mean.html)
+3. (B) Weighted mean
 
-3. B) Weighted mean
+**TABLE**
+
 Now, let's weight the mean RPKM value according to the FC.mean.Bodymap column. This represents the fold change of gene expression compared to normal tissue. For example, if a gene has low RPKM and there is a negative fold change tissue expression, I would expect the mean to be lower using a weighted mean function. 
 ```{r}
 rna_cnv %>%
@@ -309,9 +341,13 @@ rna_cnv %>%
 ```
 The cancer.gene.type groups including ONC (oncogene) appear to have more extreme values.
 
+***
+
 4. How is the normal tissue expression (FC.mean.Bodymap) changing according to gene expression percentile of TCGA cancers (avg.TCGA.percentile - this percentile is proportional to RPKM values)
 
-Since I do not have a time variable, I have chosen the avg.TCGA.percentile because the values are integers. Since there are 100 values, I will bin them for a summary table ([reference here](https://stats.stackexchange.com/questions/14313/grouping-data-in-ranges-in-r-by-summing-them/14318)).
+Since I do not have a time variable, I have chosen the avg.TCGA.percentile because the class is integer. Since there are 100 values, I will bin them for a summary table ([reference here](https://stats.stackexchange.com/questions/14313/grouping-data-in-ranges-in-r-by-summing-them/14318)).
+
+**TABLE**
 
 Let's keep two significant digits only, as explained [in the R manual](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Round.html)
 ```{r}
@@ -325,6 +361,8 @@ d2 %>%
   kable_styling()
   
 ```
+
+**PLOT**
 
 I will start by ordering the date and then plot the FC.mean.Bodymap according to avg.TCGA.percentile.
 ```{r}
@@ -351,20 +389,16 @@ p8 + geom_bar(stat="identity", aes(fill=cancer.gene.type))
 ```
 Some oncogenes have high gene expression compared to cancer (avg.TCGA.percentile) and compared to normal tissues (FC.mean.Bodymap).
 
+***
+
 5. Reporting absolute and relative values
 
 **The homework instruction was: Report the absolute and/or relative abundance of countries with low life expectancy over time by continent: Compute some measure of worldwide life expectancy – you decide – a mean or median or some other quantile or perhaps your current age. Then determine how many countries on each continent have a life expectancy less than this benchmark, for each year.**
 
-I don't have a "time" value in my dataset, so I will use some equivalences for genomic data:
-
-* Countries -> categorical variables (e.g. cancer.gene.type)
-* Life expectancy -> avg.TCGA.percentile (low values will be defined as <10th percentile)
-* Time -> chromosome (chr) or avg.cna.by.gene
-* Continent -> cancer.gene.type
-
 *Absolute abundance of genes with low expression by cancer.gene.type*
 
 **TABLE**
+
 ```{r}
 rna_cnv %>%
   filter(avg.TCGA.percentile <= 10) %>%
@@ -401,10 +435,25 @@ Considering only the genes involved in cancer, the group with the highest propor
 
 *Relative abundance of genes with low expression by cancer.gene.type*
 
-We need to change the percentile values from a factor to a numeric (stored in d3) and remove row for which there is no values in avg.TCGA.percentile, and then we will be able to plot the relative values with histogram.
+**TABLE**
+
+It is not that pretty, but the information is here. I have learned this from this [stackoverflow discussion](https://stackoverflow.com/questions/24576515/relative-frequencies-proportions-with-dplyr)
 ```{r}
 d3 <- with(rna_cnv, rna_cnv[!(avg.TCGA.percentile==""),])
 d3$avg.TCGA.percentile <- as.numeric(d3$avg.TCGA.percentile)
+d3 %>% 
+  mutate(exp_category = c("<10%ile", ">10%ile")[(avg.TCGA.percentile >10) + 1]) %>%
+  group_by(cancer.gene.type, exp_category) %>%
+  summarise (n=n()) %>%
+  mutate(rel.freq = paste0(round(100 * n/sum(n), 0), "%"))
+
+```
+
+**PLOT**
+
+We need to change the percentile values from a factor to a numeric (stored in d3) and remove row for which there is no values in avg.TCGA.percentile, and then we will be able to plot the relative values with histogram.
+```{r}
+
 d4 <- d3 %>%
   mutate(exp_category = c("<10%ile", ">10%ile")[(avg.TCGA.percentile >10) + 1]) %>%
   group_by(cancer.gene.type) %>%
@@ -486,17 +535,8 @@ p12 <- rna_cnv %>%
 p12 + geom_density(aes(fill=cancer.gene.type), alpha=0.3) 
 ```
 
-Let's take chromosome 10. 
-```{r}
-chr10 <- rna_cnv %>%
-  filter(chr == 10)
-View(chr10)
-```
+***
 
-
-
-6. 
 
 ***
-# Companion graphs
 

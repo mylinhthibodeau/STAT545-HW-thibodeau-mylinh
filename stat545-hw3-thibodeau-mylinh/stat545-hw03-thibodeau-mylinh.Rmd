@@ -159,7 +159,7 @@ p1+ geom_boxplot() + theme(text = element_text(size=8), axis.text.x = element_te
 The visual is not ideal because of one outlier value in a certain gene.
 ```{r}
 rna_cnv %>%
-  filter(cancer.gene.type =="NA", RPKM == max(RPKM)) %>% kable("html") %>% kable_styling()
+  filter(RPKM == max(RPKM)) %>% kable("html") %>% kable_styling()
 ```
 This FTL genes has a high expression (RPKM = 4239.69) and it is involved in cancer pathophysiology, I will remove it for now in order to have a better data visualization. 
 

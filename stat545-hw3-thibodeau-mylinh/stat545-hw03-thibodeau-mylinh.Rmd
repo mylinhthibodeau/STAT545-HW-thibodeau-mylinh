@@ -355,19 +355,36 @@ I don't have a "time" value in my dataset, so I will use these equivalences for 
 
 * Countries -> hugo (genes)
 * Life expectancy -> avg.TCGA.percentile (low values will be defined as <10th percentile)
-* Time -> copy.change
+* Time -> chromosome (chr) or avg.cna.by.gene
 * Continent -> cytoband (this represent the cytogenetic band location of a gene, but I will need to group by chromosome, as the same cytoband number can be on 23 chromomosomes)
 
-Absolute:
+*Absolute abundance of genes with low expression by cancer.gene.type*
+
+Pie chart of counts for genes with avg.TCGA percentile of less than 10 (colour representing individual chromosomes) in each cancer.gene.type.
 ```{r}
 p <- rna_cnv %>%
-  group_by(chr) %>%
   filter(avg.TCGA.percentile <= 10) %>%
-  ggplot(aes(x=avg.cna.by.gene, fill=chr))
-p + geom_histogram(aes(stat="identity"))
+  ggplot(aes(x=factor(1), fill=cancer.gene.type))
+p + geom_bar(width =1) + coord_polar("y")
 ```
 
+[resource on pie chart](http://www.sthda.com/english/wiki/ggplot2-pie-chart-quick-start-guide-r-software-and-data-visualization)
+
 [resource](http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html)
+
+
+*Relative abundance of genes with low expression by cancer.gene.type*
+
+
+***
+
+
+```{r}
+rna_cnv %>%
+  group_by 
+```
+
+
 Relative - Including cancer.gene.type = NA
 ```{r}
 p9 <- rna_cnv %>%
@@ -378,6 +395,7 @@ p9 + geom_line(aes(y=avg.TCGA.percentile, colour=cancer.gene.type)) + facet_wrap
 
 p9 + geom_histogram(aes(x=avg.TCGA.percentile, stat="identity", fill =cancer.gene.type), binwidth = 5)
 ```
+
 Relative - Excluding cancer.gene.type = NA
 ```{r}
 p10 <- rna_cnv %>%
@@ -389,7 +407,7 @@ p10 + geom_histogram(aes(x=avg.TCGA.percentile, stat="identity", fill =cancer.ge
 p10 + geom_histogram(aes(x=avg.TCGA.percentile, stat="identity", fill =copy.category), bins = 4) + facet_wrap(~cancer.gene.type)
 ```
 
-Relative -density plot
+Relative - density plot
 ```{r}
 p11 <- rna_cnv %>%
   ggplot(aes(avg.TCGA.percentile))
@@ -410,6 +428,10 @@ chr10 <- rna_cnv %>%
   filter(chr == 10)
 View(chr10)
 ```
+
+**The homework request "some measure of worldwide life expectancy – you decide – a mean or median or some other quantile or perhaps your current age. Then determine how many countries on each continent have a life expectancy less than this benchmark, for each year."**
+
+
 
 6. 
 

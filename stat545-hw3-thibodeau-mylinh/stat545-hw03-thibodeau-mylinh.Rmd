@@ -12,6 +12,8 @@ knitr::opts_chunk$set(fig.width=12, fig.height=9)
 library(knitr)
 library(kableExtra)
 options(knitr.table.format = "html")
+#install.packages("scales")
+library(scales)
 ```
 
 ## Homework requirements - copied from [stat545 hw03 website](http://stat545.com/hw03_dplyr-and-more-ggplot2.html) 
@@ -368,13 +370,35 @@ p <- rna_cnv %>%
 p + geom_bar(width =1) + coord_polar("y")
 ```
 
-[resource on pie chart](http://www.sthda.com/english/wiki/ggplot2-pie-chart-quick-start-guide-r-software-and-data-visualization)
+[resource on pie charts](http://www.sthda.com/english/wiki/ggplot2-pie-chart-quick-start-guide-r-software-and-data-visualization)
 
 [resource](http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html)
 
-
 *Relative abundance of genes with low expression by cancer.gene.type*
 
+We need to change the percentile values from a factor to a numeric (stored in d3) and remove row for which there is no values in avg.TCGA.percentile, and then we will be able to plot the relative values with histogram.
+```{r}
+d3 <- with(rna_cnv, rna_cnv[!(avg.TCGA.percentile==""),])
+d3$avg.TCGA.percentile <- as.numeric(d3$avg.TCGA.percentile)
+d4 <- d3 %>%
+  mutate(exp_category = c("<10%ile", ">10%ile")[(avg.TCGA.percentile >10) + 1]) %>%
+  group_by(cancer.gene.type) %>%
+  ggplot(aes(x =cancer.gene.type))
+d4 + geom_bar(aes(x=cancer.gene.type, fill=exp_category)) + theme(text = element_text(size=12), axis.text.x = element_text(angle=90, hjust=1)) 
+```
+
+
+Let's remove the "NA" group for better visual.
+
+```{r}
+d5 <- d3 %>%
+  mutate(exp_category = c("<10%ile", ">10%ile")[(avg.TCGA.percentile >10) + 1]) %>%
+  filter(cancer.gene.type != "NA") %>%
+  group_by(cancer.gene.type) %>%
+  ggplot(aes(x =cancer.gene.type))
+d5 + geom_bar(aes(x=cancer.gene.type, fill=exp_category)) + theme(text = element_text(size=12), axis.text.x = element_text(angle=90, hjust=1)) 
+```
+Considering only the genes involved in cancer, the group with the highest proportion of low expression gene (<10th percentile) is the oncogene group.
 
 ***
 
@@ -419,7 +443,7 @@ A bit too much superposing here, let's just plot the most biologically character
 p12 <- rna_cnv %>%
   filter(cancer.gene.type %in% c("ONC", "p- ONC", "TS", "p- TS")) %>%
   ggplot(aes(avg.TCGA.percentile))
-p12 + geom_density(aes(fill=factor(cancer.gene.type)), alpha=0.3)
+p12 + geom_density(aes(fill=factor(cancer.gene.type)), alpha=0.3) 
 ```
 
 Let's take chromosome 10 and consider the chromosome position as a variable "time" ?

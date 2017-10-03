@@ -42,11 +42,13 @@ Open access article and data available [here](http://molecularcasestudies.cshlp.
 
 ***
 
-**Load the text file version of CHEK2 paper supplementary data on rna expression and copy number variant (cnv)**  
+**Load the text file version of CHEK2 paper supplementary data on rna expression and copy number variant (cnv)**
+
+Let's peak at the kind of data we are dealing with here !
 ```{r}
 rna_cnv <- read.table("/Users/mylinh/Desktop/chek2-data-trial-stat545/chek2-rna-expression-cnv-data.txt", sep="\t",  strip.white = TRUE, header = TRUE)
-head(rna_cnv)
-kable(sapply(rna_cnv, class))
+#head(rna_cnv)
+#kable(sapply(rna_cnv, class))
 summary(rna_cnv)
 class(rna_cnv)
 typeof(rna_cnv)
@@ -94,6 +96,7 @@ rna_cnv <- rna_cnv %>%
   slice(1L)
 dim(rna_cnv)
 ```
+Indeed, I was right: some hugo (genes) were duplicated, but now, we got rid of them !
 
 *** 
 Let's select a subset of data that contains only the genomic data of genes with non-empty fields in the column cancer.gene.type, which will tell us how many genes have been described with a role in oncogenesis. 
@@ -111,8 +114,8 @@ I don't have a "time" value in my dataset, so I will use some equivalences for g
 
 * Countries -> class factor variable (e.g. hugo)
 * Continent -> class factor variable that overarch another factor variable (e.g. cancer.gene.type)
-* Life expectancy -> class numeric (e.g. avg.TCGA.percentile)
-* Year -> chromosome (chr) or avg.cna.by.gene
+* Life expectancy -> class numeric (e.g. RPKM, FC.mean.Bodymap, or even avg.TCGA.percentile treated as a numeric variable)
+* Year -> class integer (e.g. chromosome start, copy.change), or class factor (e.g. avg.TCGA.percentile as a factor variable)
 
 I took the liberty to change the class of my variables in order to answer the homework requirements. For example, avg.TCGA.percentile can be either an integer or a numeric class, depending on my needs.
 

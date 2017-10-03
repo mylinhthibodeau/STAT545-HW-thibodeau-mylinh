@@ -108,6 +108,7 @@ So this is a subset with 1281 genes that have been implicated in oncogenesis.
 # Task menu - Interpretation of tasks in the context of my genomic data
 
 I don't have a "time" value in my dataset, so I will use some equivalences for genomic data, this would be an example:
+
 * Countries -> class factor variable (e.g. hugo)
 * Continent -> class factor variable that overarch another factor variable (e.g. cancer.gene.type)
 * Life expectancy -> class numeric (e.g. avg.TCGA.percentile)

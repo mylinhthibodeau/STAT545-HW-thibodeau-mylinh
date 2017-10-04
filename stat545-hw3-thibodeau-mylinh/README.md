@@ -40,7 +40,3 @@ However, overall, what I learned will be so much more useful for my research in 
 
 *Although I know how to pipe for manipulating tables and ggplot in the same process, since I am early in my learning of R coding, I prefer to fractionate the steps in order to be able to troubleshoot when issues are coming up. Moreover, since the dataset I used is not as "neat and clean" than the Gapminder one, a step-by-step approach helps me identifying if the issues are from my code or from the peculiarities of the dataset!*
 
-
-### I admit it: I have a gif addiction
-
-![dna](/scratch-space/200w_d.gif)  

@@ -113,9 +113,9 @@ So this is a subset with 1281 genes that have been implicated in oncogenesis.
 I don't have a "time" value in my dataset, so I will use some equivalences for genomic data, this would be an example:
 
 * Countries -> class factor variable (e.g. hugo)
-* Continent -> class factor variable that overarch another factor variable (e.g. cancer.gene.type)
+* Continent -> class factor variable that overarch another factor variable (e.g. cancer.gene.type, copy.category)
 * Life expectancy -> class numeric (e.g. RPKM, FC.mean.Bodymap, or even avg.TCGA.percentile treated as a numeric variable)
-* Year -> class integer (e.g. chromosome start, copy.change), or class factor (e.g. avg.TCGA.percentile as a factor variable)
+* Year -> class integer (e.g. chromosome start, copy.change), or class numeric (e.g. avg.TCGA.percentile as a numeric variable)
 
 I took the liberty to change the class of my variables in order to answer the homework requirements. For example, avg.TCGA.percentile can be either an integer or a numeric class, depending on my needs.
 

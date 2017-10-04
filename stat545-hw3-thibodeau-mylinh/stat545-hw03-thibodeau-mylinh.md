@@ -1,7 +1,7 @@
 stat545-hw03-thibodeau-mylinh
 ================
 My Linh Thibodeau
-2017-09-22
+2017-10-03
 
 ``` r
 suppressPackageStartupMessages(library(tidyverse))

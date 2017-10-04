@@ -268,15 +268,15 @@ Task menu - Interpretation of tasks in the context of my genomic data
 I don't have a "time" value in my dataset, so I will use some equivalences for genomic data, this would be an example:
 
 -   Countries -&gt; class factor variable (e.g. hugo)
--   Continent -&gt; class factor variable that overarch another factor variable (e.g. cancer.gene.type)
+-   Continent -&gt; class factor variable that overarch another factor variable (e.g. cancer.gene.type, copy.category)
 -   Life expectancy -&gt; class numeric (e.g. RPKM, FC.mean.Bodymap, or even avg.TCGA.percentile treated as a numeric variable)
--   Year -&gt; class integer (e.g. chromosome start, copy.change), or class factor (e.g. avg.TCGA.percentile as a factor variable)
+-   Year -&gt; class integer (e.g. chromosome start, copy.change), or class numeric (e.g. avg.TCGA.percentile as a numeric variable)
 
 I took the liberty to change the class of my variables in order to answer the homework requirements. For example, avg.TCGA.percentile can be either an integer or a numeric class, depending on my needs.
 
 ------------------------------------------------------------------------
 
-1.  Get the maximum and minimum RPKM (Reads Per Kilobase of transcript per Million mapped reads) for each cancer.gene.type. You can find more information about this genomic parameter with [this blog](http://www.rna-seqblog.com/rpkm-fpkm-and-tpm-clearly-explained/) if you are curious.
+### Get the maximum and minimum RPKM (Reads Per Kilobase of transcript per Million mapped reads) for each cancer.gene.type. You can find more information about this genomic parameter with [this blog](http://www.rna-seqblog.com/rpkm-fpkm-and-tpm-clearly-explained/) if you are curious.
 
 Note. Rna-seq data (or transcriptome) is used as a surrogate of gene expression in genomic analyses.
 
@@ -410,7 +410,7 @@ tumour suppressor
 </table>
 It is not surprising that the minimum value of RPKM be zero, since many genes are either not expressed in certain tissues, or they may be silenced in the process of oncogenesis.
 
-Note. I have learned how to use kable and piping from [Rajendran Arun](https://github.com/abishekarun/STAT545-hw-rajendran-arun/blob/master/hw02/hw02_gapminder.Rmd)
+Note. I have learned how to use kable and piping with kable from [Rajendran Arun](https://github.com/abishekarun/STAT545-hw-rajendran-arun/blob/master/hw02/hw02_gapminder.Rmd)
 
 **ABBREVIATIONS**
 
@@ -546,14 +546,14 @@ Here is a visual representation of the minimum and maximum value of RPKM for eac
 rna_cnv %>%
   group_by(cancer.gene.type) %>%
   ggplot(aes(x=cancer.gene.type, y=RPKM, colour = cancer.gene.type)) + stat_summary(fun.y = mean, fun.ymin = min, fun.ymax = max,
-  colour = "red") + theme(text = element_text(size=12), axis.text.x = element_text(angle=90, hjust=1)) 
+  colour = "red") + theme(text = element_text(size=14), axis.text.x = element_text(angle=45, hjust=1)) 
 ```
 
 ![](stat545-hw03-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-11-1.png)
 
 ------------------------------------------------------------------------
 
-1.  Look at the spread of RPKM for all each cancer.gene.type group.
+### Look at the spread of RPKM for all each cancer.gene.type group.
 
 I am not sure that the word "spread" refers to here, it might be because of translation issues (unfortunately, the [Collins dictionary](https://www.collinsdictionary.com/dictionary/english-french/spread) did not help me much either), so I will make a table with the summary statistics for each category (mean, standard deviation, median, minimum, maximum, etc.)
 
@@ -813,7 +813,7 @@ We will need to arrange the data (ascending RPKM values) before making a boxplot
 p1 <- rna_cnv %>%
   group_by(cancer.gene.type) %>% 
   ggplot(aes(x=cancer.gene.type, y=RPKM))
-p1+ geom_boxplot() + theme(text = element_text(size=12), axis.text.x = element_text(angle=90, hjust=1)) 
+p1+ geom_boxplot() + theme(text = element_text(size=14), axis.text.x = element_text(angle=45, hjust=1)) 
 ```
 
 ![](stat545-hw03-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-13-1.png)
@@ -1004,10 +1004,12 @@ p2 <- rna_cnv %>%
   filter(!hugo %in% c("FTL")) %>%
   group_by(hugo, cancer.gene.type) %>% 
   ggplot(aes(x=cancer.gene.type, y=RPKM))
-p2+ geom_boxplot(aes(colour=cancer.gene.type)) + theme(text = element_text(size=10), axis.text.x = element_text(angle=90, hjust=1)) + theme_bw()
+p2+ geom_boxplot(aes(colour=cancer.gene.type)) + theme(text = element_text(size=14), axis.text.x = element_text(angle=45, hjust=1)) + theme_bw()
 ```
 
-![](stat545-hw03-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-15-1.png) Hmm, that didn't help that much. Perhaps a changing the RPKM scale and ignoring the RPKM = 0
+![](stat545-hw03-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-15-1.png)
+
+That didn't help that much. Perhaps a changing the RPKM scale and ignoring the RPKM = 0.
 
 ``` r
 p4 <- rna_cnv %>%
@@ -1032,7 +1034,7 @@ p5 + geom_point(aes(colour=cancer.gene.type), alpha = 0.6) +
 
 ![](stat545-hw03-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-17-1.png)
 
-Hmm, I have had this problem in the past: even if I arrange the data points in ascending order of RPKM values, they still show on the graph as "randomly" distributed. I talked about it to Vincenzo Coia and he mentioned that I need to looking into factor and levels, so it took me a very very very long time to figure out the following:
+I have had this problem in the past: even if I arrange the data points in ascending order of RPKM values, they still show on the graph as "randomly" distributed. I talked about it to Vincenzo Coia and he mentioned that I need to looking into factor and levels, so it took me a very very very long time to figure out the following:
 
 -   I had duplicated values in the hugo column (genes) and had to remove them before doing ordering the data.
 -   Then after reading a lot of different things online (like [here](https://developmentality.wordpress.com/2010/02/12/r-sorting-a-data-frame-by-the-contents-of-a-column/) and [here](http://www.statmethods.net/management/sorting.html) and [here](https://stackoverflow.com/questions/1296646/how-to-sort-a-dataframe-by-columns) and [here](https://developmentality.wordpress.com/2010/02/12/r-sorting-a-data-frame-by-the-contents-of-a-column/))
@@ -1052,7 +1054,7 @@ p5 + geom_point(aes(colour=cancer.gene.type), alpha = 0.6) +
   theme(text = element_text(size=12), axis.title.x=element_blank(), axis.text.x = element_blank(), axis.ticks.x=element_blank())
 ```
 
-![](stat545-hw03-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-18-1.png) My understanding is that I have to treat the gene name (hugo) column as a factor and re-order this column according to the RPKM value if I want ascending RPKM values when I am ploting x=hugo and y=RPKM.
+![](stat545-hw03-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-18-1.png) Much better ! So my understanding is that I have to treat the gene name (hugo) column as a factor and re-order this column according to the RPKM value if I want ascending RPKM values when I am ploting x=hugo and y=RPKM.
 
 Let's use facet\_wrap() for better display.
 
@@ -1067,11 +1069,9 @@ p6 + geom_point(aes(colour=cancer.gene.type)) +
 
 ![](stat545-hw03-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-19-1.png)
 
-Maybe I should bin the data into subgroups according to a range of RPKM eventually.
-
 ------------------------------------------------------------------------
 
-1.  Part1:Compute a trimmed mean of RPKM for diverse copy.change value.
+### Compute a trimmed mean of RPKM for diverse copy.change value.
 
 **TABLE**
 
@@ -1491,7 +1491,7 @@ The cancer.gene.type groups including ONC (oncogene) appear to have more extreme
 
 ------------------------------------------------------------------------
 
-1.  How is the normal tissue expression (FC.mean.Bodymap) changing according to gene expression percentile of TCGA cancers (avg.TCGA.percentile - this percentile is proportional to RPKM values)
+### How is the normal tissue expression (FC.mean.Bodymap) changing according to gene expression percentile of TCGA cancers (avg.TCGA.percentile - this percentile is proportional to RPKM values)
 
 Since I do not have a time variable, I have chosen the avg.TCGA.percentile because the class is integer. Since there are 100 values, I will bin them for a summary table ([reference here](https://stats.stackexchange.com/questions/14313/grouping-data-in-ranges-in-r-by-summing-them/14318)).
 
@@ -1761,7 +1761,7 @@ p8 + geom_bar(stat="identity", aes(fill=cancer.gene.type))
 
 ------------------------------------------------------------------------
 
-1.  Reporting absolute and relative values
+### Reporting absolute and relative values
 
 **The homework instruction was: Report the absolute and/or relative abundance of countries with low life expectancy over time by continent: Compute some measure of worldwide life expectancy – you decide – a mean or median or some other quantile or perhaps your current age. Then determine how many countries on each continent have a life expectancy less than this benchmark, for each year.**
 
@@ -2067,7 +2067,5 @@ p12 + geom_density(aes(fill=cancer.gene.type), alpha=0.3)
     ## Warning: Removed 24 rows containing non-finite values (stat_density).
 
 ![](stat545-hw03-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-41-1.png)
-
-------------------------------------------------------------------------
 
 ------------------------------------------------------------------------

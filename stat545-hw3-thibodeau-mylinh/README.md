@@ -38,6 +38,9 @@ However, overall, what I learned will be so much more useful for my research in 
 4. I have read a lot a lot a lot of different resources online, including useful stackoverflow discussions, and I have put all the links in my homework.
 5. I have learned a lof from the peer review process in this course, so I thank all the students for participating in this great group learning experience !!
 
+*Although I know how to pipe for manipulating tables and ggplot in the same process, since I am early in my learning of R coding, I prefer to fractionate the steps in order to be able to troubleshoot when issues are coming up. Moreover, since the dataset I used is not as "neat and clean" than the Gapminder one, a step-by-step approach helps me identifying if the issues are from my code or from the peculiarities of the dataset!*
+
+
 ### I admit it: I have a gif addiction
 
 ![dna](/scratch-space/200w_d.gif)  

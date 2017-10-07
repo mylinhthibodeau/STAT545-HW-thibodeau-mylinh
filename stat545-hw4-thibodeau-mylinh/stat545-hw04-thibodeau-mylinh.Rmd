@@ -1,0 +1,17 @@
+---
+title: "stat545-hw04-thibodeau-mylinh"
+author: "My Linh Thibodeau"
+date: '2017-10-07'
+output: github_document
+---
+
+```{r}
+suppressPackageStartupMessages(library(tidyverse))
+knitr::opts_chunk$set(fig.width=12, fig.height=9)
+library(knitr)
+library(kableExtra)
+options(knitr.table.format = "html")
+#install.packages("scales")
+library(scales)
+```
+

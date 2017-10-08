@@ -143,5 +143,3 @@ chek2_rna_cnv_cancer_genes_subset %>%
   gather(key = tcga_data_comparator, value = tcga_percentile, SARC.percentile, avg.TCGA.percentile, avg.TCGA.norm.percentile, UCEC.norm.percentile)
 
 ```
-
-

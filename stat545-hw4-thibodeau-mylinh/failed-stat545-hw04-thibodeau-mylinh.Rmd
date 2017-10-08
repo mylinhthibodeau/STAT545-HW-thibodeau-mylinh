@@ -1,0 +1,218 @@
+---
+title: "stat545-hw04-thibodeau-mylinh"
+author: "My Linh Thibodeau"
+date: '2017-10-07'
+output: github_document
+---
+
+```{r}
+suppressPackageStartupMessages(library(tidyverse))
+knitr::opts_chunk$set(fig.width=12, fig.height=9)
+library(knitr)
+library(kableExtra)
+options(knitr.table.format = "html")
+#install.packages("scales")
+library(scales)
+#install.packages("tidygenomics")
+library(tidygenomics)
+```
+
+# Genomic dataset - A few clarifications
+
+Vincenzo Coia has approved my request to use published genomic data for the next assignments, therefore, I want to provide a few clarifications:
+
+* I have tried to introduce some basic explanations about the genomic dataset, but obviously, this is not a genetics course and my objective is to explore and learn how to use R and its packages, not to teach complex notions of cancer genomic analysis. Therefore, I don't expect people to understand what the data and plots represent if they haven't studied in related fields.  
+* I would recommend you make abstraction of the underlying biological context and simply try to read this homework based on the variable types (e.g. copy.category is a categorical variable like "gain" or "loss") rather than what they represent.
+
+## SOURCE OF DATA - supplementary files of published articles:
+
+Thibodeau, M. L. et al. Genomic profiling of pelvic genital type leiomyosarcoma in a woman with a germline CHEK2:c.1100delC mutation and a concomitant diagnosis of metastatic invasive ductal breast carcinoma. Cold Spring Harb Mol Case Stud mcs.a001628 (2017). doi:10.1101/mcs.a001628
+Open access article and data available [here](http://molecularcasestudies.cshlp.org/content/3/5/a001628.long)  
+
+Jones, M. R. et al. Response to angiotensin blockade with irbesartan in a patient with metastatic colorectal cancer. Ann Oncol 27, 801–806 (2016). doi:10.1093/annonc/mdw060
+Open access article and data available [here](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4843189/)
+
+# Setting up the data
+
+## Getting the data ready
+
+Getting the CHEK2 paper Thibodeau et al. 2017 rna-seq and copy number variant (cnv) data and cleaning it up.
+
+If you would like the details about the code chunk below, please refer to my homework3.
+
+```{r}
+chek2_rna_cnv <- read.table("/Users/mylinh/Documents/published_pog_data/stat545-tables/chek2-rna-cnv.txt", sep="\t",  strip.white = TRUE, header = TRUE)
+chek2_rna_cnv <- with(chek2_rna_cnv, chek2_rna_cnv[!(chr==""),])
+chek2_rna_cnv <- with(chek2_rna_cnv, chek2_rna_cnv[!(start==""),])
+chek2_rna_cnv <- with(chek2_rna_cnv, chek2_rna_cnv[!(end==""),])
+chek2_rna_cnv <- with(chek2_rna_cnv, chek2_rna_cnv[!(Ensembl.gene.ID==""),])
+chek2_rna_cnv <- with(chek2_rna_cnv, chek2_rna_cnv[!(hugo==""),])
+chek2_rna_cnv$cancer.gene.type <- as.character(chek2_rna_cnv$cancer.gene.type)
+chek2_rna_cnv$cancer.gene.type[chek2_rna_cnv$cancer.gene.type==""] <- "NA"
+chek2_rna_cnv$cancer.gene.type <- as.factor(chek2_rna_cnv$cancer.gene.type)
+chek2_rna_cnv <- chek2_rna_cnv %>%
+  group_by(hugo) %>%
+  slice(1L)
+kable(sapply(chek2_rna_cnv, class))
+gene_types <- levels(chek2_rna_cnv$cancer.gene.type)
+abbreviations_gene_types  <- factor(c("NA", "ONC", "ONC;p-TS", "ONC;TS", "p-ONC", "p-ONC;p-TS", "p-ONC;TS", "p-TS", "TS"))
+abbreviations_gene_types <- as.character(abbreviations_gene_types)
+abbr_table <- data.frame(Abbreviation = abbreviations_gene_types, cancer.gene.type = gene_types)
+abbr_table %>% kable("html") %>% kable_styling()
+chek2_rna_cnv$cancer.gene.type <- as.character(chek2_rna_cnv$cancer.gene.type)
+chek2_rna_cnv$cancer.gene.type <- gsub("oncogene", "ONC", chek2_rna_cnv$cancer.gene.type)
+chek2_rna_cnv$cancer.gene.type <- gsub("tumour suppressor", "TS", chek2_rna_cnv$cancer.gene.type)
+chek2_rna_cnv$cancer.gene.type <- gsub("putative", "p-", chek2_rna_cnv$cancer.gene.type)
+chek2_rna_cnv$cancer.gene.type <- as.vector(chek2_rna_cnv$cancer.gene.type)
+View(chek2_rna_cnv)
+sapply(chek2_rna_cnv, class)
+```
+
+## Getting the other dataset ready
+
+Getting the irbesartan-colorectal cancer paper Jones et al (2016) rna-seq and copy number variant (cnv) data and see what it looks like.
+
+```{r}
+arb_rna_cnv <- read.table("/Users/mylinh/Documents/published_pog_data/stat545-tables/crc-arb-response-rna-cnv-v2.txt", header = TRUE, sep="\t", fill = TRUE)
+```
+Note. Actually, I had to create a second file (crc-arb-response-rna-cnv-v2.txt) removing some columns, because when I was trying to read the first version of the file, RStudio kept crashing down. I still don't know why that happened, but I added "fill = TRUE" just in case because of this [overstack flow discussion](https://stackoverflow.com/questions/19455070/confusing-error-in-r-error-in-scanfile-what-nmax-sep-dec-quote-skip-nli)
+
+```{r}
+summary(arb_rna_cnv) %>% kable("html") %>% kable_styling()
+# class(arb_rna_cnv)
+kable(sapply(arb_rna_cnv, class)) %>% kable("html") %>% kable_styling()
+str(arb_rna_cnv)
+dim(arb_rna_cnv)
+```
+
+Just to make sure there is no empty cells for chr, pos, ensid and HUGO_ID, I will use this code.
+```{r}
+arb_rna_cnv <- with(arb_rna_cnv, arb_rna_cnv[!(chr==""),])
+arb_rna_cnv <- with(arb_rna_cnv, arb_rna_cnv[!(pos==""),])
+arb_rna_cnv <- with(arb_rna_cnv, arb_rna_cnv[!(ensid==""),])
+arb_rna_cnv <- with(arb_rna_cnv, arb_rna_cnv[!(HUGO_ID==""),])
+arb_rna_cnv <- arb_rna_cnv %>%
+  group_by(HUGO_ID) %>%
+  slice(1L)
+dim(arb_rna_cnv)
+arb_rna_cnv %>% kable("html") %>% kable_styling()
+```
+The dimensions of the data.frame are the same, so turns out there were no empty cells !
+
+## TIDY GENOMICS
+
+Tidyverse is an incredible package, and some scientists have expanded its concepts to genomics data. Constantine Ahlmann-Eltze's blog explained the use of the [Tidy Genomics package](https://cran.r-project.org/web/packages/tidygenomics/vignettes/intro.html), which I am hoping to have the opportunity of exploring during this homework, but we will see if my data is appropriate for that later. The peculiarity of genomics data is the need for accomodating ranges, and tidygenomics has its own functions for reshaping and aggregating data:
+
+* genome_intersect
+* genome_subtract
+* genome_join_closest
+* genome_cluster
+* genome_complement
+* genome_join
+
+# General data reshaping and relationship to aggregation
+
+## Activity #1
+
+*Make you own cheatsheet similar to Tyler Rinker’s [minimal guide to tidyr](https://github.com/trinker/tidyr_in_a_nutshell).*
+
+I also like this [Data Wrangling with dplyr and tidyr cheat sheet](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf).
+
+I found a few tutorials that I liked as well:
+
+* University of Virginia: [A tidyr Tutorial](http://data.library.virginia.edu/a-tidyr-tutorial/)
+* RPubs of RStudio: [Data Processing with dplyr & tidyr](https://rpubs.com/bradleyboehmke/data_wrangling) by Brad Boehmke
+* Tidyverse website: [tidyr article](http://tidyr.tidyverse.org/)
+
+> For this exercise, I will only take of subset of the Thibodeau et al (2017) data, since the table would be way too long otherwise.
+
+```{r}
+chek2_rna_cnv_cancer_genes_subset <- with(chek2_rna_cnv, chek2_rna_cnv[!(cancer.gene.type =="NA"),])
+dim(chek2_rna_cnv_cancer_genes_subset)
+chek2_rna_cnv_cancer_genes_subset %>% kable("html") %>% kable_styling()
+```
+
+### GATHER: From horizontal (wide) to vertical (longer)
+
+According the the Help of RStudio, the gather() function is a way to take columns that are not variables and collapse multiple columns to key-value pairs. 
+
+For my type of data, I think gather() will be useful when I realize that a group of columns actually represent the same variable and therefore, they should be "stacked on top of each other" () rather than in adjacent columns. As Hadley Wickham said in his [Introducing tidyr blog](https://blog.rstudio.com/2014/07/22/introducing-tidyr/),the most important for tidy data is that each column is a variable and each row is an observation.
+
+Because gather function will multiply the number of rows (observations), I can't keep the 19182 rows of chek2_rna_cnv, so I will only select a subset of the data (cancer.gene.type ONC and TS). Then I will gather the rna expression percentile columns together.
+```{r}
+chek2_rna_cnv_cancer_genes_subset %>%
+  select(hugo, SARC.percentile, avg.TCGA.percentile,avg.TCGA.norm.percentile, UCEC.norm.percentile, cancer.gene.type) %>%
+  filter(cancer.gene.type %in% c("ONC", "TS")) %>%
+  gather(key = tcga_data_comparator, value = percentile, SARC.percentile, avg.TCGA.percentile, avg.TCGA.norm.percentile, UCEC.norm.percentile) %>% kable("html") %>% kable_styling()
+```
+
+### SPREAD: From vertical (longer) to horizontal (wide)
+
+In order to revert back to the original format of the data, I can use the same key:value pairing in the spread() function. For example, the following code's output is the original data format since gather() and spread() are mirror functions from each other.
+
+```{r}
+chek2_rna_cnv_cancer_genes_subset %>%
+  select(hugo, SARC.percentile, avg.TCGA.percentile,avg.TCGA.norm.percentile, UCEC.norm.percentile, cancer.gene.type) %>%
+  filter(cancer.gene.type %in% c("ONC", "TS")) %>%
+  gather(key = tcga_data_comparator, value = percentile, SARC.percentile, avg.TCGA.percentile, avg.TCGA.norm.percentile, UCEC.norm.percentile) %>%
+  spread(key = tcga_data_comparator, value = percentile) %>% kable("html") %>% kable_styling()
+```
+<<<<<<< HEAD
+
+### Aside: SEPARATE, or when you realize that several columns refer to the same variable sharing a common characteristic
+
+Looking at the two data tables above, I realize that several columns are actually tied to the same "parent" dataset comparator. For example, SARC.percentile and SARC.kIQR are both referring to the gene expression compared to the SARC cancer gene expression dataset. Therefore, we could separate the these columns to highlight this relationship.
+
+```{r}
+chek2_rna_cnv_cancer_genes_subset %>%
+  select(hugo, SARC.percentile, SARC.kIQR, cancer.gene.type) %>%
+  filter(cancer.gene.type %in% c("ONC", "TS")) %>%
+  gather(key = cancer_measure, value = value, SARC.percentile, SARC.kIQR) %>%
+  separate(cancer_measure, into = c("cancer data comparator", "measure type"), sep = "\\.") %>% kable("html") %>% kable_styling()
+```
+Note. I have tried to input columns names with different lengths (e.g. avg.TCGA.percentile and SARC.percentile) and did not succeed to split these columns in more columns with the separate() function since the separator is different. If you know how to solve this problem, please don't hesitate to let me know, I will be very grateful !!
+
+***
+
+## Activity #2
+
+*Make a tibble with one row per year and columns for life expectancy for two or more countries.*
+
+Since I have genomic data, I will use these equivalences:
+
+* year -> cancer.gene.type
+* lifeExp -> RPKM (expression value)
+* countries -> chr (chromosome)
+
+We will only look at the some chromosomes (1 to 5) here, for "readability".
+
+It would be easier to bin the percentile in order to make an equivalence for year.
+
+From homework 3. 
+```{r}
+transform(chek2_rna_cnv, bin = cut(avg.TCGA.percentile, 10))
+```
+
+
+```{r}
+d1 <- chek2_rna_cnv_cancer_genes_subset %>%
+  transform(chek2_rna_cnv_cancer_genes_subset, bin_10 = cut(avg.TCGA.percentile, 10)) %>% 
+  group_by(cancer.gene.type, chr, bin_10) %>%
+  arrange(cancer.gene.type) %>%
+  select(chr, avg.TCGA.percentile, cancer.gene.type, bin_10) %>%
+  filter(!is.na(bin_10)) 
+
+d2 <-chek2_rna_cnv_cancer_genes_subset %>%
+  select(chr, hugo, SARC.percentile, avg.TCGA.percentile,avg.TCGA.norm.percentile, UCEC.norm.percentile, cancer.gene.type) %>%
+  filter(cancer.gene.type %in% c("ONC", "TS"))
+
+d2 %>%
+  gather(key = tcga_data_comparator, value = percentile, SARC.percentile, avg.TCGA.percentile, avg.TCGA.norm.percentile, UCEC.norm.percentile)
+
+d2 %>%
+  group_by(cancer.gene.type) %>%
+  filter(chr==1) %>%
+  group_by(tcga_data_comparator) %>%
+  spread(key=tcga_data_comparator, value = chr)
+```
+

@@ -53,6 +53,7 @@ chek2_rna_cnv$cancer.gene.type <- as.factor(chek2_rna_cnv$cancer.gene.type)
 chek2_rna_cnv <- chek2_rna_cnv %>%
   group_by(hugo) %>%
   slice(1L)
+kable(sapply(chek2_rna_cnv, class))
 gene_types <- levels(chek2_rna_cnv$cancer.gene.type)
 abbreviations_gene_types  <- factor(c("NA", "ONC", "ONC;p-TS", "ONC;TS", "p-ONC", "p-ONC;p-TS", "p-ONC;TS", "p-TS", "TS"))
 abbreviations_gene_types <- as.character(abbreviations_gene_types)
@@ -73,7 +74,7 @@ Getting the irbesartan-colorectal cancer paper Jones et al (2016) rna-seq and co
 ```{r}
 arb_rna_cnv <- read.table("/Users/mylinh/Documents/published_pog_data/stat545-tables/crc-arb-response-rna-cnv-v2.txt", header = TRUE, sep="\t", fill = TRUE)
 ```
-Note. Actually, I had to create a second file (v2) removing some columns, because when I was trying to read the first version of the file, RStudio kept crashing down. 
+Note. Actually, I had to create a second file (crc-arb-response-rna-cnv-v2.txt) removing some columns, because when I was trying to read the first version of the file, RStudio kept crashing down. I still don't know why that happened, but I added "fill = TRUE" just in case because of this [overstack flow discussion](https://stackoverflow.com/questions/19455070/confusing-error-in-r-error-in-scanfile-what-nmax-sep-dec-quote-skip-nli)
 
 ```{r}
 summary(arb_rna_cnv)
@@ -83,18 +84,19 @@ str(arb_rna_cnv)
 dim(arb_rna_cnv)
 ```
 
-
+Just to make sure there is no empty cells for chr, pos, ensid and HUGO_ID, I will use this code.
 ```{r}
 arb_rna_cnv <- with(arb_rna_cnv, arb_rna_cnv[!(chr==""),])
 arb_rna_cnv <- with(arb_rna_cnv, arb_rna_cnv[!(pos==""),])
 arb_rna_cnv <- with(arb_rna_cnv, arb_rna_cnv[!(ensid==""),])
 arb_rna_cnv <- with(arb_rna_cnv, arb_rna_cnv[!(HUGO_ID==""),])
 arb_rna_cnv <- arb_rna_cnv %>%
-  group_by(hugo) %>%
+  group_by(HUGO_ID) %>%
   slice(1L)
 dim(arb_rna_cnv)
 View(arb_rna_cnv)
 ```
+The dimensions of the data.frame are the same, so turns out there were no empty cells !
 
 ## TIDY GENOMICS
 
@@ -109,6 +111,37 @@ Tidyverse is an incredible package, and some scientists have expanded its concep
 
 # General data reshaping and relationship to aggregation
 
-Activity #1
+# Activity #1
 
-Make you own cheatsheet similar to Tyler Rinker’s minimal guide to tidyr
+*Make you own cheatsheet similar to Tyler Rinker’s [minimal guide to tidyr](https://github.com/trinker/tidyr_in_a_nutshell).*
+
+I also like this [Data Wrangling with dplyr and tidyr cheat sheet](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf).
+
+I found a few tutorials that I liked as well:
+
+* University of Virginia: [A tidyr Tutorial](http://data.library.virginia.edu/a-tidyr-tutorial/)
+* RPubs of RStudio: [Data Processing with dplyr & tidyr](https://rpubs.com/bradleyboehmke/data_wrangling) by Brad Boehmke
+* Tidyverse website: [tidyr article](http://tidyr.tidyverse.org/)
+
+> For this exercise, I will only take of subset of the Thibodeau et al (2017) data, since the table would be way too long otherwise.
+
+```{r}
+chek2_rna_cnv_cancer_genes_subset <- with(chek2_rna_cnv, chek2_rna_cnv[!(cancer.gene.type =="NA"),])
+dim(chek2_rna_cnv_cancer_genes_subset)
+View(chek2_rna_cnv_cancer_genes_subset)
+```
+
+### GATHER: From large (wide) to tall (longer)
+
+According the the Help of RStudio, the gather() function is a way to take columns that are not variables and collapse multiple columns to key-value pairs. 
+
+For my type of data, I think gather() is useful when I realize that a group of columns actually represent different "datasets" 
+```{r}
+chek2_rna_cnv_cancer_genes_subset %>%
+  select(hugo, SARC.percentile, avg.TCGA.percentile,avg.TCGA.norm.percentile, UCEC.norm.percentile, cancer.gene.type) %>%
+  filter(cancer.gene.type %in% c("ONC", "TS")) %>%
+  gather(key = tcga_data_comparator, value = tcga_percentile, SARC.percentile, avg.TCGA.percentile, avg.TCGA.norm.percentile, UCEC.norm.percentile)
+
+```
+
+

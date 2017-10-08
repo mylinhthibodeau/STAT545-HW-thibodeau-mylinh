@@ -157,6 +157,7 @@ chek2_rna_cnv_cancer_genes_subset %>%
   gather(key = tcga_data_comparator, value = percentile, SARC.percentile, avg.TCGA.percentile, avg.TCGA.norm.percentile, UCEC.norm.percentile) %>%
   spread(key = tcga_data_comparator, value = percentile) %>% kable("html") %>% kable_styling()
 ```
+<<<<<<< HEAD
 
 ### Aside: SEPARATE, or when you realize that several columns refer to the same variable sharing a common characteristic
 

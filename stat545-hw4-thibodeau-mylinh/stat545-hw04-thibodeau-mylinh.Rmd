@@ -122,7 +122,7 @@ For my type of data, I think gather() will be useful when I realize that a group
 Let's take a look at the brca_rna data:
 ```{r}
 brca_rna %>%
-  head(50) %>%
+  head(25) %>%
   kable("html") %>% kable_styling()
 ```
 
@@ -148,7 +148,7 @@ dlbc_rna_gather <- dlbc_rna %>%
 And now, if we take the same brca data, but the after using the gather() function:
 ```{r}
 brca_rna_gather %>%
-  head(50) %>%
+  head(25) %>%
   kable("html") %>% kable_styling()
 ```
 
@@ -160,7 +160,7 @@ In order to revert back to the original format of the data, I can use the same k
 brca_rna %>%
   gather(key = sample, value = RPKM, brca.s1, brca.s2, brca.s3) %>%
   spread(key=sample, value=RPKM) %>%
-  head(50) %>%
+  head(25) %>%
   kable("html") %>% kable_styling()
 ```
 *So it turns out that the spread() function does not like the fact that some gene names are duplicated for the sample sample initially, as it returned the message "Error: Duplicate identifiers for rows (2, 3), (52, 53), (102, 103)". So I have decided to change apply some extra functions to filter the duplicate when I read the TCGA cancer datasets files at the beginning of the homework.*
@@ -186,7 +186,7 @@ I will make a tibble with one row per gene (year) and columns for RPKM values (l
 full_dataset %>%
   filter(cancer.type=="BRCA") %>%
   spread(key=sample, value =RPKM) %>%
-  head(50) %>%
+  head(25) %>%
   kable("html") %>% kable_styling()
 ```
 
@@ -199,7 +199,7 @@ Compute some measure of RPKM (lifeExp) (mean? median? min? max?) for all possibl
 full_dataset %>%
   group_by(hugo, cancer.type) %>%
   summarize(mean.cancer=signif(mean(RPKM),2), median.cancer = signif(median(RPKM), 2), min.cancer=signif(min(RPKM), 2), max.cancer=signif(max(RPKM), 2)) %>%
-  head(50) %>%
+  head(25) %>%
   kable("html") %>% kable_styling()
 ```
 
@@ -212,7 +212,7 @@ d1 <- full_dataset %>%
   summarize(mean.cancer= signif(mean(RPKM), 2)) %>%
   gather(key=stat.category, value= the.number , mean.cancer) %>%
   spread(key=cancer.type, value=the.number)
-d1 %>% head(50) %>% kable("html") %>% kable_styling()
+d1 %>% head(25) %>% kable("html") %>% kable_styling()
 ```
 
 *Wow ... that took a long time, so let me reason through the process for one second:*
@@ -246,18 +246,27 @@ d2 <- full_dataset %>%
   summarize(mean.cancer= signif(mean(RPKM), 2), median.cancer = signif(median(RPKM), 2), min.cancer=signif(min(RPKM), 2), max.cancer=signif(max(RPKM), 2)) %>%
   gather(key=stat.category, value= the.number , mean.cancer, median.cancer, min.cancer, max.cancer) %>%
   spread(key=cancer.type, value=the.number)
-d2 %>% kable("html") %>% kable_styling()
+d2 %>% head(25) %>% kable("html") %>% kable_styling()
 ```
 
 I think I still prefer starting from the full_dataset to make plots with summary values.
 ```{r}
 full_dataset %>%
   group_by(cancer.type, hugo) %>%
-  ggplot(aes(x=hugo, y=RPKM, colour=cancer.type)) +
+  ggplot(aes(x=hugo, y=log(RPKM), colour=cancer.type)) +
   stat_summary(fun.y = mean, fun.ymin=min, fun.ymax = max) +
   theme(text = element_text(size=8), axis.text.x = element_text(angle=45, hjust=1))
 ```
-Note. I know there is a lof of superposition here, but you get the general idea anyway ;) 
+Note. I know there is a lof of superposition here, we can always facet and remove the x-labels for a better visual:
+```{r}
+full_dataset %>%
+  group_by(cancer.type, hugo) %>%
+  ggplot(aes(x=hugo, y=log(RPKM), colour=cancer.type)) +
+  stat_summary(fun.y = mean, fun.ymin=min, fun.ymax = max) +
+   theme(text = element_text(size=12), axis.title.x=element_blank(), axis.text.x = element_blank(), axis.ticks.x=element_blank()) +
+  facet_wrap(~cancer.type)
+```
+
 
 Or the other way around: one row per cancer group (continent) and one variable hugo gene (year). Let's just do all the summary statistics on this one.
 ```{r}
@@ -266,32 +275,68 @@ full_dataset %>%
   summarize(mean.cancer= signif(mean(RPKM), 2), median.cancer = signif(median(RPKM), 2), min.cancer=signif(min(RPKM), 2), max.cancer=signif(max(RPKM), 2)) %>%
   gather(key=stat.category, value= the.number , mean.cancer, median.cancer, min.cancer, max.cancer) %>%
   spread(key=hugo, value=the.number) %>%
+  head(25) %>%
   kable("html") %>% kable_styling()
 ```
 
 Is there a plot that is easier to make with the data in this shape versus the usual form? If so (or you think so), try it! Reflect.
 
 ## Activity #4 - Window functions
-I will form a tibble: 2 RPKM values per hugo gene, giving the sample with both the lowest and highest RPKM.
+* This cran [dplyr resource](https://cran.r-project.org/web/packages/dplyr/vignettes/window-functions.html) provided a bit more information on these functions.
+* This [hadley github vignette](https://github.com/tidyverse/dplyr/blob/master/vignettes/window-functions.Rmd)
+* This [blog](https://blog.exploratory.io/filter-data-with-aggregate-and-window-functions-88e3b2353c00) was extremely helpful as well. 
 
-I am having a really hard time to imagine some applications of window functions for this type of data. I tried the function suggested on the [stat545 website](http://stat545.com/block010_dplyr-end-single-table.html#window-functions), but since the is a lot values RPKM zero, it is not very informative:
+Alghouth window functions are a variation on aggregation functions, as seen in [class 8](http://stat545.com/cm008_dplyr-single-table.html) of STAT545,  they take a vector of length n and n values, which differentiate them from the aggregate functions. Window functions are used in concert with mutate() and filter() functions. There are 5 broad categories of window functions:
+
+1. Ranking and ordering: row_number(), min_rank(), dense_rank(), cume_dist(), percent_rank(), and ntile()
+2. Offset: Offsets lead() and lag()  
+3. Cumulative aggregates: cumsum(), cummin(), cummax() (from base R), and cumall(), cumany(), and cummean() (from dplyr)  
+4. Rolling aggregates (require other packages, e.g. RccpRoll, not covered in class)
+5. Recycled aggregate (SQL applications, not covered in class)
+
+I will form a tibble: 2 RPKM values per hugo gene, giving the sample with both the lowest and highest RPKM. I am having a really hard time to imagine some applications of window functions for this type of data. I tried the function suggested on the [stat545 website](http://stat545.com/block010_dplyr-end-single-table.html#window-functions), but since the is a lot values RPKM zero, it is not very informative:
 ```{r}
-full_dataset %>%
+d3 <- full_dataset %>%
   select(hugo, sample, RPKM) %>%
   group_by(hugo) %>%
   filter(min_rank(desc(RPKM)) < 2 | min_rank(RPKM) < 2) %>%
-  arrange(hugo) %>%
-  head(15) %>%
+  arrange(hugo)
+d3 %>% head(15) %>%
   kable("html") %>% kable_styling()
 ```
 
-I have decided to try some other window functions in order to satisfy the homework requirements.
+*RANKING*
 
-* This cran [dplyr resource](https://cran.r-project.org/web/packages/dplyr/vignettes/window-functions.html) provided a bit more information on these functions.
+These window functions will be most useful to filter the data in my case. In the example below, I want to know what are the 2 highest RPKM values for each cancer type and which genes these are associated with. Therefore, I group_by(cancer.type) and then I filter with min_rank to keep only the 2 highest values. You can see that each cancer.type (e.g. BRCA) only has 2 values in the table, corresponding to rank 1 and 2 of this group of cancers.
+
+```{r}
+full_dataset %>%
+  group_by(cancer.type) %>%
+  arrange(RPKM, hugo) %>%
+  filter(min_rank(desc(RPKM)) <= 2) %>%
+  kable("html") %>% kable_styling()
+```
+Note. I tried to understand this R-manual article on [rank and ties.methods](https://stat.ethz.ch/R-manual/R-devel/library/base/html/rank.html), but I can't figure out how to use data from a matrix with this function.
+
+*WINDOW - MUTATE*
+
+Let's calculate the z score of each hugo gene for each sample compared to the cancer.type, and I arranged them to see the order of the highest z-scores for each gene in a cancer_group:
+```{r}
+full_dataset %>%
+  group_by(cancer.type) %>%
+  mutate(sample, RPKM_z = (RPKM - mean(RPKM))/sd(RPKM)) %>%
+  arrange(cancer.type, desc(RPKM_z)) %>%
+  head(25) %>%
+  kable("html") %>% kable_styling()
+```
+
+Since I do not have a time variable, I will not illustrate the lag() or lead() functions. If I ever have time series sequencing data, I will apply these functions.
 
 ## Activity #5 - Make a data manipulation sampler
 
-Take that table (or a similar one for all cancer.type) and reshape it so you have one row per year or per year * continent combine
+The example given of previous TA Andrew MacDonald can be found [here](https://gist.github.com/aammd/11386424).
+
+
 
 
 ***

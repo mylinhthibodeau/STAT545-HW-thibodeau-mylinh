@@ -24,7 +24,7 @@ After trying for 3h to complete the homework 4 exercises with the data I used in
 
 I was trying to do the homework with an "unfit" dataset:
 
-![gapminder-underling-data-structure](scratch-space/failed-genomic-data-structure.pdf)
+![failed-genomic-data-structure](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/scratch-space/failed-genomic-data-structure.pdf)
 
 *I have learned to think about the underlying structure of a dataset before trying to do anything with it ! I am hoping I won't make the same mistake again in the future and that I will be able to recognize these situations promptly rather than try to solve unsolvable problems due to the nature of the dataset.*
 

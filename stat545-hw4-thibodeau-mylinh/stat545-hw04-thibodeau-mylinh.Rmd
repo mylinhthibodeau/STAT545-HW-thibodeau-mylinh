@@ -99,17 +99,9 @@ Note1. I populated one additional column per dataset with the cancer_type as thi
 Note2. I found a way of selecting specific columns in read.table with [this stackoverflow dicussion](https://stackoverflow.com/questions/5788117/only-read-limited-number-of-columns) and [this stackexchange discussion](https://stats.stackexchange.com/questions/16796/reading-only-two-out-of-three-columns-with-read-csv).
 Note3. After experiencing issues later on in this homework, I had to remove the hugo genes that had 2 or more values for the same cancer sample. I needed to have only one gene-sample key for the spread() function to workout. I found the information about how to remove duplicate [here](https://stackoverflow.com/questions/13279582/select-only-the-first-rows-for-each-unique-value-of-a-column-in-r)
 
-# Intertwined: General data reshaping and relationship to aggregation AND Join, merge, look up 
+# General data reshaping and relationship to aggregation
 
-*In order to be able to re-shape my data table, I had to complete some exercise out of order, so the order of the homework below looks like:*
-
-* General data reshaping: Activity #1 - GATHER
-* Join, merge, look up: Activity #1 - Create the "full_dataset" (equivalent of gapminder)
-* General data reshaping: Activity #1 - SPREAD
-* Join, merge, look up: Activity #1 - Create a second dataset "clinvar_subset" and manipulate/join the data with the "full_dataset"
-* 
-
-## General data reshaping: Activity #1 - Make your own cheetsheet
+## Activity #1 - Make your own cheetsheet
 
 *Make you own cheatsheet similar to Tyler Rinker’s [minimal guide to tidyr](https://github.com/trinker/tidyr_in_a_nutshell).*
 
@@ -130,6 +122,7 @@ For my type of data, I think gather() will be useful when I realize that a group
 Let's take a look at the brca_rna data:
 ```{r}
 brca_rna %>%
+  head(50) %>%
   kable("html") %>% kable_styling()
 ```
 
@@ -155,6 +148,7 @@ dlbc_rna_gather <- dlbc_rna %>%
 And now, if we take the same brca data, but the after using the gather() function:
 ```{r}
 brca_rna_gather %>%
+  head(50) %>%
   kable("html") %>% kable_styling()
 ```
 
@@ -166,11 +160,12 @@ In order to revert back to the original format of the data, I can use the same k
 brca_rna %>%
   gather(key = sample, value = RPKM, brca_s1, brca_s2, brca_s3) %>%
   spread(key=sample, value=RPKM) %>%
+  head(50) %>%
   kable("html") %>% kable_styling()
 ```
 *So it turns out that the spread() function does not like the fact that some gene names are duplicated for the sample sample initially, as it returned the message "Error: Duplicate identifiers for rows (2, 3), (52, 53), (102, 103)". So I have decided to change apply some extra functions to filter the duplicate when I read the TCGA cancer datasets files at the beginning of the homework.*
 
-## Join, merge, look up: Activity #1
+## Join, merge, look up - Just making up the full_dataset 
 
 For the next step, I will have to skip ahead in the tasks a little and use some joining funcitons to compound all these TCGA datasets into one "gapminder-like" dataset.
 ```{r}
@@ -183,7 +178,7 @@ Note. I won't lie, I needed to read a lot in order to figure the chunk of code a
 
 * 
 
-## General data reshaping: Activity #2 - Make a tibble with one row per year and columns for life expectancy for two or more countries.
+## Activity #2 - Make a tibble with one row per year and columns for life expectancy for two or more countries.
 
 I will make a tibble with one row per gene (year) and columns for RPKM values (life expectancy) for two of more cancer samples (countries) in the BRCA group (continent).
 
@@ -191,11 +186,12 @@ I will make a tibble with one row per gene (year) and columns for RPKM values (l
 full_dataset %>%
   filter(cancer_type=="BRCA") %>%
   spread(key=sample, value =RPKM) %>%
+  head(50) %>%
   kable("html") %>% kable_styling()
 ```
 
 
-## General data reshaping: Activity #3
+## Activity #3
 
 Compute some measure of RPKM (lifeExp) (mean? median? min? max?) for all possible combinations of cancer group (continent) and hugo (year). 
 
@@ -203,6 +199,7 @@ Compute some measure of RPKM (lifeExp) (mean? median? min? max?) for all possibl
 full_dataset %>%
   group_by(hugo, cancer_type) %>%
   summarize(mean_cancer=signif(mean(RPKM),2), median_cancer = signif(median(RPKM), 2), min_cancer=signif(min(RPKM), 2), max_cancer=signif(max(RPKM), 2)) %>%
+  head(50) %>%
   kable("html") %>% kable_styling()
 ```
 
@@ -215,7 +212,7 @@ d1 <- full_dataset %>%
   summarize(mean_cancer= signif(mean(RPKM), 2)) %>%
   gather(key=stat_category, value= the_number , mean_cancer) %>%
   spread(key=cancer_type, value=the_number)
-d1 %>% kable("html") %>% kable_styling()
+d1 %>% head(50) %>% kable("html") %>% kable_styling()
 ```
 
 *Wow ... that took a long time, so let me reason through the process for one second:*
@@ -274,7 +271,7 @@ full_dataset %>%
 
 Is there a plot that is easier to make with the data in this shape versus the usual form? If so (or you think so), try it! Reflect.
 
-## General data reshaping: Activity #4 - Window functions
+## Activity #4 - Window functions
 I will form a tibble: 2 RPKM values per hugo gene, giving the sample with both the lowest and highest RPKM.
 
 I am having a really hard time to imagine some applications of window functions for this type of data. I tried the function suggested on the [stat545 website](http://stat545.com/block010_dplyr-end-single-table.html#window-functions), but since the is a lot values RPKM zero, it is not very informative:
@@ -284,7 +281,7 @@ full_dataset %>%
   group_by(hugo) %>%
   filter(min_rank(desc(RPKM)) < 2 | min_rank(RPKM) < 2) %>%
   arrange(hugo) %>%
-  head() %>%
+  head(15) %>%
   kable("html") %>% kable_styling()
 ```
 
@@ -292,7 +289,7 @@ I have decided to try some other window functions in order to satisfy the homewo
 
 * This cran [dplyr resource](https://cran.r-project.org/web/packages/dplyr/vignettes/window-functions.html) provided a bit more information on these functions.
 
-
+## Activity #5 - Make a data manipulation sampler
 
 Take that table (or a similar one for all cancer_type) and reshape it so you have one row per year or per year * continent combine
 
@@ -300,11 +297,17 @@ Take that table (or a similar one for all cancer_type) and reshape it so you hav
 ***
 ***
 
-# 
+# Join, merge, look up
+
+## Activity #1 - Create a second data frame
 
 ```{r}
 clinvar_subset <- read.table("/Users/mylinh/Documents/published_data/subset_clinvar.txt", sep = "\t", header=TRUE)
 View(clinvar_subset)
 ```
+
+## Activity #2 - Create your own cheatsheet
+
+## Optional add-on: merge(), match()
 
 ***

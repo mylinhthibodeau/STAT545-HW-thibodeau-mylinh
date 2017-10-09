@@ -204,12 +204,12 @@ Reshape that to have one row per hugo (year) and one variable for each cancer gr
 
 This sounds like spread() and gather() would be useful here. So let's start by doing this exercise with the mean_cancer variable.
 ```{r}
-full_dataset %>%
+d1 <- full_dataset %>%
   group_by(hugo, cancer_type) %>%
   summarize(mean_cancer= signif(mean(RPKM), 2)) %>%
   gather(key=stat_category, value= the_number , mean_cancer) %>%
-  spread(key=cancer_type, value=the_number) %>%
-  kable("html") %>% kable_styling()
+  spread(key=cancer_type, value=the_number)
+d1 %>% kable("html") %>% kable_styling()
 ```
 
 *Wow ... that took a long time, so let me reason through the process for one second:*
@@ -224,15 +224,37 @@ full_dataset %>%
 - Which means that the cancer_type now became columns of their own
 - And I indicated the value = the_number, which means the mean_cancer value in this case.
 
+*Is there a plot that is easier to make with the data in this shape versus the usual form? If so (or you think so), try it! Reflect.*
+
+Well, I am not sure actually. There might be one: plotting the hugo (year) summary stats according to the cancer_type (continent) will be easier I think. 
+
+For example, I can easily plot the breast cancer (BRCA) mean_cancer values and the difference between the hugo gene (year). I know it is almost impossible to read the gene name, but I had to make them small so they wouldn't overlap on each other.
+```{r}
+p1 <- d1 %>%
+  ggplot(aes(x=hugo, y= BRCA), na.rm = TRUE)
+p1 + geom_point() + 
+   theme(text = element_text(size=8), axis.text.x = element_text(angle=45, hjust=1))
+```
+
 And now, we can extend it to more summary statistics:
 ```{r}
-full_dataset %>%
+d2 <- full_dataset %>%
   group_by(hugo, cancer_type) %>%
   summarize(mean_cancer= signif(mean(RPKM), 2), median_cancer = signif(median(RPKM), 2), min_cancer=signif(min(RPKM), 2), max_cancer=signif(max(RPKM), 2)) %>%
   gather(key=stat_category, value= the_number , mean_cancer, median_cancer, min_cancer, max_cancer) %>%
-  spread(key=cancer_type, value=the_number) %>%
-  kable("html") %>% kable_styling()
+  spread(key=cancer_type, value=the_number)
+d2 %>% kable("html") %>% kable_styling()
 ```
+
+I think I still prefer starting from the full_dataset to make plots with summary values.
+```{r}
+full_dataset %>%
+  group_by(cancer_type, hugo) %>%
+  ggplot(aes(x=hugo, y=RPKM, colour=cancer_type)) +
+  stat_summary(fun.y = mean, fun.ymin=min, fun.ymax = max) +
+  theme(text = element_text(size=8), axis.text.x = element_text(angle=45, hjust=1))
+```
+Note. I know there is a lof of superposition here, but you get the general idea anyway ;) 
 
 Or the other way around: one row per cancer group (continent) and one variable hugo gene (year). Let's just do all the summary statistics on this one.
 ```{r}
@@ -244,6 +266,31 @@ full_dataset %>%
   kable("html") %>% kable_styling()
 ```
 
+Is there a plot that is easier to make with the data in this shape versus the usual form? If so (or you think so), try it! Reflect.
+
+## General data reshaping: Activity #4 - Window functions
+I will form a tibble: 2 RPKM values per hugo gene, giving the sample with both the lowest and highest RPKM.
+
+I am having a really hard time to imagine some applications of window functions for this type of data. I tried the function suggested on the [stat545 website](http://stat545.com/block010_dplyr-end-single-table.html#window-functions), but since the is a lot values RPKM zero, it is not very informative:
+```{r}
+full_dataset %>%
+  select(hugo, sample, RPKM) %>%
+  group_by(hugo) %>%
+  filter(min_rank(desc(RPKM)) < 2 | min_rank(RPKM) < 2) %>%
+  arrange(hugo) %>%
+  head() %>%
+  kable("html") %>% kable_styling()
+```
+
+* This cran [dplyr resource](https://cran.r-project.org/web/packages/dplyr/vignettes/window-functions.html) provided a bit more information on these functions.
+
+I have decided to try some other window functions in order to satisfy the homework requirements.
+
+
+Take that table (or a similar one for all cancer_type) and reshape it so you have one row per year or per year * continent combine
+
+
+***
 ***
 
 Trying to read clinvar data.

@@ -198,40 +198,40 @@ Compute some measure of RPKM (lifeExp) (mean? median? min? max?) for all possibl
 ```{r}
 full_dataset %>%
   group_by(hugo, cancer.type) %>%
-  summarize(mean_cancer=signif(mean(RPKM),2), median_cancer = signif(median(RPKM), 2), min_cancer=signif(min(RPKM), 2), max_cancer=signif(max(RPKM), 2)) %>%
+  summarize(mean.cancer=signif(mean(RPKM),2), median.cancer = signif(median(RPKM), 2), min.cancer=signif(min(RPKM), 2), max.cancer=signif(max(RPKM), 2)) %>%
   head(50) %>%
   kable("html") %>% kable_styling()
 ```
 
 Reshape that to have one row per hugo (year) and one variable for each cancer group (continent). 
 
-This sounds like spread() and gather() would be useful here. So let's start by doing this exercise with the mean_cancer variable.
+This sounds like spread() and gather() would be useful here. So let's start by doing this exercise with the mean.cancer variable.
 ```{r}
 d1 <- full_dataset %>%
   group_by(hugo, cancer.type) %>%
-  summarize(mean_cancer= signif(mean(RPKM), 2)) %>%
-  gather(key=stat_category, value= the_number , mean_cancer) %>%
-  spread(key=cancer.type, value=the_number)
+  summarize(mean.cancer= signif(mean(RPKM), 2)) %>%
+  gather(key=stat.category, value= the.number , mean.cancer) %>%
+  spread(key=cancer.type, value=the.number)
 d1 %>% head(50) %>% kable("html") %>% kable_styling()
 ```
 
 *Wow ... that took a long time, so let me reason through the process for one second:*
 
 * I grouped by hugo gene (year) and cancer.type (continent)
-* Got my summary stat mean_cancer 
-* Used gather() with a key = stat_category and a value = the_number and mean_cancer
-- Key = new variable created = stat_category
-- Value = column name representing the value = the_number, which is a temporary variable I created to use in the spread() function after
-- Names of columns to gather = mean_cancer
-* Used spread() with a key = cancer.type and a value=the_number
+* Got my summary stat mean.cancer 
+* Used gather() with a key = stat.category and a value = the.number and mean.cancer
+- Key = new variable created = stat.category
+- Value = column name representing the value = the.number, which is a temporary variable I created to use in the spread() function after
+- Names of columns to gather = mean.cancer
+* Used spread() with a key = cancer.type and a value=the.number
 - Which means that the cancer.type now became columns of their own
-- And I indicated the value = the_number, which means the mean_cancer value in this case.
+- And I indicated the value = the.number, which means the mean.cancer value in this case.
 
 *Is there a plot that is easier to make with the data in this shape versus the usual form? If so (or you think so), try it! Reflect.*
 
 Well, I am not sure actually. There might be one: plotting the hugo (year) summary stats according to the cancer.type (continent) will be easier I think. 
 
-For example, I can easily plot the breast cancer (BRCA) mean_cancer values and the difference between the hugo gene (year). I know it is almost impossible to read the gene name, but I had to make them small so they wouldn't overlap on each other.
+For example, I can easily plot the breast cancer (BRCA) mean.cancer values and the difference between the hugo gene (year). I know it is almost impossible to read the gene name, but I had to make them small so they wouldn't overlap on each other.
 ```{r}
 p1 <- d1 %>%
   ggplot(aes(x=hugo, y= BRCA), na.rm = TRUE)
@@ -243,9 +243,9 @@ And now, we can extend it to more summary statistics:
 ```{r}
 d2 <- full_dataset %>%
   group_by(hugo, cancer.type) %>%
-  summarize(mean_cancer= signif(mean(RPKM), 2), median_cancer = signif(median(RPKM), 2), min_cancer=signif(min(RPKM), 2), max_cancer=signif(max(RPKM), 2)) %>%
-  gather(key=stat_category, value= the_number , mean_cancer, median_cancer, min_cancer, max_cancer) %>%
-  spread(key=cancer.type, value=the_number)
+  summarize(mean.cancer= signif(mean(RPKM), 2), median.cancer = signif(median(RPKM), 2), min.cancer=signif(min(RPKM), 2), max.cancer=signif(max(RPKM), 2)) %>%
+  gather(key=stat.category, value= the.number , mean.cancer, median.cancer, min.cancer, max.cancer) %>%
+  spread(key=cancer.type, value=the.number)
 d2 %>% kable("html") %>% kable_styling()
 ```
 
@@ -263,9 +263,9 @@ Or the other way around: one row per cancer group (continent) and one variable h
 ```{r}
 full_dataset %>%
   group_by(cancer.type, hugo) %>%
-  summarize(mean_cancer= signif(mean(RPKM), 2), median_cancer = signif(median(RPKM), 2), min_cancer=signif(min(RPKM), 2), max_cancer=signif(max(RPKM), 2)) %>%
-  gather(key=stat_category, value= the_number , mean_cancer, median_cancer, min_cancer, max_cancer) %>%
-  spread(key=hugo, value=the_number) %>%
+  summarize(mean.cancer= signif(mean(RPKM), 2), median.cancer = signif(median(RPKM), 2), min.cancer=signif(min(RPKM), 2), max.cancer=signif(max(RPKM), 2)) %>%
+  gather(key=stat.category, value= the.number , mean.cancer, median.cancer, min.cancer, max.cancer) %>%
+  spread(key=hugo, value=the.number) %>%
   kable("html") %>% kable_styling()
 ```
 

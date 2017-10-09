@@ -3726,7 +3726,7 @@ Compute some measure of RPKM (lifeExp) (mean? median? min? max?) for all possibl
 ``` r
 full_dataset %>%
   group_by(hugo, cancer.type) %>%
-  summarize(mean_cancer=signif(mean(RPKM),2), median_cancer = signif(median(RPKM), 2), min_cancer=signif(min(RPKM), 2), max_cancer=signif(max(RPKM), 2)) %>%
+  summarize(mean.cancer=signif(mean(RPKM),2), median.cancer = signif(median(RPKM), 2), min.cancer=signif(min(RPKM), 2), max.cancer=signif(max(RPKM), 2)) %>%
   head(50) %>%
   kable("html") %>% kable_styling()
 ```
@@ -3741,16 +3741,16 @@ hugo
 cancer.type
 </th>
 <th style="text-align:right;">
-mean\_cancer
+mean.cancer
 </th>
 <th style="text-align:right;">
-median\_cancer
+median.cancer
 </th>
 <th style="text-align:right;">
-min\_cancer
+min.cancer
 </th>
 <th style="text-align:right;">
-max\_cancer
+max.cancer
 </th>
 </tr>
 </thead>
@@ -4759,14 +4759,14 @@ BRCA
 </table>
 Reshape that to have one row per hugo (year) and one variable for each cancer group (continent).
 
-This sounds like spread() and gather() would be useful here. So let's start by doing this exercise with the mean\_cancer variable.
+This sounds like spread() and gather() would be useful here. So let's start by doing this exercise with the mean.cancer variable.
 
 ``` r
 d1 <- full_dataset %>%
   group_by(hugo, cancer.type) %>%
-  summarize(mean_cancer= signif(mean(RPKM), 2)) %>%
-  gather(key=stat_category, value= the_number , mean_cancer) %>%
-  spread(key=cancer.type, value=the_number)
+  summarize(mean.cancer= signif(mean(RPKM), 2)) %>%
+  gather(key=stat.category, value= the.number , mean.cancer) %>%
+  spread(key=cancer.type, value=the.number)
 d1 %>% head(50) %>% kable("html") %>% kable_styling()
 ```
 
@@ -4777,7 +4777,7 @@ d1 %>% head(50) %>% kable("html") %>% kable_styling()
 hugo
 </th>
 <th style="text-align:left;">
-stat\_category
+stat.category
 </th>
 <th style="text-align:right;">
 BRCA
@@ -4808,7 +4808,7 @@ SKCM
 A1CF
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 0.30
@@ -4837,7 +4837,7 @@ mean\_cancer
 A2M
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 7400.00
@@ -4866,7 +4866,7 @@ mean\_cancer
 A2ML1
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 1.90
@@ -4895,7 +4895,7 @@ mean\_cancer
 A4GNT
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 3.10
@@ -4924,7 +4924,7 @@ mean\_cancer
 AAAS
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 750.00
@@ -4953,7 +4953,7 @@ mean\_cancer
 AACS
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 1200.00
@@ -4982,7 +4982,7 @@ mean\_cancer
 AADAC
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 0.66
@@ -5011,7 +5011,7 @@ mean\_cancer
 AADACL2
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -5040,7 +5040,7 @@ mean\_cancer
 AADACL4
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -5069,7 +5069,7 @@ mean\_cancer
 AADAT
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 28.00
@@ -5098,7 +5098,7 @@ mean\_cancer
 AAGAB
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 2100.00
@@ -5127,7 +5127,7 @@ mean\_cancer
 AAMP
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 2400.00
@@ -5156,7 +5156,7 @@ mean\_cancer
 AANAT
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 1.40
@@ -5185,7 +5185,7 @@ mean\_cancer
 AARS
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 3800.00
@@ -5214,7 +5214,7 @@ mean\_cancer
 AARSD1
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 430.00
@@ -5243,7 +5243,7 @@ mean\_cancer
 AASDH
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 220.00
@@ -5272,7 +5272,7 @@ mean\_cancer
 AASDHPPT
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 760.00
@@ -5301,7 +5301,7 @@ mean\_cancer
 AASS
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 65.00
@@ -5330,7 +5330,7 @@ mean\_cancer
 AATF
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 3800.00
@@ -5359,7 +5359,7 @@ mean\_cancer
 ABCA11P
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 110.00
@@ -5388,7 +5388,7 @@ mean\_cancer
 ABCA13
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 0.85
@@ -5417,7 +5417,7 @@ mean\_cancer
 ABCA17P
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 34.00
@@ -5446,7 +5446,7 @@ mean\_cancer
 ABCA2
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 3300.00
@@ -5475,7 +5475,7 @@ mean\_cancer
 ABCA3
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 3200.00
@@ -5504,7 +5504,7 @@ mean\_cancer
 ABCA6
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 43.00
@@ -5533,7 +5533,7 @@ mean\_cancer
 ABCA7
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 580.00
@@ -5562,7 +5562,7 @@ mean\_cancer
 ABCA8
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 44.00
@@ -5591,7 +5591,7 @@ mean\_cancer
 ABCA9
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 46.00
@@ -5620,7 +5620,7 @@ mean\_cancer
 ABCB1
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 30.00
@@ -5649,7 +5649,7 @@ mean\_cancer
 ABCB10
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 390.00
@@ -5678,7 +5678,7 @@ mean\_cancer
 ABCB4
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 22.00
@@ -5707,7 +5707,7 @@ mean\_cancer
 ABCB5
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 4.30
@@ -5736,7 +5736,7 @@ mean\_cancer
 ABCB6
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 820.00
@@ -5765,7 +5765,7 @@ mean\_cancer
 ABCB7
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 320.00
@@ -5794,7 +5794,7 @@ mean\_cancer
 ABCB8
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 1200.00
@@ -5823,7 +5823,7 @@ mean\_cancer
 ABCB9
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 310.00
@@ -5852,7 +5852,7 @@ mean\_cancer
 ABCC1
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 1400.00
@@ -5881,7 +5881,7 @@ mean\_cancer
 ABCC10
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 730.00
@@ -5910,7 +5910,7 @@ mean\_cancer
 ABCC12
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 270.00
@@ -5939,7 +5939,7 @@ mean\_cancer
 ABCC13
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 37.00
@@ -5968,7 +5968,7 @@ mean\_cancer
 ABCC2
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 31.00
@@ -5997,7 +5997,7 @@ mean\_cancer
 ABCC3
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 3000.00
@@ -6026,7 +6026,7 @@ mean\_cancer
 ABCC4
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 74.00
@@ -6055,7 +6055,7 @@ mean\_cancer
 ABCC5
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 1500.00
@@ -6084,7 +6084,7 @@ mean\_cancer
 ABCC6P1
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 4.40
@@ -6113,7 +6113,7 @@ mean\_cancer
 ABCC6P2
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 16.00
@@ -6142,7 +6142,7 @@ mean\_cancer
 ABCC8
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 140.00
@@ -6171,7 +6171,7 @@ mean\_cancer
 ABCC9
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 140.00
@@ -6200,7 +6200,7 @@ mean\_cancer
 ABCD1
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 760.00
@@ -6229,7 +6229,7 @@ mean\_cancer
 ABCD2
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 11.00
@@ -6258,20 +6258,20 @@ mean\_cancer
 *Wow ... that took a long time, so let me reason through the process for one second:*
 
 -   I grouped by hugo gene (year) and cancer.type (continent)
--   Got my summary stat mean\_cancer
--   Used gather() with a key = stat\_category and a value = the\_number and mean\_cancer
--   Key = new variable created = stat\_category
--   Value = column name representing the value = the\_number, which is a temporary variable I created to use in the spread() function after
--   Names of columns to gather = mean\_cancer
--   Used spread() with a key = cancer.type and a value=the\_number
+-   Got my summary stat mean.cancer
+-   Used gather() with a key = stat.category and a value = the.number and mean.cancer
+-   Key = new variable created = stat.category
+-   Value = column name representing the value = the.number, which is a temporary variable I created to use in the spread() function after
+-   Names of columns to gather = mean.cancer
+-   Used spread() with a key = cancer.type and a value=the.number
 -   Which means that the cancer.type now became columns of their own
--   And I indicated the value = the\_number, which means the mean\_cancer value in this case.
+-   And I indicated the value = the.number, which means the mean.cancer value in this case.
 
 *Is there a plot that is easier to make with the data in this shape versus the usual form? If so (or you think so), try it! Reflect.*
 
 Well, I am not sure actually. There might be one: plotting the hugo (year) summary stats according to the cancer.type (continent) will be easier I think.
 
-For example, I can easily plot the breast cancer (BRCA) mean\_cancer values and the difference between the hugo gene (year). I know it is almost impossible to read the gene name, but I had to make them small so they wouldn't overlap on each other.
+For example, I can easily plot the breast cancer (BRCA) mean.cancer values and the difference between the hugo gene (year). I know it is almost impossible to read the gene name, but I had to make them small so they wouldn't overlap on each other.
 
 ``` r
 p1 <- d1 %>%
@@ -6287,9 +6287,9 @@ And now, we can extend it to more summary statistics:
 ``` r
 d2 <- full_dataset %>%
   group_by(hugo, cancer.type) %>%
-  summarize(mean_cancer= signif(mean(RPKM), 2), median_cancer = signif(median(RPKM), 2), min_cancer=signif(min(RPKM), 2), max_cancer=signif(max(RPKM), 2)) %>%
-  gather(key=stat_category, value= the_number , mean_cancer, median_cancer, min_cancer, max_cancer) %>%
-  spread(key=cancer.type, value=the_number)
+  summarize(mean.cancer= signif(mean(RPKM), 2), median.cancer = signif(median(RPKM), 2), min.cancer=signif(min(RPKM), 2), max.cancer=signif(max(RPKM), 2)) %>%
+  gather(key=stat.category, value= the.number , mean.cancer, median.cancer, min.cancer, max.cancer) %>%
+  spread(key=cancer.type, value=the.number)
 d2 %>% kable("html") %>% kable_styling()
 ```
 
@@ -6300,7 +6300,7 @@ d2 %>% kable("html") %>% kable_styling()
 hugo
 </th>
 <th style="text-align:left;">
-stat\_category
+stat.category
 </th>
 <th style="text-align:right;">
 BRCA
@@ -6331,7 +6331,7 @@ SKCM
 A1CF
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 0.91
@@ -6360,7 +6360,7 @@ max\_cancer
 A1CF
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 0.30
@@ -6389,7 +6389,7 @@ mean\_cancer
 A1CF
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -6418,7 +6418,7 @@ median\_cancer
 A1CF
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -6447,7 +6447,7 @@ min\_cancer
 A2M
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 8800.00
@@ -6476,7 +6476,7 @@ max\_cancer
 A2M
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 7400.00
@@ -6505,7 +6505,7 @@ mean\_cancer
 A2M
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 7600.00
@@ -6534,7 +6534,7 @@ median\_cancer
 A2M
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 5800.00
@@ -6563,7 +6563,7 @@ min\_cancer
 A2ML1
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 4.40
@@ -6592,7 +6592,7 @@ max\_cancer
 A2ML1
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 1.90
@@ -6621,7 +6621,7 @@ mean\_cancer
 A2ML1
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 1.40
@@ -6650,7 +6650,7 @@ median\_cancer
 A2ML1
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -6679,7 +6679,7 @@ min\_cancer
 A4GNT
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 8.60
@@ -6708,7 +6708,7 @@ max\_cancer
 A4GNT
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 3.10
@@ -6737,7 +6737,7 @@ mean\_cancer
 A4GNT
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 0.54
@@ -6766,7 +6766,7 @@ median\_cancer
 A4GNT
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -6795,7 +6795,7 @@ min\_cancer
 AAAS
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 890.00
@@ -6824,7 +6824,7 @@ max\_cancer
 AAAS
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 750.00
@@ -6853,7 +6853,7 @@ mean\_cancer
 AAAS
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 720.00
@@ -6882,7 +6882,7 @@ median\_cancer
 AAAS
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 650.00
@@ -6911,7 +6911,7 @@ min\_cancer
 AACS
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 1500.00
@@ -6940,7 +6940,7 @@ max\_cancer
 AACS
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 1200.00
@@ -6969,7 +6969,7 @@ mean\_cancer
 AACS
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 1100.00
@@ -6998,7 +6998,7 @@ median\_cancer
 AACS
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 840.00
@@ -7027,7 +7027,7 @@ min\_cancer
 AADAC
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 1.10
@@ -7056,7 +7056,7 @@ max\_cancer
 AADAC
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 0.66
@@ -7085,7 +7085,7 @@ mean\_cancer
 AADAC
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 0.91
@@ -7114,7 +7114,7 @@ median\_cancer
 AADAC
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -7143,7 +7143,7 @@ min\_cancer
 AADACL2
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -7172,7 +7172,7 @@ max\_cancer
 AADACL2
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -7201,7 +7201,7 @@ mean\_cancer
 AADACL2
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -7230,7 +7230,7 @@ median\_cancer
 AADACL2
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -7259,7 +7259,7 @@ min\_cancer
 AADACL4
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -7288,7 +7288,7 @@ max\_cancer
 AADACL4
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -7317,7 +7317,7 @@ mean\_cancer
 AADACL4
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -7346,7 +7346,7 @@ median\_cancer
 AADACL4
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -7375,7 +7375,7 @@ min\_cancer
 AADAT
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 53.00
@@ -7404,7 +7404,7 @@ max\_cancer
 AADAT
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 28.00
@@ -7433,7 +7433,7 @@ mean\_cancer
 AADAT
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 24.00
@@ -7462,7 +7462,7 @@ median\_cancer
 AADAT
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 5.50
@@ -7491,7 +7491,7 @@ min\_cancer
 AAGAB
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 3500.00
@@ -7520,7 +7520,7 @@ max\_cancer
 AAGAB
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 2100.00
@@ -7549,7 +7549,7 @@ mean\_cancer
 AAGAB
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 1400.00
@@ -7578,7 +7578,7 @@ median\_cancer
 AAGAB
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 1300.00
@@ -7607,7 +7607,7 @@ min\_cancer
 AAMP
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 3000.00
@@ -7636,7 +7636,7 @@ max\_cancer
 AAMP
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 2400.00
@@ -7665,7 +7665,7 @@ mean\_cancer
 AAMP
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 2300.00
@@ -7694,7 +7694,7 @@ median\_cancer
 AAMP
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 2100.00
@@ -7723,7 +7723,7 @@ min\_cancer
 AANAT
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 2.20
@@ -7752,7 +7752,7 @@ max\_cancer
 AANAT
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 1.40
@@ -7781,7 +7781,7 @@ mean\_cancer
 AANAT
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 1.80
@@ -7810,7 +7810,7 @@ median\_cancer
 AANAT
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 0.34
@@ -7839,7 +7839,7 @@ min\_cancer
 AARS
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 4600.00
@@ -7868,7 +7868,7 @@ max\_cancer
 AARS
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 3800.00
@@ -7897,7 +7897,7 @@ mean\_cancer
 AARS
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 4400.00
@@ -7926,7 +7926,7 @@ median\_cancer
 AARS
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 2600.00
@@ -7955,7 +7955,7 @@ min\_cancer
 AARSD1
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 470.00
@@ -7984,7 +7984,7 @@ max\_cancer
 AARSD1
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 430.00
@@ -8013,7 +8013,7 @@ mean\_cancer
 AARSD1
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 420.00
@@ -8042,7 +8042,7 @@ median\_cancer
 AARSD1
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 390.00
@@ -8071,7 +8071,7 @@ min\_cancer
 AASDH
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 280.00
@@ -8100,7 +8100,7 @@ max\_cancer
 AASDH
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 220.00
@@ -8129,7 +8129,7 @@ mean\_cancer
 AASDH
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 190.00
@@ -8158,7 +8158,7 @@ median\_cancer
 AASDH
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 180.00
@@ -8187,7 +8187,7 @@ min\_cancer
 AASDHPPT
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 810.00
@@ -8216,7 +8216,7 @@ max\_cancer
 AASDHPPT
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 760.00
@@ -8245,7 +8245,7 @@ mean\_cancer
 AASDHPPT
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 780.00
@@ -8274,7 +8274,7 @@ median\_cancer
 AASDHPPT
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 680.00
@@ -8303,7 +8303,7 @@ min\_cancer
 AASS
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 76.00
@@ -8332,7 +8332,7 @@ max\_cancer
 AASS
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 65.00
@@ -8361,7 +8361,7 @@ mean\_cancer
 AASS
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 72.00
@@ -8390,7 +8390,7 @@ median\_cancer
 AASS
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 46.00
@@ -8419,7 +8419,7 @@ min\_cancer
 AATF
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 7600.00
@@ -8448,7 +8448,7 @@ max\_cancer
 AATF
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 3800.00
@@ -8477,7 +8477,7 @@ mean\_cancer
 AATF
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 2100.00
@@ -8506,7 +8506,7 @@ median\_cancer
 AATF
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 1500.00
@@ -8535,7 +8535,7 @@ min\_cancer
 ABCA11P
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 160.00
@@ -8564,7 +8564,7 @@ max\_cancer
 ABCA11P
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 110.00
@@ -8593,7 +8593,7 @@ mean\_cancer
 ABCA11P
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 96.00
@@ -8622,7 +8622,7 @@ median\_cancer
 ABCA11P
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 79.00
@@ -8651,7 +8651,7 @@ min\_cancer
 ABCA13
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 1.60
@@ -8680,7 +8680,7 @@ max\_cancer
 ABCA13
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 0.85
@@ -8709,7 +8709,7 @@ mean\_cancer
 ABCA13
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 0.91
@@ -8738,7 +8738,7 @@ median\_cancer
 ABCA13
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -8767,7 +8767,7 @@ min\_cancer
 ABCA17P
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 71.00
@@ -8796,7 +8796,7 @@ max\_cancer
 ABCA17P
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 34.00
@@ -8825,7 +8825,7 @@ mean\_cancer
 ABCA17P
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 18.00
@@ -8854,7 +8854,7 @@ median\_cancer
 ABCA17P
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 13.00
@@ -8883,7 +8883,7 @@ min\_cancer
 ABCA2
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 4500.00
@@ -8912,7 +8912,7 @@ max\_cancer
 ABCA2
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 3300.00
@@ -8941,7 +8941,7 @@ mean\_cancer
 ABCA2
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 3200.00
@@ -8970,7 +8970,7 @@ median\_cancer
 ABCA2
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 2300.00
@@ -8999,7 +8999,7 @@ min\_cancer
 ABCA3
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 5500.00
@@ -9028,7 +9028,7 @@ max\_cancer
 ABCA3
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 3200.00
@@ -9057,7 +9057,7 @@ mean\_cancer
 ABCA3
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 2700.00
@@ -9086,7 +9086,7 @@ median\_cancer
 ABCA3
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 1500.00
@@ -9115,7 +9115,7 @@ min\_cancer
 ABCA6
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 82.00
@@ -9144,7 +9144,7 @@ max\_cancer
 ABCA6
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 43.00
@@ -9173,7 +9173,7 @@ mean\_cancer
 ABCA6
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 25.00
@@ -9202,7 +9202,7 @@ median\_cancer
 ABCA6
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 23.00
@@ -9231,7 +9231,7 @@ min\_cancer
 ABCA7
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 760.00
@@ -9260,7 +9260,7 @@ max\_cancer
 ABCA7
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 580.00
@@ -9289,7 +9289,7 @@ mean\_cancer
 ABCA7
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 600.00
@@ -9318,7 +9318,7 @@ median\_cancer
 ABCA7
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 380.00
@@ -9347,7 +9347,7 @@ min\_cancer
 ABCA8
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 59.00
@@ -9376,7 +9376,7 @@ max\_cancer
 ABCA8
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 44.00
@@ -9405,7 +9405,7 @@ mean\_cancer
 ABCA8
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 53.00
@@ -9434,7 +9434,7 @@ median\_cancer
 ABCA8
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 20.00
@@ -9463,7 +9463,7 @@ min\_cancer
 ABCA9
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 54.00
@@ -9492,7 +9492,7 @@ max\_cancer
 ABCA9
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 46.00
@@ -9521,7 +9521,7 @@ mean\_cancer
 ABCA9
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 46.00
@@ -9550,7 +9550,7 @@ median\_cancer
 ABCA9
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 38.00
@@ -9579,7 +9579,7 @@ min\_cancer
 ABCB1
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 41.00
@@ -9608,7 +9608,7 @@ max\_cancer
 ABCB1
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 30.00
@@ -9637,7 +9637,7 @@ mean\_cancer
 ABCB1
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 28.00
@@ -9666,7 +9666,7 @@ median\_cancer
 ABCB1
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 22.00
@@ -9695,7 +9695,7 @@ min\_cancer
 ABCB10
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 530.00
@@ -9724,7 +9724,7 @@ max\_cancer
 ABCB10
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 390.00
@@ -9753,7 +9753,7 @@ mean\_cancer
 ABCB10
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 360.00
@@ -9782,7 +9782,7 @@ median\_cancer
 ABCB10
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 280.00
@@ -9811,7 +9811,7 @@ min\_cancer
 ABCB4
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 36.00
@@ -9840,7 +9840,7 @@ max\_cancer
 ABCB4
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 22.00
@@ -9869,7 +9869,7 @@ mean\_cancer
 ABCB4
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 15.00
@@ -9898,7 +9898,7 @@ median\_cancer
 ABCB4
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 14.00
@@ -9927,7 +9927,7 @@ min\_cancer
 ABCB5
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 8.20
@@ -9956,7 +9956,7 @@ max\_cancer
 ABCB5
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 4.30
@@ -9985,7 +9985,7 @@ mean\_cancer
 ABCB5
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 4.50
@@ -10014,7 +10014,7 @@ median\_cancer
 ABCB5
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 0.34
@@ -10043,7 +10043,7 @@ min\_cancer
 ABCB6
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 990.00
@@ -10072,7 +10072,7 @@ max\_cancer
 ABCB6
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 820.00
@@ -10101,7 +10101,7 @@ mean\_cancer
 ABCB6
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 840.00
@@ -10130,7 +10130,7 @@ median\_cancer
 ABCB6
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 640.00
@@ -10159,7 +10159,7 @@ min\_cancer
 ABCB7
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 610.00
@@ -10188,7 +10188,7 @@ max\_cancer
 ABCB7
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 320.00
@@ -10217,7 +10217,7 @@ mean\_cancer
 ABCB7
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 200.00
@@ -10246,7 +10246,7 @@ median\_cancer
 ABCB7
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 140.00
@@ -10275,7 +10275,7 @@ min\_cancer
 ABCB8
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 1700.00
@@ -10304,7 +10304,7 @@ max\_cancer
 ABCB8
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 1200.00
@@ -10333,7 +10333,7 @@ mean\_cancer
 ABCB8
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 1300.00
@@ -10362,7 +10362,7 @@ median\_cancer
 ABCB8
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 660.00
@@ -10391,7 +10391,7 @@ min\_cancer
 ABCB9
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 370.00
@@ -10420,7 +10420,7 @@ max\_cancer
 ABCB9
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 310.00
@@ -10449,7 +10449,7 @@ mean\_cancer
 ABCB9
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 290.00
@@ -10478,7 +10478,7 @@ median\_cancer
 ABCB9
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 270.00
@@ -10507,7 +10507,7 @@ min\_cancer
 ABCC1
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 1600.00
@@ -10536,7 +10536,7 @@ max\_cancer
 ABCC1
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 1400.00
@@ -10565,7 +10565,7 @@ mean\_cancer
 ABCC1
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 1600.00
@@ -10594,7 +10594,7 @@ median\_cancer
 ABCC1
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 890.00
@@ -10623,7 +10623,7 @@ min\_cancer
 ABCC10
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 830.00
@@ -10652,7 +10652,7 @@ max\_cancer
 ABCC10
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 730.00
@@ -10681,7 +10681,7 @@ mean\_cancer
 ABCC10
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 780.00
@@ -10710,7 +10710,7 @@ median\_cancer
 ABCC10
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 560.00
@@ -10739,7 +10739,7 @@ min\_cancer
 ABCC12
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 800.00
@@ -10768,7 +10768,7 @@ max\_cancer
 ABCC12
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 270.00
@@ -10797,7 +10797,7 @@ mean\_cancer
 ABCC12
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -10826,7 +10826,7 @@ median\_cancer
 ABCC12
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -10855,7 +10855,7 @@ min\_cancer
 ABCC13
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 110.00
@@ -10884,7 +10884,7 @@ max\_cancer
 ABCC13
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 37.00
@@ -10913,7 +10913,7 @@ mean\_cancer
 ABCC13
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 1.10
@@ -10942,7 +10942,7 @@ median\_cancer
 ABCC13
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -10971,7 +10971,7 @@ min\_cancer
 ABCC2
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 83.00
@@ -11000,7 +11000,7 @@ max\_cancer
 ABCC2
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 31.00
@@ -11029,7 +11029,7 @@ mean\_cancer
 ABCC2
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 5.40
@@ -11058,7 +11058,7 @@ median\_cancer
 ABCC2
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 5.20
@@ -11087,7 +11087,7 @@ min\_cancer
 ABCC3
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 8800.00
@@ -11116,7 +11116,7 @@ max\_cancer
 ABCC3
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 3000.00
@@ -11145,7 +11145,7 @@ mean\_cancer
 ABCC3
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 140.00
@@ -11174,7 +11174,7 @@ median\_cancer
 ABCC3
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 110.00
@@ -11203,7 +11203,7 @@ min\_cancer
 ABCC4
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 120.00
@@ -11232,7 +11232,7 @@ max\_cancer
 ABCC4
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 74.00
@@ -11261,7 +11261,7 @@ mean\_cancer
 ABCC4
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 71.00
@@ -11290,7 +11290,7 @@ median\_cancer
 ABCC4
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 29.00
@@ -11319,7 +11319,7 @@ min\_cancer
 ABCC5
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 3300.00
@@ -11348,7 +11348,7 @@ max\_cancer
 ABCC5
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 1500.00
@@ -11377,7 +11377,7 @@ mean\_cancer
 ABCC5
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 740.00
@@ -11406,7 +11406,7 @@ median\_cancer
 ABCC5
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 420.00
@@ -11435,7 +11435,7 @@ min\_cancer
 ABCC6P1
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 6.50
@@ -11464,7 +11464,7 @@ max\_cancer
 ABCC6P1
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 4.40
@@ -11493,7 +11493,7 @@ mean\_cancer
 ABCC6P1
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 4.90
@@ -11522,7 +11522,7 @@ median\_cancer
 ABCC6P1
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 1.80
@@ -11551,7 +11551,7 @@ min\_cancer
 ABCC6P2
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 41.00
@@ -11580,7 +11580,7 @@ max\_cancer
 ABCC6P2
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 16.00
@@ -11609,7 +11609,7 @@ mean\_cancer
 ABCC6P2
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 3.60
@@ -11638,7 +11638,7 @@ median\_cancer
 ABCC6P2
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 3.30
@@ -11667,7 +11667,7 @@ min\_cancer
 ABCC8
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 170.00
@@ -11696,7 +11696,7 @@ max\_cancer
 ABCC8
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 140.00
@@ -11725,7 +11725,7 @@ mean\_cancer
 ABCC8
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 150.00
@@ -11754,7 +11754,7 @@ median\_cancer
 ABCC8
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 96.00
@@ -11783,7 +11783,7 @@ min\_cancer
 ABCC9
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 190.00
@@ -11812,7 +11812,7 @@ max\_cancer
 ABCC9
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 140.00
@@ -11841,7 +11841,7 @@ mean\_cancer
 ABCC9
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 150.00
@@ -11870,7 +11870,7 @@ median\_cancer
 ABCC9
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 79.00
@@ -11899,7 +11899,7 @@ min\_cancer
 ABCD1
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 940.00
@@ -11928,7 +11928,7 @@ max\_cancer
 ABCD1
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 760.00
@@ -11957,7 +11957,7 @@ mean\_cancer
 ABCD1
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 930.00
@@ -11986,7 +11986,7 @@ median\_cancer
 ABCD1
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 400.00
@@ -12015,7 +12015,7 @@ min\_cancer
 ABCD2
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 22.00
@@ -12044,7 +12044,7 @@ max\_cancer
 ABCD2
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 11.00
@@ -12073,7 +12073,7 @@ mean\_cancer
 ABCD2
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 8.70
@@ -12102,7 +12102,7 @@ median\_cancer
 ABCD2
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 1.70
@@ -12131,7 +12131,7 @@ min\_cancer
 ABCD3
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 2400.00
@@ -12160,7 +12160,7 @@ max\_cancer
 ABCD3
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 1400.00
@@ -12189,7 +12189,7 @@ mean\_cancer
 ABCD3
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 960.00
@@ -12218,7 +12218,7 @@ median\_cancer
 ABCD3
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 780.00
@@ -12247,7 +12247,7 @@ min\_cancer
 ABCD4
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 490.00
@@ -12276,7 +12276,7 @@ max\_cancer
 ABCD4
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 370.00
@@ -12305,7 +12305,7 @@ mean\_cancer
 ABCD4
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 320.00
@@ -12334,7 +12334,7 @@ median\_cancer
 ABCD4
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 310.00
@@ -12363,7 +12363,7 @@ min\_cancer
 ANKRD20A20P
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 0.91
@@ -12392,7 +12392,7 @@ max\_cancer
 ANKRD20A20P
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 0.30
@@ -12421,7 +12421,7 @@ mean\_cancer
 ANKRD20A20P
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -12450,7 +12450,7 @@ median\_cancer
 ANKRD20A20P
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -12479,7 +12479,7 @@ min\_cancer
 CXORF67
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 140.00
@@ -12508,7 +12508,7 @@ max\_cancer
 CXORF67
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 49.00
@@ -12537,7 +12537,7 @@ mean\_cancer
 CXORF67
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 1.70
@@ -12566,7 +12566,7 @@ median\_cancer
 CXORF67
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -12595,7 +12595,7 @@ min\_cancer
 DKFZp686K16132
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 850.00
@@ -12624,7 +12624,7 @@ max\_cancer
 DKFZp686K16132
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 640.00
@@ -12653,7 +12653,7 @@ mean\_cancer
 DKFZp686K16132
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 570.00
@@ -12682,7 +12682,7 @@ median\_cancer
 DKFZp686K16132
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 520.00
@@ -12711,7 +12711,7 @@ min\_cancer
 EFCAB12
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 41.00
@@ -12740,7 +12740,7 @@ max\_cancer
 EFCAB12
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 31.00
@@ -12769,7 +12769,7 @@ mean\_cancer
 EFCAB12
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 30.00
@@ -12798,7 +12798,7 @@ median\_cancer
 EFCAB12
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 23.00
@@ -12827,7 +12827,7 @@ min\_cancer
 EFCAB8
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 4.90
@@ -12856,7 +12856,7 @@ max\_cancer
 EFCAB8
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 2.70
@@ -12885,7 +12885,7 @@ mean\_cancer
 EFCAB8
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 2.70
@@ -12914,7 +12914,7 @@ median\_cancer
 EFCAB8
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 0.34
@@ -12943,7 +12943,7 @@ min\_cancer
 EWWD
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 7800.00
@@ -12972,7 +12972,7 @@ max\_cancer
 EWWD
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 2600.00
@@ -13001,7 +13001,7 @@ mean\_cancer
 EWWD
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 92.00
@@ -13030,7 +13030,7 @@ median\_cancer
 EWWD
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 0.91
@@ -13059,7 +13059,7 @@ min\_cancer
 GGACT
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 160.00
@@ -13088,7 +13088,7 @@ max\_cancer
 GGACT
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 110.00
@@ -13117,7 +13117,7 @@ mean\_cancer
 GGACT
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 100.00
@@ -13146,7 +13146,7 @@ median\_cancer
 GGACT
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 71.00
@@ -13175,7 +13175,7 @@ min\_cancer
 HSA275973
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 800.00
@@ -13204,7 +13204,7 @@ max\_cancer
 HSA275973
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 580.00
@@ -13233,7 +13233,7 @@ mean\_cancer
 HSA275973
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 560.00
@@ -13262,7 +13262,7 @@ median\_cancer
 HSA275973
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 390.00
@@ -13291,7 +13291,7 @@ min\_cancer
 HSPB1P1
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 1100.00
@@ -13320,7 +13320,7 @@ max\_cancer
 HSPB1P1
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 610.00
@@ -13349,7 +13349,7 @@ mean\_cancer
 HSPB1P1
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 450.00
@@ -13378,7 +13378,7 @@ median\_cancer
 HSPB1P1
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 290.00
@@ -13407,7 +13407,7 @@ min\_cancer
 ICR5
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 680.00
@@ -13436,7 +13436,7 @@ max\_cancer
 ICR5
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 330.00
@@ -13465,7 +13465,7 @@ mean\_cancer
 ICR5
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 320.00
@@ -13494,7 +13494,7 @@ median\_cancer
 ICR5
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -13523,7 +13523,7 @@ min\_cancer
 KIAA1618
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 820.00
@@ -13552,7 +13552,7 @@ max\_cancer
 KIAA1618
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 640.00
@@ -13581,7 +13581,7 @@ mean\_cancer
 KIAA1618
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 710.00
@@ -13610,7 +13610,7 @@ median\_cancer
 KIAA1618
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 390.00
@@ -13639,7 +13639,7 @@ min\_cancer
 LOC100130426
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 0.91
@@ -13668,7 +13668,7 @@ max\_cancer
 LOC100130426
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 0.30
@@ -13697,7 +13697,7 @@ mean\_cancer
 LOC100130426
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -13726,7 +13726,7 @@ median\_cancer
 LOC100130426
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -13755,7 +13755,7 @@ min\_cancer
 LOC100132347
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 680.00
@@ -13784,7 +13784,7 @@ max\_cancer
 LOC100132347
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 600.00
@@ -13813,7 +13813,7 @@ mean\_cancer
 LOC100132347
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 660.00
@@ -13842,7 +13842,7 @@ median\_cancer
 LOC100132347
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 460.00
@@ -13871,7 +13871,7 @@ min\_cancer
 LOC100292717
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 620.00
@@ -13900,7 +13900,7 @@ max\_cancer
 LOC100292717
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 290.00
@@ -13929,7 +13929,7 @@ mean\_cancer
 LOC100292717
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 150.00
@@ -13958,7 +13958,7 @@ median\_cancer
 LOC100292717
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 110.00
@@ -13987,7 +13987,7 @@ min\_cancer
 LOC147680
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 420.00
@@ -14016,7 +14016,7 @@ max\_cancer
 LOC147680
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 290.00
@@ -14045,7 +14045,7 @@ mean\_cancer
 LOC147680
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 240.00
@@ -14074,7 +14074,7 @@ median\_cancer
 LOC147680
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 200.00
@@ -14103,7 +14103,7 @@ min\_cancer
 LOC149767
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 150.00
@@ -14132,7 +14132,7 @@ max\_cancer
 LOC149767
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 92.00
@@ -14161,7 +14161,7 @@ mean\_cancer
 LOC149767
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 70.00
@@ -14190,7 +14190,7 @@ median\_cancer
 LOC149767
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 52.00
@@ -14219,7 +14219,7 @@ min\_cancer
 LOC155060
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 1200.00
@@ -14248,7 +14248,7 @@ max\_cancer
 LOC155060
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 770.00
@@ -14277,7 +14277,7 @@ mean\_cancer
 LOC155060
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 590.00
@@ -14306,7 +14306,7 @@ median\_cancer
 LOC155060
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 520.00
@@ -14335,7 +14335,7 @@ min\_cancer
 LOC221410
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 690.00
@@ -14364,7 +14364,7 @@ max\_cancer
 LOC221410
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 530.00
@@ -14393,7 +14393,7 @@ mean\_cancer
 LOC221410
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 470.00
@@ -14422,7 +14422,7 @@ median\_cancer
 LOC221410
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 440.00
@@ -14451,7 +14451,7 @@ min\_cancer
 LOC286106
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -14480,7 +14480,7 @@ max\_cancer
 LOC286106
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -14509,7 +14509,7 @@ mean\_cancer
 LOC286106
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -14538,7 +14538,7 @@ median\_cancer
 LOC286106
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -14567,7 +14567,7 @@ min\_cancer
 LOC317712
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -14596,7 +14596,7 @@ max\_cancer
 LOC317712
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -14625,7 +14625,7 @@ mean\_cancer
 LOC317712
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -14654,7 +14654,7 @@ median\_cancer
 LOC317712
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -14683,7 +14683,7 @@ min\_cancer
 LOC391343
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 8.20
@@ -14712,7 +14712,7 @@ max\_cancer
 LOC391343
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 2.70
@@ -14741,7 +14741,7 @@ mean\_cancer
 LOC391343
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -14770,7 +14770,7 @@ median\_cancer
 LOC391343
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -14799,7 +14799,7 @@ min\_cancer
 LOC391856
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 35.00
@@ -14828,7 +14828,7 @@ max\_cancer
 LOC391856
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 13.00
@@ -14857,7 +14857,7 @@ mean\_cancer
 LOC391856
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 2.70
@@ -14886,7 +14886,7 @@ median\_cancer
 LOC391856
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 1.40
@@ -14915,7 +14915,7 @@ min\_cancer
 LOC553137
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 3.80
@@ -14944,7 +14944,7 @@ max\_cancer
 LOC553137
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 1.60
@@ -14973,7 +14973,7 @@ mean\_cancer
 LOC553137
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 0.91
@@ -15002,7 +15002,7 @@ median\_cancer
 LOC553137
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -15031,7 +15031,7 @@ min\_cancer
 LOC594835
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -15060,7 +15060,7 @@ max\_cancer
 LOC594835
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -15089,7 +15089,7 @@ mean\_cancer
 LOC594835
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -15118,7 +15118,7 @@ median\_cancer
 LOC594835
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -15147,7 +15147,7 @@ min\_cancer
 LOC645851
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 140.00
@@ -15176,7 +15176,7 @@ max\_cancer
 LOC645851
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 100.00
@@ -15205,7 +15205,7 @@ mean\_cancer
 LOC645851
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 120.00
@@ -15234,7 +15234,7 @@ median\_cancer
 LOC645851
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 34.00
@@ -15263,7 +15263,7 @@ min\_cancer
 LOC649285
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 1.80
@@ -15292,7 +15292,7 @@ max\_cancer
 LOC649285
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 0.60
@@ -15321,7 +15321,7 @@ mean\_cancer
 LOC649285
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -15350,7 +15350,7 @@ median\_cancer
 LOC649285
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -15379,7 +15379,7 @@ min\_cancer
 MOXD2
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -15408,7 +15408,7 @@ max\_cancer
 MOXD2
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -15437,7 +15437,7 @@ mean\_cancer
 MOXD2
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -15466,7 +15466,7 @@ median\_cancer
 MOXD2
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -15495,7 +15495,7 @@ min\_cancer
 NPD009
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 620.00
@@ -15524,7 +15524,7 @@ max\_cancer
 NPD009
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 410.00
@@ -15553,7 +15553,7 @@ mean\_cancer
 NPD009
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 380.00
@@ -15582,7 +15582,7 @@ median\_cancer
 NPD009
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 240.00
@@ -15611,7 +15611,7 @@ min\_cancer
 NPSR1-AS1
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 0.34
@@ -15640,7 +15640,7 @@ max\_cancer
 NPSR1-AS1
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 0.11
@@ -15669,7 +15669,7 @@ mean\_cancer
 NPSR1-AS1
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -15698,7 +15698,7 @@ median\_cancer
 NPSR1-AS1
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -15727,7 +15727,7 @@ min\_cancer
 P1
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 570.00
@@ -15756,7 +15756,7 @@ max\_cancer
 P1
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 270.00
@@ -15785,7 +15785,7 @@ mean\_cancer
 P1
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 160.00
@@ -15814,7 +15814,7 @@ median\_cancer
 P1
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 68.00
@@ -15843,7 +15843,7 @@ min\_cancer
 PFIC2
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 2.70
@@ -15872,7 +15872,7 @@ max\_cancer
 PFIC2
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 1.20
@@ -15901,7 +15901,7 @@ mean\_cancer
 PFIC2
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 0.91
@@ -15930,7 +15930,7 @@ median\_cancer
 PFIC2
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -15959,7 +15959,7 @@ min\_cancer
 PPBPL1
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -15988,7 +15988,7 @@ max\_cancer
 PPBPL1
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -16017,7 +16017,7 @@ mean\_cancer
 PPBPL1
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -16046,7 +16046,7 @@ median\_cancer
 PPBPL1
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -16075,7 +16075,7 @@ min\_cancer
 PRO2543
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 27.00
@@ -16104,7 +16104,7 @@ max\_cancer
 PRO2543
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 20.00
@@ -16133,7 +16133,7 @@ mean\_cancer
 PRO2543
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 18.00
@@ -16162,7 +16162,7 @@ median\_cancer
 PRO2543
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 16.00
@@ -16191,7 +16191,7 @@ min\_cancer
 PXE
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 160.00
@@ -16220,7 +16220,7 @@ max\_cancer
 PXE
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 68.00
@@ -16249,7 +16249,7 @@ mean\_cancer
 PXE
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 28.00
@@ -16278,7 +16278,7 @@ median\_cancer
 PXE
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 18.00
@@ -16307,7 +16307,7 @@ min\_cancer
 RBFOX1
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -16336,7 +16336,7 @@ max\_cancer
 RBFOX1
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -16365,7 +16365,7 @@ mean\_cancer
 RBFOX1
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -16394,7 +16394,7 @@ median\_cancer
 RBFOX1
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -16423,7 +16423,7 @@ min\_cancer
 RGPD7
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 26.00
@@ -16452,7 +16452,7 @@ max\_cancer
 RGPD7
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 13.00
@@ -16481,7 +16481,7 @@ mean\_cancer
 RGPD7
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 13.00
@@ -16510,7 +16510,7 @@ median\_cancer
 RGPD7
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -16539,7 +16539,7 @@ min\_cancer
 RNU12-2P
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 1.10
@@ -16568,7 +16568,7 @@ max\_cancer
 RNU12-2P
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 0.36
@@ -16597,7 +16597,7 @@ mean\_cancer
 RNU12-2P
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -16626,7 +16626,7 @@ median\_cancer
 RNU12-2P
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -16655,7 +16655,7 @@ min\_cancer
 SDR16C6P
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -16684,7 +16684,7 @@ max\_cancer
 SDR16C6P
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -16713,7 +16713,7 @@ mean\_cancer
 SDR16C6P
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -16742,7 +16742,7 @@ median\_cancer
 SDR16C6P
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -16771,7 +16771,7 @@ min\_cancer
 SPATA31B1P
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -16800,7 +16800,7 @@ max\_cancer
 SPATA31B1P
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -16829,7 +16829,7 @@ mean\_cancer
 SPATA31B1P
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -16858,7 +16858,7 @@ median\_cancer
 SPATA31B1P
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -16887,7 +16887,7 @@ min\_cancer
 SRP14P1
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 4.10
@@ -16916,7 +16916,7 @@ max\_cancer
 SRP14P1
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 2.80
@@ -16945,7 +16945,7 @@ mean\_cancer
 SRP14P1
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 2.70
@@ -16974,7 +16974,7 @@ median\_cancer
 SRP14P1
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 1.60
@@ -17003,7 +17003,7 @@ min\_cancer
 SSX9
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 0.54
@@ -17032,7 +17032,7 @@ max\_cancer
 SSX9
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 0.18
@@ -17061,7 +17061,7 @@ mean\_cancer
 SSX9
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -17090,7 +17090,7 @@ median\_cancer
 SSX9
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -17119,7 +17119,7 @@ min\_cancer
 STGD1
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 45.00
@@ -17148,7 +17148,7 @@ max\_cancer
 STGD1
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 17.00
@@ -17177,7 +17177,7 @@ mean\_cancer
 STGD1
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 3.80
@@ -17206,7 +17206,7 @@ median\_cancer
 STGD1
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 1.80
@@ -17235,7 +17235,7 @@ min\_cancer
 TGD
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 690.00
@@ -17264,7 +17264,7 @@ max\_cancer
 TGD
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 470.00
@@ -17293,7 +17293,7 @@ mean\_cancer
 TGD
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 420.00
@@ -17322,7 +17322,7 @@ median\_cancer
 TGD
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 290.00
@@ -17351,7 +17351,7 @@ min\_cancer
 TIMM23
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 1400.00
@@ -17380,7 +17380,7 @@ max\_cancer
 TIMM23
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 780.00
@@ -17409,7 +17409,7 @@ mean\_cancer
 TIMM23
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 560.00
@@ -17438,7 +17438,7 @@ median\_cancer
 TIMM23
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 410.00
@@ -17467,7 +17467,7 @@ min\_cancer
 TMPRSS11E2
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 110.00
@@ -17496,7 +17496,7 @@ max\_cancer
 TMPRSS11E2
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 38.00
@@ -17525,7 +17525,7 @@ mean\_cancer
 TMPRSS11E2
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 3.80
@@ -17554,7 +17554,7 @@ median\_cancer
 TMPRSS11E2
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -17583,7 +17583,7 @@ min\_cancer
 TRIM75P
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 0.69
@@ -17612,7 +17612,7 @@ max\_cancer
 TRIM75P
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 0.41
@@ -17641,7 +17641,7 @@ mean\_cancer
 TRIM75P
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 0.54
@@ -17670,7 +17670,7 @@ median\_cancer
 TRIM75P
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -17699,7 +17699,7 @@ min\_cancer
 UBE2Q2P3
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 16.00
@@ -17728,7 +17728,7 @@ max\_cancer
 UBE2Q2P3
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 12.00
@@ -17757,7 +17757,7 @@ mean\_cancer
 UBE2Q2P3
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 12.00
@@ -17786,7 +17786,7 @@ median\_cancer
 UBE2Q2P3
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 9.30
@@ -17829,9 +17829,9 @@ Or the other way around: one row per cancer group (continent) and one variable h
 ``` r
 full_dataset %>%
   group_by(cancer.type, hugo) %>%
-  summarize(mean_cancer= signif(mean(RPKM), 2), median_cancer = signif(median(RPKM), 2), min_cancer=signif(min(RPKM), 2), max_cancer=signif(max(RPKM), 2)) %>%
-  gather(key=stat_category, value= the_number , mean_cancer, median_cancer, min_cancer, max_cancer) %>%
-  spread(key=hugo, value=the_number) %>%
+  summarize(mean.cancer= signif(mean(RPKM), 2), median.cancer = signif(median(RPKM), 2), min.cancer=signif(min(RPKM), 2), max.cancer=signif(max(RPKM), 2)) %>%
+  gather(key=stat.category, value= the.number , mean.cancer, median.cancer, min.cancer, max.cancer) %>%
+  spread(key=hugo, value=the.number) %>%
   kable("html") %>% kable_styling()
 ```
 
@@ -17842,7 +17842,7 @@ full_dataset %>%
 cancer.type
 </th>
 <th style="text-align:left;">
-stat\_category
+stat.category
 </th>
 <th style="text-align:right;">
 A1CF
@@ -18149,7 +18149,7 @@ UBE2Q2P3
 BRCA
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 0.91
@@ -18454,7 +18454,7 @@ max\_cancer
 BRCA
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 0.30
@@ -18759,7 +18759,7 @@ mean\_cancer
 BRCA
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -19064,7 +19064,7 @@ median\_cancer
 BRCA
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -19369,7 +19369,7 @@ min\_cancer
 COADREAD
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 220.00
@@ -19674,7 +19674,7 @@ max\_cancer
 COADREAD
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 170.00
@@ -19979,7 +19979,7 @@ mean\_cancer
 COADREAD
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 170.00
@@ -20284,7 +20284,7 @@ median\_cancer
 COADREAD
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 100.00
@@ -20589,7 +20589,7 @@ min\_cancer
 DLBC
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -20894,7 +20894,7 @@ max\_cancer
 DLBC
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -21199,7 +21199,7 @@ mean\_cancer
 DLBC
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -21504,7 +21504,7 @@ median\_cancer
 DLBC
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -21809,7 +21809,7 @@ min\_cancer
 GBM
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -22114,7 +22114,7 @@ max\_cancer
 GBM
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -22419,7 +22419,7 @@ mean\_cancer
 GBM
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -22724,7 +22724,7 @@ median\_cancer
 GBM
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -23029,7 +23029,7 @@ min\_cancer
 PCPG
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -23334,7 +23334,7 @@ max\_cancer
 PCPG
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -23639,7 +23639,7 @@ mean\_cancer
 PCPG
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -23944,7 +23944,7 @@ median\_cancer
 PCPG
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -24249,7 +24249,7 @@ min\_cancer
 SARC
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -24554,7 +24554,7 @@ max\_cancer
 SARC
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -24859,7 +24859,7 @@ mean\_cancer
 SARC
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -25164,7 +25164,7 @@ median\_cancer
 SARC
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -25469,7 +25469,7 @@ min\_cancer
 SKCM
 </td>
 <td style="text-align:left;">
-max\_cancer
+max.cancer
 </td>
 <td style="text-align:right;">
 0.71
@@ -25774,7 +25774,7 @@ max\_cancer
 SKCM
 </td>
 <td style="text-align:left;">
-mean\_cancer
+mean.cancer
 </td>
 <td style="text-align:right;">
 0.24
@@ -26079,7 +26079,7 @@ mean\_cancer
 SKCM
 </td>
 <td style="text-align:left;">
-median\_cancer
+median.cancer
 </td>
 <td style="text-align:right;">
 0.00
@@ -26384,7 +26384,7 @@ median\_cancer
 SKCM
 </td>
 <td style="text-align:left;">
-min\_cancer
+min.cancer
 </td>
 <td style="text-align:right;">
 0.00

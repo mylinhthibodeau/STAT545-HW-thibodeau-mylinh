@@ -18,23 +18,23 @@ options(knitr.table.format = "html")
 
 # Matching tasks and functions
 
-| Task          | tidyr function          | reshape2 function   | base R              |  
-|---------------|-------------------------|---------------------|
-|1. Group       | group_by()              | cast()              | aggregate(~ group)
-|---------------|-------------------------|---------------------|
-|2. Split       | spread(), separate()    | dcast()             | table()
-|---------------|-------------------------|---------------------|
-|3. Stack       | gather()                | melt()              |
-|---------------|-------------------------|---------------------|
-|4. Join        | _join functions         | reshape::merge_all  | merge(), cbind(), rbind()
-|---------------|-------------------------|---------------------|
-|5. Subset      | filter(), extract()     |                     | 
-|---------------|-------------------------|---------------------|
-|6. Transpose   | gather()/spread()       |                     | data.frame(t())
-|---------------|-------------------------|---------------------|
-|7. Sort        | arrange()               |                     |
-|---------------|-------------------------|---------------------|
-
+| Task          | tidyr function          | reshape2 function   | base R                      |  
+|---------------|-------------------------|---------------------|-----------------------------|
+|1. Group       | group_by()              | cast()              | aggregate(~ group)          |
+|               |                         |                     |                             | 
+|2. Split       | spread(), separate()    | dcast()             | table()                     |
+|               |                         |                     |                             | 
+|3. Stack       | gather()                | melt()              |                             | 
+|               |                         |                     |                             | 
+|4. Join        | _join functions         | reshape::merge_all  | merge(), cbind(), rbind()   |
+|               |                         |                     |                             | 
+|5. Subset      | filter(), extract()     |                     |                             |  
+|               |                         |                     |                             | 
+|6. Transpose   | gather()/spread()       |                     | data.frame(t())             |
+|               |                         |                     |                             | 
+|7. Sort        | arrange()               |                     |                             |
+|---------------|-------------------------|---------------------|-----------------------------|
+                
 References
 Reshape2 manual [here](https://www.rdocumentation.org/packages/reshape2/versions/1.4.2)
 Reshape reference [here](http://had.co.nz/reshape/), [here](https://stackoverflow.com/questions/8091303/simultaneously-merge-multiple-data-frames-in-a-list)

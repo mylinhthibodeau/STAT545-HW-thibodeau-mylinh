@@ -35,8 +35,115 @@ options(knitr.table.format = "html")
 |               |                         |                     |                             | 
 |7. Sort        | arrange()               |                     |                             |
 |               |                         |                     |                             |
-                
-References
+
+***
+
+Let's make a small table to illustrate the different funcitons.
+```{r}
+d1 <- read.table("small_dataframe_example.txt",sep = "\t", header = TRUE)
+d1 %>%
+  kable("html") %>% kable_styling()
+```
+
+## GROUP
+
+Objective: group gene.type and copy.state, when count the number of rows (pairs) and the sum of the copy.number for each pair.
+
+### Tidyr
+
+```{r}
+d1_gr <- select(d1, gene.type, expression, copy.number) %>%
+  group_by(gene.type, expression) %>%
+  summarize(Nrows = n(), SumCol.copy.number = sum(copy.number))
+d1_gr %>% kable("html") %>% kable_styling()
+```
+
+## SPLIT
+
+Objective: transform the Nrows column (count of gene.type-expression pairs) of d1_gr so that each group (TS, ONC) is represented by one row, each expression category by one column, and the numbers (Nrows of d1_gr) represent the number of occurence in each pair (gene.type-expression).
+
+### Tidyr
+
+### Reshape
+
+```{r}
+d1_split <- d1_gr %>%
+  dcast(gene.type~expression, value.var = "Nrows")
+d1_split %>% kable("html") %>% kable_styling()
+```
+
+## STACK
+
+Objective: display d1_split in a way such that all gene.type - expression possible pairs are displayed in col1 and col2, which col3 returns the count of such pairs (Nrows)
+
+### Tidyr
+
+### Reshape
+
+```{r}
+d1_stack <- melt(d1_split, id="gene.type") %>%
+  arrange(gene.type)
+d1_stack %>% kable("html") %>% kable_styling()
+```
+
+Let's prepare another dataset (d2) for the following exercises.
+```{r}
+d2 <- read.table("small_dataframe_example_2.txt",sep = "\t", header = TRUE)
+d2 %>% kable("html") %>% kable_styling()
+```
+
+
+## JOIN
+
+Objective: join d1 and d2 according to the common column gene.
+
+### Tidyr
+
+#### left_join()
+
+```{r}
+d3_join <- left_join(d1, d2, by = "gene")
+d3_join %>% kable("html") %>% kable_styling()
+```
+
+
+## SUBSET
+
+Objective: only take the data for the ONC gene.type.
+
+### Tidyr
+
+```{r}
+d3_ONC <- d3_join %>%
+  filter(gene.type == "ONC") 
+d3_ONC %>% kable("html") %>% kable_styling()
+``` 
+
+
+## TRANSPOSE
+
+Objective: take the d3_ONC horizontal table and transpose it to a vertical position such that the rows become columns and vice versa.
+
+### Base R
+
+```{r}
+d3_ONC_transpose <- data.frame(t(d3_ONC))
+d3_ONC_transpose %>% kable("html") %>% kable_styling()
+```
+
+## SORT
+
+Objective:
+
+### Tidyr
+
+```{r}
+arrange()
+```
+
+
+***                
+REFERENCES
 Reshape2 manual [here](https://www.rdocumentation.org/packages/reshape2/versions/1.4.2)
 Reshape reference [here](http://had.co.nz/reshape/), [here](https://stackoverflow.com/questions/8091303/simultaneously-merge-multiple-data-frames-in-a-list)
 Blog on data manipulation [here](https://www.r-statistics.com/2012/01/aggregation-and-restructuring-data-from-r-in-action/), and [here](http://library.open.oregonstate.edu/computationalbiology/chapter/reshaping-and-joining-data-frames/)

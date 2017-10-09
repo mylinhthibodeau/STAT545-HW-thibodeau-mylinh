@@ -1,0 +1,7 @@
+gene	IHC
+TP53	absent
+FLCN	normal
+SBHD	absent
+RB1	absent
+KRAS	strong
+EGFR	normal

@@ -1,0 +1,7 @@
+gene.type	gene	expression	copy.number
+TS	TP53	very low	0
+TS	FLCN	average	4
+TS	SBHD	very low	3
+TS	RB1	low	1
+ONC	KRAS	very high	5
+ONC	EGFR	high	0

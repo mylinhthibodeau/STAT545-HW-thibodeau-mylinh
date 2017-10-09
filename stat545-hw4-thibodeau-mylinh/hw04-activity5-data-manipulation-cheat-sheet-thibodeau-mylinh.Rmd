@@ -52,39 +52,58 @@ Objective: group gene.type and copy.state, when count the number of rows (pairs)
 ### Tidyr
 
 ```{r}
-d1_gr <- select(d1, gene.type, expression, copy.number) %>%
+gr_tidy <- select(d1, gene.type, expression, copy.number) %>%
   group_by(gene.type, expression) %>%
   summarize(Nrows = n(), SumCol.copy.number = sum(copy.number))
-d1_gr %>% kable("html") %>% kable_styling()
+gr_tidy %>% kable("html") %>% kable_styling()
 ```
 
 ## SPLIT
 
-Objective: transform the Nrows column (count of gene.type-expression pairs) of d1_gr so that each group (TS, ONC) is represented by one row, each expression category by one column, and the numbers (Nrows of d1_gr) represent the number of occurence in each pair (gene.type-expression).
+Objective: transform the Nrows column (count of gene.type-expression pairs) of gr_tidy so that each group (TS, ONC) is represented by one row, each expression category by one column, and the numbers (Nrows of gr_tidy) represent the number of occurence in each pair (gene.type-expression).
 
 ### Tidyr
+
+```{r}
+split_tidy <- d1 %>%
+  group_by(gene.type, expression) %>%
+  select(gene.type, expression, copy.number) %>%
+  spread(key=expression, value = gene.type)
+split_tidy %>% kable("html") %>% kable_styling()
+```
+
 
 ### Reshape
 
 ```{r}
-d1_split <- d1_gr %>%
+split_resh <- gr_tidy %>%
   dcast(gene.type~expression, value.var = "Nrows")
-d1_split %>% kable("html") %>% kable_styling()
+split_resh %>% kable("html") %>% kable_styling()
 ```
 
 ## STACK
 
-Objective: display d1_split in a way such that all gene.type - expression possible pairs are displayed in col1 and col2, which col3 returns the count of such pairs (Nrows)
+Objective: display split_resh in a way such that all gene.type - expression possible pairs are displayed in col1 and col2, which col3 returns the count of such pairs (Nrows)
 
 ### Tidyr
+
+```{r}
+stack_tidy <- split_resh %>%
+  gather(key = variable, value = expression, very.low, low,  average, very.high, high)
+stack_tidy %>% kable("html") %>% kable_styling()
+```
+
 
 ### Reshape
 
 ```{r}
-d1_stack <- melt(d1_split, id="gene.type") %>%
+stack_resh <- melt(split_resh, id="gene.type") %>%
   arrange(gene.type)
-d1_stack %>% kable("html") %>% kable_styling()
+stack_resh %>% kable("html") %>% kable_styling()
 ```
+
+
+***
 
 Let's prepare another dataset (d2) for the following exercises.
 ```{r}
@@ -102,8 +121,15 @@ Objective: join d1 and d2 according to the common column gene.
 #### left_join()
 
 ```{r}
-d3_join <- left_join(d1, d2, by = "gene")
-d3_join %>% kable("html") %>% kable_styling()
+join_tidy <- left_join(d1, d2, by = "gene")
+join_tidy %>% kable("html") %>% kable_styling()
+```
+
+### Base R
+
+```{r}
+join_R <- merge(d1, d2)
+join_R %>% kable("html") %>% kable_styling()
 ```
 
 
@@ -114,31 +140,34 @@ Objective: only take the data for the ONC gene.type.
 ### Tidyr
 
 ```{r}
-d3_ONC <- d3_join %>%
+subset_tidy <- join_tidy %>%
   filter(gene.type == "ONC") 
-d3_ONC %>% kable("html") %>% kable_styling()
+subset_tidy %>% kable("html") %>% kable_styling()
 ``` 
 
 
 ## TRANSPOSE
 
-Objective: take the d3_ONC horizontal table and transpose it to a vertical position such that the rows become columns and vice versa.
+Objective: take the subset_tidy horizontal table and transpose it to a vertical position such that the rows become columns and vice versa.
 
 ### Base R
 
 ```{r}
-d3_ONC_transpose <- data.frame(t(d3_ONC))
-d3_ONC_transpose %>% kable("html") %>% kable_styling()
+transpose_R <- data.frame(t(subset_tidy))
+transpose_R %>% kable("html") %>% kable_styling()
 ```
+
+I note that the columns are called X1 and X2 instead of ONC and ONC. Oh well, we get the general idea anyway !
 
 ## SORT
 
-Objective:
+Objective: sort the table according to ascending copy.number
 
 ### Tidyr
 
 ```{r}
-arrange()
+join_tidy %>%
+  arrange(copy.number) %>% kable("html") %>% kable_styling()
 ```
 
 

@@ -5,3 +5,4 @@ SBHD	absent
 RB1	absent
 KRAS	strong
 EGFR	normal
+PALB2	normal

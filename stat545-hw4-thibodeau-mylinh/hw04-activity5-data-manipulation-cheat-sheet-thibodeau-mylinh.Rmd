@@ -18,7 +18,8 @@ options(knitr.table.format = "html")
 
 # Matching tasks and functions
 
-| Task          | tidyr function          | reshape2 function   | base R                      |  
+| Task          | tidyr function          | reshape2 function   | base R                      |
+|---------------|-------------------------|---------------------|-----------------------------|
 |---------------|-------------------------|---------------------|-----------------------------|
 |1. Group       | group_by()              | cast()              | aggregate(~ group)          |
 |               |                         |                     |                             | 
@@ -33,7 +34,7 @@ options(knitr.table.format = "html")
 |6. Transpose   | gather()/spread()       |                     | data.frame(t())             |
 |               |                         |                     |                             | 
 |7. Sort        | arrange()               |                     |                             |
-|---------------|-------------------------|---------------------|-----------------------------|
+
                 
 References
 Reshape2 manual [here](https://www.rdocumentation.org/packages/reshape2/versions/1.4.2)

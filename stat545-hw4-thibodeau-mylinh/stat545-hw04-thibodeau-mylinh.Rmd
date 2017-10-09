@@ -336,7 +336,7 @@ Since I do not have a time variable, I will not illustrate the lag() or lead() f
 
 The example given of previous TA Andrew MacDonald can be found [here](https://gist.github.com/aammd/11386424).
 
-
+It would make more sense for a cheatsheet to be separate from the homework (and not embedded in it), so please click [HERE]() to see my Activity #5. 
 
 
 ***

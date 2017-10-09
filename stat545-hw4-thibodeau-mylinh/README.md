@@ -20,14 +20,15 @@ Vincenzo Coia has approved my request to use published genomic data for the home
 
 After trying for 3h to complete the homework 4 exercises with the data I used in [homework 3](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw3-thibodeau-mylinh), that regardless of how I organized the data, I still didn't have the right data format to complete the exercises. 
 
-![gapminder-underling-data-structure](images/gapminder-underling-data-structure.pdf)
+![gapminder-underling-data-structure](scratch-space/gapminder-underling-data-structure.jpg)
+
 I was trying to do the homework with an "unfit" dataset:
 
-![failed-genomic-data-structure](images/failed-genomic-data-structure.pdf)
+![failed-genomic-data-structure](scratch-space/failed-genomic-data-structure.jpg)
 
 *I have learned to think about the underlying structure of a dataset before trying to do anything with it ! I am hoping I won't make the same mistake again in the future and that I will be able to recognize these situations promptly rather than try to solve unsolvable problems due to the nature of the dataset.*
 
-![genomic-data-structure](images/genomic-data-structure.pdf)
+![genomic-data-structure](scratch-space/genomic-data-structure.jpg)
 
 ***
 

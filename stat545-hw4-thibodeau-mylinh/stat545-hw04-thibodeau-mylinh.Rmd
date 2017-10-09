@@ -54,48 +54,48 @@ Let's select some RNAseq (gene expression) cancers datasets from TCGA:
 I will only select 50 genes (nrows = 100) for each dataset, because there are way to many genes (18000-20000) to keep them all, and also, we will only select 3 samples per cancer type ([ ,c(1,3,4,5)]):
 ```{r}
 brca_rna <- read.table("/Users/mylinh/Documents/published_data/tcga/brca/tcga/data_RNA_Seq_v2_expression_median.txt", header = TRUE, nrows =100)[ ,c(1,3,4,5)]
-colnames(brca_rna) <- c("hugo", "brca_s1", "brca_s2", "brca_s3")
+colnames(brca_rna) <- c("hugo", "brca.s1", "brca.s2", "brca.s3")
 brca_rna <- brca_rna[!duplicated(brca_rna$hugo), ]
-brca_rna$cancer_type <- "BRCA"
+brca_rna$cancer.type <- "BRCA"
 View(brca_rna)
 
 gbm_rna <- read.table("/Users/mylinh/Documents/published_data/tcga/gbm/tcga/data_RNA_Seq_v2_expression_median.txt", header = TRUE, nrows =100)[, c(1,3,4,5)]
-colnames(gbm_rna) <- c("hugo", "gbm_s1", "gbm_s2", "gbm_s3")
+colnames(gbm_rna) <- c("hugo", "gbm.s1", "gbm.s2", "gbm.s3")
 gbm_rna <- gbm_rna[!duplicated(gbm_rna$hugo), ]
-gbm_rna$cancer_type <- "GBM"
+gbm_rna$cancer.type <- "GBM"
 #View(gbm_rna)
 
 pcpg_rna <- read.table("/Users/mylinh/Documents/published_data/tcga/pcpg/tcga/data_RNA_Seq_v2_expression_median.txt", header = TRUE, nrows =100)[, c(1,3,4,5)]
-colnames(pcpg_rna) <- c("hugo", "pcpg_s1", "pcpg_s2", "pcpg_s3")
+colnames(pcpg_rna) <- c("hugo", "pcpg.s1", "pcpg.s2", "pcpg.s3")
 pcpg_rna <- pcpg_rna[!duplicated(pcpg_rna$hugo), ]
-pcpg_rna$cancer_type <- "PCPG"
+pcpg_rna$cancer.type <- "PCPG"
 #View(pcpg_rna)
 
 sarc_rna <- read.table("/Users/mylinh/Documents/published_data/tcga/sarc/tcga/data_RNA_Seq_v2_expression_median.txt", header = TRUE, nrows =100)[, c(1,3,4,5)]
-colnames(sarc_rna) <- c("hugo", "sarc_s1", "sarc_s2", "sarc_s3")
+colnames(sarc_rna) <- c("hugo", "sarc.s1", "sarc.s2", "sarc.s3")
 sarc_rna <- sarc_rna[!duplicated(sarc_rna$hugo), ]
-sarc_rna$cancer_type <- "SARC"
+sarc_rna$cancer.type <- "SARC"
 #View(sarc_rna)
 
 skcm_rna <- read.table("/Users/mylinh/Documents/published_data/tcga/skcm/tcga/data_RNA_Seq_v2_expression_median.txt", header = TRUE, nrows =100)[, c(1,3,4,5)]
-colnames(skcm_rna) <- c("hugo", "skcm_s1", "skcm_s2", "skcm_s3")
+colnames(skcm_rna) <- c("hugo", "skcm.s1", "skcm.s2", "skcm.s3")
 skcm_rna <- skcm_rna[!duplicated(skcm_rna$hugo), ]
-skcm_rna$cancer_type <- "SKCM"
+skcm_rna$cancer.type <- "SKCM"
 #View(skcm_rna)
 
 coadread_rna <- read.table("/Users/mylinh/Documents/published_data/tcga/coadread/tcga/data_RNA_Seq_v2_expression_median.txt", header = TRUE, nrows =100)[, c(1,3,4,5)]
-colnames(coadread_rna) <- c("hugo", "coadread_s1", "coadread_s2", "coadread_s3")
+colnames(coadread_rna) <- c("hugo", "coadread.s1", "coadread.s2", "coadread.s3")
 coadread_rna <- coadread_rna[!duplicated(coadread_rna$hugo), ]
-coadread_rna$cancer_type <- "COADREAD"
+coadread_rna$cancer.type <- "COADREAD"
 #View(coadread_rna)
 
 dlbc_rna <- read.table("/Users/mylinh/Documents/published_data/tcga/dlbc/tcga/data_RNA_Seq_v2_expression_median.txt", header = TRUE, nrows =100)[, c(1,3,4,5)]
-colnames(dlbc_rna) <- c("hugo", "dlbc_s1", "dlbc_s2", "dlbc_s3")
+colnames(dlbc_rna) <- c("hugo", "dlbc.s1", "dlbc.s2", "dlbc.s3")
 dlbc_rna <- dlbc_rna[!duplicated(dlbc_rna$hugo), ]
-dlbc_rna$cancer_type <- "DLBC"
+dlbc_rna$cancer.type <- "DLBC"
 #View(dlbc_rna)
 ```
-Note1. I populated one additional column per dataset with the cancer_type as this will represent my "gapminder$continent" value later on. I tried the technique explained on [computer world here](https://www.computerworld.com/article/2486425/business-intelligence/business-intelligence-4-data-wrangling-tasks-in-r-for-advanced-beginners.html), and although it didn't work out, it gave me the idea of creating a new column "cancer_type" with a single value for the specific cancer.
+Note1. I populated one additional column per dataset with the cancer.type as this will represent my "gapminder$continent" value later on. I tried the technique explained on [computer world here](https://www.computerworld.com/article/2486425/business-intelligence/business-intelligence-4-data-wrangling-tasks-in-r-for-advanced-beginners.html), and although it didn't work out, it gave me the idea of creating a new column "cancer.type" with a single value for the specific cancer.
 Note2. I found a way of selecting specific columns in read.table with [this stackoverflow dicussion](https://stackoverflow.com/questions/5788117/only-read-limited-number-of-columns) and [this stackexchange discussion](https://stats.stackexchange.com/questions/16796/reading-only-two-out-of-three-columns-with-read-csv).
 Note3. After experiencing issues later on in this homework, I had to remove the hugo genes that had 2 or more values for the same cancer sample. I needed to have only one gene-sample key for the spread() function to workout. I found the information about how to remove duplicate [here](https://stackoverflow.com/questions/13279582/select-only-the-first-rows-for-each-unique-value-of-a-column-in-r)
 
@@ -129,20 +129,20 @@ brca_rna %>%
 The TCGA RNAseq datasets are perfect for this exercise, because the columns in each dataset represent a different sample, and therefore, they are actually different obversations. I will start by making new "gathered" data.frame.
 ```{r}
 brca_rna_gather <- brca_rna %>%
-  gather(key = sample, value = RPKM, brca_s1, brca_s2, brca_s3)
+  gather(key = sample, value = RPKM, brca.s1, brca.s2, brca.s3)
 #View(brca_rna_gather)
 gbm_rna_gather <- gbm_rna %>%
-  gather(key=sample, value = RPKM, gbm_s1, gbm_s2, gbm_s3)
+  gather(key=sample, value = RPKM, gbm.s1, gbm.s2, gbm.s3)
 pcpg_rna_gather <- pcpg_rna %>%
-  gather(key = sample, value = RPKM, pcpg_s1, pcpg_s2, pcpg_s3)
+  gather(key = sample, value = RPKM, pcpg.s1, pcpg.s2, pcpg.s3)
 sarc_rna_gather <- sarc_rna %>%
-  gather(key=sample, value = RPKM, sarc_s1, sarc_s2, sarc_s3)
+  gather(key=sample, value = RPKM, sarc.s1, sarc.s2, sarc.s3)
 skcm_rna_gather <- skcm_rna %>%
-  gather(key = sample, value = RPKM, skcm_s1, skcm_s2, skcm_s3)
+  gather(key = sample, value = RPKM, skcm.s1, skcm.s2, skcm.s3)
 coadread_rna_gather <- coadread_rna %>%
-  gather(key = sample, value = RPKM, coadread_s1, coadread_s2, coadread_s3)
+  gather(key = sample, value = RPKM, coadread.s1, coadread.s2, coadread.s3)
 dlbc_rna_gather <- dlbc_rna %>%
-  gather(key =sample, value = RPKM, dlbc_s1, dlbc_s2, dlbc_s3)
+  gather(key =sample, value = RPKM, dlbc.s1, dlbc.s2, dlbc.s3)
 ```
 
 And now, if we take the same brca data, but the after using the gather() function:
@@ -158,7 +158,7 @@ In order to revert back to the original format of the data, I can use the same k
 
 ```{r}
 brca_rna %>%
-  gather(key = sample, value = RPKM, brca_s1, brca_s2, brca_s3) %>%
+  gather(key = sample, value = RPKM, brca.s1, brca.s2, brca.s3) %>%
   spread(key=sample, value=RPKM) %>%
   head(50) %>%
   kable("html") %>% kable_styling()
@@ -184,7 +184,7 @@ I will make a tibble with one row per gene (year) and columns for RPKM values (l
 
 ```{r}
 full_dataset %>%
-  filter(cancer_type=="BRCA") %>%
+  filter(cancer.type=="BRCA") %>%
   spread(key=sample, value =RPKM) %>%
   head(50) %>%
   kable("html") %>% kable_styling()
@@ -197,7 +197,7 @@ Compute some measure of RPKM (lifeExp) (mean? median? min? max?) for all possibl
 
 ```{r}
 full_dataset %>%
-  group_by(hugo, cancer_type) %>%
+  group_by(hugo, cancer.type) %>%
   summarize(mean_cancer=signif(mean(RPKM),2), median_cancer = signif(median(RPKM), 2), min_cancer=signif(min(RPKM), 2), max_cancer=signif(max(RPKM), 2)) %>%
   head(50) %>%
   kable("html") %>% kable_styling()
@@ -208,28 +208,28 @@ Reshape that to have one row per hugo (year) and one variable for each cancer gr
 This sounds like spread() and gather() would be useful here. So let's start by doing this exercise with the mean_cancer variable.
 ```{r}
 d1 <- full_dataset %>%
-  group_by(hugo, cancer_type) %>%
+  group_by(hugo, cancer.type) %>%
   summarize(mean_cancer= signif(mean(RPKM), 2)) %>%
   gather(key=stat_category, value= the_number , mean_cancer) %>%
-  spread(key=cancer_type, value=the_number)
+  spread(key=cancer.type, value=the_number)
 d1 %>% head(50) %>% kable("html") %>% kable_styling()
 ```
 
 *Wow ... that took a long time, so let me reason through the process for one second:*
 
-* I grouped by hugo gene (year) and cancer_type (continent)
+* I grouped by hugo gene (year) and cancer.type (continent)
 * Got my summary stat mean_cancer 
 * Used gather() with a key = stat_category and a value = the_number and mean_cancer
 - Key = new variable created = stat_category
 - Value = column name representing the value = the_number, which is a temporary variable I created to use in the spread() function after
 - Names of columns to gather = mean_cancer
-* Used spread() with a key = cancer_type and a value=the_number
-- Which means that the cancer_type now became columns of their own
+* Used spread() with a key = cancer.type and a value=the_number
+- Which means that the cancer.type now became columns of their own
 - And I indicated the value = the_number, which means the mean_cancer value in this case.
 
 *Is there a plot that is easier to make with the data in this shape versus the usual form? If so (or you think so), try it! Reflect.*
 
-Well, I am not sure actually. There might be one: plotting the hugo (year) summary stats according to the cancer_type (continent) will be easier I think. 
+Well, I am not sure actually. There might be one: plotting the hugo (year) summary stats according to the cancer.type (continent) will be easier I think. 
 
 For example, I can easily plot the breast cancer (BRCA) mean_cancer values and the difference between the hugo gene (year). I know it is almost impossible to read the gene name, but I had to make them small so they wouldn't overlap on each other.
 ```{r}
@@ -242,18 +242,18 @@ p1 + geom_point() +
 And now, we can extend it to more summary statistics:
 ```{r}
 d2 <- full_dataset %>%
-  group_by(hugo, cancer_type) %>%
+  group_by(hugo, cancer.type) %>%
   summarize(mean_cancer= signif(mean(RPKM), 2), median_cancer = signif(median(RPKM), 2), min_cancer=signif(min(RPKM), 2), max_cancer=signif(max(RPKM), 2)) %>%
   gather(key=stat_category, value= the_number , mean_cancer, median_cancer, min_cancer, max_cancer) %>%
-  spread(key=cancer_type, value=the_number)
+  spread(key=cancer.type, value=the_number)
 d2 %>% kable("html") %>% kable_styling()
 ```
 
 I think I still prefer starting from the full_dataset to make plots with summary values.
 ```{r}
 full_dataset %>%
-  group_by(cancer_type, hugo) %>%
-  ggplot(aes(x=hugo, y=RPKM, colour=cancer_type)) +
+  group_by(cancer.type, hugo) %>%
+  ggplot(aes(x=hugo, y=RPKM, colour=cancer.type)) +
   stat_summary(fun.y = mean, fun.ymin=min, fun.ymax = max) +
   theme(text = element_text(size=8), axis.text.x = element_text(angle=45, hjust=1))
 ```
@@ -262,7 +262,7 @@ Note. I know there is a lof of superposition here, but you get the general idea 
 Or the other way around: one row per cancer group (continent) and one variable hugo gene (year). Let's just do all the summary statistics on this one.
 ```{r}
 full_dataset %>%
-  group_by(cancer_type, hugo) %>%
+  group_by(cancer.type, hugo) %>%
   summarize(mean_cancer= signif(mean(RPKM), 2), median_cancer = signif(median(RPKM), 2), min_cancer=signif(min(RPKM), 2), max_cancer=signif(max(RPKM), 2)) %>%
   gather(key=stat_category, value= the_number , mean_cancer, median_cancer, min_cancer, max_cancer) %>%
   spread(key=hugo, value=the_number) %>%
@@ -291,7 +291,7 @@ I have decided to try some other window functions in order to satisfy the homewo
 
 ## Activity #5 - Make a data manipulation sampler
 
-Take that table (or a similar one for all cancer_type) and reshape it so you have one row per year or per year * continent combine
+Take that table (or a similar one for all cancer.type) and reshape it so you have one row per year or per year * continent combine
 
 
 ***

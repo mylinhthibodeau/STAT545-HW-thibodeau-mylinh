@@ -1772,7 +1772,7 @@ p1 + geom_point() +
    theme(text = element_text(size=8), axis.text.x = element_text(angle=45, hjust=1))
 ```
 
-![](stat545-hw04-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-12-1.png)
+![](long-version-stat545-hw04-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-12-1.png)
 
 And now, we can extend it to more summary statistics:
 
@@ -2487,7 +2487,7 @@ p_resh + geom_point(aes(colour=variable), alpha=0.8, size=10, shape=10) +
    theme(text = element_text(size=18), axis.text.x = element_text(angle=45, hjust=1))
 ```
 
-![](stat545-hw04-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-15-1.png) Observation: We can see which cancer type (variable) has the highest or lowest mean.cancer gene expression for individual genes.
+![](long-version-stat545-hw04-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-15-1.png) Observation: We can see which cancer type (variable) has the highest or lowest mean.cancer gene expression for individual genes.
 
 Resource on reshape [here](http://www.dummies.com/programming/r/how-to-cast-data-to-wide-format-in-r/)
 
@@ -2503,7 +2503,7 @@ full_dataset %>%
 
     ## Warning: Removed 509 rows containing non-finite values (stat_summary).
 
-![](stat545-hw04-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-16-1.png) Note. I know there is a lof of superposition here, we can always facet and remove the x-labels for a better visual:
+![](long-version-stat545-hw04-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-16-1.png) Note. I know there is a lof of superposition here, we can always facet and remove the x-labels for a better visual:
 
 ``` r
 full_dataset %>%
@@ -2516,7 +2516,7 @@ full_dataset %>%
 
     ## Warning: Removed 509 rows containing non-finite values (stat_summary).
 
-![](stat545-hw04-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-17-1.png)
+![](long-version-stat545-hw04-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-17-1.png)
 
 Or the other way around: one row per cancer group (continent) and one variable hugo gene (year). Let's just do all the summary statistics on this one.
 

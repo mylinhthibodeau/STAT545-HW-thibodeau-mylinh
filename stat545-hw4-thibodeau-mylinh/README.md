@@ -42,9 +42,12 @@ After trying for 3h to complete the homework 4 exercises with the data I used in
 
 ## Lesson #2 - Carefully read the requirements 
 
-I just realized that I only needed to do one activity for each section:
+I just realized that I only needed to do one activity for each section: 
 
-I was thinking to myself: this is a very long homework ...so I am so sorry if my homework is lengthy.
+* General data reshaping and relationship to aggregation 
+* Join, merge, look up 
+
+I was thinking to myself that this homework was very long by the time that a fellow student pointed out that I only needed to do 2 activities in total. Unfortunately, by that time, I already had completed most of the activities. The silver lining is that I am starting to understand coding better now and I will be able to use the cheatsheets in the future as their topic and applications are directly related to my field of research. 
 
 ***
 

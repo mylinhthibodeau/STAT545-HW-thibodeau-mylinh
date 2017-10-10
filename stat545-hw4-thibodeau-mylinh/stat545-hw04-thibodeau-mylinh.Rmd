@@ -17,13 +17,14 @@ library(scales)
 library(tidygenomics)
 ```
 
-# Genomic dataset - A few clarifications
+# Genomic datasets - A few clarifications
 
 Vincenzo Coia has approved my request to use published genomic data for the next assignments, therefore, I want to provide a few clarifications:
 
 * I have tried to introduce some basic explanations about the genomic dataset, but as my objective is to explore and learn how to use R and its packages, not to teach cancer genomic analysis, I am sorry in advance if you are not sure what the data and plots represent if they haven't studied in related fields, but focus on the data manipulation behind and not what the data represents, and I hope you will still enjoy reading my homework !
 * Given the size of the data, I only display a few rows per table to keep it readable.
 * If you are not sure of the corresponding variables (or equivalences) between gapminder and my genomic datasets, you can always go back to the README.md file [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw4-thibodeau-mylinh)
+* RPKM (Reads Per Kilobase of transcript per Million mapped reads) is a measure of gene expression obtained from RNAseq data.
 
 ## SOURCES OF DATA: The Cancer Genome Atlas (TCGA) and ClinVar 
 
@@ -354,7 +355,7 @@ I will create a smaller version of the first data frame I had for this exercise 
 
 The first dataset will contain the list of all genes and RPKM expression values for only one breast cancer tumour sample (brca.s1).
 ```{r}
-brca_rna_v2 <- read.table("/Users/mylinh/Documents/published_data/tcga/brca/tcga/data_RNA_Seq_v2_expression_median.txt", header = TRUE)[ ,c(1,3)]
+brca_rna_v2 <- read.table("/Users/mylinh/Documents/published_data/tcga/brca/tcga/data_RNA_Seq_v2_expression_median.txt", header = TRUE, strip.white = TRUE)[ ,c(1,3)]
 colnames(brca_rna_v2) <- c("hugo", "brca.s1")
 brca_rna_v2 <- brca_rna_v2[!duplicated(brca_rna_v2$hugo), ]
 ```
@@ -381,70 +382,118 @@ The Cancer Gene Census (cosmic_census) provides annotations on 567 genes that ha
 
 ## Test some join functions of dplyr
 
-Please note that the cosmic_census$Gene.Symbol correspond to brca_rna_v2$hugo, hence why I account for it when joining by below.
+Please note that the cosmic_census$Gene.Symbol correspond to brca_rna_v2$hugo, hence why I account for it when joining by below. We will be joining the information of 2 datasets:
 
+* brca_rna_v2: contains the hugo genes and the RPKM (gene expression) values of one breast cancer tumour sample
+* cosmic_census: contains a list of Gene.Symbol genes involved in cancer,  and several annotations: type of tumours in which it plays a role (Tumour.Types.Somatic.), type of somatic mutations that can lead to cancer (Mutation.Types), etc.
+ 
 ### MUTATING JOIN
 
 #### left_join()
 
-Objective/process: with left_join(), I start with the cosmic_census, and then I append the brca_rna_v2 data based on a column of matching genes. brca_rna_v2$hugo genes are compared against cosmic_census$Gene.Symbol genes, when a match is found, the data from the matching corresponding brca_rna_v2 row is appended to cosmic_census. For genes only in cosmic_census, the new columns are populated with "NA".  
+*Objective/process:* With left_join(), I start with the cosmic_census, and then I append the brca_rna_v2 data based on a column of matching genes. 
+
+brca_rna_v2$hugo genes are compared against cosmic_census$Gene.Symbol genes, when a match is found, the data from the matching corresponding brca_rna_v2 row is appended to cosmic_census. For genes only in cosmic_census, the new columns are populated with "NA".  
 
 ```{r}
 t1 <- left_join(cosmic_census, brca_rna_v2, by = c("Gene.Symbol"="hugo")) %>%
   select(Gene.Symbol, Tumour.Types.Somatic., Role.in.Cancer, brca.s1) 
 t1 %>% head(15) %>% kable(format = "markdown", align=NULL)
+dim(t1)
 ```
 Note. I had error messages when trying to pipe the table into kable function, and I found that kable can introduce space or newline, and that I could solve it by using aling=NULL as explained [here](https://github.com/yihui/knitr/issues/699).
 
-Observation: 
+*Observations*
+
+* There is not rna expression data for the AFF1
+* AMER1 is involved in Wilms tumour pathogenesis, and in our breast cancer sample, AMER1 expression was around 439 RPKM.
 
 #### right_join()
 
-Objective/process: 
+*Objective/process:* With right_join(), it's the reverse of left_join(): I start with brca_rna_v2 and match cosmic_census to brca_rna_v2. 
+
 ```{r}
-t2 <- right_join(cosmic_census, brca_rna_v2, by = c("Gene.Symbol"="hugo"))
-t2 %>% select(Gene.Symbol, Tumour.Types.Somatic., Role.in.Cancer, brca.s1) %>% head(15) %>% kable(format = "markdown", align=NULL)
+t2 <- right_join(cosmic_census, brca_rna_v2, by = c("Gene.Symbol"="hugo")) %>% select(Gene.Symbol, Tumour.Types.Somatic., Role.in.Cancer, brca.s1) 
+t2 %>% head(15) %>% kable(format = "markdown", align=NULL)
+dim(t2)
 ```
 
-Observation: 
+*Observations*
+
+* Since the maximum of matches is 567 (number of rows in cosmic_census) out of 20500 (number of rows in brca_rna_v2), it is not surprising that the Tumour.Types.Somatic. and Role.in.Cancer columns are populations with NA when we only look at 15 rows.
+* Since right_join(cosmic_census, brca_rna_v2) is equivalent to left_join(brca_rna_v2, cosmic_census), I personally feel it is less confusing to stick with left_join() and swap the order of the datasets inside the function.
 
 #### inner_join()
 
-Objective/process: 
+*Objective/process:* With inner_join(), I only return the rows that match in both cosmic_census and brca_rna_v2.  
+
 ```{r}
-t3 <- inner_join(cosmic_census, brca_rna_v2, by = c("Gene.Symbol"="hugo"))
-t3 %>% select(Gene.Symbol, Tumour.Types.Somatic., Role.in.Cancer, brca.s1) %>% head(15) %>% kable(format = "markdown", align=NULL) 
+t3 <- inner_join(cosmic_census, brca_rna_v2, by = c("Gene.Symbol"="hugo")) %>% 
+select(Gene.Symbol, Tumour.Types.Somatic., Role.in.Cancer, brca.s1)
+t3  %>% head(15) %>% kable(format = "markdown", align=NULL) 
+dim(t3)
 ```
-Observation: 
+*Observations*
+
+* There is 419 genes that are present in both datasets.
+* There is no "NA" value in this table.
 
 #### full_join()
 
-Objective/process: 
+*Objective/process:* With full_join(), I append all the information of brca_rna_v2 to cosmic_census.
+
 ```{r}
-t4 <-  full_join(cosmic_census, brca_rna_v2, by = c("Gene.Symbol"="hugo"))
-t4 %>% select(Gene.Symbol, Tumour.Types.Somatic., Role.in.Cancer, brca.s1) %>% head(15) %>% kable(format = "markdown", align=NULL)
+t4 <-  full_join(cosmic_census, brca_rna_v2, by = c("Gene.Symbol"="hugo")) %>% select(Gene.Symbol, Tumour.Types.Somatic., Role.in.Cancer, brca.s1) 
+t4 %>% head(15) %>% kable(format = "markdown", align=NULL)
+dim(t4)
 ```
-Observation: 
+
+*Observations*
+
+* This function creates the largest dataset (20648 rows) as it keeps all the information.
+* Weirdly enough, there is one entry in brca_rna_v2 for which there is expression data, but no gene in the hugo column, and this mysterious NA gene has an expression level of:
+
+```{r}
+brca_rna_v2 %>%
+  filter(is.na(hugo))
+```
+
 
 ## FILTERING JOIN
 
 #### semi_join()
 
-Objective/process: 
+*Objective/process:* With semi_join(), I get all the rows from cosmic_census for which there is a match in brca_rna_v2. 
+
 ```{r}
-t5 <- semi_join(cosmic_census, brca_rna_v2, by = c("Gene.Symbol"="hugo"))
+t5 <- cosmic_census %>%
+  select(Gene.Symbol, Tumour.Types.Somatic., Role.in.Cancer) %>%
+  semi_join(brca_rna_v2, by = c("Gene.Symbol"="hugo"))
+
+dim(t5)
 t5 %>% head(15) %>% kable(format = "markdown", align=NULL)
 ```
-Observation: 
+*Observations*
+
+* It does not append the data from brca_rna_v2 because semi_join() is a filtering function. 
+* Even thought the gene expression data is not appended, we know that the genes listed in t5 are also present in brca_rna_v2 because semi_join() keeps only the data of cosmic_census if a gene is present in both datasets.
 
 #### anti_join()
 
-Objective/process: 
+*Objective/process:* The anti_join() is the mirror function of semi_join(). It will only keep the rows of cosmic_census if Gene.Symbol does NOT match brca_rna_v2$hugo. 
+
 ```{r}
-t6 <- anti_join(cosmic_census, brca_rna_v2, by = c("Gene.Symbol"="hugo"))
+t6 <- cosmic_census %>%
+  select(Gene.Symbol, Tumour.Types.Somatic., Role.in.Cancer) %>%
+  anti_join(brca_rna_v2, by = c("Gene.Symbol"="hugo"))
+
+dim(t6)
 t6 %>% head(15) %>% kable(format = "markdown", align=NULL)
 ```
-Observation: 
+
+*Observation:*
+
+* I can hardly imagine a role for this function with my current data, but that is because I picked my two datasets (cosmic_census and brca_rna_v2) thinking about mutating and appending data, not about filtering out data, and therefore, my datasets have complementary information. If I had two redundant datasets, the filtering functions would be more applicable.
 
 ## Activity #2 - Create your own cheatsheet
 

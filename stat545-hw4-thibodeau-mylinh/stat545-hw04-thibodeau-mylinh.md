@@ -34,12 +34,15 @@ library(scales)
 library(tidygenomics)
 ```
 
-Genomic dataset - A few clarifications
-======================================
+Genomic datasets - A few clarifications
+=======================================
 
 Vincenzo Coia has approved my request to use published genomic data for the next assignments, therefore, I want to provide a few clarifications:
 
--   I have tried to introduce some basic explanations about the genomic dataset, but obviously, this is not a genetics course and my objective is to explore and learn how to use R and its packages, not to teach complex notions of cancer genomic analysis. Therefore, I don't expect people to understand what the data and plots represent if they haven't studied in related fields.
+-   I have tried to introduce some basic explanations about the genomic dataset, but as my objective is to explore and learn how to use R and its packages, not to teach cancer genomic analysis, I am sorry in advance if you are not sure what the data and plots represent if they haven't studied in related fields, but focus on the data manipulation behind and not what the data represents, and I hope you will still enjoy reading my homework !
+-   Given the size of the data, I only display a few rows per table to keep it readable.
+-   If you are not sure of the corresponding variables (or equivalences) between gapminder and my genomic datasets, you can always go back to the README.md file [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw4-thibodeau-mylinh)
+-   RPKM (Reads Per Kilobase of transcript per Million mapped reads) is a measure of gene expression obtained from RNAseq data.
 
 SOURCES OF DATA: The Cancer Genome Atlas (TCGA) and ClinVar
 -----------------------------------------------------------
@@ -78,7 +81,7 @@ brca_rna <- read.table("/Users/mylinh/Documents/published_data/tcga/brca/tcga/da
 colnames(brca_rna) <- c("hugo", "brca.s1", "brca.s2", "brca.s3")
 brca_rna <- brca_rna[!duplicated(brca_rna$hugo), ]
 brca_rna$cancer.type <- "BRCA"
-View(brca_rna)
+#View(brca_rna)
 
 gbm_rna <- read.table("/Users/mylinh/Documents/published_data/tcga/gbm/tcga/data_RNA_Seq_v2_expression_median.txt", header = TRUE, nrows =100)[, c(1,3,4,5)]
 colnames(gbm_rna) <- c("hugo", "gbm.s1", "gbm.s2", "gbm.s3")
@@ -117,7 +120,7 @@ dlbc_rna$cancer.type <- "DLBC"
 #View(dlbc_rna)
 ```
 
-Note1. I populated one additional column per dataset with the cancer.type as this will represent my "gapminder$continent" value later on. I tried the technique explained on [computer world here](https://www.computerworld.com/article/2486425/business-intelligence/business-intelligence-4-data-wrangling-tasks-in-r-for-advanced-beginners.html), and although it didn't work out, it gave me the idea of creating a new column "cancer.type" with a single value for the specific cancer. Note2. I found a way of selecting specific columns in read.table with [this stackoverflow dicussion](https://stackoverflow.com/questions/5788117/only-read-limited-number-of-columns) and [this stackexchange discussion](https://stats.stackexchange.com/questions/16796/reading-only-two-out-of-three-columns-with-read-csv). Note3. After experiencing issues later on in this homework, I had to remove the hugo genes that had 2 or more values for the same cancer sample. I needed to have only one gene-sample key for the spread() function to workout. I found the information about how to remove duplicate [here](https://stackoverflow.com/questions/13279582/select-only-the-first-rows-for-each-unique-value-of-a-column-in-r)
+Note1. I populated one additional column per dataset with the cancer.type as this will represent my "gapminder$continent" value later on. I tried the technique explained on [computer world here](https://www.computerworld.com/article/2486415/business-intelligence/business-intelligence-4-data-wrangling-tasks-in-r-for-advanced-beginners.html), and although it didn't work out, it gave me the idea of creating a new column "cancer.type" with a single value for the specific cancer. Note2. I found a way of selecting specific columns in read.table with [this stackoverflow dicussion](https://stackoverflow.com/questions/5788117/only-read-limited-number-of-columns) and [this stackexchange discussion](https://stats.stackexchange.com/questions/16796/reading-only-two-out-of-three-columns-with-read-csv). Note3. After experiencing issues later on in this homework, I had to remove the hugo genes that had 2 or more values for the same cancer sample. I needed to have only one gene-sample key for the spread() function to workout. I found the information about how to remove duplicate [here](https://stackoverflow.com/questions/13279582/select-only-the-first-rows-for-each-unique-value-of-a-column-in-r)
 
 General data reshaping and relationship to aggregation
 ======================================================
@@ -145,7 +148,7 @@ Let's take a look at the brca\_rna data:
 
 ``` r
 brca_rna %>%
-  head(25) %>%
+  head(15) %>%
   kable("html") %>% kable_styling()
 ```
 
@@ -472,206 +475,6 @@ SPATA31B1P
 BRCA
 </td>
 </tr>
-<tr>
-<td style="text-align:left;">
-17
-</td>
-<td style="text-align:left;">
-LOC286106
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-18
-</td>
-<td style="text-align:left;">
-SDR16C6P
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-19
-</td>
-<td style="text-align:left;">
-LOC553137
-</td>
-<td style="text-align:right;">
-3.7912
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-<td style="text-align:right;">
-0.9066
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-20
-</td>
-<td style="text-align:left;">
-KIAA1618
-</td>
-<td style="text-align:right;">
-820.9773
-</td>
-<td style="text-align:right;">
-708.5372
-</td>
-<td style="text-align:right;">
-391.6591
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-21
-</td>
-<td style="text-align:left;">
-LOC645851
-</td>
-<td style="text-align:right;">
-124.4218
-</td>
-<td style="text-align:right;">
-142.4687
-</td>
-<td style="text-align:right;">
-34.4515
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-22
-</td>
-<td style="text-align:left;">
-RGPD7
-</td>
-<td style="text-align:right;">
-25.8494
-</td>
-<td style="text-align:right;">
-13.3388
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-23
-</td>
-<td style="text-align:left;">
-HSPB1P1
-</td>
-<td style="text-align:right;">
-289.5134
-</td>
-<td style="text-align:right;">
-449.7009
-</td>
-<td style="text-align:right;">
-1100.6346
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-24
-</td>
-<td style="text-align:left;">
-PPBPL1
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-25
-</td>
-<td style="text-align:left;">
-LOC594835
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-26
-</td>
-<td style="text-align:left;">
-ANKRD20A20P
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-<td style="text-align:right;">
-0.9066
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-</tr>
 </tbody>
 </table>
 The TCGA RNAseq datasets are perfect for this exercise, because the columns in each dataset represent a different sample, and therefore, they are actually different obversations. I will start by making new "gathered" data.frame.
@@ -698,7 +501,7 @@ And now, if we take the same brca data, but the after using the gather() functio
 
 ``` r
 brca_rna_gather %>%
-  head(25) %>%
+  head(15) %>%
   kable("html") %>% kable_styling()
 ```
 
@@ -930,146 +733,6 @@ brca.s1
 0.0000
 </td>
 </tr>
-<tr>
-<td style="text-align:left;">
-LOC286106
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:left;">
-brca.s1
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SDR16C6P
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:left;">
-brca.s1
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-LOC553137
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:left;">
-brca.s1
-</td>
-<td style="text-align:right;">
-3.7912
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-KIAA1618
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:left;">
-brca.s1
-</td>
-<td style="text-align:right;">
-820.9773
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-LOC645851
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:left;">
-brca.s1
-</td>
-<td style="text-align:right;">
-124.4218
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-RGPD7
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:left;">
-brca.s1
-</td>
-<td style="text-align:right;">
-25.8494
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-HSPB1P1
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:left;">
-brca.s1
-</td>
-<td style="text-align:right;">
-289.5134
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-PPBPL1
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:left;">
-brca.s1
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-LOC594835
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:left;">
-brca.s1
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ANKRD20A20P
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:left;">
-brca.s1
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-</tr>
 </tbody>
 </table>
 ### SPREAD: From vertical (longer) to horizontal (wide)
@@ -1080,7 +743,7 @@ In order to revert back to the original format of the data, I can use the same k
 brca_rna %>%
   gather(key = sample, value = RPKM, brca.s1, brca.s2, brca.s3) %>%
   spread(key=sample, value=RPKM) %>%
-  head(25) %>%
+  head(15) %>%
   kable("html") %>% kable_styling()
 ```
 
@@ -1358,176 +1021,6 @@ BRCA
 </td>
 <td style="text-align:right;">
 390.7525
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AASDH
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:right;">
-277.4504
-</td>
-<td style="text-align:right;">
-184.3393
-</td>
-<td style="text-align:right;">
-190.3898
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AASDHPPT
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:right;">
-808.9143
-</td>
-<td style="text-align:right;">
-678.6297
-</td>
-<td style="text-align:right;">
-779.6917
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AASS
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:right;">
-45.8396
-</td>
-<td style="text-align:right;">
-71.7781
-</td>
-<td style="text-align:right;">
-76.1559
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AATF
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:right;">
-1518.9114
-</td>
-<td style="text-align:right;">
-7649.2659
-</td>
-<td style="text-align:right;">
-2097.9148
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ABCA11P
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:right;">
-79.1509
-</td>
-<td style="text-align:right;">
-96.0903
-</td>
-<td style="text-align:right;">
-156.0199
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ABCA13
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-<td style="text-align:right;">
-1.6313
-</td>
-<td style="text-align:right;">
-0.9066
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ABCA17P
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:right;">
-17.9223
-</td>
-<td style="text-align:right;">
-70.6906
-</td>
-<td style="text-align:right;">
-12.6927
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ABCA2
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:right;">
-4507.4481
-</td>
-<td style="text-align:right;">
-2330.0707
-</td>
-<td style="text-align:right;">
-3208.5222
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ABCA3
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:right;">
-5470.7695
-</td>
-<td style="text-align:right;">
-2656.8787
-</td>
-<td style="text-align:right;">
-1514.0526
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ABCA6
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:right;">
-23.0921
-</td>
-<td style="text-align:right;">
-25.0136
-</td>
-<td style="text-align:right;">
-81.5956
 </td>
 </tr>
 </tbody>
@@ -1566,7 +1059,7 @@ I will make a tibble with one row per gene (year) and columns for RPKM values (l
 full_dataset %>%
   filter(cancer.type=="BRCA") %>%
   spread(key=sample, value =RPKM) %>%
-  head(25) %>%
+  head(15) %>%
   kable("html") %>% kable_styling()
 ```
 
@@ -1846,176 +1339,6 @@ BRCA
 390.7525
 </td>
 </tr>
-<tr>
-<td style="text-align:left;">
-AASDH
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:right;">
-277.4504
-</td>
-<td style="text-align:right;">
-184.3393
-</td>
-<td style="text-align:right;">
-190.3898
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AASDHPPT
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:right;">
-808.9143
-</td>
-<td style="text-align:right;">
-678.6297
-</td>
-<td style="text-align:right;">
-779.6917
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AASS
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:right;">
-45.8396
-</td>
-<td style="text-align:right;">
-71.7781
-</td>
-<td style="text-align:right;">
-76.1559
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AATF
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:right;">
-1518.9114
-</td>
-<td style="text-align:right;">
-7649.2659
-</td>
-<td style="text-align:right;">
-2097.9148
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ABCA11P
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:right;">
-79.1509
-</td>
-<td style="text-align:right;">
-96.0903
-</td>
-<td style="text-align:right;">
-156.0199
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ABCA13
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-<td style="text-align:right;">
-1.6313
-</td>
-<td style="text-align:right;">
-0.9066
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ABCA17P
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:right;">
-17.9223
-</td>
-<td style="text-align:right;">
-70.6906
-</td>
-<td style="text-align:right;">
-12.6927
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ABCA2
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:right;">
-4507.4481
-</td>
-<td style="text-align:right;">
-2330.0707
-</td>
-<td style="text-align:right;">
-3208.5222
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ABCA3
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:right;">
-5470.7695
-</td>
-<td style="text-align:right;">
-2656.8787
-</td>
-<td style="text-align:right;">
-1514.0526
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ABCA6
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:right;">
-23.0921
-</td>
-<td style="text-align:right;">
-25.0136
-</td>
-<td style="text-align:right;">
-81.5956
-</td>
-</tr>
 </tbody>
 </table>
 Activity \#3
@@ -2027,7 +1350,7 @@ Compute some measure of RPKM (lifeExp) (mean? median? min? max?) for all possibl
 full_dataset %>%
   group_by(hugo, cancer.type) %>%
   summarize(mean.cancer=signif(mean(RPKM),2), median.cancer = signif(median(RPKM), 2), min.cancer=signif(min(RPKM), 2), max.cancer=signif(max(RPKM), 2)) %>%
-  head(25) %>%
+  head(15) %>%
   kable("html") %>% kable_styling()
 ```
 
@@ -2066,10 +1389,10 @@ BRCA
 3.0e-01
 </td>
 <td style="text-align:right;">
-0.0e+00
+0.0
 </td>
 <td style="text-align:right;">
-0.0e+00
+0
 </td>
 <td style="text-align:right;">
 9.1e-01
@@ -2086,10 +1409,10 @@ COADREAD
 1.7e+02
 </td>
 <td style="text-align:right;">
-1.7e+02
+170.0
 </td>
 <td style="text-align:right;">
-1.0e+02
+100
 </td>
 <td style="text-align:right;">
 2.2e+02
@@ -2106,10 +1429,10 @@ DLBC
 0.0e+00
 </td>
 <td style="text-align:right;">
-0.0e+00
+0.0
 </td>
 <td style="text-align:right;">
-0.0e+00
+0
 </td>
 <td style="text-align:right;">
 0.0e+00
@@ -2126,10 +1449,10 @@ GBM
 0.0e+00
 </td>
 <td style="text-align:right;">
-0.0e+00
+0.0
 </td>
 <td style="text-align:right;">
-0.0e+00
+0
 </td>
 <td style="text-align:right;">
 0.0e+00
@@ -2146,10 +1469,10 @@ PCPG
 0.0e+00
 </td>
 <td style="text-align:right;">
-0.0e+00
+0.0
 </td>
 <td style="text-align:right;">
-0.0e+00
+0
 </td>
 <td style="text-align:right;">
 0.0e+00
@@ -2166,10 +1489,10 @@ SARC
 0.0e+00
 </td>
 <td style="text-align:right;">
-0.0e+00
+0.0
 </td>
 <td style="text-align:right;">
-0.0e+00
+0
 </td>
 <td style="text-align:right;">
 0.0e+00
@@ -2186,10 +1509,10 @@ SKCM
 2.4e-01
 </td>
 <td style="text-align:right;">
-0.0e+00
+0.0
 </td>
 <td style="text-align:right;">
-0.0e+00
+0
 </td>
 <td style="text-align:right;">
 7.1e-01
@@ -2206,10 +1529,10 @@ BRCA
 7.4e+03
 </td>
 <td style="text-align:right;">
-7.6e+03
+7600.0
 </td>
 <td style="text-align:right;">
-5.8e+03
+5800
 </td>
 <td style="text-align:right;">
 8.8e+03
@@ -2226,10 +1549,10 @@ COADREAD
 6.2e+03
 </td>
 <td style="text-align:right;">
-1.5e+03
+1500.0
 </td>
 <td style="text-align:right;">
-1.3e+03
+1300
 </td>
 <td style="text-align:right;">
 1.6e+04
@@ -2246,10 +1569,10 @@ DLBC
 4.8e+03
 </td>
 <td style="text-align:right;">
-4.7e+03
+4700.0
 </td>
 <td style="text-align:right;">
-4.2e+03
+4200
 </td>
 <td style="text-align:right;">
 5.3e+03
@@ -2266,10 +1589,10 @@ GBM
 3.3e+04
 </td>
 <td style="text-align:right;">
-3.4e+04
+34000.0
 </td>
 <td style="text-align:right;">
-2.1e+04
+21000
 </td>
 <td style="text-align:right;">
 4.3e+04
@@ -2286,10 +1609,10 @@ PCPG
 9.0e+03
 </td>
 <td style="text-align:right;">
-9.4e+03
+9400.0
 </td>
 <td style="text-align:right;">
-5.4e+03
+5400
 </td>
 <td style="text-align:right;">
 1.2e+04
@@ -2306,10 +1629,10 @@ SARC
 3.3e+04
 </td>
 <td style="text-align:right;">
-3.8e+04
+38000.0
 </td>
 <td style="text-align:right;">
-2.1e+04
+21000
 </td>
 <td style="text-align:right;">
 4.1e+04
@@ -2326,10 +1649,10 @@ SKCM
 6.3e+04
 </td>
 <td style="text-align:right;">
-1.8e+04
+18000.0
 </td>
 <td style="text-align:right;">
-2.2e+03
+2200
 </td>
 <td style="text-align:right;">
 1.7e+05
@@ -2346,213 +1669,13 @@ BRCA
 1.9e+00
 </td>
 <td style="text-align:right;">
-1.4e+00
+1.4
 </td>
 <td style="text-align:right;">
-0.0e+00
+0
 </td>
 <td style="text-align:right;">
 4.4e+00
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-A2ML1
-</td>
-<td style="text-align:left;">
-COADREAD
-</td>
-<td style="text-align:right;">
-1.3e+01
-</td>
-<td style="text-align:right;">
-4.8e-01
-</td>
-<td style="text-align:right;">
-4.8e-01
-</td>
-<td style="text-align:right;">
-3.7e+01
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-A2ML1
-</td>
-<td style="text-align:left;">
-DLBC
-</td>
-<td style="text-align:right;">
-1.6e-01
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-<td style="text-align:right;">
-4.9e-01
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-A2ML1
-</td>
-<td style="text-align:left;">
-GBM
-</td>
-<td style="text-align:right;">
-1.5e+01
-</td>
-<td style="text-align:right;">
-2.5e+00
-</td>
-<td style="text-align:right;">
-1.7e+00
-</td>
-<td style="text-align:right;">
-4.1e+01
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-A2ML1
-</td>
-<td style="text-align:left;">
-PCPG
-</td>
-<td style="text-align:right;">
-4.5e-01
-</td>
-<td style="text-align:right;">
-2.7e-01
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-<td style="text-align:right;">
-1.1e+00
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-A2ML1
-</td>
-<td style="text-align:left;">
-SARC
-</td>
-<td style="text-align:right;">
-1.2e+00
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-<td style="text-align:right;">
-3.6e+00
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-A2ML1
-</td>
-<td style="text-align:left;">
-SKCM
-</td>
-<td style="text-align:right;">
-2.4e+00
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-<td style="text-align:right;">
-7.3e+00
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-A4GNT
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:right;">
-3.1e+00
-</td>
-<td style="text-align:right;">
-5.4e-01
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-<td style="text-align:right;">
-8.6e+00
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-A4GNT
-</td>
-<td style="text-align:left;">
-COADREAD
-</td>
-<td style="text-align:right;">
-1.6e-01
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-<td style="text-align:right;">
-4.8e-01
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-A4GNT
-</td>
-<td style="text-align:left;">
-DLBC
-</td>
-<td style="text-align:right;">
-1.3e+00
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-<td style="text-align:right;">
-3.9e+00
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-A4GNT
-</td>
-<td style="text-align:left;">
-GBM
-</td>
-<td style="text-align:right;">
-6.0e-01
-</td>
-<td style="text-align:right;">
-5.6e-01
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-<td style="text-align:right;">
-1.2e+00
 </td>
 </tr>
 </tbody>
@@ -2567,7 +1690,7 @@ d1 <- full_dataset %>%
   summarize(mean.cancer= signif(mean(RPKM), 2)) %>%
   gather(key=stat.category, value= the.number , mean.cancer) %>%
   spread(key=cancer.type, value=the.number)
-d1 %>% head(25) %>% kable("html") %>% kable_styling()
+d1 %>% head(15) %>% kable("html") %>% kable_styling()
 ```
 
 <table class="table" style="margin-left: auto; margin-right: auto;">
@@ -3038,296 +2161,6 @@ mean.cancer
 7.6e+02
 </td>
 </tr>
-<tr>
-<td style="text-align:left;">
-AASDH
-</td>
-<td style="text-align:left;">
-mean.cancer
-</td>
-<td style="text-align:right;">
-220.00
-</td>
-<td style="text-align:right;">
-190.00
-</td>
-<td style="text-align:right;">
-190.00
-</td>
-<td style="text-align:right;">
-2.6e+02
-</td>
-<td style="text-align:right;">
-220.00
-</td>
-<td style="text-align:right;">
-2.3e+02
-</td>
-<td style="text-align:right;">
-2.3e+02
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AASDHPPT
-</td>
-<td style="text-align:left;">
-mean.cancer
-</td>
-<td style="text-align:right;">
-760.00
-</td>
-<td style="text-align:right;">
-570.00
-</td>
-<td style="text-align:right;">
-1000.00
-</td>
-<td style="text-align:right;">
-1.4e+03
-</td>
-<td style="text-align:right;">
-1400.00
-</td>
-<td style="text-align:right;">
-5.4e+02
-</td>
-<td style="text-align:right;">
-1.0e+03
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AASS
-</td>
-<td style="text-align:left;">
-mean.cancer
-</td>
-<td style="text-align:right;">
-65.00
-</td>
-<td style="text-align:right;">
-270.00
-</td>
-<td style="text-align:right;">
-84.00
-</td>
-<td style="text-align:right;">
-5.8e+02
-</td>
-<td style="text-align:right;">
-290.00
-</td>
-<td style="text-align:right;">
-4.4e+02
-</td>
-<td style="text-align:right;">
-5.8e+02
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AATF
-</td>
-<td style="text-align:left;">
-mean.cancer
-</td>
-<td style="text-align:right;">
-3800.00
-</td>
-<td style="text-align:right;">
-1800.00
-</td>
-<td style="text-align:right;">
-2100.00
-</td>
-<td style="text-align:right;">
-1.2e+03
-</td>
-<td style="text-align:right;">
-880.00
-</td>
-<td style="text-align:right;">
-1.4e+03
-</td>
-<td style="text-align:right;">
-1.8e+03
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ABCA11P
-</td>
-<td style="text-align:left;">
-mean.cancer
-</td>
-<td style="text-align:right;">
-110.00
-</td>
-<td style="text-align:right;">
-130.00
-</td>
-<td style="text-align:right;">
-58.00
-</td>
-<td style="text-align:right;">
-1.4e+02
-</td>
-<td style="text-align:right;">
-200.00
-</td>
-<td style="text-align:right;">
-7.4e+01
-</td>
-<td style="text-align:right;">
-8.7e+01
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ABCA13
-</td>
-<td style="text-align:left;">
-mean.cancer
-</td>
-<td style="text-align:right;">
-0.85
-</td>
-<td style="text-align:right;">
-29.00
-</td>
-<td style="text-align:right;">
-0.33
-</td>
-<td style="text-align:right;">
-2.1e+02
-</td>
-<td style="text-align:right;">
-0.73
-</td>
-<td style="text-align:right;">
-3.9e+00
-</td>
-<td style="text-align:right;">
-1.4e+01
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ABCA17P
-</td>
-<td style="text-align:left;">
-mean.cancer
-</td>
-<td style="text-align:right;">
-34.00
-</td>
-<td style="text-align:right;">
-5.10
-</td>
-<td style="text-align:right;">
-5.80
-</td>
-<td style="text-align:right;">
-2.9e+01
-</td>
-<td style="text-align:right;">
-15.00
-</td>
-<td style="text-align:right;">
-3.4e+00
-</td>
-<td style="text-align:right;">
-1.8e+01
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ABCA2
-</td>
-<td style="text-align:left;">
-mean.cancer
-</td>
-<td style="text-align:right;">
-3300.00
-</td>
-<td style="text-align:right;">
-1700.00
-</td>
-<td style="text-align:right;">
-340.00
-</td>
-<td style="text-align:right;">
-2.5e+03
-</td>
-<td style="text-align:right;">
-6100.00
-</td>
-<td style="text-align:right;">
-1.1e+03
-</td>
-<td style="text-align:right;">
-2.0e+03
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ABCA3
-</td>
-<td style="text-align:left;">
-mean.cancer
-</td>
-<td style="text-align:right;">
-3200.00
-</td>
-<td style="text-align:right;">
-200.00
-</td>
-<td style="text-align:right;">
-140.00
-</td>
-<td style="text-align:right;">
-2.4e+03
-</td>
-<td style="text-align:right;">
-3200.00
-</td>
-<td style="text-align:right;">
-4.4e+02
-</td>
-<td style="text-align:right;">
-7.8e+02
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ABCA6
-</td>
-<td style="text-align:left;">
-mean.cancer
-</td>
-<td style="text-align:right;">
-43.00
-</td>
-<td style="text-align:right;">
-11.00
-</td>
-<td style="text-align:right;">
-250.00
-</td>
-<td style="text-align:right;">
-3.0e+01
-</td>
-<td style="text-align:right;">
-50.00
-</td>
-<td style="text-align:right;">
-5.7e+02
-</td>
-<td style="text-align:right;">
-4.1e+01
-</td>
-</tr>
 </tbody>
 </table>
 *Wow ... that took a long time, so let me reason through the process for one second:*
@@ -3365,7 +2198,7 @@ d2 <- full_dataset %>%
   summarize(mean.cancer= signif(mean(RPKM), 2), median.cancer = signif(median(RPKM), 2), min.cancer=signif(min(RPKM), 2), max.cancer=signif(max(RPKM), 2)) %>%
   gather(key=stat.category, value= the.number , mean.cancer, median.cancer, min.cancer, max.cancer) %>%
   spread(key=cancer.type, value=the.number)
-d2 %>% head(25) %>% kable("html") %>% kable_styling()
+d2 %>% head(15) %>% kable("html") %>% kable_styling()
 ```
 
 <table class="table" style="margin-left: auto; margin-right: auto;">
@@ -3836,296 +2669,6 @@ median.cancer
 0.0e+00
 </td>
 </tr>
-<tr>
-<td style="text-align:left;">
-A4GNT
-</td>
-<td style="text-align:left;">
-min.cancer
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-<td style="text-align:right;">
-4.1e-01
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AAAS
-</td>
-<td style="text-align:left;">
-max.cancer
-</td>
-<td style="text-align:right;">
-890.00
-</td>
-<td style="text-align:right;">
-1.0e+03
-</td>
-<td style="text-align:right;">
-1200.00
-</td>
-<td style="text-align:right;">
-1.1e+03
-</td>
-<td style="text-align:right;">
-7.0e+02
-</td>
-<td style="text-align:right;">
-8.8e+02
-</td>
-<td style="text-align:right;">
-9.6e+02
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AAAS
-</td>
-<td style="text-align:left;">
-mean.cancer
-</td>
-<td style="text-align:right;">
-750.00
-</td>
-<td style="text-align:right;">
-9.3e+02
-</td>
-<td style="text-align:right;">
-1100.00
-</td>
-<td style="text-align:right;">
-7.2e+02
-</td>
-<td style="text-align:right;">
-5.9e+02
-</td>
-<td style="text-align:right;">
-7.5e+02
-</td>
-<td style="text-align:right;">
-7.9e+02
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AAAS
-</td>
-<td style="text-align:left;">
-median.cancer
-</td>
-<td style="text-align:right;">
-720.00
-</td>
-<td style="text-align:right;">
-9.1e+02
-</td>
-<td style="text-align:right;">
-1100.00
-</td>
-<td style="text-align:right;">
-5.9e+02
-</td>
-<td style="text-align:right;">
-5.9e+02
-</td>
-<td style="text-align:right;">
-7.5e+02
-</td>
-<td style="text-align:right;">
-7.2e+02
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AAAS
-</td>
-<td style="text-align:left;">
-min.cancer
-</td>
-<td style="text-align:right;">
-650.00
-</td>
-<td style="text-align:right;">
-8.8e+02
-</td>
-<td style="text-align:right;">
-990.00
-</td>
-<td style="text-align:right;">
-4.7e+02
-</td>
-<td style="text-align:right;">
-4.7e+02
-</td>
-<td style="text-align:right;">
-6.1e+02
-</td>
-<td style="text-align:right;">
-6.7e+02
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AACS
-</td>
-<td style="text-align:left;">
-max.cancer
-</td>
-<td style="text-align:right;">
-1500.00
-</td>
-<td style="text-align:right;">
-1.4e+03
-</td>
-<td style="text-align:right;">
-1500.00
-</td>
-<td style="text-align:right;">
-4.9e+02
-</td>
-<td style="text-align:right;">
-6.3e+02
-</td>
-<td style="text-align:right;">
-6.8e+02
-</td>
-<td style="text-align:right;">
-1.4e+03
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AACS
-</td>
-<td style="text-align:left;">
-mean.cancer
-</td>
-<td style="text-align:right;">
-1200.00
-</td>
-<td style="text-align:right;">
-1.2e+03
-</td>
-<td style="text-align:right;">
-900.00
-</td>
-<td style="text-align:right;">
-4.3e+02
-</td>
-<td style="text-align:right;">
-5.4e+02
-</td>
-<td style="text-align:right;">
-5.1e+02
-</td>
-<td style="text-align:right;">
-8.4e+02
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AACS
-</td>
-<td style="text-align:left;">
-median.cancer
-</td>
-<td style="text-align:right;">
-1100.00
-</td>
-<td style="text-align:right;">
-1.2e+03
-</td>
-<td style="text-align:right;">
-800.00
-</td>
-<td style="text-align:right;">
-4.8e+02
-</td>
-<td style="text-align:right;">
-5.9e+02
-</td>
-<td style="text-align:right;">
-5.7e+02
-</td>
-<td style="text-align:right;">
-9.8e+02
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AACS
-</td>
-<td style="text-align:left;">
-min.cancer
-</td>
-<td style="text-align:right;">
-840.00
-</td>
-<td style="text-align:right;">
-9.2e+02
-</td>
-<td style="text-align:right;">
-460.00
-</td>
-<td style="text-align:right;">
-3.2e+02
-</td>
-<td style="text-align:right;">
-3.9e+02
-</td>
-<td style="text-align:right;">
-2.9e+02
-</td>
-<td style="text-align:right;">
-1.4e+02
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AADAC
-</td>
-<td style="text-align:left;">
-max.cancer
-</td>
-<td style="text-align:right;">
-1.10
-</td>
-<td style="text-align:right;">
-5.3e+00
-</td>
-<td style="text-align:right;">
-0.49
-</td>
-<td style="text-align:right;">
-5.6e-01
-</td>
-<td style="text-align:right;">
-8.2e-01
-</td>
-<td style="text-align:right;">
-9.0e-01
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-</tr>
 </tbody>
 </table>
 I think I still prefer starting from the full\_dataset to make plots with summary values.
@@ -4163,7 +2706,7 @@ full_dataset %>%
   summarize(mean.cancer= signif(mean(RPKM), 2), median.cancer = signif(median(RPKM), 2), min.cancer=signif(min(RPKM), 2), max.cancer=signif(max(RPKM), 2)) %>%
   gather(key=stat.category, value= the.number , mean.cancer, median.cancer, min.cancer, max.cancer) %>%
   spread(key=hugo, value=the.number) %>%
-  head(25) %>%
+  head(15) %>%
   kable("html") %>% kable_styling()
 ```
 
@@ -4508,7 +3051,7 @@ max.cancer
 0.00
 </td>
 <td style="text-align:right;">
-0.00
+0
 </td>
 <td style="text-align:right;">
 53.0
@@ -4598,7 +3141,7 @@ max.cancer
 830
 </td>
 <td style="text-align:right;">
-800.00
+800.0
 </td>
 <td style="text-align:right;">
 110.00
@@ -4607,7 +3150,7 @@ max.cancer
 83.00
 </td>
 <td style="text-align:right;">
-8800.0
+8800
 </td>
 <td style="text-align:right;">
 120
@@ -4616,7 +3159,7 @@ max.cancer
 3300
 </td>
 <td style="text-align:right;">
-6.50
+6.5
 </td>
 <td style="text-align:right;">
 41.00
@@ -4667,7 +3210,7 @@ max.cancer
 1100.0
 </td>
 <td style="text-align:right;">
-680.00
+680.0
 </td>
 <td style="text-align:right;">
 820
@@ -4700,7 +3243,7 @@ max.cancer
 0
 </td>
 <td style="text-align:right;">
-8.20
+8.2
 </td>
 <td style="text-align:right;">
 35.00
@@ -4751,7 +3294,7 @@ max.cancer
 1.10
 </td>
 <td style="text-align:right;">
-0.00
+0
 </td>
 <td style="text-align:right;">
 0
@@ -4763,7 +3306,7 @@ max.cancer
 0.54
 </td>
 <td style="text-align:right;">
-45.00
+45.0
 </td>
 <td style="text-align:right;">
 690
@@ -4813,7 +3356,7 @@ mean.cancer
 0.00
 </td>
 <td style="text-align:right;">
-0.00
+0
 </td>
 <td style="text-align:right;">
 28.0
@@ -4903,7 +3446,7 @@ mean.cancer
 730
 </td>
 <td style="text-align:right;">
-270.00
+270.0
 </td>
 <td style="text-align:right;">
 37.00
@@ -4912,7 +3455,7 @@ mean.cancer
 31.00
 </td>
 <td style="text-align:right;">
-3000.0
+3000
 </td>
 <td style="text-align:right;">
 74
@@ -4921,7 +3464,7 @@ mean.cancer
 1500
 </td>
 <td style="text-align:right;">
-4.40
+4.4
 </td>
 <td style="text-align:right;">
 16.00
@@ -4972,7 +3515,7 @@ mean.cancer
 610.0
 </td>
 <td style="text-align:right;">
-330.00
+330.0
 </td>
 <td style="text-align:right;">
 640
@@ -5005,7 +3548,7 @@ mean.cancer
 0
 </td>
 <td style="text-align:right;">
-2.70
+2.7
 </td>
 <td style="text-align:right;">
 13.00
@@ -5056,7 +3599,7 @@ mean.cancer
 0.36
 </td>
 <td style="text-align:right;">
-0.00
+0
 </td>
 <td style="text-align:right;">
 0
@@ -5068,7 +3611,7 @@ mean.cancer
 0.18
 </td>
 <td style="text-align:right;">
-17.00
+17.0
 </td>
 <td style="text-align:right;">
 470
@@ -5118,7 +3661,7 @@ median.cancer
 0.00
 </td>
 <td style="text-align:right;">
-0.00
+0
 </td>
 <td style="text-align:right;">
 24.0
@@ -5208,7 +3751,7 @@ median.cancer
 780
 </td>
 <td style="text-align:right;">
-0.00
+0.0
 </td>
 <td style="text-align:right;">
 1.10
@@ -5217,7 +3760,7 @@ median.cancer
 5.40
 </td>
 <td style="text-align:right;">
-140.0
+140
 </td>
 <td style="text-align:right;">
 71
@@ -5226,7 +3769,7 @@ median.cancer
 740
 </td>
 <td style="text-align:right;">
-4.90
+4.9
 </td>
 <td style="text-align:right;">
 3.60
@@ -5277,7 +3820,7 @@ median.cancer
 450.0
 </td>
 <td style="text-align:right;">
-320.00
+320.0
 </td>
 <td style="text-align:right;">
 710
@@ -5310,7 +3853,7 @@ median.cancer
 0
 </td>
 <td style="text-align:right;">
-0.00
+0.0
 </td>
 <td style="text-align:right;">
 2.70
@@ -5361,7 +3904,7 @@ median.cancer
 0.00
 </td>
 <td style="text-align:right;">
-0.00
+0
 </td>
 <td style="text-align:right;">
 0
@@ -5373,7 +3916,7 @@ median.cancer
 0.00
 </td>
 <td style="text-align:right;">
-3.80
+3.8
 </td>
 <td style="text-align:right;">
 420
@@ -5423,7 +3966,7 @@ min.cancer
 0.00
 </td>
 <td style="text-align:right;">
-0.00
+0
 </td>
 <td style="text-align:right;">
 5.5
@@ -5513,7 +4056,7 @@ min.cancer
 560
 </td>
 <td style="text-align:right;">
-0.00
+0.0
 </td>
 <td style="text-align:right;">
 0.00
@@ -5522,7 +4065,7 @@ min.cancer
 5.20
 </td>
 <td style="text-align:right;">
-110.0
+110
 </td>
 <td style="text-align:right;">
 29
@@ -5531,7 +4074,7 @@ min.cancer
 420
 </td>
 <td style="text-align:right;">
-1.80
+1.8
 </td>
 <td style="text-align:right;">
 3.30
@@ -5582,7 +4125,7 @@ min.cancer
 290.0
 </td>
 <td style="text-align:right;">
-0.00
+0.0
 </td>
 <td style="text-align:right;">
 390
@@ -5615,7 +4158,7 @@ min.cancer
 0
 </td>
 <td style="text-align:right;">
-0.00
+0.0
 </td>
 <td style="text-align:right;">
 1.40
@@ -5666,7 +4209,7 @@ min.cancer
 0.00
 </td>
 <td style="text-align:right;">
-0.00
+0
 </td>
 <td style="text-align:right;">
 0
@@ -5678,7 +4221,7 @@ min.cancer
 0.00
 </td>
 <td style="text-align:right;">
-1.80
+1.8
 </td>
 <td style="text-align:right;">
 290
@@ -5728,7 +4271,7 @@ max.cancer
 0.00
 </td>
 <td style="text-align:right;">
-0.00
+0
 </td>
 <td style="text-align:right;">
 260.0
@@ -5818,7 +4361,7 @@ max.cancer
 1000
 </td>
 <td style="text-align:right;">
-0.00
+0.0
 </td>
 <td style="text-align:right;">
 53.00
@@ -5827,7 +4370,7 @@ max.cancer
 73.00
 </td>
 <td style="text-align:right;">
-9300.0
+9300
 </td>
 <td style="text-align:right;">
 750
@@ -5836,7 +4379,7 @@ max.cancer
 1700
 </td>
 <td style="text-align:right;">
-39.00
+39.0
 </td>
 <td style="text-align:right;">
 68.00
@@ -5887,7 +4430,7 @@ max.cancer
 550.0
 </td>
 <td style="text-align:right;">
-75.00
+75.0
 </td>
 <td style="text-align:right;">
 420
@@ -5920,7 +4463,7 @@ max.cancer
 0
 </td>
 <td style="text-align:right;">
-0.00
+0.0
 </td>
 <td style="text-align:right;">
 0.48
@@ -5971,7 +4514,7 @@ max.cancer
 2.90
 </td>
 <td style="text-align:right;">
-0.00
+0
 </td>
 <td style="text-align:right;">
 0
@@ -5983,7 +4526,7 @@ max.cancer
 0.00
 </td>
 <td style="text-align:right;">
-13.00
+13.0
 </td>
 <td style="text-align:right;">
 780
@@ -6033,7 +4576,7 @@ mean.cancer
 0.00
 </td>
 <td style="text-align:right;">
-0.00
+0
 </td>
 <td style="text-align:right;">
 170.0
@@ -6123,7 +4666,7 @@ mean.cancer
 960
 </td>
 <td style="text-align:right;">
-0.00
+0.0
 </td>
 <td style="text-align:right;">
 27.00
@@ -6132,7 +4675,7 @@ mean.cancer
 31.00
 </td>
 <td style="text-align:right;">
-6400.0
+6400
 </td>
 <td style="text-align:right;">
 340
@@ -6141,7 +4684,7 @@ mean.cancer
 1400
 </td>
 <td style="text-align:right;">
-18.00
+18.0
 </td>
 <td style="text-align:right;">
 48.00
@@ -6192,7 +4735,7 @@ mean.cancer
 350.0
 </td>
 <td style="text-align:right;">
-26.00
+26.0
 </td>
 <td style="text-align:right;">
 330
@@ -6225,7 +4768,7 @@ mean.cancer
 0
 </td>
 <td style="text-align:right;">
-0.00
+0.0
 </td>
 <td style="text-align:right;">
 0.16
@@ -6276,7 +4819,7 @@ mean.cancer
 1.80
 </td>
 <td style="text-align:right;">
-0.00
+0
 </td>
 <td style="text-align:right;">
 0
@@ -6288,7 +4831,7 @@ mean.cancer
 0.00
 </td>
 <td style="text-align:right;">
-7.80
+7.8
 </td>
 <td style="text-align:right;">
 470
@@ -6338,7 +4881,7 @@ median.cancer
 0.00
 </td>
 <td style="text-align:right;">
-0.00
+0
 </td>
 <td style="text-align:right;">
 160.0
@@ -6428,7 +4971,7 @@ median.cancer
 930
 </td>
 <td style="text-align:right;">
-0.00
+0.0
 </td>
 <td style="text-align:right;">
 20.00
@@ -6437,7 +4980,7 @@ median.cancer
 12.00
 </td>
 <td style="text-align:right;">
-6900.0
+6900
 </td>
 <td style="text-align:right;">
 160
@@ -6446,7 +4989,7 @@ median.cancer
 1600
 </td>
 <td style="text-align:right;">
-11.00
+11.0
 </td>
 <td style="text-align:right;">
 44.00
@@ -6497,7 +5040,7 @@ median.cancer
 290.0
 </td>
 <td style="text-align:right;">
-1.90
+1.9
 </td>
 <td style="text-align:right;">
 390
@@ -6530,7 +5073,7 @@ median.cancer
 0
 </td>
 <td style="text-align:right;">
-0.00
+0.0
 </td>
 <td style="text-align:right;">
 0.00
@@ -6581,7 +5124,7 @@ median.cancer
 1.90
 </td>
 <td style="text-align:right;">
-0.00
+0
 </td>
 <td style="text-align:right;">
 0
@@ -6593,7 +5136,7 @@ median.cancer
 0.00
 </td>
 <td style="text-align:right;">
-10.00
+10.0
 </td>
 <td style="text-align:right;">
 410
@@ -6643,7 +5186,7 @@ min.cancer
 0.00
 </td>
 <td style="text-align:right;">
-0.00
+0
 </td>
 <td style="text-align:right;">
 97.0
@@ -6733,7 +5276,7 @@ min.cancer
 910
 </td>
 <td style="text-align:right;">
-0.00
+0.0
 </td>
 <td style="text-align:right;">
 8.70
@@ -6742,7 +5285,7 @@ min.cancer
 6.30
 </td>
 <td style="text-align:right;">
-3100.0
+3100
 </td>
 <td style="text-align:right;">
 120
@@ -6751,7 +5294,7 @@ min.cancer
 810
 </td>
 <td style="text-align:right;">
-5.30
+5.3
 </td>
 <td style="text-align:right;">
 33.00
@@ -6802,7 +5345,7 @@ min.cancer
 220.0
 </td>
 <td style="text-align:right;">
-0.00
+0.0
 </td>
 <td style="text-align:right;">
 180
@@ -6835,7 +5378,7 @@ min.cancer
 0
 </td>
 <td style="text-align:right;">
-0.00
+0.0
 </td>
 <td style="text-align:right;">
 0.00
@@ -6886,7 +5429,7 @@ min.cancer
 0.48
 </td>
 <td style="text-align:right;">
-0.00
+0
 </td>
 <td style="text-align:right;">
 0
@@ -6898,7 +5441,7 @@ min.cancer
 0.00
 </td>
 <td style="text-align:right;">
-0.00
+0.0
 </td>
 <td style="text-align:right;">
 230
@@ -6948,7 +5491,7 @@ max.cancer
 0.73
 </td>
 <td style="text-align:right;">
-0.00
+0
 </td>
 <td style="text-align:right;">
 10.0
@@ -7038,7 +5581,7 @@ max.cancer
 850
 </td>
 <td style="text-align:right;">
-0.00
+0.0
 </td>
 <td style="text-align:right;">
 1.50
@@ -7047,7 +5590,7 @@ max.cancer
 7.30
 </td>
 <td style="text-align:right;">
-1100.0
+1100
 </td>
 <td style="text-align:right;">
 220
@@ -7056,7 +5599,7 @@ max.cancer
 560
 </td>
 <td style="text-align:right;">
-4.40
+4.4
 </td>
 <td style="text-align:right;">
 0.49
@@ -7107,7 +5650,7 @@ max.cancer
 450.0
 </td>
 <td style="text-align:right;">
-14.00
+14.0
 </td>
 <td style="text-align:right;">
 800
@@ -7140,7 +5683,7 @@ max.cancer
 0
 </td>
 <td style="text-align:right;">
-0.00
+0.0
 </td>
 <td style="text-align:right;">
 0.00
@@ -7191,7 +5734,7 @@ max.cancer
 0.00
 </td>
 <td style="text-align:right;">
-0.00
+0
 </td>
 <td style="text-align:right;">
 0
@@ -7203,7 +5746,7 @@ max.cancer
 0.00
 </td>
 <td style="text-align:right;">
-4.50
+4.5
 </td>
 <td style="text-align:right;">
 1000
@@ -7253,7 +5796,7 @@ mean.cancer
 0.24
 </td>
 <td style="text-align:right;">
-0.00
+0
 </td>
 <td style="text-align:right;">
 9.4
@@ -7343,7 +5886,7 @@ mean.cancer
 580
 </td>
 <td style="text-align:right;">
-0.00
+0.0
 </td>
 <td style="text-align:right;">
 0.49
@@ -7352,7 +5895,7 @@ mean.cancer
 4.60
 </td>
 <td style="text-align:right;">
-670.0
+670
 </td>
 <td style="text-align:right;">
 190
@@ -7361,7 +5904,7 @@ mean.cancer
 320
 </td>
 <td style="text-align:right;">
-1.50
+1.5
 </td>
 <td style="text-align:right;">
 0.16
@@ -7412,7 +5955,7 @@ mean.cancer
 290.0
 </td>
 <td style="text-align:right;">
-4.70
+4.7
 </td>
 <td style="text-align:right;">
 450
@@ -7445,7 +5988,7 @@ mean.cancer
 0
 </td>
 <td style="text-align:right;">
-0.00
+0.0
 </td>
 <td style="text-align:right;">
 0.00
@@ -7496,7 +6039,7 @@ mean.cancer
 0.00
 </td>
 <td style="text-align:right;">
-0.00
+0
 </td>
 <td style="text-align:right;">
 0
@@ -7508,7 +6051,7 @@ mean.cancer
 0.00
 </td>
 <td style="text-align:right;">
-3.40
+3.4
 </td>
 <td style="text-align:right;">
 630
@@ -7558,7 +6101,7 @@ median.cancer
 0.00
 </td>
 <td style="text-align:right;">
-0.00
+0
 </td>
 <td style="text-align:right;">
 9.1
@@ -7648,7 +6191,7 @@ median.cancer
 580
 </td>
 <td style="text-align:right;">
-0.00
+0.0
 </td>
 <td style="text-align:right;">
 0.00
@@ -7657,7 +6200,7 @@ median.cancer
 5.90
 </td>
 <td style="text-align:right;">
-450.0
+450
 </td>
 <td style="text-align:right;">
 200
@@ -7666,7 +6209,7 @@ median.cancer
 250
 </td>
 <td style="text-align:right;">
-0.00
+0.0
 </td>
 <td style="text-align:right;">
 0.00
@@ -7717,7 +6260,7 @@ median.cancer
 310.0
 </td>
 <td style="text-align:right;">
-0.00
+0.0
 </td>
 <td style="text-align:right;">
 270
@@ -7750,7 +6293,7 @@ median.cancer
 0
 </td>
 <td style="text-align:right;">
-0.00
+0.0
 </td>
 <td style="text-align:right;">
 0.00
@@ -7801,7 +6344,7 @@ median.cancer
 0.00
 </td>
 <td style="text-align:right;">
-0.00
+0
 </td>
 <td style="text-align:right;">
 0
@@ -7813,7 +6356,7 @@ median.cancer
 0.00
 </td>
 <td style="text-align:right;">
-3.70
+3.7
 </td>
 <td style="text-align:right;">
 540
@@ -7863,7 +6406,7 @@ min.cancer
 0.00
 </td>
 <td style="text-align:right;">
-0.00
+0
 </td>
 <td style="text-align:right;">
 8.8
@@ -7953,7 +6496,7 @@ min.cancer
 320
 </td>
 <td style="text-align:right;">
-0.00
+0.0
 </td>
 <td style="text-align:right;">
 0.00
@@ -7962,7 +6505,7 @@ min.cancer
 0.49
 </td>
 <td style="text-align:right;">
-410.0
+410
 </td>
 <td style="text-align:right;">
 150
@@ -7971,7 +6514,7 @@ min.cancer
 150
 </td>
 <td style="text-align:right;">
-0.00
+0.0
 </td>
 <td style="text-align:right;">
 0.00
@@ -8022,7 +6565,7 @@ min.cancer
 120.0
 </td>
 <td style="text-align:right;">
-0.00
+0.0
 </td>
 <td style="text-align:right;">
 270
@@ -8055,7 +6598,7 @@ min.cancer
 0
 </td>
 <td style="text-align:right;">
-0.00
+0.0
 </td>
 <td style="text-align:right;">
 0.00
@@ -8106,7 +6649,7 @@ min.cancer
 0.00
 </td>
 <td style="text-align:right;">
-0.00
+0
 </td>
 <td style="text-align:right;">
 0
@@ -8118,7 +6661,7 @@ min.cancer
 0.00
 </td>
 <td style="text-align:right;">
-2.00
+2.0
 </td>
 <td style="text-align:right;">
 330
@@ -8168,7 +6711,7 @@ max.cancer
 0.00
 </td>
 <td style="text-align:right;">
-0.00
+0
 </td>
 <td style="text-align:right;">
 260.0
@@ -8258,7 +6801,7 @@ max.cancer
 350
 </td>
 <td style="text-align:right;">
-3.70
+3.7
 </td>
 <td style="text-align:right;">
 0.00
@@ -8267,7 +6810,7 @@ max.cancer
 22.00
 </td>
 <td style="text-align:right;">
-2200.0
+2200
 </td>
 <td style="text-align:right;">
 720
@@ -8276,7 +6819,7 @@ max.cancer
 770
 </td>
 <td style="text-align:right;">
-8.40
+8.4
 </td>
 <td style="text-align:right;">
 22.00
@@ -8327,7 +6870,7 @@ max.cancer
 7.8
 </td>
 <td style="text-align:right;">
-6.80
+6.8
 </td>
 <td style="text-align:right;">
 540
@@ -8360,7 +6903,7 @@ max.cancer
 0
 </td>
 <td style="text-align:right;">
-0.00
+0.0
 </td>
 <td style="text-align:right;">
 1.10
@@ -8411,7 +6954,7 @@ max.cancer
 0.56
 </td>
 <td style="text-align:right;">
-0.00
+0
 </td>
 <td style="text-align:right;">
 0
@@ -8423,7 +6966,7 @@ max.cancer
 0.00
 </td>
 <td style="text-align:right;">
-49.00
+49.0
 </td>
 <td style="text-align:right;">
 2100
@@ -8473,7 +7016,7 @@ mean.cancer
 0.00
 </td>
 <td style="text-align:right;">
-0.00
+0
 </td>
 <td style="text-align:right;">
 200.0
@@ -8563,7 +7106,7 @@ mean.cancer
 300
 </td>
 <td style="text-align:right;">
-2.70
+2.7
 </td>
 <td style="text-align:right;">
 0.00
@@ -8572,7 +7115,7 @@ mean.cancer
 9.30
 </td>
 <td style="text-align:right;">
-1300.0
+1300
 </td>
 <td style="text-align:right;">
 540
@@ -8581,7 +7124,7 @@ mean.cancer
 740
 </td>
 <td style="text-align:right;">
-5.10
+5.1
 </td>
 <td style="text-align:right;">
 15.00
@@ -8632,7 +7175,7 @@ mean.cancer
 3.0
 </td>
 <td style="text-align:right;">
-4.20
+4.2
 </td>
 <td style="text-align:right;">
 320
@@ -8665,7 +7208,7 @@ mean.cancer
 0
 </td>
 <td style="text-align:right;">
-0.00
+0.0
 </td>
 <td style="text-align:right;">
 0.72
@@ -8716,7 +7259,7 @@ mean.cancer
 0.19
 </td>
 <td style="text-align:right;">
-0.00
+0
 </td>
 <td style="text-align:right;">
 0
@@ -8728,7 +7271,7 @@ mean.cancer
 0.00
 </td>
 <td style="text-align:right;">
-23.00
+23.0
 </td>
 <td style="text-align:right;">
 1900
@@ -8778,7 +7321,7 @@ median.cancer
 0.00
 </td>
 <td style="text-align:right;">
-0.00
+0
 </td>
 <td style="text-align:right;">
 230.0
@@ -8868,7 +7411,7 @@ median.cancer
 330
 </td>
 <td style="text-align:right;">
-2.80
+2.8
 </td>
 <td style="text-align:right;">
 0.00
@@ -8877,7 +7420,7 @@ median.cancer
 5.50
 </td>
 <td style="text-align:right;">
-1500.0
+1500
 </td>
 <td style="text-align:right;">
 450
@@ -8886,7 +7429,7 @@ median.cancer
 730
 </td>
 <td style="text-align:right;">
-6.10
+6.1
 </td>
 <td style="text-align:right;">
 13.00
@@ -8937,7 +7480,7 @@ median.cancer
 1.2
 </td>
 <td style="text-align:right;">
-3.10
+3.1
 </td>
 <td style="text-align:right;">
 250
@@ -8970,7 +7513,7 @@ median.cancer
 0
 </td>
 <td style="text-align:right;">
-0.00
+0.0
 </td>
 <td style="text-align:right;">
 0.61
@@ -9021,7 +7564,7 @@ median.cancer
 0.00
 </td>
 <td style="text-align:right;">
-0.00
+0
 </td>
 <td style="text-align:right;">
 0
@@ -9033,7 +7576,7 @@ median.cancer
 0.00
 </td>
 <td style="text-align:right;">
-13.00
+13.0
 </td>
 <td style="text-align:right;">
 1800
@@ -9049,3056 +7592,6 @@ median.cancer
 </td>
 <td style="text-align:right;">
 2.90
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-GBM
-</td>
-<td style="text-align:left;">
-min.cancer
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-21000
-</td>
-<td style="text-align:right;">
-1.70
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-470
-</td>
-<td style="text-align:right;">
-320
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-100.0
-</td>
-<td style="text-align:right;">
-970
-</td>
-<td style="text-align:right;">
-1800
-</td>
-<td style="text-align:right;">
-1.30
-</td>
-<td style="text-align:right;">
-2700
-</td>
-<td style="text-align:right;">
-330
-</td>
-<td style="text-align:right;">
-230
-</td>
-<td style="text-align:right;">
-830
-</td>
-<td style="text-align:right;">
-450
-</td>
-<td style="text-align:right;">
-800
-</td>
-<td style="text-align:right;">
-120
-</td>
-<td style="text-align:right;">
-3.40
-</td>
-<td style="text-align:right;">
-22.00
-</td>
-<td style="text-align:right;">
-1600
-</td>
-<td style="text-align:right;">
-680
-</td>
-<td style="text-align:right;">
-3.40
-</td>
-<td style="text-align:right;">
-37
-</td>
-<td style="text-align:right;">
-46.00
-</td>
-<td style="text-align:right;">
-11.0
-</td>
-<td style="text-align:right;">
-140
-</td>
-<td style="text-align:right;">
-300
-</td>
-<td style="text-align:right;">
-57.0
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-710
-</td>
-<td style="text-align:right;">
-360
-</td>
-<td style="text-align:right;">
-460
-</td>
-<td style="text-align:right;">
-110
-</td>
-<td style="text-align:right;">
-670
-</td>
-<td style="text-align:right;">
-230
-</td>
-<td style="text-align:right;">
-1.70
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.42
-</td>
-<td style="text-align:right;">
-130.0
-</td>
-<td style="text-align:right;">
-450
-</td>
-<td style="text-align:right;">
-710
-</td>
-<td style="text-align:right;">
-0.56
-</td>
-<td style="text-align:right;">
-8.60
-</td>
-<td style="text-align:right;">
-7.30
-</td>
-<td style="text-align:right;">
-120.0
-</td>
-<td style="text-align:right;">
-340
-</td>
-<td style="text-align:right;">
-26.0
-</td>
-<td style="text-align:right;">
-860
-</td>
-<td style="text-align:right;">
-510
-</td>
-<td style="text-align:right;">
-1.10
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-690
-</td>
-<td style="text-align:right;">
-3.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-2.10
-</td>
-<td style="text-align:right;">
-35
-</td>
-<td style="text-align:right;">
-37
-</td>
-<td style="text-align:right;">
-0.0
-</td>
-<td style="text-align:right;">
-2.80
-</td>
-<td style="text-align:right;">
-170
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-500
-</td>
-<td style="text-align:right;">
-220
-</td>
-<td style="text-align:right;">
-130
-</td>
-<td style="text-align:right;">
-31
-</td>
-<td style="text-align:right;">
-140
-</td>
-<td style="text-align:right;">
-290
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.42
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-11.0
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-400
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-36
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-22.0
-</td>
-<td style="text-align:right;">
-110.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-1.2
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-5.50
-</td>
-<td style="text-align:right;">
-1700
-</td>
-<td style="text-align:right;">
-890
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-PCPG
-</td>
-<td style="text-align:left;">
-max.cancer
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-12000
-</td>
-<td style="text-align:right;">
-1.10
-</td>
-<td style="text-align:right;">
-1.60
-</td>
-<td style="text-align:right;">
-700
-</td>
-<td style="text-align:right;">
-630
-</td>
-<td style="text-align:right;">
-0.82
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.82
-</td>
-<td style="text-align:right;">
-420.0
-</td>
-<td style="text-align:right;">
-1500
-</td>
-<td style="text-align:right;">
-2800
-</td>
-<td style="text-align:right;">
-0.82
-</td>
-<td style="text-align:right;">
-4900
-</td>
-<td style="text-align:right;">
-820
-</td>
-<td style="text-align:right;">
-250
-</td>
-<td style="text-align:right;">
-1800
-</td>
-<td style="text-align:right;">
-390
-</td>
-<td style="text-align:right;">
-1000
-</td>
-<td style="text-align:right;">
-270
-</td>
-<td style="text-align:right;">
-1.60
-</td>
-<td style="text-align:right;">
-19.00
-</td>
-<td style="text-align:right;">
-7800
-</td>
-<td style="text-align:right;">
-3800
-</td>
-<td style="text-align:right;">
-98.00
-</td>
-<td style="text-align:right;">
-850
-</td>
-<td style="text-align:right;">
-250.00
-</td>
-<td style="text-align:right;">
-200.0
-</td>
-<td style="text-align:right;">
-3400
-</td>
-<td style="text-align:right;">
-380
-</td>
-<td style="text-align:right;">
-110.0
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-920
-</td>
-<td style="text-align:right;">
-400
-</td>
-<td style="text-align:right;">
-810
-</td>
-<td style="text-align:right;">
-220
-</td>
-<td style="text-align:right;">
-1600
-</td>
-<td style="text-align:right;">
-570
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-2.70
-</td>
-<td style="text-align:right;">
-72.0
-</td>
-<td style="text-align:right;">
-270
-</td>
-<td style="text-align:right;">
-1500
-</td>
-<td style="text-align:right;">
-0.82
-</td>
-<td style="text-align:right;">
-23.00
-</td>
-<td style="text-align:right;">
-1400.00
-</td>
-<td style="text-align:right;">
-400.0
-</td>
-<td style="text-align:right;">
-1100
-</td>
-<td style="text-align:right;">
-440.0
-</td>
-<td style="text-align:right;">
-1200
-</td>
-<td style="text-align:right;">
-430
-</td>
-<td style="text-align:right;">
-4.10
-</td>
-<td style="text-align:right;">
-5.70
-</td>
-<td style="text-align:right;">
-2200
-</td>
-<td style="text-align:right;">
-9.00
-</td>
-<td style="text-align:right;">
-0.82
-</td>
-<td style="text-align:right;">
-3.80
-</td>
-<td style="text-align:right;">
-48
-</td>
-<td style="text-align:right;">
-2500
-</td>
-<td style="text-align:right;">
-210.0
-</td>
-<td style="text-align:right;">
-26.00
-</td>
-<td style="text-align:right;">
-510
-</td>
-<td style="text-align:right;">
-0.43
-</td>
-<td style="text-align:right;">
-580
-</td>
-<td style="text-align:right;">
-990
-</td>
-<td style="text-align:right;">
-380
-</td>
-<td style="text-align:right;">
-54
-</td>
-<td style="text-align:right;">
-170
-</td>
-<td style="text-align:right;">
-1100
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0.54
-</td>
-<td style="text-align:right;">
-2.70
-</td>
-<td style="text-align:right;">
-3.80
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-96.0
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-9000
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-180
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-86.00
-</td>
-<td style="text-align:right;">
-32.0
-</td>
-<td style="text-align:right;">
-420.00
-</td>
-<td style="text-align:right;">
-24.00
-</td>
-<td style="text-align:right;">
-0.82
-</td>
-<td style="text-align:right;">
-0.54
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-21.0
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-5.30
-</td>
-<td style="text-align:right;">
-580
-</td>
-<td style="text-align:right;">
-1100
-</td>
-<td style="text-align:right;">
-8300.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-7.80
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-PCPG
-</td>
-<td style="text-align:left;">
-mean.cancer
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-9000
-</td>
-<td style="text-align:right;">
-0.45
-</td>
-<td style="text-align:right;">
-0.95
-</td>
-<td style="text-align:right;">
-590
-</td>
-<td style="text-align:right;">
-540
-</td>
-<td style="text-align:right;">
-0.27
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.27
-</td>
-<td style="text-align:right;">
-370.0
-</td>
-<td style="text-align:right;">
-1500
-</td>
-<td style="text-align:right;">
-2600
-</td>
-<td style="text-align:right;">
-0.27
-</td>
-<td style="text-align:right;">
-4500
-</td>
-<td style="text-align:right;">
-720
-</td>
-<td style="text-align:right;">
-220
-</td>
-<td style="text-align:right;">
-1400
-</td>
-<td style="text-align:right;">
-290
-</td>
-<td style="text-align:right;">
-880
-</td>
-<td style="text-align:right;">
-200
-</td>
-<td style="text-align:right;">
-0.73
-</td>
-<td style="text-align:right;">
-15.00
-</td>
-<td style="text-align:right;">
-6100
-</td>
-<td style="text-align:right;">
-3200
-</td>
-<td style="text-align:right;">
-50.00
-</td>
-<td style="text-align:right;">
-640
-</td>
-<td style="text-align:right;">
-110.00
-</td>
-<td style="text-align:right;">
-89.0
-</td>
-<td style="text-align:right;">
-2600
-</td>
-<td style="text-align:right;">
-310
-</td>
-<td style="text-align:right;">
-59.0
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-820
-</td>
-<td style="text-align:right;">
-340
-</td>
-<td style="text-align:right;">
-750
-</td>
-<td style="text-align:right;">
-180
-</td>
-<td style="text-align:right;">
-1200
-</td>
-<td style="text-align:right;">
-470
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-2.60
-</td>
-<td style="text-align:right;">
-30.0
-</td>
-<td style="text-align:right;">
-220
-</td>
-<td style="text-align:right;">
-1200
-</td>
-<td style="text-align:right;">
-0.27
-</td>
-<td style="text-align:right;">
-9.00
-</td>
-<td style="text-align:right;">
-670.00
-</td>
-<td style="text-align:right;">
-270.0
-</td>
-<td style="text-align:right;">
-870
-</td>
-<td style="text-align:right;">
-300.0
-</td>
-<td style="text-align:right;">
-860
-</td>
-<td style="text-align:right;">
-340
-</td>
-<td style="text-align:right;">
-2.10
-</td>
-<td style="text-align:right;">
-2.30
-</td>
-<td style="text-align:right;">
-1600
-</td>
-<td style="text-align:right;">
-6.30
-</td>
-<td style="text-align:right;">
-0.45
-</td>
-<td style="text-align:right;">
-2.20
-</td>
-<td style="text-align:right;">
-40
-</td>
-<td style="text-align:right;">
-1400
-</td>
-<td style="text-align:right;">
-180.0
-</td>
-<td style="text-align:right;">
-17.00
-</td>
-<td style="text-align:right;">
-370
-</td>
-<td style="text-align:right;">
-0.14
-</td>
-<td style="text-align:right;">
-480
-</td>
-<td style="text-align:right;">
-840
-</td>
-<td style="text-align:right;">
-210
-</td>
-<td style="text-align:right;">
-46
-</td>
-<td style="text-align:right;">
-130
-</td>
-<td style="text-align:right;">
-700
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0.18
-</td>
-<td style="text-align:right;">
-0.90
-</td>
-<td style="text-align:right;">
-1.90
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-73.0
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-8400
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-120
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-37.00
-</td>
-<td style="text-align:right;">
-23.0
-</td>
-<td style="text-align:right;">
-220.00
-</td>
-<td style="text-align:right;">
-7.90
-</td>
-<td style="text-align:right;">
-0.41
-</td>
-<td style="text-align:right;">
-0.18
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-19.0
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-3.00
-</td>
-<td style="text-align:right;">
-370
-</td>
-<td style="text-align:right;">
-920
-</td>
-<td style="text-align:right;">
-2800.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-4.00
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-PCPG
-</td>
-<td style="text-align:left;">
-median.cancer
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-9400
-</td>
-<td style="text-align:right;">
-0.27
-</td>
-<td style="text-align:right;">
-0.82
-</td>
-<td style="text-align:right;">
-590
-</td>
-<td style="text-align:right;">
-590
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-380.0
-</td>
-<td style="text-align:right;">
-1500
-</td>
-<td style="text-align:right;">
-2800
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-4500
-</td>
-<td style="text-align:right;">
-740
-</td>
-<td style="text-align:right;">
-220
-</td>
-<td style="text-align:right;">
-1200
-</td>
-<td style="text-align:right;">
-280
-</td>
-<td style="text-align:right;">
-850
-</td>
-<td style="text-align:right;">
-200
-</td>
-<td style="text-align:right;">
-0.54
-</td>
-<td style="text-align:right;">
-14.00
-</td>
-<td style="text-align:right;">
-5500
-</td>
-<td style="text-align:right;">
-3300
-</td>
-<td style="text-align:right;">
-37.00
-</td>
-<td style="text-align:right;">
-640
-</td>
-<td style="text-align:right;">
-66.00
-</td>
-<td style="text-align:right;">
-52.0
-</td>
-<td style="text-align:right;">
-2300
-</td>
-<td style="text-align:right;">
-280
-</td>
-<td style="text-align:right;">
-50.0
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-780
-</td>
-<td style="text-align:right;">
-340
-</td>
-<td style="text-align:right;">
-760
-</td>
-<td style="text-align:right;">
-180
-</td>
-<td style="text-align:right;">
-970
-</td>
-<td style="text-align:right;">
-440
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-2.70
-</td>
-<td style="text-align:right;">
-14.0
-</td>
-<td style="text-align:right;">
-220
-</td>
-<td style="text-align:right;">
-1100
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-4.10
-</td>
-<td style="text-align:right;">
-660.00
-</td>
-<td style="text-align:right;">
-320.0
-</td>
-<td style="text-align:right;">
-980
-</td>
-<td style="text-align:right;">
-300.0
-</td>
-<td style="text-align:right;">
-770
-</td>
-<td style="text-align:right;">
-330
-</td>
-<td style="text-align:right;">
-1.20
-</td>
-<td style="text-align:right;">
-1.10
-</td>
-<td style="text-align:right;">
-1500
-</td>
-<td style="text-align:right;">
-6.50
-</td>
-<td style="text-align:right;">
-0.54
-</td>
-<td style="text-align:right;">
-1.60
-</td>
-<td style="text-align:right;">
-43
-</td>
-<td style="text-align:right;">
-960
-</td>
-<td style="text-align:right;">
-180.0
-</td>
-<td style="text-align:right;">
-21.00
-</td>
-<td style="text-align:right;">
-370
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-450
-</td>
-<td style="text-align:right;">
-830
-</td>
-<td style="text-align:right;">
-130
-</td>
-<td style="text-align:right;">
-46
-</td>
-<td style="text-align:right;">
-140
-</td>
-<td style="text-align:right;">
-580
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-1.20
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-73.0
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-8700
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-110
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-15.00
-</td>
-<td style="text-align:right;">
-31.0
-</td>
-<td style="text-align:right;">
-150.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.41
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-18.0
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-3.30
-</td>
-<td style="text-align:right;">
-350
-</td>
-<td style="text-align:right;">
-880
-</td>
-<td style="text-align:right;">
-0.82
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-2.90
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-PCPG
-</td>
-<td style="text-align:left;">
-min.cancer
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-5400
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.41
-</td>
-<td style="text-align:right;">
-470
-</td>
-<td style="text-align:right;">
-390
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-320.0
-</td>
-<td style="text-align:right;">
-1500
-</td>
-<td style="text-align:right;">
-2300
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-4000
-</td>
-<td style="text-align:right;">
-600
-</td>
-<td style="text-align:right;">
-190
-</td>
-<td style="text-align:right;">
-1100
-</td>
-<td style="text-align:right;">
-190
-</td>
-<td style="text-align:right;">
-780
-</td>
-<td style="text-align:right;">
-120
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-13.00
-</td>
-<td style="text-align:right;">
-4900
-</td>
-<td style="text-align:right;">
-2500
-</td>
-<td style="text-align:right;">
-16.00
-</td>
-<td style="text-align:right;">
-420
-</td>
-<td style="text-align:right;">
-19.00
-</td>
-<td style="text-align:right;">
-15.0
-</td>
-<td style="text-align:right;">
-2200
-</td>
-<td style="text-align:right;">
-250
-</td>
-<td style="text-align:right;">
-20.0
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-750
-</td>
-<td style="text-align:right;">
-290
-</td>
-<td style="text-align:right;">
-670
-</td>
-<td style="text-align:right;">
-150
-</td>
-<td style="text-align:right;">
-940
-</td>
-<td style="text-align:right;">
-390
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-2.50
-</td>
-<td style="text-align:right;">
-2.7
-</td>
-<td style="text-align:right;">
-170
-</td>
-<td style="text-align:right;">
-990
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-2.00
-</td>
-<td style="text-align:right;">
-94.0
-</td>
-<td style="text-align:right;">
-550
-</td>
-<td style="text-align:right;">
-150.0
-</td>
-<td style="text-align:right;">
-650
-</td>
-<td style="text-align:right;">
-240
-</td>
-<td style="text-align:right;">
-1.10
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-1200
-</td>
-<td style="text-align:right;">
-3.30
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-1.10
-</td>
-<td style="text-align:right;">
-31
-</td>
-<td style="text-align:right;">
-590
-</td>
-<td style="text-align:right;">
-140.0
-</td>
-<td style="text-align:right;">
-2.70
-</td>
-<td style="text-align:right;">
-240
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-430
-</td>
-<td style="text-align:right;">
-700
-</td>
-<td style="text-align:right;">
-110
-</td>
-<td style="text-align:right;">
-38
-</td>
-<td style="text-align:right;">
-77
-</td>
-<td style="text-align:right;">
-440
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.54
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-49.0
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-7600
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-69
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-11.00
-</td>
-<td style="text-align:right;">
-5.4
-</td>
-<td style="text-align:right;">
-84.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-18.0
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.54
-</td>
-<td style="text-align:right;">
-180
-</td>
-<td style="text-align:right;">
-780
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-1.30
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SARC
-</td>
-<td style="text-align:left;">
-max.cancer
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-41000
-</td>
-<td style="text-align:right;">
-3.60
-</td>
-<td style="text-align:right;">
-0.79
-</td>
-<td style="text-align:right;">
-880
-</td>
-<td style="text-align:right;">
-680
-</td>
-<td style="text-align:right;">
-0.90
-</td>
-<td style="text-align:right;">
-7.70
-</td>
-<td style="text-align:right;">
-2.30
-</td>
-<td style="text-align:right;">
-140.0
-</td>
-<td style="text-align:right;">
-930
-</td>
-<td style="text-align:right;">
-2000
-</td>
-<td style="text-align:right;">
-1.80
-</td>
-<td style="text-align:right;">
-3500
-</td>
-<td style="text-align:right;">
-600
-</td>
-<td style="text-align:right;">
-240
-</td>
-<td style="text-align:right;">
-690
-</td>
-<td style="text-align:right;">
-570
-</td>
-<td style="text-align:right;">
-1500
-</td>
-<td style="text-align:right;">
-98
-</td>
-<td style="text-align:right;">
-4.70
-</td>
-<td style="text-align:right;">
-7.60
-</td>
-<td style="text-align:right;">
-1600
-</td>
-<td style="text-align:right;">
-650
-</td>
-<td style="text-align:right;">
-1200.00
-</td>
-<td style="text-align:right;">
-1400
-</td>
-<td style="text-align:right;">
-810.00
-</td>
-<td style="text-align:right;">
-1700.0
-</td>
-<td style="text-align:right;">
-260
-</td>
-<td style="text-align:right;">
-490
-</td>
-<td style="text-align:right;">
-220.0
-</td>
-<td style="text-align:right;">
-21.00
-</td>
-<td style="text-align:right;">
-890
-</td>
-<td style="text-align:right;">
-410
-</td>
-<td style="text-align:right;">
-800
-</td>
-<td style="text-align:right;">
-180
-</td>
-<td style="text-align:right;">
-1600
-</td>
-<td style="text-align:right;">
-650
-</td>
-<td style="text-align:right;">
-0.45
-</td>
-<td style="text-align:right;">
-5.80
-</td>
-<td style="text-align:right;">
-26.00
-</td>
-<td style="text-align:right;">
-610.0
-</td>
-<td style="text-align:right;">
-390
-</td>
-<td style="text-align:right;">
-680
-</td>
-<td style="text-align:right;">
-50.00
-</td>
-<td style="text-align:right;">
-27.00
-</td>
-<td style="text-align:right;">
-640.00
-</td>
-<td style="text-align:right;">
-1500.0
-</td>
-<td style="text-align:right;">
-610
-</td>
-<td style="text-align:right;">
-150.0
-</td>
-<td style="text-align:right;">
-710
-</td>
-<td style="text-align:right;">
-1300
-</td>
-<td style="text-align:right;">
-0.58
-</td>
-<td style="text-align:right;">
-4.10
-</td>
-<td style="text-align:right;">
-1000
-</td>
-<td style="text-align:right;">
-9.40
-</td>
-<td style="text-align:right;">
-4.10
-</td>
-<td style="text-align:right;">
-3.50
-</td>
-<td style="text-align:right;">
-190
-</td>
-<td style="text-align:right;">
-240
-</td>
-<td style="text-align:right;">
-270.0
-</td>
-<td style="text-align:right;">
-3.60
-</td>
-<td style="text-align:right;">
-340
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-1100
-</td>
-<td style="text-align:right;">
-250
-</td>
-<td style="text-align:right;">
-220
-</td>
-<td style="text-align:right;">
-160
-</td>
-<td style="text-align:right;">
-250
-</td>
-<td style="text-align:right;">
-750
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-1.80
-</td>
-<td style="text-align:right;">
-1.80
-</td>
-<td style="text-align:right;">
-3.50
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-11.0
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-290
-</td>
-<td style="text-align:right;">
-2.70
-</td>
-<td style="text-align:right;">
-2600
-</td>
-<td style="text-align:right;">
-32.00
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-460.00
-</td>
-<td style="text-align:right;">
-130.0
-</td>
-<td style="text-align:right;">
-4.70
-</td>
-<td style="text-align:right;">
-14.00
-</td>
-<td style="text-align:right;">
-1.40
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-4.7
-</td>
-<td style="text-align:right;">
-0.79
-</td>
-<td style="text-align:right;">
-38.00
-</td>
-<td style="text-align:right;">
-1800
-</td>
-<td style="text-align:right;">
-810
-</td>
-<td style="text-align:right;">
-0.58
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-4.80
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SARC
-</td>
-<td style="text-align:left;">
-mean.cancer
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-33000
-</td>
-<td style="text-align:right;">
-1.20
-</td>
-<td style="text-align:right;">
-0.26
-</td>
-<td style="text-align:right;">
-750
-</td>
-<td style="text-align:right;">
-510
-</td>
-<td style="text-align:right;">
-0.56
-</td>
-<td style="text-align:right;">
-3.10
-</td>
-<td style="text-align:right;">
-0.75
-</td>
-<td style="text-align:right;">
-81.0
-</td>
-<td style="text-align:right;">
-860
-</td>
-<td style="text-align:right;">
-1800
-</td>
-<td style="text-align:right;">
-0.88
-</td>
-<td style="text-align:right;">
-2700
-</td>
-<td style="text-align:right;">
-580
-</td>
-<td style="text-align:right;">
-230
-</td>
-<td style="text-align:right;">
-540
-</td>
-<td style="text-align:right;">
-440
-</td>
-<td style="text-align:right;">
-1400
-</td>
-<td style="text-align:right;">
-74
-</td>
-<td style="text-align:right;">
-3.90
-</td>
-<td style="text-align:right;">
-3.40
-</td>
-<td style="text-align:right;">
-1100
-</td>
-<td style="text-align:right;">
-440
-</td>
-<td style="text-align:right;">
-570.00
-</td>
-<td style="text-align:right;">
-570
-</td>
-<td style="text-align:right;">
-720.00
-</td>
-<td style="text-align:right;">
-930.0
-</td>
-<td style="text-align:right;">
-140
-</td>
-<td style="text-align:right;">
-410
-</td>
-<td style="text-align:right;">
-120.0
-</td>
-<td style="text-align:right;">
-15.00
-</td>
-<td style="text-align:right;">
-660
-</td>
-<td style="text-align:right;">
-370
-</td>
-<td style="text-align:right;">
-690
-</td>
-<td style="text-align:right;">
-140
-</td>
-<td style="text-align:right;">
-1500
-</td>
-<td style="text-align:right;">
-500
-</td>
-<td style="text-align:right;">
-0.15
-</td>
-<td style="text-align:right;">
-2.20
-</td>
-<td style="text-align:right;">
-23.00
-</td>
-<td style="text-align:right;">
-230.0
-</td>
-<td style="text-align:right;">
-150
-</td>
-<td style="text-align:right;">
-600
-</td>
-<td style="text-align:right;">
-17.00
-</td>
-<td style="text-align:right;">
-9.30
-</td>
-<td style="text-align:right;">
-230.00
-</td>
-<td style="text-align:right;">
-1100.0
-</td>
-<td style="text-align:right;">
-390
-</td>
-<td style="text-align:right;">
-60.0
-</td>
-<td style="text-align:right;">
-610
-</td>
-<td style="text-align:right;">
-1000
-</td>
-<td style="text-align:right;">
-0.19
-</td>
-<td style="text-align:right;">
-1.40
-</td>
-<td style="text-align:right;">
-880
-</td>
-<td style="text-align:right;">
-4.80
-</td>
-<td style="text-align:right;">
-2.20
-</td>
-<td style="text-align:right;">
-2.10
-</td>
-<td style="text-align:right;">
-120
-</td>
-<td style="text-align:right;">
-170
-</td>
-<td style="text-align:right;">
-240.0
-</td>
-<td style="text-align:right;">
-1.40
-</td>
-<td style="text-align:right;">
-270
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-950
-</td>
-<td style="text-align:right;">
-170
-</td>
-<td style="text-align:right;">
-100
-</td>
-<td style="text-align:right;">
-110
-</td>
-<td style="text-align:right;">
-220
-</td>
-<td style="text-align:right;">
-570
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0.60
-</td>
-<td style="text-align:right;">
-0.60
-</td>
-<td style="text-align:right;">
-1.20
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-5.3
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-170
-</td>
-<td style="text-align:right;">
-0.90
-</td>
-<td style="text-align:right;">
-1700
-</td>
-<td style="text-align:right;">
-11.00
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-310.00
-</td>
-<td style="text-align:right;">
-49.0
-</td>
-<td style="text-align:right;">
-1.80
-</td>
-<td style="text-align:right;">
-5.10
-</td>
-<td style="text-align:right;">
-0.45
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-3.4
-</td>
-<td style="text-align:right;">
-0.26
-</td>
-<td style="text-align:right;">
-24.00
-</td>
-<td style="text-align:right;">
-1700
-</td>
-<td style="text-align:right;">
-710
-</td>
-<td style="text-align:right;">
-0.19
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-2.30
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SARC
-</td>
-<td style="text-align:left;">
-median.cancer
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-38000
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-750
-</td>
-<td style="text-align:right;">
-570
-</td>
-<td style="text-align:right;">
-0.79
-</td>
-<td style="text-align:right;">
-1.60
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-62.0
-</td>
-<td style="text-align:right;">
-890
-</td>
-<td style="text-align:right;">
-1800
-</td>
-<td style="text-align:right;">
-0.90
-</td>
-<td style="text-align:right;">
-2400
-</td>
-<td style="text-align:right;">
-590
-</td>
-<td style="text-align:right;">
-240
-</td>
-<td style="text-align:right;">
-530
-</td>
-<td style="text-align:right;">
-460
-</td>
-<td style="text-align:right;">
-1500
-</td>
-<td style="text-align:right;">
-88
-</td>
-<td style="text-align:right;">
-4.50
-</td>
-<td style="text-align:right;">
-1.60
-</td>
-<td style="text-align:right;">
-1000
-</td>
-<td style="text-align:right;">
-360
-</td>
-<td style="text-align:right;">
-320.00
-</td>
-<td style="text-align:right;">
-160
-</td>
-<td style="text-align:right;">
-760.00
-</td>
-<td style="text-align:right;">
-820.0
-</td>
-<td style="text-align:right;">
-100
-</td>
-<td style="text-align:right;">
-450
-</td>
-<td style="text-align:right;">
-97.0
-</td>
-<td style="text-align:right;">
-21.00
-</td>
-<td style="text-align:right;">
-670
-</td>
-<td style="text-align:right;">
-360
-</td>
-<td style="text-align:right;">
-790
-</td>
-<td style="text-align:right;">
-130
-</td>
-<td style="text-align:right;">
-1400
-</td>
-<td style="text-align:right;">
-430
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.90
-</td>
-<td style="text-align:right;">
-24.00
-</td>
-<td style="text-align:right;">
-60.0
-</td>
-<td style="text-align:right;">
-40
-</td>
-<td style="text-align:right;">
-560
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-1.20
-</td>
-<td style="text-align:right;">
-65.00
-</td>
-<td style="text-align:right;">
-1300.0
-</td>
-<td style="text-align:right;">
-340
-</td>
-<td style="text-align:right;">
-18.0
-</td>
-<td style="text-align:right;">
-590
-</td>
-<td style="text-align:right;">
-1000
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-970
-</td>
-<td style="text-align:right;">
-3.60
-</td>
-<td style="text-align:right;">
-1.60
-</td>
-<td style="text-align:right;">
-2.70
-</td>
-<td style="text-align:right;">
-120
-</td>
-<td style="text-align:right;">
-200
-</td>
-<td style="text-align:right;">
-240.0
-</td>
-<td style="text-align:right;">
-0.58
-</td>
-<td style="text-align:right;">
-320
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-1000
-</td>
-<td style="text-align:right;">
-200
-</td>
-<td style="text-align:right;">
-66
-</td>
-<td style="text-align:right;">
-93
-</td>
-<td style="text-align:right;">
-210
-</td>
-<td style="text-align:right;">
-500
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-3.2
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-160
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-1600
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-360.00
-</td>
-<td style="text-align:right;">
-7.9
-</td>
-<td style="text-align:right;">
-0.58
-</td>
-<td style="text-align:right;">
-0.79
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-3.2
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-25.00
-</td>
-<td style="text-align:right;">
-1800
-</td>
-<td style="text-align:right;">
-720
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-2.30
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SARC
-</td>
-<td style="text-align:left;">
-min.cancer
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-21000
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-610
-</td>
-<td style="text-align:right;">
-290
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-44.0
-</td>
-<td style="text-align:right;">
-750
-</td>
-<td style="text-align:right;">
-1600
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-2200
-</td>
-<td style="text-align:right;">
-540
-</td>
-<td style="text-align:right;">
-220
-</td>
-<td style="text-align:right;">
-390
-</td>
-<td style="text-align:right;">
-300
-</td>
-<td style="text-align:right;">
-1100
-</td>
-<td style="text-align:right;">
-37
-</td>
-<td style="text-align:right;">
-2.40
-</td>
-<td style="text-align:right;">
-0.90
-</td>
-<td style="text-align:right;">
-780
-</td>
-<td style="text-align:right;">
-310
-</td>
-<td style="text-align:right;">
-230.00
-</td>
-<td style="text-align:right;">
-160
-</td>
-<td style="text-align:right;">
-590.00
-</td>
-<td style="text-align:right;">
-250.0
-</td>
-<td style="text-align:right;">
-57
-</td>
-<td style="text-align:right;">
-300
-</td>
-<td style="text-align:right;">
-32.0
-</td>
-<td style="text-align:right;">
-2.90
-</td>
-<td style="text-align:right;">
-420
-</td>
-<td style="text-align:right;">
-340
-</td>
-<td style="text-align:right;">
-490
-</td>
-<td style="text-align:right;">
-110
-</td>
-<td style="text-align:right;">
-1400
-</td>
-<td style="text-align:right;">
-400
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-20.00
-</td>
-<td style="text-align:right;">
-8.6
-</td>
-<td style="text-align:right;">
-24
-</td>
-<td style="text-align:right;">
-540
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.79
-</td>
-<td style="text-align:right;">
-630.0
-</td>
-<td style="text-align:right;">
-230
-</td>
-<td style="text-align:right;">
-11.0
-</td>
-<td style="text-align:right;">
-540
-</td>
-<td style="text-align:right;">
-770
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-640
-</td>
-<td style="text-align:right;">
-1.60
-</td>
-<td style="text-align:right;">
-0.90
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-60
-</td>
-<td style="text-align:right;">
-61
-</td>
-<td style="text-align:right;">
-210.0
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-150
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-740
-</td>
-<td style="text-align:right;">
-66
-</td>
-<td style="text-align:right;">
-22
-</td>
-<td style="text-align:right;">
-81
-</td>
-<td style="text-align:right;">
-210
-</td>
-<td style="text-align:right;">
-470
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-1.6
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-68
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-870
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-94.00
-</td>
-<td style="text-align:right;">
-4.7
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-2.3
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-9.40
-</td>
-<td style="text-align:right;">
-1600
-</td>
-<td style="text-align:right;">
-620
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SKCM
-</td>
-<td style="text-align:left;">
-max.cancer
-</td>
-<td style="text-align:right;">
-0.71
-</td>
-<td style="text-align:right;">
-170000
-</td>
-<td style="text-align:right;">
-7.30
-</td>
-<td style="text-align:right;">
-1.20
-</td>
-<td style="text-align:right;">
-960
-</td>
-<td style="text-align:right;">
-1400
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-3.20
-</td>
-<td style="text-align:right;">
-0.40
-</td>
-<td style="text-align:right;">
-180.0
-</td>
-<td style="text-align:right;">
-1100
-</td>
-<td style="text-align:right;">
-2800
-</td>
-<td style="text-align:right;">
-0.71
-</td>
-<td style="text-align:right;">
-5200
-</td>
-<td style="text-align:right;">
-1300
-</td>
-<td style="text-align:right;">
-350
-</td>
-<td style="text-align:right;">
-1100
-</td>
-<td style="text-align:right;">
-870
-</td>
-<td style="text-align:right;">
-2700
-</td>
-<td style="text-align:right;">
-120
-</td>
-<td style="text-align:right;">
-31.00
-</td>
-<td style="text-align:right;">
-24.00
-</td>
-<td style="text-align:right;">
-3200
-</td>
-<td style="text-align:right;">
-880
-</td>
-<td style="text-align:right;">
-69.00
-</td>
-<td style="text-align:right;">
-770
-</td>
-<td style="text-align:right;">
-690.00
-</td>
-<td style="text-align:right;">
-730.0
-</td>
-<td style="text-align:right;">
-120
-</td>
-<td style="text-align:right;">
-910
-</td>
-<td style="text-align:right;">
-110.0
-</td>
-<td style="text-align:right;">
-2000.00
-</td>
-<td style="text-align:right;">
-1600
-</td>
-<td style="text-align:right;">
-450
-</td>
-<td style="text-align:right;">
-1200
-</td>
-<td style="text-align:right;">
-300
-</td>
-<td style="text-align:right;">
-2200
-</td>
-<td style="text-align:right;">
-660
-</td>
-<td style="text-align:right;">
-0.81
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-1500.00
-</td>
-<td style="text-align:right;">
-100.0
-</td>
-<td style="text-align:right;">
-390
-</td>
-<td style="text-align:right;">
-1200
-</td>
-<td style="text-align:right;">
-37.00
-</td>
-<td style="text-align:right;">
-74.00
-</td>
-<td style="text-align:right;">
-0.40
-</td>
-<td style="text-align:right;">
-120.0
-</td>
-<td style="text-align:right;">
-3900
-</td>
-<td style="text-align:right;">
-70.0
-</td>
-<td style="text-align:right;">
-1200
-</td>
-<td style="text-align:right;">
-550
-</td>
-<td style="text-align:right;">
-5.20
-</td>
-<td style="text-align:right;">
-0.80
-</td>
-<td style="text-align:right;">
-870
-</td>
-<td style="text-align:right;">
-5.00
-</td>
-<td style="text-align:right;">
-1.60
-</td>
-<td style="text-align:right;">
-51.00
-</td>
-<td style="text-align:right;">
-250
-</td>
-<td style="text-align:right;">
-1100
-</td>
-<td style="text-align:right;">
-470.0
-</td>
-<td style="text-align:right;">
-15.00
-</td>
-<td style="text-align:right;">
-1100
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-830
-</td>
-<td style="text-align:right;">
-190
-</td>
-<td style="text-align:right;">
-380
-</td>
-<td style="text-align:right;">
-140
-</td>
-<td style="text-align:right;">
-630
-</td>
-<td style="text-align:right;">
-1200
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0.40
-</td>
-<td style="text-align:right;">
-1.40
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-6.9
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-210
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-200
-</td>
-<td style="text-align:right;">
-6.40
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-41.00
-</td>
-<td style="text-align:right;">
-690.0
-</td>
-<td style="text-align:right;">
-6.40
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0.81
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-5.2
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-6.40
-</td>
-<td style="text-align:right;">
-1200
-</td>
-<td style="text-align:right;">
-1200
-</td>
-<td style="text-align:right;">
-70.00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-5.30
 </td>
 </tr>
 </tbody>
@@ -12553,7 +8046,7 @@ full_dataset %>%
   group_by(cancer.type) %>%
   mutate(sample, RPKM_z = (RPKM - mean(RPKM))/sd(RPKM)) %>%
   arrange(cancer.type, desc(RPKM_z)) %>%
-  head(25) %>%
+  head(15) %>%
   kable("html") %>% kable_styling()
 ```
 
@@ -12592,7 +8085,7 @@ brca.s3
 8840.399
 </td>
 <td style="text-align:right;">
-6.3557882
+6.355788
 </td>
 </tr>
 <tr>
@@ -12609,7 +8102,7 @@ brca.s2
 8835.780
 </td>
 <td style="text-align:right;">
-6.3522506
+6.352251
 </td>
 </tr>
 <tr>
@@ -12626,7 +8119,7 @@ brca.s2
 7793.910
 </td>
 <td style="text-align:right;">
-5.5542349
+5.554235
 </td>
 </tr>
 <tr>
@@ -12643,7 +8136,7 @@ brca.s2
 7649.266
 </td>
 <td style="text-align:right;">
-5.4434457
+5.443446
 </td>
 </tr>
 <tr>
@@ -12660,7 +8153,7 @@ brca.s2
 7571.979
 </td>
 <td style="text-align:right;">
-5.3842484
+5.384248
 </td>
 </tr>
 <tr>
@@ -12677,7 +8170,7 @@ brca.s1
 5798.375
 </td>
 <td style="text-align:right;">
-4.0257646
+4.025765
 </td>
 </tr>
 <tr>
@@ -12694,7 +8187,7 @@ brca.s1
 5470.770
 </td>
 <td style="text-align:right;">
-3.7748371
+3.774837
 </td>
 </tr>
 <tr>
@@ -12711,7 +8204,7 @@ brca.s2
 4570.962
 </td>
 <td style="text-align:right;">
-3.0856343
+3.085634
 </td>
 </tr>
 <tr>
@@ -12728,7 +8221,7 @@ brca.s1
 4507.448
 </td>
 <td style="text-align:right;">
-3.0369858
+3.036986
 </td>
 </tr>
 <tr>
@@ -12745,7 +8238,7 @@ brca.s1
 4409.565
 </td>
 <td style="text-align:right;">
-2.9620127
+2.962013
 </td>
 </tr>
 <tr>
@@ -12762,7 +8255,7 @@ brca.s2
 3541.055
 </td>
 <td style="text-align:right;">
-2.2967816
+2.296782
 </td>
 </tr>
 <tr>
@@ -12779,7 +8272,7 @@ brca.s3
 3300.997
 </td>
 <td style="text-align:right;">
-2.1129107
+2.112911
 </td>
 </tr>
 <tr>
@@ -12796,7 +8289,7 @@ brca.s3
 3208.522
 </td>
 <td style="text-align:right;">
-2.0420798
+2.042080
 </td>
 </tr>
 <tr>
@@ -12813,7 +8306,7 @@ brca.s2
 2979.880
 </td>
 <td style="text-align:right;">
-1.8669528
+1.866953
 </td>
 </tr>
 <tr>
@@ -12830,177 +8323,7 @@ brca.s2
 2656.879
 </td>
 <td style="text-align:right;">
-1.6195512
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AARS
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:left;">
-brca.s3
-</td>
-<td style="text-align:right;">
-2556.664
-</td>
-<td style="text-align:right;">
-1.5427919
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ABCD3
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:left;">
-brca.s1
-</td>
-<td style="text-align:right;">
-2396.413
-</td>
-<td style="text-align:right;">
-1.4200486
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ABCA2
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:left;">
-brca.s2
-</td>
-<td style="text-align:right;">
-2330.071
-</td>
-<td style="text-align:right;">
-1.3692342
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AAMP
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:left;">
-brca.s3
-</td>
-<td style="text-align:right;">
-2291.931
-</td>
-<td style="text-align:right;">
-1.3400214
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AATF
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:left;">
-brca.s3
-</td>
-<td style="text-align:right;">
-2097.915
-</td>
-<td style="text-align:right;">
-1.1914156
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AAMP
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:left;">
-brca.s1
-</td>
-<td style="text-align:right;">
-2053.133
-</td>
-<td style="text-align:right;">
-1.1571148
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ABCB8
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:left;">
-brca.s2
-</td>
-<td style="text-align:right;">
-1710.169
-</td>
-<td style="text-align:right;">
-0.8944233
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ABCC1
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:left;">
-brca.s3
-</td>
-<td style="text-align:right;">
-1601.088
-</td>
-<td style="text-align:right;">
-0.8108734
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ABCC1
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:left;">
-brca.s1
-</td>
-<td style="text-align:right;">
-1573.368
-</td>
-<td style="text-align:right;">
-0.7896411
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AACS
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:left;">
-brca.s3
-</td>
-<td style="text-align:right;">
-1533.092
-</td>
-<td style="text-align:right;">
-0.7587920
+1.619551
 </td>
 </tr>
 </tbody>
@@ -13012,6 +8335,8 @@ Activity \#5 - Make a data manipulation sampler
 
 The example given of previous TA Andrew MacDonald can be found [here](https://gist.github.com/aammd/11386424).
 
+It would make more sense for a cheatsheet to be separate from the homework (and not embedded in it), so please click [HERE]() to see my Activity \#5.
+
 ------------------------------------------------------------------------
 
 ------------------------------------------------------------------------
@@ -13019,13 +8344,1195 @@ The example given of previous TA Andrew MacDonald can be found [here](https://gi
 Join, merge, look up
 ====================
 
-Activity \#1 - Create a second data frame
------------------------------------------
+Activity \#1 - Create two complementary data frames and use join functions
+--------------------------------------------------------------------------
+
+### DATASET 1
+
+I will create a smaller version of the first data frame I had for this exercise (because full\_dataset is too large).
+
+The first dataset will contain the list of all genes and RPKM expression values for only one breast cancer tumour sample (brca.s1).
 
 ``` r
-clinvar_subset <- read.table("/Users/mylinh/Documents/published_data/subset_clinvar.txt", sep = "\t", header=TRUE)
-View(clinvar_subset)
+brca_rna_v2 <- read.table("/Users/mylinh/Documents/published_data/tcga/brca/tcga/data_RNA_Seq_v2_expression_median.txt", header = TRUE, strip.white = TRUE)[ ,c(1,3)]
+colnames(brca_rna_v2) <- c("hugo", "brca.s1")
+brca_rna_v2 <- brca_rna_v2[!duplicated(brca_rna_v2$hugo), ]
 ```
+
+### DATASET 2
+
+The second dataset will be the The Cancer Gene Census (CGC) from the COSMIC (Catalogue of Somatic Mutations In Cancer) database. The Cancer Gene Census is publically available [here](http://cancer.sanger.ac.uk/census).
+
+Original census and analysis publication:
+Futreal PA, Coin L, Marshall M, Down T, Hubbard T, Wooster R, Rahman N, Stratton MR. A census of human cancer genes. Nat Rev Cancer. 2004 Mar;4(3):177-83. Review. PubMed PMID: 14993899; PubMed Central PMCID: PMC2665285.
+
+``` r
+cosmic_census <- read.table("Cosmic_Census.tsv", sep = "\t", header=TRUE, strip.white = TRUE)
+summary(cosmic_census) %>% kable("html") %>% kable_styling()
+```
+
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+Gene.Symbol
+</th>
+<th style="text-align:left;">
+                                                                                 Name </th>
+
+<th style="text-align:left;">
+Entrez.GeneId
+</th>
+<th style="text-align:left;">
+              Genome.Location </th>
+
+<th style="text-align:left;">
+Hallmark
+</th>
+<th style="text-align:left;">
+    Chr.Band </th>
+
+<th style="text-align:left;">
+Somatic
+</th>
+<th style="text-align:left;">
+Germline
+</th>
+<th style="text-align:left;">
+Tumour.Types.Somatic.
+</th>
+<th style="text-align:left;">
+                                   Tumour.Types.Germline. </th>
+
+<th style="text-align:left;">
+                                 Cancer.Syndrome </th>
+
+<th style="text-align:left;">
+Tissue.Type
+</th>
+<th style="text-align:left;">
+Molecular.Genetics
+</th>
+<th style="text-align:left;">
+               Role.in.Cancer </th>
+
+<th style="text-align:left;">
+         Mutation.Types </th>
+
+<th style="text-align:left;">
+Translocation.Partner
+</th>
+<th style="text-align:left;">
+Other.Germline.Mut
+</th>
+<th style="text-align:left;">
+                       Other.Syndrome </th>
+
+<th style="text-align:left;">
+                                                  Synonyms </th>
+
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+ABI1 : 1
+</td>
+<td style="text-align:left;">
+3-ketodihydrosphingosine reductase : 1
+</td>
+<td style="text-align:left;">
+Min. : 25
+</td>
+<td style="text-align:left;">
+14:- : 3
+</td>
+<td style="text-align:left;">
+:341
+</td>
+<td style="text-align:left;">
+19p13.3: 6
+</td>
+<td style="text-align:left;">
+: 40
+</td>
+<td style="text-align:left;">
+:468
+</td>
+<td style="text-align:left;">
+: 40
+</td>
+<td style="text-align:left;">
+:470
+</td>
+<td style="text-align:left;">
+:485
+</td>
+<td style="text-align:left;">
+L :218
+</td>
+<td style="text-align:left;">
+: 12
+</td>
+<td style="text-align:left;">
+fusion : 93
+</td>
+<td style="text-align:left;">
+T :273
+</td>
+<td style="text-align:left;">
+:255
+</td>
+<td style="text-align:left;">
+:490
+</td>
+<td style="text-align:left;">
+:487
+</td>
+<td style="text-align:left;">
+: 8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+ABL1 : 1
+</td>
+<td style="text-align:left;">
+300 kd E1A-Binding protein gene : 1
+</td>
+<td style="text-align:left;">
+1st Qu.: 2772
+</td>
+<td style="text-align:left;">
+2:- : 2
+</td>
+<td style="text-align:left;">
+Yes:226
+</td>
+<td style="text-align:left;">
+1q21 : 6
+</td>
+<td style="text-align:left;">
+yes:527
+</td>
+<td style="text-align:left;">
+yes: 99
+</td>
+<td style="text-align:left;">
+AML : 31
+</td>
+<td style="text-align:left;">
+skin basal cell, skin squamous cell, melanoma: 7
+</td>
+<td style="text-align:left;">
+familial paraganglioma : 4
+</td>
+<td style="text-align:left;">
+E :167
+</td>
+<td style="text-align:left;">
+Dom :409
+</td>
+<td style="text-align:left;">
+oncogene : 77
+</td>
+<td style="text-align:left;">
+Mis : 60
+</td>
+<td style="text-align:left;">
+KMT2A : 20
+</td>
+<td style="text-align:left;">
+D, F: 1
+</td>
+<td style="text-align:left;">
+Agammaglobulinaemia : 2
+</td>
+<td style="text-align:left;">
+10006,ABI-1,ABI1,E3B1,SSH3BP1 : 1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+ABL2 : 1
+</td>
+<td style="text-align:left;">
+5-aminoimidazole-4-carboxamide ribonucleotide formyltransferase/IMP cyclohydrolase: 1
+</td>
+<td style="text-align:left;">
+Median : 5573
+</td>
+<td style="text-align:left;">
+1:110339407-110345610: 1
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+19p13.1: 5
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+T-ALL : 18
+</td>
+<td style="text-align:left;">
+AML, leukaemia : 6
+</td>
+<td style="text-align:left;">
+familial gastrointestinal stromal tumour: 2
+</td>
+<td style="text-align:left;">
+M : 52
+</td>
+<td style="text-align:left;">
+Dom/Rec: 7
+</td>
+<td style="text-align:left;">
+oncogene, fusion :132
+</td>
+<td style="text-align:left;">
+Mis, N, F : 24
+</td>
+<td style="text-align:left;">
+NUP98 : 15
+</td>
+<td style="text-align:left;">
+yes : 76
+</td>
+<td style="text-align:left;">
+Cardiofaciocutaneous syndrome: 2
+</td>
+<td style="text-align:left;">
+10019,ENSG00000111252,LNK,Q9UQQ2,SH2B3 : 1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+ACKR3 : 1
+</td>
+<td style="text-align:left;">
+5'-nucleotidase, cytosolic II : 1
+</td>
+<td style="text-align:left;">
+Mean : 19337
+</td>
+<td style="text-align:left;">
+1:11107485-11259409 : 1
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+11q23.3: 4
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+prostate: 13
+</td>
+<td style="text-align:left;">
+melanoma : 3
+</td>
+<td style="text-align:left;">
+familial malignant melanoma : 2
+</td>
+<td style="text-align:left;">
+O : 22
+</td>
+<td style="text-align:left;">
+Rec :136
+</td>
+<td style="text-align:left;">
+oncogene, TSG : 37
+</td>
+<td style="text-align:left;">
+Mis, N : 21
+</td>
+<td style="text-align:left;">
+IGH : 14
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+IPEX-like syndrome : 2
+</td>
+<td style="text-align:left;">
+1009,CAD11,CDH11,ENSG00000140937,OB,P55287 : 1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+ACSL3 : 1
+</td>
+<td style="text-align:left;">
+abl-interactor 1 : 1
+</td>
+<td style="text-align:left;">
+3rd Qu.: 9100
+</td>
+<td style="text-align:left;">
+1:114397648-114511076: 1
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+12p13 : 4
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+ALL : 11
+</td>
+<td style="text-align:left;">
+neuroblastoma : 3
+</td>
+<td style="text-align:left;">
+familial neuroblastoma : 2
+</td>
+<td style="text-align:left;">
+E, O : 18
+</td>
+<td style="text-align:left;">
+Rec/X : 3
+</td>
+<td style="text-align:left;">
+oncogene, TSG, fusion: 30
+</td>
+<td style="text-align:left;">
+D, Mis, N, F, S: 18
+</td>
+<td style="text-align:left;">
+ALK : 10
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+46,XY sex reversal 6 : 1
+</td>
+<td style="text-align:left;">
+1019,CDK4,CMM3,ENSG00000135446,MGC14458,P11802,PSK-J3: 1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+ACVR1 : 1
+</td>
+<td style="text-align:left;">
+activating transcription factor 1 : 1
+</td>
+<td style="text-align:left;">
+Max. :729262
+</td>
+<td style="text-align:left;">
+1:114708535-114716160: 1
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+15q26.1: 4
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+AL : 9
+</td>
+<td style="text-align:left;">
+paraganglioma, pheochromocytoma : 3
+</td>
+<td style="text-align:left;">
+hereditary breast/ovarian cancer : 2
+</td>
+<td style="text-align:left;">
+L, E : 16
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+TSG :137
+</td>
+<td style="text-align:left;">
+Mis, N, F, S : 17
+</td>
+<td style="text-align:left;">
+BCL6 : 10
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+agammaglobulinemia : 1
+</td>
+<td style="text-align:left;">
+1021,CDK6,ENSG00000105810,MGC59692,PLSTIRE,Q00534 : 1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+(Other):561
+</td>
+<td style="text-align:left;">
+(Other) :561
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+(Other) :558
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+(Other):538
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+(Other) :445
+</td>
+<td style="text-align:left;">
+(Other) : 75
+</td>
+<td style="text-align:left;">
+(Other) : 70
+</td>
+<td style="text-align:left;">
+(Other): 74
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+TSG, fusion : 61
+</td>
+<td style="text-align:left;">
+(Other) :154
+</td>
+<td style="text-align:left;">
+(Other):243
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+(Other) : 72
+</td>
+<td style="text-align:left;">
+(Other) :554
+</td>
+</tr>
+</tbody>
+</table>
+``` r
+dim(cosmic_census)
+```
+
+    ## [1] 567  19
+
+``` r
+colnames(cosmic_census)
+```
+
+    ##  [1] "Gene.Symbol"            "Name"                  
+    ##  [3] "Entrez.GeneId"          "Genome.Location"       
+    ##  [5] "Hallmark"               "Chr.Band"              
+    ##  [7] "Somatic"                "Germline"              
+    ##  [9] "Tumour.Types.Somatic."  "Tumour.Types.Germline."
+    ## [11] "Cancer.Syndrome"        "Tissue.Type"           
+    ## [13] "Molecular.Genetics"     "Role.in.Cancer"        
+    ## [15] "Mutation.Types"         "Translocation.Partner" 
+    ## [17] "Other.Germline.Mut"     "Other.Syndrome"        
+    ## [19] "Synonyms"
+
+``` r
+#sapply(cosmic_census, class)  %>% kable("html") %>% kable_styling()  
+# View(cosmic_census)
+```
+
+The Cancer Gene Census (cosmic\_census) provides annotations on 567 genes that have been linked to cancer molecular pathophysiology.
+
+Test some join functions of dplyr
+---------------------------------
+
+Please note that the cosmic\_census*G**e**n**e*.*S**y**m**b**o**l**c**o**r**r**e**s**p**o**n**d**t**o**b**r**c**a*<sub>*r*</sub>*n**a*<sub>*v*</sub>2hugo, hence why I account for it when joining by below. We will be joining the information of 2 datasets:
+
+-   brca\_rna\_v2: contains the hugo genes and the RPKM (gene expression) values of one breast cancer tumour sample
+-   cosmic\_census: contains a list of Gene.Symbol genes involved in cancer, and several annotations: type of tumours in which it plays a role (Tumour.Types.Somatic.), type of somatic mutations that can lead to cancer (Mutation.Types), etc.
+
+### MUTATING JOIN
+
+#### left\_join()
+
+*Objective/process:* With left\_join(), I start with the cosmic\_census, and then I append the brca\_rna\_v2 data based on a column of matching genes.
+
+brca\_rna\_v2*h**u**g**o**g**e**n**e**s**a**r**e**c**o**m**p**a**r**e**d**a**g**a**i**n**s**t**c**o**s**m**i**c*<sub>*c*</sub>*e**n**s**u**s*Gene.Symbol genes, when a match is found, the data from the matching corresponding brca\_rna\_v2 row is appended to cosmic\_census. For genes only in cosmic\_census, the new columns are populated with "NA".
+
+``` r
+t1 <- left_join(cosmic_census, brca_rna_v2, by = c("Gene.Symbol"="hugo")) %>%
+  select(Gene.Symbol, Tumour.Types.Somatic., Role.in.Cancer, brca.s1) 
+```
+
+    ## Warning: Column `Gene.Symbol`/`hugo` joining factors with different levels,
+    ## coercing to character vector
+
+``` r
+t1 %>% head(15) %>% kable(format = "markdown", align=NULL)
+```
+
+<table>
+<colgroup>
+<col width="9%" />
+<col width="68%" />
+<col width="13%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Gene.Symbol</th>
+<th>Tumour.Types.Somatic.</th>
+<th>Role.in.Cancer</th>
+<th>brca.s1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ABI1</td>
+<td>AML</td>
+<td>TSG, fusion</td>
+<td>803.6858</td>
+</tr>
+<tr class="even">
+<td>ABL1</td>
+<td>CML, ALL, T-ALL</td>
+<td>oncogene, fusion</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td>ABL2</td>
+<td>AML</td>
+<td>oncogene, fusion</td>
+<td>731.3660</td>
+</tr>
+<tr class="even">
+<td>ACKR3</td>
+<td>lipoma</td>
+<td>oncogene, fusion</td>
+<td>293.6493</td>
+</tr>
+<tr class="odd">
+<td>ACSL3</td>
+<td>prostate</td>
+<td>fusion</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td>ACVR1</td>
+<td>DIPG</td>
+<td>oncogene</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td>ACVR2A</td>
+<td>large intestine carcinoma, stomach carcinoma, pancreatic carcinoma, biliary tract, oesophagus</td>
+<td>TSG</td>
+<td>212.6545</td>
+</tr>
+<tr class="even">
+<td>AFF1</td>
+<td>AL</td>
+<td>fusion</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td>AFF3</td>
+<td>ALL, T-ALL</td>
+<td>oncogene, fusion</td>
+<td>4788.6897</td>
+</tr>
+<tr class="even">
+<td>AFF4</td>
+<td>ALL</td>
+<td>oncogene, fusion</td>
+<td>3899.1253</td>
+</tr>
+<tr class="odd">
+<td>AKT1</td>
+<td>breast, colorectal, ovarian, NSCLC</td>
+<td>oncogene</td>
+<td>4534.3315</td>
+</tr>
+<tr class="even">
+<td>AKT2</td>
+<td>ovarian, pancreatic</td>
+<td>oncogene</td>
+<td>2564.2616</td>
+</tr>
+<tr class="odd">
+<td>ALK</td>
+<td>ALCL, NSCLC, neuroblastoma, inflammatory myofibroblastic tumour, Spitzoid tumour</td>
+<td>oncogene, fusion</td>
+<td>0.3447</td>
+</tr>
+<tr class="even">
+<td>AMER1</td>
+<td>Wilms tumour</td>
+<td>TSG</td>
+<td>439.0953</td>
+</tr>
+<tr class="odd">
+<td>APC</td>
+<td>colorectal, pancreatic, desmoid, hepatoblastoma, glioma, other CNS</td>
+<td>TSG</td>
+<td>1010.5397</td>
+</tr>
+</tbody>
+</table>
+
+``` r
+dim(t1)
+```
+
+    ## [1] 567   4
+
+Note. I had error messages when trying to pipe the table into kable function, and I found that kable can introduce space or newline, and that I could solve it by using aling=NULL as explained [here](https://github.com/yihui/knitr/issues/699).
+
+*Observations*
+
+-   There is not rna expression data for the AFF1
+-   AMER1 is involved in Wilms tumour pathogenesis, and in our breast cancer sample, AMER1 expression was around 439 RPKM.
+
+#### right\_join()
+
+*Objective/process:* With right\_join(), it's the reverse of left\_join(): I start with brca\_rna\_v2 and match cosmic\_census to brca\_rna\_v2.
+
+``` r
+t2 <- right_join(cosmic_census, brca_rna_v2, by = c("Gene.Symbol"="hugo")) %>% select(Gene.Symbol, Tumour.Types.Somatic., Role.in.Cancer, brca.s1) 
+```
+
+    ## Warning: Column `Gene.Symbol`/`hugo` joining factors with different levels,
+    ## coercing to character vector
+
+``` r
+t2 %>% head(15) %>% kable(format = "markdown", align=NULL)
+```
+
+| Gene.Symbol  | Tumour.Types.Somatic. | Role.in.Cancer | brca.s1   |
+|--------------|-----------------------|----------------|-----------|
+| LOC100130426 | NA                    | NA             | 0.0000    |
+| UBE2Q2P3     | NA                    | NA             | 16.3644   |
+| LOC149767    | NA                    | NA             | 52.1503   |
+| TIMM23       | NA                    | NA             | 408.0760  |
+| MOXD2        | NA                    | NA             | 0.0000    |
+| LOC155060    | NA                    | NA             | 1187.0050 |
+| RNU12-2P     | NA                    | NA             | 0.0000    |
+| SSX9         | NA                    | NA             | 0.0000    |
+| LOC317712    | NA                    | NA             | 0.0000    |
+| CXORF67      | NA                    | NA             | 1.7233    |
+| EFCAB8       | NA                    | NA             | 0.3447    |
+| SRP14P1      | NA                    | NA             | 4.1359    |
+| LOC391343    | NA                    | NA             | 0.0000    |
+| TRIM75P      | NA                    | NA             | 0.6893    |
+| SPATA31B1P   | NA                    | NA             | 0.0000    |
+
+``` r
+dim(t2)
+```
+
+    ## [1] 20500     4
+
+*Observations*
+
+-   Since the maximum of matches is 567 (number of rows in cosmic\_census) out of 20500 (number of rows in brca\_rna\_v2), it is not surprising that the Tumour.Types.Somatic. and Role.in.Cancer columns are populations with NA when we only look at 15 rows.
+-   Since right\_join(cosmic\_census, brca\_rna\_v2) is equivalent to left\_join(brca\_rna\_v2, cosmic\_census), I personally feel it is less confusing to stick with left\_join() and swap the order of the datasets inside the function.
+
+#### inner\_join()
+
+*Objective/process:* With inner\_join(), I only return the rows that match in both cosmic\_census and brca\_rna\_v2.
+
+``` r
+t3 <- inner_join(cosmic_census, brca_rna_v2, by = c("Gene.Symbol"="hugo")) %>% 
+select(Gene.Symbol, Tumour.Types.Somatic., Role.in.Cancer, brca.s1)
+```
+
+    ## Warning: Column `Gene.Symbol`/`hugo` joining factors with different levels,
+    ## coercing to character vector
+
+``` r
+t3  %>% head(15) %>% kable(format = "markdown", align=NULL) 
+```
+
+<table>
+<colgroup>
+<col width="9%" />
+<col width="68%" />
+<col width="13%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Gene.Symbol</th>
+<th>Tumour.Types.Somatic.</th>
+<th>Role.in.Cancer</th>
+<th>brca.s1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ABI1</td>
+<td>AML</td>
+<td>TSG, fusion</td>
+<td>803.6858</td>
+</tr>
+<tr class="even">
+<td>ABL2</td>
+<td>AML</td>
+<td>oncogene, fusion</td>
+<td>731.3660</td>
+</tr>
+<tr class="odd">
+<td>ACKR3</td>
+<td>lipoma</td>
+<td>oncogene, fusion</td>
+<td>293.6493</td>
+</tr>
+<tr class="even">
+<td>ACVR2A</td>
+<td>large intestine carcinoma, stomach carcinoma, pancreatic carcinoma, biliary tract, oesophagus</td>
+<td>TSG</td>
+<td>212.6545</td>
+</tr>
+<tr class="odd">
+<td>AFF3</td>
+<td>ALL, T-ALL</td>
+<td>oncogene, fusion</td>
+<td>4788.6897</td>
+</tr>
+<tr class="even">
+<td>AFF4</td>
+<td>ALL</td>
+<td>oncogene, fusion</td>
+<td>3899.1253</td>
+</tr>
+<tr class="odd">
+<td>AKT1</td>
+<td>breast, colorectal, ovarian, NSCLC</td>
+<td>oncogene</td>
+<td>4534.3315</td>
+</tr>
+<tr class="even">
+<td>AKT2</td>
+<td>ovarian, pancreatic</td>
+<td>oncogene</td>
+<td>2564.2616</td>
+</tr>
+<tr class="odd">
+<td>ALK</td>
+<td>ALCL, NSCLC, neuroblastoma, inflammatory myofibroblastic tumour, Spitzoid tumour</td>
+<td>oncogene, fusion</td>
+<td>0.3447</td>
+</tr>
+<tr class="even">
+<td>AMER1</td>
+<td>Wilms tumour</td>
+<td>TSG</td>
+<td>439.0953</td>
+</tr>
+<tr class="odd">
+<td>APC</td>
+<td>colorectal, pancreatic, desmoid, hepatoblastoma, glioma, other CNS</td>
+<td>TSG</td>
+<td>1010.5397</td>
+</tr>
+<tr class="even">
+<td>APOBEC3B</td>
+<td></td>
+<td>oncogene, TSG</td>
+<td>139.9315</td>
+</tr>
+<tr class="odd">
+<td>AR</td>
+<td>prostate</td>
+<td>oncogene</td>
+<td>1097.7383</td>
+</tr>
+<tr class="even">
+<td>ARHGAP26</td>
+<td>AML, MDS</td>
+<td>TSG, fusion</td>
+<td>247.8097</td>
+</tr>
+<tr class="odd">
+<td>ARID1A</td>
+<td>clear cell ovarian carcinoma, RCC, breast</td>
+<td>TSG, fusion</td>
+<td>5379.7796</td>
+</tr>
+</tbody>
+</table>
+
+``` r
+dim(t3)
+```
+
+    ## [1] 419   4
+
+*Observations*
+
+-   There is 419 genes that are present in both datasets.
+-   There is no "NA" value in this table.
+
+#### full\_join()
+
+*Objective/process:* With full\_join(), I append all the information of brca\_rna\_v2 to cosmic\_census.
+
+``` r
+t4 <-  full_join(cosmic_census, brca_rna_v2, by = c("Gene.Symbol"="hugo")) %>% select(Gene.Symbol, Tumour.Types.Somatic., Role.in.Cancer, brca.s1) 
+```
+
+    ## Warning: Column `Gene.Symbol`/`hugo` joining factors with different levels,
+    ## coercing to character vector
+
+``` r
+t4 %>% head(15) %>% kable(format = "markdown", align=NULL)
+```
+
+<table>
+<colgroup>
+<col width="9%" />
+<col width="68%" />
+<col width="13%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Gene.Symbol</th>
+<th>Tumour.Types.Somatic.</th>
+<th>Role.in.Cancer</th>
+<th>brca.s1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ABI1</td>
+<td>AML</td>
+<td>TSG, fusion</td>
+<td>803.6858</td>
+</tr>
+<tr class="even">
+<td>ABL1</td>
+<td>CML, ALL, T-ALL</td>
+<td>oncogene, fusion</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td>ABL2</td>
+<td>AML</td>
+<td>oncogene, fusion</td>
+<td>731.3660</td>
+</tr>
+<tr class="even">
+<td>ACKR3</td>
+<td>lipoma</td>
+<td>oncogene, fusion</td>
+<td>293.6493</td>
+</tr>
+<tr class="odd">
+<td>ACSL3</td>
+<td>prostate</td>
+<td>fusion</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td>ACVR1</td>
+<td>DIPG</td>
+<td>oncogene</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td>ACVR2A</td>
+<td>large intestine carcinoma, stomach carcinoma, pancreatic carcinoma, biliary tract, oesophagus</td>
+<td>TSG</td>
+<td>212.6545</td>
+</tr>
+<tr class="even">
+<td>AFF1</td>
+<td>AL</td>
+<td>fusion</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td>AFF3</td>
+<td>ALL, T-ALL</td>
+<td>oncogene, fusion</td>
+<td>4788.6897</td>
+</tr>
+<tr class="even">
+<td>AFF4</td>
+<td>ALL</td>
+<td>oncogene, fusion</td>
+<td>3899.1253</td>
+</tr>
+<tr class="odd">
+<td>AKT1</td>
+<td>breast, colorectal, ovarian, NSCLC</td>
+<td>oncogene</td>
+<td>4534.3315</td>
+</tr>
+<tr class="even">
+<td>AKT2</td>
+<td>ovarian, pancreatic</td>
+<td>oncogene</td>
+<td>2564.2616</td>
+</tr>
+<tr class="odd">
+<td>ALK</td>
+<td>ALCL, NSCLC, neuroblastoma, inflammatory myofibroblastic tumour, Spitzoid tumour</td>
+<td>oncogene, fusion</td>
+<td>0.3447</td>
+</tr>
+<tr class="even">
+<td>AMER1</td>
+<td>Wilms tumour</td>
+<td>TSG</td>
+<td>439.0953</td>
+</tr>
+<tr class="odd">
+<td>APC</td>
+<td>colorectal, pancreatic, desmoid, hepatoblastoma, glioma, other CNS</td>
+<td>TSG</td>
+<td>1010.5397</td>
+</tr>
+</tbody>
+</table>
+
+``` r
+dim(t4)
+```
+
+    ## [1] 20648     4
+
+*Observations*
+
+-   This function creates the largest dataset (20648 rows) as it keeps all the information.
+-   Weirdly enough, there is one entry in brca\_rna\_v2 for which there is expression data, but no gene in the hugo column, and this mysterious NA gene has an expression level of:
+
+``` r
+brca_rna_v2 %>%
+  filter(is.na(hugo))
+```
+
+    ##   hugo  brca.s1
+    ## 1 <NA> 279.1736
+
+FILTERING JOIN
+--------------
+
+#### semi\_join()
+
+*Objective/process:* With semi\_join(), I get all the rows from cosmic\_census for which there is a match in brca\_rna\_v2.
+
+``` r
+t5 <- cosmic_census %>%
+  select(Gene.Symbol, Tumour.Types.Somatic., Role.in.Cancer) %>%
+  semi_join(brca_rna_v2, by = c("Gene.Symbol"="hugo"))
+```
+
+    ## Warning: Column `Gene.Symbol`/`hugo` joining factors with different levels,
+    ## coercing to character vector
+
+``` r
+dim(t5)
+```
+
+    ## [1] 419   3
+
+``` r
+t5 %>% head(15) %>% kable(format = "markdown", align=NULL)
+```
+
+<table>
+<colgroup>
+<col width="10%" />
+<col width="74%" />
+<col width="14%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Gene.Symbol</th>
+<th>Tumour.Types.Somatic.</th>
+<th>Role.in.Cancer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ABI1</td>
+<td>AML</td>
+<td>TSG, fusion</td>
+</tr>
+<tr class="even">
+<td>ABL2</td>
+<td>AML</td>
+<td>oncogene, fusion</td>
+</tr>
+<tr class="odd">
+<td>ACKR3</td>
+<td>lipoma</td>
+<td>oncogene, fusion</td>
+</tr>
+<tr class="even">
+<td>ACVR2A</td>
+<td>large intestine carcinoma, stomach carcinoma, pancreatic carcinoma, biliary tract, oesophagus</td>
+<td>TSG</td>
+</tr>
+<tr class="odd">
+<td>AFF3</td>
+<td>ALL, T-ALL</td>
+<td>oncogene, fusion</td>
+</tr>
+<tr class="even">
+<td>AFF4</td>
+<td>ALL</td>
+<td>oncogene, fusion</td>
+</tr>
+<tr class="odd">
+<td>AKT1</td>
+<td>breast, colorectal, ovarian, NSCLC</td>
+<td>oncogene</td>
+</tr>
+<tr class="even">
+<td>AKT2</td>
+<td>ovarian, pancreatic</td>
+<td>oncogene</td>
+</tr>
+<tr class="odd">
+<td>ALK</td>
+<td>ALCL, NSCLC, neuroblastoma, inflammatory myofibroblastic tumour, Spitzoid tumour</td>
+<td>oncogene, fusion</td>
+</tr>
+<tr class="even">
+<td>AMER1</td>
+<td>Wilms tumour</td>
+<td>TSG</td>
+</tr>
+<tr class="odd">
+<td>APC</td>
+<td>colorectal, pancreatic, desmoid, hepatoblastoma, glioma, other CNS</td>
+<td>TSG</td>
+</tr>
+<tr class="even">
+<td>APOBEC3B</td>
+<td></td>
+<td>oncogene, TSG</td>
+</tr>
+<tr class="odd">
+<td>AR</td>
+<td>prostate</td>
+<td>oncogene</td>
+</tr>
+<tr class="even">
+<td>ARHGAP26</td>
+<td>AML, MDS</td>
+<td>TSG, fusion</td>
+</tr>
+<tr class="odd">
+<td>ARID1A</td>
+<td>clear cell ovarian carcinoma, RCC, breast</td>
+<td>TSG, fusion</td>
+</tr>
+</tbody>
+</table>
+
+*Observations*
+
+-   It does not append the data from brca\_rna\_v2 because semi\_join() is a filtering function.
+-   Even thought the gene expression data is not appended, we know that the genes listed in t5 are also present in brca\_rna\_v2 because semi\_join() keeps only the data of cosmic\_census if a gene is present in both datasets.
+
+#### anti\_join()
+
+*Objective/process:* The anti\_join() is the mirror function of semi\_join(). It will only keep the rows of cosmic\_census if Gene.Symbol does NOT match brca\_rna\_v2$hugo.
+
+``` r
+t6 <- cosmic_census %>%
+  select(Gene.Symbol, Tumour.Types.Somatic., Role.in.Cancer) %>%
+  anti_join(brca_rna_v2, by = c("Gene.Symbol"="hugo"))
+```
+
+    ## Warning: Column `Gene.Symbol`/`hugo` joining factors with different levels,
+    ## coercing to character vector
+
+``` r
+dim(t6)
+```
+
+    ## [1] 148   3
+
+``` r
+t6 %>% head(15) %>% kable(format = "markdown", align=NULL)
+```
+
+| Gene.Symbol | Tumour.Types.Somatic.                             | Role.in.Cancer   |
+|-------------|---------------------------------------------------|------------------|
+| ABL1        | CML, ALL, T-ALL                                   | oncogene, fusion |
+| ACSL3       | prostate                                          | fusion           |
+| ACVR1       | DIPG                                              | oncogene         |
+| AFF1        | AL                                                | fusion           |
+| ARHGEF12    | AML                                               | TSG, fusion      |
+| ARID1B      | breast, hepatocellular carcinoma                  | TSG              |
+| ASPSCR1     | alveolar soft part sarcoma                        | fusion           |
+| ATP1A1      | adrenal aldosterone producing adenoma             | oncogene, TSG    |
+| ATP2B3      | adrenal aldosterone producing adenoma             | TSG              |
+| ATRX        | pancreatic neuroendocrine tumours, paediatric GBM | TSG              |
+| BCL11A      | B-CLL                                             | oncogene, fusion |
+| BCL3        | CLL                                               | oncogene, fusion |
+| BCOR        | retinoblastoma, AML, APL (translocation)          | TSG, fusion      |
+| BMPR1A      |                                                   | oncogene, TSG    |
+| BRD3        | lethal midline carcinoma of young people          | oncogene, fusion |
+
+*Observation:*
+
+-   I can hardly imagine a role for this function with my current data, but that is because I picked my two datasets (cosmic\_census and brca\_rna\_v2) thinking about mutating and appending data, not about filtering out data, and therefore, my datasets have complementary information. If I had two redundant datasets, the filtering functions would be more applicable.
 
 Activity \#2 - Create your own cheatsheet
 -----------------------------------------

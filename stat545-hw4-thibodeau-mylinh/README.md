@@ -24,11 +24,13 @@ After trying for 3h to complete the homework 4 exercises with the data I used in
 
 ![gapminder-underling-data-structure](scratch-space/gapminder-underlying-data-structure.jpg)
 
-### I was trying to do the homework with an "unfit" dataset:
+## FAILED: I was trying to do the homework with an "unfit" dataset
 
 ![failed-genomic-data-structure](scratch-space/failed-genomic-data-structure.jpg)
 
 *I have learned to think about the underlying structure of a dataset before trying to do anything with it ! I am hoping I won't make the same mistake again in the future and that I will be able to recognize these situations promptly rather than try to solve unsolvable problems due to the nature of the dataset.*
+
+## SUCCESS: I will be using the data from The Cancer Genome Atlas (TCGA) instead, because as illustrated below, it can have a similar structure than gapminder. 
 
 ![genomic-data-structure](scratch-space/genomic-data-structure.jpg)
 

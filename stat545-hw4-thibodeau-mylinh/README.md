@@ -2,9 +2,9 @@
 
 # HOMEWORK FILES TO REVIEW
 
-As explained below, I unfortunately didn't realize that we only needed to pick two activities in total, and that's why my original Homework 4 (now entitled "long-version-stat545-hw04-thibodeau-mylinh") file is **not the one to review**.
+As explained below, I unfortunately didn't realize that we only needed to pick two activities in total, and that's why my original Homework 4 (now entitled "long-version-stat545-hw04-thibodeau-mylinh") file is **NOT THE ONE TO REVIEW**.
 
-For the **marking/peer review purposes**, you can limit yourself to these two cheatsheets:
+For the **MARKING/PEER REVIEW FILES**, you can limit yourself to these two cheatsheets:
 
 * General data reshaping and relationship to aggregation - Activity #5 (data manipulation sample): cheatsheet md file [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw4-thibodeau-mylinh/hw04-data-manipulation-cheatsheet-thibodeau-mylinh.md) comparing tidyr, reshape and R base ways of manipulating data  
 * Join, merge, look up - Activity #2 (create your own cheatsheet on join functions): minimalist dplyr joining function cheatsheet md file [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw4-thibodeau-mylinh/hw04-dplyr-join-cheatsheet-thibodeau-mylinh.md) - A table is worth a thousand words
@@ -23,23 +23,23 @@ Vincenzo Coia has approved my request to use published genomic data for the home
 * I have tried to introduce some basic explanations about the genomic dataset, but obviously, this is not a genetics course and my objective is to explore and learn how to use R and its packages, not to teach complex notions of cancer genomic analysis. Therefore, I don't expect people to understand what the data and plots represent if they haven't studied in related fields. 
 * I would recommend you make abstraction of the underlying biological context and simply try to read this homework based on the variable types (e.g. copy.category is a categorical variable like "gain" or "loss") rather than what they represent.
 
-# Valuable lesson learned
+# Valuable lessons learned
 
 ## Lesson #1 - Must figure out the underlying structure of a dataset before manipulating it
 
 After trying for 3h to complete the homework 4 exercises with the data I used in [homework 3](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw3-thibodeau-mylinh), that regardless of how I organized the data, I still didn't have the right data format to complete the exercises. 
 
-![gapminder-underling-data-structure](scratch-space/gapminder-underlying-data-structure.jpg)
+![gapminder-underling-data-structure](scratch-space/gapminder-underlying-data-structure.jpg){ width=50% }
 
 ## FAILED: I was trying to do the homework with an "unfit" dataset
 
-![failed-genomic-data-structure](scratch-space/failed-genomic-data-structure.jpg)
+![failed-genomic-data-structure](scratch-space/failed-genomic-data-structure.jpg){ width=50% }
 
 *I have learned to think about the underlying structure of a dataset before trying to do anything with it ! I am hoping I won't make the same mistake again in the future and that I will be able to recognize these situations promptly rather than try to solve unsolvable problems due to the nature of the dataset.*
 
 ## SUCCESS: I will be using the data from The Cancer Genome Atlas (TCGA) instead, because as illustrated below, it can have a similar structure than gapminder. 
 
-![genomic-data-structure](scratch-space/genomic-data-structure.jpg)
+![genomic-data-structure](scratch-space/genomic-data-structure.jpg){ width=50% }
 
 ## Lesson #2 - Carefully read the requirements 
 

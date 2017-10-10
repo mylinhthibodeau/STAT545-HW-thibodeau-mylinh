@@ -23,7 +23,7 @@ options(knitr.table.format = "html")
 |               |                         |                     |                             |
 |1. Group       | group_by()              | cast()              | aggregate(~ group)          |
 |               |                         |                     |                             | 
-|2. Split       | spread(), separate()    | dcast()             | table()                     |
+|2. Split       | spread(), ?separate()   | dcast()             | table()                     |
 |               |                         |                     |                             | 
 |3. Stack       | gather()                | melt()              |                             | 
 |               |                         |                     |                             | 
@@ -58,6 +58,14 @@ gr_tidy <- select(d1, gene.type, expression, copy.number) %>%
 gr_tidy %>% kable("html") %>% kable_styling()
 ```
 
+### Reshape
+
+```{r}
+gr_resh <-acast(d1, gene.type~expression)
+gr_resh %>% kable("html") %>% kable_styling()
+```
+
+
 ## SPLIT
 
 Objective: transform the Nrows column (count of gene.type-expression pairs) of gr_tidy so that each group (TS, ONC) is represented by one row, each expression category by one column, and the numbers (Nrows of gr_tidy) represent the number of occurence in each pair (gene.type-expression).
@@ -65,10 +73,10 @@ Objective: transform the Nrows column (count of gene.type-expression pairs) of g
 ### Tidyr
 
 ```{r}
-split_tidy <- d1 %>%
+split_tidy <- gr_tidy %>%
   group_by(gene.type, expression) %>%
-  select(gene.type, expression, copy.number) %>%
-  spread(key=expression, value = gene.type)
+  select(gene.type, Nrows) %>%
+  spread(key=expression, value = Nrows)
 split_tidy %>% kable("html") %>% kable_styling()
 ```
 
@@ -80,6 +88,14 @@ split_resh <- gr_tidy %>%
   dcast(gene.type~expression, value.var = "Nrows")
 split_resh %>% kable("html") %>% kable_styling()
 ```
+
+### Base R
+ 
+```{r}
+split_R <- with(d1, table(gene.type, expression))
+split_R %>% kable("html") %>% kable_styling()
+```
+
 
 ## STACK
 
@@ -110,7 +126,7 @@ Let's prepare another dataset (d2) for the following exercises.
 d2 <- read.table("small_dataframe_example_2.txt",sep = "\t", header = TRUE)
 d2 %>% kable("html") %>% kable_styling()
 ```
-
+***
 
 ## JOIN
 
@@ -174,6 +190,7 @@ join_tidy %>%
 ***                
 REFERENCES
 Reshape2 manual [here](https://www.rdocumentation.org/packages/reshape2/versions/1.4.2)
+Reshape2 intro [here](http://seananderson.ca/2013/10/19/reshape.html)
 Reshape reference [here](http://had.co.nz/reshape/), [here](https://stackoverflow.com/questions/8091303/simultaneously-merge-multiple-data-frames-in-a-list)
-Blog on data manipulation [here](https://www.r-statistics.com/2012/01/aggregation-and-restructuring-data-from-r-in-action/), and [here](http://library.open.oregonstate.edu/computationalbiology/chapter/reshaping-and-joining-data-frames/)
+Blog on data manipulation [here on r-statistics](https://www.r-statistics.com/2012/01/aggregation-and-restructuring-data-from-r-in-action/), and [here on Oregon University](http://library.open.oregonstate.edu/computationalbiology/chapter/reshaping-and-joining-data-frames/).
 Panda can also offer options, as exemplified [here](https://pandas.pydata.org/pandas-docs/stable/merging.html), but I ran out of time to look into this further.

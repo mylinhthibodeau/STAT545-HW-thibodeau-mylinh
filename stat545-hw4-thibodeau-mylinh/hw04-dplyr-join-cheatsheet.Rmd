@@ -1,0 +1,16 @@
+---
+title: "hw04-dplyr-join-cheatsheet"
+author: "My Linh Thibodeau"
+date: '2017-10-10'
+output: github_document
+---
+
+```{r}
+suppressPackageStartupMessages(library(tidyverse))
+knitr::opts_chunk$set(fig.width=12, fig.height=9)
+library(knitr)
+library(kableExtra)
+library(reshape2)
+options(knitr.table.format = "html")
+```
+

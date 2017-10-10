@@ -1,0 +1,45 @@
+---
+title: "hw04-dplyr-join-cheatsheet"
+author: "My Linh Thibodeau"
+date: '2017-10-10'
+output: github_document
+---
+
+```{r}
+suppressPackageStartupMessages(library(tidyverse))
+knitr::opts_chunk$set(fig.width=12, fig.height=9)
+library(knitr)
+library(kableExtra)
+library(reshape2)
+options(knitr.table.format = "html")
+```
+
+# Essentials of data joining with dplyr
+
+# Matching objectives and functions
+
+## Considering two data.frame d1 and d2
+
+
+| Objective                                           | tidyr/dplyr function    | 
+|-----------------------------------------------------|-------------------------|
+| Append/join data                                    | MUTATING                | 
+|-----------------------------------------------------|-------------------------|
+|1. Start with d1 and append matching column(s) of d2 | left_join               | 
+|2. Start with d2 and append matching column(s) of d1 | right_join              | 
+|3. Only keep overlap d1-d2 based on matching columns | inner_join              |
+|4. Keep all of d1 and d2                             | full_join               |
+|-----------------------------------------------------|-------------------------|
+| Filter data                                         | FILTERING               | 
+|-----------------------------------------------------|-------------------------|
+|5. Keep rows of d1 if there is a match in d2         | semi_join               |
+|4. Discard rows of d1 if there is a match in d2      | anti_join               |
+
+```{r}
+d1 <- read.table("small_dataframe_example.txt",sep = "\t", header = TRUE)
+d1 %>% kable("html") %>% kable_styling()
+d2 <- read.table("small_dataframe_example_2.txt",sep = "\t", header = TRUE)
+d2 %>% kable("html") %>% kable_styling()
+```
+
+

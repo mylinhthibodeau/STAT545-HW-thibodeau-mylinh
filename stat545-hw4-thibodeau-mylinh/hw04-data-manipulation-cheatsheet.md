@@ -33,15 +33,15 @@ Essentials of data manipulations in R
 Matching tasks and functions
 ============================
 
-| Task         | tidyr function    | reshape2 function   | base R                  |
-|--------------|-------------------|---------------------|-------------------------|
-| 1. Group     | group\_by         | "cast"              | "aggregate(~ group)"    |
-| 2. Split     | spread, ?separate | dcast               | table                   |
-| 3. Stack     | gather            | melt                | "stack"                 |
-| 4. Join      | \_join functions  | reshape::merge\_all | merge, cbind, rbind     |
-| 5. Subset    | filter, extract   | NA                  | df\[which()\] or subset |
-| 6. Transpose | gather/spread     | dcast/melt          | data.frame(t())         |
-| 7. Sort      | arrange           |                     |                         |
+| Task         | tidyr/dplyr function | reshape2 function   | base R                  |
+|--------------|----------------------|---------------------|-------------------------|
+| 1. Group     | group\_by            | "cast"              | "aggregate(~ group)"    |
+| 2. Split     | spread, ?separate    | dcast               | table                   |
+| 3. Stack     | gather               | melt                | "stack"                 |
+| 4. Join      | \_join functions     | reshape::merge\_all | merge, cbind, rbind     |
+| 5. Subset    | filter, extract      | NA                  | df\[which()\] or subset |
+| 6. Transpose | gather/spread        | dcast/melt          | data.frame(t())         |
+| 7. Sort      | arrange              |                     |                         |
 
 -   *Note1. I have put in quotation marks the functions that I do not recommend for the specific task, because although there are some ways around it, they are no the simplest/fastest way to get the solution in my opinion.*
 -   *Note2. In reshape2, acast() is for a array/vector/matrix output, and dcast for a data.frame output. I have put dcast for simplicity in the table, but acast can also be used.*
@@ -161,8 +161,8 @@ high
 </tr>
 </tbody>
 </table>
-1. GROUP
---------
+(1) GROUP
+---------
 
 Objective: group gene.type and copy.state, when count the number of rows (pairs) and the sum of the copy.number for each pair.
 
@@ -521,8 +521,8 @@ tapply(d1$gene.type, d1$expression, FUN=length)
 
 Note. Again, base R is not ideal to pursue grouping. I was not able to obtain the wanted table, and since Tidyr offers better alternative, I won't pursue further base R for grouping.
 
-2. SPLIT
---------
+(2) SPLIT
+---------
 
 Objective: transform the Nrows column (count of gene.type-expression pairs) of gr\_tidy so that each group (TS, ONC) is represented by one row, each expression category by one column, and the numbers (Nrows of gr\_tidy) represent the number of occurence in each pair (gene.type-expression).
 
@@ -753,8 +753,8 @@ TS
 </tr>
 </tbody>
 </table>
-3. STACK
---------
+(3) STACK
+---------
 
 Objective: display split\_resh in a way such that all possible gene.type-expression pairs are displayed in col1 and col2, which col3 returns the count of such pairs (Nrows)
 
@@ -1273,8 +1273,8 @@ normal
 
 ------------------------------------------------------------------------
 
-4. JOIN
--------
+(4) JOIN
+--------
 
 Objective: join d1 and d2 according to the common column gene.
 
@@ -1552,8 +1552,8 @@ absent
 </tr>
 </tbody>
 </table>
-5. SUBSET
----------
+(5) SUBSET
+----------
 
 Objective: only take the data for the ONC gene.type.
 
@@ -1751,8 +1751,8 @@ high
 </tr>
 </tbody>
 </table>
-6. TRANSPOSE
-------------
+(5) TRANSPOSE
+-------------
 
 Objective: take the subset\_tidy horizontal table and transpose it to a vertical position such that the rows become columns and vice versa.
 
@@ -1825,8 +1825,8 @@ copy.number
 </table>
 I note that the columns are called X1 and X2 instead of ONC and ONC. Oh well, we get the general idea anyway !
 
-7. SORT
--------
+(7) SORT
+--------
 
 Objective: sort the table according to ascending copy.number
 
@@ -1967,4 +1967,10 @@ strong
 
 ### REFERENCES
 
-Reshape2 manual [here](https://www.rdocumentation.org/packages/reshape2/versions/1.4.2) Reshape2 intro [here](http://seananderson.ca/2013/10/19/reshape.html) Reshape reference [here](http://had.co.nz/reshape/), [here](https://stackoverflow.com/questions/8091303/simultaneously-merge-multiple-data-frames-in-a-list) Blog on data manipulation [here on r-statistics](https://www.r-statistics.com/2012/01/aggregation-and-restructuring-data-from-r-in-action/), and [here on Oregon University](http://library.open.oregonstate.edu/computationalbiology/chapter/reshaping-and-joining-data-frames/). Panda can also offer options, as exemplified [here](https://pandas.pydata.org/pandas-docs/stable/merging.html), but I ran out of time to look into this further. Aggregate in base R [here](https://stackoverflow.com/questions/1660124/how-to-sum-a-variable-by-group) or [here](https://datascienceplus.com/aggregate-data-frame-r/) or [here](http://www.statmethods.net/management/aggregate.html) Base R stack resource [here](http://www.instantr.com/2012/12/02/stacking-a-dataset-in-r/) and [here](https://stat.ethz.ch/R-manual/R-devel/library/utils/html/stack.html) Base R [subset](http://www.statmethods.net/management/subset.html)
+-   Reshape2 manual [here](https://www.rdocumentation.org/packages/reshape2/versions/1.4.2)
+-   Reshape2 intro [here](http://seananderson.ca/2013/10/19/reshape.html)
+-   Reshape reference [here](http://had.co.nz/reshape/), [here](https://stackoverflow.com/questions/8091303/simultaneously-merge-multiple-data-frames-in-a-list)
+-   Blog on data manipulation [here on r-statistics](https://www.r-statistics.com/2012/01/aggregation-and-restructuring-data-from-r-in-action/), and [here on Oregon University](http://library.open.oregonstate.edu/computationalbiology/chapter/reshaping-and-joining-data-frames/).
+-   Panda can also offer options, as exemplified [here](https://pandas.pydata.org/pandas-docs/stable/merging.html), but I ran out of time to look into this further.
+-   Aggregate in base R [here](https://stackoverflow.com/questions/1660124/how-to-sum-a-variable-by-group) or [here](https://datascienceplus.com/aggregate-data-frame-r/) or [here](http://www.statmethods.net/management/aggregate.html) Base R stack resource [here](http://www.instantr.com/2012/12/02/stacking-a-dataset-in-r/) and [here](https://stat.ethz.ch/R-manual/R-devel/library/utils/html/stack.html)
+-   Base R [subset](http://www.statmethods.net/management/subset.html)

@@ -57,7 +57,7 @@ brca_rna <- read.table("/Users/mylinh/Documents/published_data/tcga/brca/tcga/da
 colnames(brca_rna) <- c("hugo", "brca.s1", "brca.s2", "brca.s3")
 brca_rna <- brca_rna[!duplicated(brca_rna$hugo), ]
 brca_rna$cancer.type <- "BRCA"
-View(brca_rna)
+#View(brca_rna)
 
 gbm_rna <- read.table("/Users/mylinh/Documents/published_data/tcga/gbm/tcga/data_RNA_Seq_v2_expression_median.txt", header = TRUE, nrows =100)[, c(1,3,4,5)]
 colnames(gbm_rna) <- c("hugo", "gbm.s1", "gbm.s2", "gbm.s3")
@@ -346,10 +346,48 @@ It would make more sense for a cheatsheet to be separate from the homework (and 
 
 ## Activity #1 - Create a second data frame
 
+### DATASET 1
+
+I will create a smaller version of the first data frame I had for this exercise: this one will contain the list of all genes and RPKM expression values for only one breast cancer tumour sequenced. 
 ```{r}
-clinvar_subset <- read.table("/Users/mylinh/Documents/published_data/subset_clinvar.txt", sep = "\t", header=TRUE)
-View(clinvar_subset)
+brca_rna_v2 <- read.table("/Users/mylinh/Documents/published_data/tcga/brca/tcga/data_RNA_Seq_v2_expression_median.txt", header = TRUE)[ ,c(1,3)]
+colnames(brca_rna_v2) <- c("hugo", "brca.s1")
+brca_rna_v2 <- brca_rna_v2[!duplicated(brca_rna_v2$hugo), ]
 ```
+
+### DATASET 2
+
+The second dataset will be the The Cancer Gene Census (CGC) from the COSMIC (Catalogue of Somatic Mutations In Cancer) database. The CGC is publically available [here](http://cancer.sanger.ac.uk/census). 
+
+Original census and analysis publication:  
+Futreal PA, Coin L, Marshall M, Down T, Hubbard T, Wooster R, Rahman N,
+Stratton MR. A census of human cancer genes. Nat Rev Cancer. 2004
+Mar;4(3):177-83. Review. PubMed PMID: 14993899; PubMed Central PMCID: PMC2665285.
+
+```{r}
+cosmic_census <- read.table("Cosmic_Census.tsv", sep = "\t", header=TRUE)
+summary(cosmic_census) %>% kable("html") %>% kable_styling()
+#sapply(cosmic_census, class)  %>% kable("html") %>% kable_styling()  
+# View(cosmic_census)
+```
+
+
+### Test some join functions of dplyr
+
+#### left_join()
+
+```{r}
+left_join(cosmic_census, brca_rna_v2, by = c("Gene.Symbol"="hugo")) %>%
+  select(Gene.Symbol, Tumour.Types.Somatic., Role.in.Cancer, brca.s1) %>% kable("html") %>% kable_styling() %>% head(25) 
+```
+
+#### right_join()
+
+```{r}
+t2 <- inner_join(cosmic_census, brca_rna_v2, by = c("Gene.Symbol"="hugo"))
+t2 %>% select(Gene.Symbol, Tumour.Types.Somatic., Role.in.Cancer, brca.s1) %>% kable(format = "markdown", align=NULL)
+```
+Note. I had error messages when trying to pipe the table into kable function, and I found that kable can introduce space or newline, and that I could solve it by using aling=NULL as explained [here](https://github.com/yihui/knitr/issues/699).
 
 ## Activity #2 - Create your own cheatsheet
 

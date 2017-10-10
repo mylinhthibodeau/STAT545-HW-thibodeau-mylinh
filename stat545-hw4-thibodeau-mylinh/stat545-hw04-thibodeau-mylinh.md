@@ -8350,7 +8350,7 @@ Original census and analysis publication:
 Futreal PA, Coin L, Marshall M, Down T, Hubbard T, Wooster R, Rahman N, Stratton MR. A census of human cancer genes. Nat Rev Cancer. 2004 Mar;4(3):177-83. Review. PubMed PMID: 14993899; PubMed Central PMCID: PMC2665285.
 
 ``` r
-cosmic_census <- read.table("Cosmic_Census.tsv", sep = "\t", header=TRUE, strip.white = TRUE)
+cosmic_census <- read.table("scratch-space/Cosmic_Census.tsv", sep = "\t", header=TRUE, strip.white = TRUE)
 summary(cosmic_census) %>% kable("html") %>% kable_styling()
 ```
 

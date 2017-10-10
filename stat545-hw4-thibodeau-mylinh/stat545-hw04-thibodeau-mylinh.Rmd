@@ -95,7 +95,7 @@ dlbc_rna <- dlbc_rna[!duplicated(dlbc_rna$hugo), ]
 dlbc_rna$cancer.type <- "DLBC"
 #View(dlbc_rna)
 ```
-Note1. I populated one additional column per dataset with the cancer.type as this will represent my "gapminder$continent" value later on. I tried the technique explained on [computer world here](https://www.computerworld.com/article/2486425/business-intelligence/business-intelligence-4-data-wrangling-tasks-in-r-for-advanced-beginners.html), and although it didn't work out, it gave me the idea of creating a new column "cancer.type" with a single value for the specific cancer.
+Note1. I populated one additional column per dataset with the cancer.type as this will represent my "gapminder$continent" value later on. I tried the technique explained on [computer world here](https://www.computerworld.com/article/2486415/business-intelligence/business-intelligence-4-data-wrangling-tasks-in-r-for-advanced-beginners.html), and although it didn't work out, it gave me the idea of creating a new column "cancer.type" with a single value for the specific cancer.
 Note2. I found a way of selecting specific columns in read.table with [this stackoverflow dicussion](https://stackoverflow.com/questions/5788117/only-read-limited-number-of-columns) and [this stackexchange discussion](https://stats.stackexchange.com/questions/16796/reading-only-two-out-of-three-columns-with-read-csv).
 Note3. After experiencing issues later on in this homework, I had to remove the hugo genes that had 2 or more values for the same cancer sample. I needed to have only one gene-sample key for the spread() function to workout. I found the information about how to remove duplicate [here](https://stackoverflow.com/questions/13279582/select-only-the-first-rows-for-each-unique-value-of-a-column-in-r)
 
@@ -122,7 +122,7 @@ For my type of data, I think gather() will be useful when I realize that a group
 Let's take a look at the brca_rna data:
 ```{r}
 brca_rna %>%
-  head(25) %>%
+  head(15) %>%
   kable("html") %>% kable_styling()
 ```
 
@@ -148,7 +148,7 @@ dlbc_rna_gather <- dlbc_rna %>%
 And now, if we take the same brca data, but the after using the gather() function:
 ```{r}
 brca_rna_gather %>%
-  head(25) %>%
+  head(15) %>%
   kable("html") %>% kable_styling()
 ```
 
@@ -160,7 +160,7 @@ In order to revert back to the original format of the data, I can use the same k
 brca_rna %>%
   gather(key = sample, value = RPKM, brca.s1, brca.s2, brca.s3) %>%
   spread(key=sample, value=RPKM) %>%
-  head(25) %>%
+  head(15) %>%
   kable("html") %>% kable_styling()
 ```
 *So it turns out that the spread() function does not like the fact that some gene names are duplicated for the sample sample initially, as it returned the message "Error: Duplicate identifiers for rows (2, 3), (52, 53), (102, 103)". So I have decided to change apply some extra functions to filter the duplicate when I read the TCGA cancer datasets files at the beginning of the homework.*
@@ -186,7 +186,7 @@ I will make a tibble with one row per gene (year) and columns for RPKM values (l
 full_dataset %>%
   filter(cancer.type=="BRCA") %>%
   spread(key=sample, value =RPKM) %>%
-  head(25) %>%
+  head(15) %>%
   kable("html") %>% kable_styling()
 ```
 
@@ -199,7 +199,7 @@ Compute some measure of RPKM (lifeExp) (mean? median? min? max?) for all possibl
 full_dataset %>%
   group_by(hugo, cancer.type) %>%
   summarize(mean.cancer=signif(mean(RPKM),2), median.cancer = signif(median(RPKM), 2), min.cancer=signif(min(RPKM), 2), max.cancer=signif(max(RPKM), 2)) %>%
-  head(25) %>%
+  head(15) %>%
   kable("html") %>% kable_styling()
 ```
 
@@ -212,7 +212,7 @@ d1 <- full_dataset %>%
   summarize(mean.cancer= signif(mean(RPKM), 2)) %>%
   gather(key=stat.category, value= the.number , mean.cancer) %>%
   spread(key=cancer.type, value=the.number)
-d1 %>% head(25) %>% kable("html") %>% kable_styling()
+d1 %>% head(15) %>% kable("html") %>% kable_styling()
 ```
 
 *Wow ... that took a long time, so let me reason through the process for one second:*
@@ -246,7 +246,7 @@ d2 <- full_dataset %>%
   summarize(mean.cancer= signif(mean(RPKM), 2), median.cancer = signif(median(RPKM), 2), min.cancer=signif(min(RPKM), 2), max.cancer=signif(max(RPKM), 2)) %>%
   gather(key=stat.category, value= the.number , mean.cancer, median.cancer, min.cancer, max.cancer) %>%
   spread(key=cancer.type, value=the.number)
-d2 %>% head(25) %>% kable("html") %>% kable_styling()
+d2 %>% head(15) %>% kable("html") %>% kable_styling()
 ```
 
 I think I still prefer starting from the full_dataset to make plots with summary values.
@@ -275,7 +275,7 @@ full_dataset %>%
   summarize(mean.cancer= signif(mean(RPKM), 2), median.cancer = signif(median(RPKM), 2), min.cancer=signif(min(RPKM), 2), max.cancer=signif(max(RPKM), 2)) %>%
   gather(key=stat.category, value= the.number , mean.cancer, median.cancer, min.cancer, max.cancer) %>%
   spread(key=hugo, value=the.number) %>%
-  head(25) %>%
+  head(15) %>%
   kable("html") %>% kable_styling()
 ```
 
@@ -326,7 +326,7 @@ full_dataset %>%
   group_by(cancer.type) %>%
   mutate(sample, RPKM_z = (RPKM - mean(RPKM))/sd(RPKM)) %>%
   arrange(cancer.type, desc(RPKM_z)) %>%
-  head(25) %>%
+  head(15) %>%
   kable("html") %>% kable_styling()
 ```
 
@@ -372,22 +372,55 @@ summary(cosmic_census) %>% kable("html") %>% kable_styling()
 ```
 
 
-### Test some join functions of dplyr
+## Test some join functions of dplyr
+
+### MUTATING JOIN
 
 #### left_join()
 
 ```{r}
-left_join(cosmic_census, brca_rna_v2, by = c("Gene.Symbol"="hugo")) %>%
-  select(Gene.Symbol, Tumour.Types.Somatic., Role.in.Cancer, brca.s1) %>% kable("html") %>% kable_styling() %>% head(25) 
+t1 <- left_join(cosmic_census, brca_rna_v2, by = c("Gene.Symbol"="hugo")) %>%
+  select(Gene.Symbol, Tumour.Types.Somatic., Role.in.Cancer, brca.s1) 
+t1 %>% head(15) %>% kable(format = "markdown", align=NULL)
 ```
+Note. I had error messages when trying to pipe the table into kable function, and I found that kable can introduce space or newline, and that I could solve it by using aling=NULL as explained [here](https://github.com/yihui/knitr/issues/699).
 
 #### right_join()
 
 ```{r}
-t2 <- inner_join(cosmic_census, brca_rna_v2, by = c("Gene.Symbol"="hugo"))
-t2 %>% select(Gene.Symbol, Tumour.Types.Somatic., Role.in.Cancer, brca.s1) %>% kable(format = "markdown", align=NULL)
+t2 <- right_join(cosmic_census, brca_rna_v2, by = c("Gene.Symbol"="hugo"))
+t2 %>% select(Gene.Symbol, Tumour.Types.Somatic., Role.in.Cancer, brca.s1) %>% head(15) %>% kable(format = "markdown", align=NULL)
 ```
-Note. I had error messages when trying to pipe the table into kable function, and I found that kable can introduce space or newline, and that I could solve it by using aling=NULL as explained [here](https://github.com/yihui/knitr/issues/699).
+
+#### inner_join()
+
+```{r}
+t3 <- inner_join(cosmic_census, brca_rna_v2, by = c("Gene.Symbol"="hugo"))
+t3 %>% select(Gene.Symbol, Tumour.Types.Somatic., Role.in.Cancer, brca.s1) %>% head(15) %>% kable(format = "markdown", align=NULL) 
+```
+
+#### full_join()
+
+```{r}
+t4 <-  full_join(cosmic_census, brca_rna_v2, by = c("Gene.Symbol"="hugo"))
+t4 %>% select(Gene.Symbol, Tumour.Types.Somatic., Role.in.Cancer, brca.s1) %>% head(15) %>% kable(format = "markdown", align=NULL)
+```
+
+## FILTERING JOIN
+
+#### semi_join()
+
+```{r}
+t5 <- semi_join(cosmic_census, brca_rna_v2, by = c("Gene.Symbol"="hugo"))
+t5 %>% head(15) %>% kable(format = "markdown", align=NULL)
+```
+
+#### anti_join()
+
+```{r}
+t6 <- anti_join(cosmic_census, brca_rna_v2, by = c("Gene.Symbol"="hugo"))
+t6 %>% head(15) %>% kable(format = "markdown", align=NULL)
+```
 
 ## Activity #2 - Create your own cheatsheet
 

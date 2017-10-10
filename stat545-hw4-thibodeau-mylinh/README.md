@@ -18,11 +18,13 @@ Vincenzo Coia has approved my request to use published genomic data for the home
 
 # Valuable lesson learned
 
+## Lesson #1 - Must figure out the underlying structure of a dataset before manipulating it
+
 After trying for 3h to complete the homework 4 exercises with the data I used in [homework 3](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw3-thibodeau-mylinh), that regardless of how I organized the data, I still didn't have the right data format to complete the exercises. 
 
 ![gapminder-underling-data-structure](scratch-space/gapminder-underlying-data-structure.jpg)
 
-I was trying to do the homework with an "unfit" dataset:
+### I was trying to do the homework with an "unfit" dataset:
 
 ![failed-genomic-data-structure](scratch-space/failed-genomic-data-structure.jpg)
 
@@ -30,10 +32,22 @@ I was trying to do the homework with an "unfit" dataset:
 
 ![genomic-data-structure](scratch-space/genomic-data-structure.jpg)
 
+## Lesson #2 - Carefully read the requirements 
+
+I just realized that I only needed to do one activity for each section:
+
+* General data reshaping and relationship to aggregation
+* Join, merge, look up
+
+I was thinking to myself: this is a very long homework ...so I am so sorry if my homework is lengthy.
+
 ***
 
 # Summary of homework 4 process  
 
-I annotated quite extensively my homework 4, and it reads fairly like a narrative. Therefore, I will not repeat the same information here and will provide a brief overview of my learning process instead.
+I annotated my homework 4, and it reads fairly like a narrative. Therefore, this will only be brief overview of my learning process instead. Again, this has been much harder than expected, since I had to change dataset midway. Moreover, I have experienced computer issues with my keyboard writing mathematical symbols (e.g. ˚´¥ ƒåß∂ƒ) instead of letters all of a sudden (maybe due to overheating ...mac computers).
 
 ## Newly acquired skills or knowledge
+
+* Compare and use data manipulation functions between Tidyr, Reshape2 and Base R
+* 

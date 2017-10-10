@@ -1,11 +1,17 @@
 # README - stat545-hw4-thibodeau-mylinh
 
-# IN PROGRESS
+## HOMEWORK FILES TO REVIEW
 
-# FOLDERS - SUMMARY 
+As explained below, I unfortunately didn't realize that we only needed to pick two activities in total, and that's why my orginal [Homework 4](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw4-thibodeau-mylinh/stat545-hw04-thibodeau-mylinh.md) file is quite long, but for the marking/peer review purposes, you can limit yourself to these two cheatsheets:
 
-- Homework 4 Rmd file [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw4-thibodeau-mylinh/stat545-hw04-thibodeau-mylinh.Rmd)
-- Homework 4 Md file [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw4-thibodeau-mylinh/stat545-hw04-thibodeau-mylinh.md)
+* General data reshaping and relationship to aggregation - Activity #5 (data manipulation sample): cheatsheet md file [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw4-thibodeau-mylinh/hw04-data-manipulation-cheatsheet.md) comparing tidyr, reshape and R base ways of manipulating data  
+* Join, merge, look up - Activity #2 (create your own cheatsheet on join functions): minimalist dplyr joining function cheatsheet md file [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw4-thibodeau-mylinh/hw04-dplyr-join-cheatsheet.md) - A table is worth a thousand words
+
+
+## If you are interested in the long version, you can take a look at the files below, but please don't feel obligated ! 
+
+- Homework 4 Md file [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw4-thibodeau-mylinh/stat545-hw04-thibodeau-mylinh.md) (that's the one with the tables)  
+- Homework 4 Rmd file [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw4-thibodeau-mylinh/stat545-hw04-thibodeau-mylinh.Rmd)  
 
 *** 
 
@@ -37,9 +43,6 @@ After trying for 3h to complete the homework 4 exercises with the data I used in
 ## Lesson #2 - Carefully read the requirements 
 
 I just realized that I only needed to do one activity for each section:
-
-* General data reshaping and relationship to aggregation
-* Join, merge, look up
 
 I was thinking to myself: this is a very long homework ...so I am so sorry if my homework is lengthy.
 

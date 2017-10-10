@@ -32,13 +32,14 @@ options(knitr.table.format = "html")
 |5. Keep rows of d1 if there is a match in d2         | semi_join               |
 |4. Discard rows of d1 if there is a match in d2      | anti_join               |
 
-DATASET d1
+### DATASET d1
+
 ```{r}
 d1 <- read.table("scratch-space/small_dataframe_example.txt",sep = "\t", header = TRUE)
 d1 %>% kable("html") %>% kable_styling()
 ```
 
-DATASET d2
+### DATASET d2
 
 ```{r}
 d2 <- read.table("scratch-space/small_dataframe_example_2.txt",sep = "\t", header = TRUE)
@@ -84,7 +85,7 @@ full_join(d1, d2, by = "gene") %>% kable("html") %>% kable_styling()
 semi_join(d1, d2, by = "gene") %>% kable("html") %>% kable_styling()
 ```
 
-### (6) anti_join
+### (6) anti_join  
 
 ```{r}
 anti_join(d1, d2, by = "gene") %>% kable("html") %>% kable_styling()

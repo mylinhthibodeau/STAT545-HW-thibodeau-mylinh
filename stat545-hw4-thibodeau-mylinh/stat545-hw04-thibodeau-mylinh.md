@@ -144,7 +144,7 @@ Let's take a look at the brca\_rna data:
 
 ``` r
 brca_rna %>%
-  head(15) %>%
+  head(10) %>%
   kable("html") %>% kable_styling()
 ```
 
@@ -371,106 +371,6 @@ CXORF67
 BRCA
 </td>
 </tr>
-<tr>
-<td style="text-align:left;">
-12
-</td>
-<td style="text-align:left;">
-EFCAB8
-</td>
-<td style="text-align:right;">
-0.3447
-</td>
-<td style="text-align:right;">
-4.8940
-</td>
-<td style="text-align:right;">
-2.7199
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-13
-</td>
-<td style="text-align:left;">
-SRP14P1
-</td>
-<td style="text-align:right;">
-4.1359
-</td>
-<td style="text-align:right;">
-1.6313
-</td>
-<td style="text-align:right;">
-2.7199
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-14
-</td>
-<td style="text-align:left;">
-LOC391343
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-<td style="text-align:right;">
-8.1566
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-15
-</td>
-<td style="text-align:left;">
-TRIM75P
-</td>
-<td style="text-align:right;">
-0.6893
-</td>
-<td style="text-align:right;">
-0.5438
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-16
-</td>
-<td style="text-align:left;">
-SPATA31B1P
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-</tr>
 </tbody>
 </table>
 The TCGA RNAseq datasets are perfect for this exercise, because the columns in each dataset represent a different sample, and therefore, they are actually different obversations. I will start by making new "gathered" data.frame.
@@ -497,7 +397,7 @@ And now, if we take the same brca data, but the after using the gather() functio
 
 ``` r
 brca_rna_gather %>%
-  head(15) %>%
+  head(10) %>%
   kable("html") %>% kable_styling()
 ```
 
@@ -659,76 +559,6 @@ brca.s1
 1.7233
 </td>
 </tr>
-<tr>
-<td style="text-align:left;">
-EFCAB8
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:left;">
-brca.s1
-</td>
-<td style="text-align:right;">
-0.3447
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SRP14P1
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:left;">
-brca.s1
-</td>
-<td style="text-align:right;">
-4.1359
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-LOC391343
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:left;">
-brca.s1
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TRIM75P
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:left;">
-brca.s1
-</td>
-<td style="text-align:right;">
-0.6893
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SPATA31B1P
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:left;">
-brca.s1
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-</tr>
 </tbody>
 </table>
 ### SPREAD: From vertical (longer) to horizontal (wide)
@@ -739,7 +569,7 @@ In order to revert back to the original format of the data, I can use the same k
 brca_rna %>%
   gather(key = sample, value = RPKM, brca.s1, brca.s2, brca.s3) %>%
   spread(key=sample, value=RPKM) %>%
-  head(15) %>%
+  head(10) %>%
   kable("html") %>% kable_styling()
 ```
 
@@ -934,91 +764,6 @@ BRCA
 53.4905
 </td>
 </tr>
-<tr>
-<td style="text-align:left;">
-AAGAB
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:right;">
-1300.3977
-</td>
-<td style="text-align:right;">
-3541.0549
-</td>
-<td style="text-align:right;">
-1360.8341
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AAMP
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:right;">
-2053.1326
-</td>
-<td style="text-align:right;">
-2979.8804
-</td>
-<td style="text-align:right;">
-2291.9311
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AANAT
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:right;">
-0.3447
-</td>
-<td style="text-align:right;">
-2.1751
-</td>
-<td style="text-align:right;">
-1.8132
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AARS
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:right;">
-4409.5650
-</td>
-<td style="text-align:right;">
-4570.9625
-</td>
-<td style="text-align:right;">
-2556.6636
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AARSD1
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:right;">
-466.6680
-</td>
-<td style="text-align:right;">
-418.7058
-</td>
-<td style="text-align:right;">
-390.7525
-</td>
-</tr>
 </tbody>
 </table>
 -   *Initially, I had an error message: "Error: Duplicate identifiers for rows (2, 3), (52, 53), (102, 103)". It turns out that the spread() function does not like the fact that some gene names are duplicated for the sample (because of non-unique identifiers, it is unable to match back the columns after gather). When I didn't know better, I applied some extra functions to filter the gene duplicates (e.g. brca\_rna &lt;- brca\_rna\[!duplicated(brca\_rna$hugo), \]).*
@@ -1032,7 +777,7 @@ brca_rna_dup$cancer.type <- "BRCA"
 brca_rna_dup %>%
   gather(key = sample, value = RPKM, brca.s1, brca.s2, brca.s3) %>%
   dcast(hugo~sample, fun.aggregate = mean, value=RPKM, na.rm=TRUE) %>%
-  head(15) %>%
+  head(10) %>%
   kable("html") %>% kable_styling()
 ```
 
@@ -1196,76 +941,6 @@ AADAT
 53.4905
 </td>
 </tr>
-<tr>
-<td style="text-align:left;">
-AAGAB
-</td>
-<td style="text-align:right;">
-1300.3977
-</td>
-<td style="text-align:right;">
-3541.0549
-</td>
-<td style="text-align:right;">
-1360.8341
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AAMP
-</td>
-<td style="text-align:right;">
-2053.1326
-</td>
-<td style="text-align:right;">
-2979.8804
-</td>
-<td style="text-align:right;">
-2291.9311
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AANAT
-</td>
-<td style="text-align:right;">
-0.3447
-</td>
-<td style="text-align:right;">
-2.1751
-</td>
-<td style="text-align:right;">
-1.8132
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AARS
-</td>
-<td style="text-align:right;">
-4409.5650
-</td>
-<td style="text-align:right;">
-4570.9625
-</td>
-<td style="text-align:right;">
-2556.6636
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AARSD1
-</td>
-<td style="text-align:right;">
-466.6680
-</td>
-<td style="text-align:right;">
-418.7058
-</td>
-<td style="text-align:right;">
-390.7525
-</td>
-</tr>
 </tbody>
 </table>
 Just making up the full\_dataset
@@ -1298,7 +973,7 @@ I will make a tibble with one row per gene (year) and columns for RPKM values (l
 full_dataset %>%
   filter(cancer.type=="BRCA") %>%
   spread(key=sample, value =RPKM) %>%
-  head(15) %>%
+  head(10) %>%
   kable("html") %>% kable_styling()
 ```
 
@@ -1493,91 +1168,6 @@ BRCA
 53.4905
 </td>
 </tr>
-<tr>
-<td style="text-align:left;">
-AAGAB
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:right;">
-1300.3977
-</td>
-<td style="text-align:right;">
-3541.0549
-</td>
-<td style="text-align:right;">
-1360.8341
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AAMP
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:right;">
-2053.1326
-</td>
-<td style="text-align:right;">
-2979.8804
-</td>
-<td style="text-align:right;">
-2291.9311
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AANAT
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:right;">
-0.3447
-</td>
-<td style="text-align:right;">
-2.1751
-</td>
-<td style="text-align:right;">
-1.8132
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AARS
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:right;">
-4409.5650
-</td>
-<td style="text-align:right;">
-4570.9625
-</td>
-<td style="text-align:right;">
-2556.6636
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AARSD1
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:right;">
-466.6680
-</td>
-<td style="text-align:right;">
-418.7058
-</td>
-<td style="text-align:right;">
-390.7525
-</td>
-</tr>
 </tbody>
 </table>
 Activity \#3 - Tidyr
@@ -1589,7 +1179,7 @@ Compute some measure of RPKM (lifeExp) (mean? median? min? max?) for all possibl
 full_dataset %>%
   group_by(hugo, cancer.type) %>%
   summarize(mean.cancer=signif(mean(RPKM),2), median.cancer = signif(median(RPKM), 2), min.cancer=signif(min(RPKM), 2), max.cancer=signif(max(RPKM), 2)) %>%
-  head(15) %>%
+  head(10) %>%
   kable("html") %>% kable_styling()
 ```
 
@@ -1625,10 +1215,10 @@ A1CF
 BRCA
 </td>
 <td style="text-align:right;">
-3.0e-01
+0.30
 </td>
 <td style="text-align:right;">
-0.0
+0
 </td>
 <td style="text-align:right;">
 0
@@ -1645,10 +1235,10 @@ A1CF
 COADREAD
 </td>
 <td style="text-align:right;">
-1.7e+02
+170.00
 </td>
 <td style="text-align:right;">
-170.0
+170
 </td>
 <td style="text-align:right;">
 100
@@ -1665,10 +1255,10 @@ A1CF
 DLBC
 </td>
 <td style="text-align:right;">
-0.0e+00
+0.00
 </td>
 <td style="text-align:right;">
-0.0
+0
 </td>
 <td style="text-align:right;">
 0
@@ -1685,10 +1275,10 @@ A1CF
 GBM
 </td>
 <td style="text-align:right;">
-0.0e+00
+0.00
 </td>
 <td style="text-align:right;">
-0.0
+0
 </td>
 <td style="text-align:right;">
 0
@@ -1705,10 +1295,10 @@ A1CF
 PCPG
 </td>
 <td style="text-align:right;">
-0.0e+00
+0.00
 </td>
 <td style="text-align:right;">
-0.0
+0
 </td>
 <td style="text-align:right;">
 0
@@ -1725,10 +1315,10 @@ A1CF
 SARC
 </td>
 <td style="text-align:right;">
-0.0e+00
+0.00
 </td>
 <td style="text-align:right;">
-0.0
+0
 </td>
 <td style="text-align:right;">
 0
@@ -1745,10 +1335,10 @@ A1CF
 SKCM
 </td>
 <td style="text-align:right;">
-2.4e-01
+0.24
 </td>
 <td style="text-align:right;">
-0.0
+0
 </td>
 <td style="text-align:right;">
 0
@@ -1765,10 +1355,10 @@ A2M
 BRCA
 </td>
 <td style="text-align:right;">
-7.4e+03
+7400.00
 </td>
 <td style="text-align:right;">
-7600.0
+7600
 </td>
 <td style="text-align:right;">
 5800
@@ -1785,10 +1375,10 @@ A2M
 COADREAD
 </td>
 <td style="text-align:right;">
-6.2e+03
+6200.00
 </td>
 <td style="text-align:right;">
-1500.0
+1500
 </td>
 <td style="text-align:right;">
 1300
@@ -1805,116 +1395,16 @@ A2M
 DLBC
 </td>
 <td style="text-align:right;">
-4.8e+03
+4800.00
 </td>
 <td style="text-align:right;">
-4700.0
+4700
 </td>
 <td style="text-align:right;">
 4200
 </td>
 <td style="text-align:right;">
 5.3e+03
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-A2M
-</td>
-<td style="text-align:left;">
-GBM
-</td>
-<td style="text-align:right;">
-3.3e+04
-</td>
-<td style="text-align:right;">
-34000.0
-</td>
-<td style="text-align:right;">
-21000
-</td>
-<td style="text-align:right;">
-4.3e+04
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-A2M
-</td>
-<td style="text-align:left;">
-PCPG
-</td>
-<td style="text-align:right;">
-9.0e+03
-</td>
-<td style="text-align:right;">
-9400.0
-</td>
-<td style="text-align:right;">
-5400
-</td>
-<td style="text-align:right;">
-1.2e+04
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-A2M
-</td>
-<td style="text-align:left;">
-SARC
-</td>
-<td style="text-align:right;">
-3.3e+04
-</td>
-<td style="text-align:right;">
-38000.0
-</td>
-<td style="text-align:right;">
-21000
-</td>
-<td style="text-align:right;">
-4.1e+04
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-A2M
-</td>
-<td style="text-align:left;">
-SKCM
-</td>
-<td style="text-align:right;">
-6.3e+04
-</td>
-<td style="text-align:right;">
-18000.0
-</td>
-<td style="text-align:right;">
-2200
-</td>
-<td style="text-align:right;">
-1.7e+05
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-A2ML1
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:right;">
-1.9e+00
-</td>
-<td style="text-align:right;">
-1.4
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-4.4e+00
 </td>
 </tr>
 </tbody>
@@ -1929,7 +1419,7 @@ d1 <- full_dataset %>%
   summarize(mean.cancer= signif(mean(RPKM), 2)) %>%
   gather(key=stat.category, value= the.number , mean.cancer) %>%
   spread(key=cancer.type, value=the.number)
-d1 %>% head(15) %>% kable("html") %>% kable_styling()
+d1 %>% head(10) %>% kable("html") %>% kable_styling()
 ```
 
 <table class="table" style="margin-left: auto; margin-right: auto;">
@@ -2255,151 +1745,6 @@ mean.cancer
 1.2e+02
 </td>
 </tr>
-<tr>
-<td style="text-align:left;">
-AAGAB
-</td>
-<td style="text-align:left;">
-mean.cancer
-</td>
-<td style="text-align:right;">
-2100.00
-</td>
-<td style="text-align:right;">
-1000.00
-</td>
-<td style="text-align:right;">
-1200.00
-</td>
-<td style="text-align:right;">
-1.1e+03
-</td>
-<td style="text-align:right;">
-1500.00
-</td>
-<td style="text-align:right;">
-8.6e+02
-</td>
-<td style="text-align:right;">
-8.9e+02
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AAMP
-</td>
-<td style="text-align:left;">
-mean.cancer
-</td>
-<td style="text-align:right;">
-2400.00
-</td>
-<td style="text-align:right;">
-3300.00
-</td>
-<td style="text-align:right;">
-2200.00
-</td>
-<td style="text-align:right;">
-2.0e+03
-</td>
-<td style="text-align:right;">
-2600.00
-</td>
-<td style="text-align:right;">
-1.8e+03
-</td>
-<td style="text-align:right;">
-2.3e+03
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AANAT
-</td>
-<td style="text-align:left;">
-mean.cancer
-</td>
-<td style="text-align:right;">
-1.40
-</td>
-<td style="text-align:right;">
-0.57
-</td>
-<td style="text-align:right;">
-0.79
-</td>
-<td style="text-align:right;">
-2.8e+00
-</td>
-<td style="text-align:right;">
-0.27
-</td>
-<td style="text-align:right;">
-8.8e-01
-</td>
-<td style="text-align:right;">
-5.0e-01
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AARS
-</td>
-<td style="text-align:left;">
-mean.cancer
-</td>
-<td style="text-align:right;">
-3800.00
-</td>
-<td style="text-align:right;">
-2900.00
-</td>
-<td style="text-align:right;">
-3300.00
-</td>
-<td style="text-align:right;">
-3.6e+03
-</td>
-<td style="text-align:right;">
-4500.00
-</td>
-<td style="text-align:right;">
-2.7e+03
-</td>
-<td style="text-align:right;">
-4.6e+03
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AARSD1
-</td>
-<td style="text-align:left;">
-mean.cancer
-</td>
-<td style="text-align:right;">
-430.00
-</td>
-<td style="text-align:right;">
-1000.00
-</td>
-<td style="text-align:right;">
-840.00
-</td>
-<td style="text-align:right;">
-4.6e+02
-</td>
-<td style="text-align:right;">
-720.00
-</td>
-<td style="text-align:right;">
-5.8e+02
-</td>
-<td style="text-align:right;">
-7.6e+02
-</td>
-</tr>
 </tbody>
 </table>
 **Wow ... that took a long time, so let me reason through the process for one second:**
@@ -2437,7 +1782,7 @@ d2 <- full_dataset %>%
   summarize(mean.cancer= signif(mean(RPKM), 2), median.cancer = signif(median(RPKM), 2), min.cancer=signif(min(RPKM), 2), max.cancer=signif(max(RPKM), 2)) %>%
   gather(key=stat.category, value= the.number , mean.cancer, median.cancer, min.cancer, max.cancer) %>%
   spread(key=cancer.type, value=the.number)
-d2 %>% head(15) %>% kable("html") %>% kable_styling()
+d2 %>% head(10) %>% kable("html") %>% kable_styling()
 ```
 
 <table class="table" style="margin-left: auto; margin-right: auto;">
@@ -2484,19 +1829,19 @@ max.cancer
 0.91
 </td>
 <td style="text-align:right;">
-2.2e+02
+220
 </td>
 <td style="text-align:right;">
 0.00
 </td>
 <td style="text-align:right;">
-0.0e+00
+0
 </td>
 <td style="text-align:right;">
 0.0e+00
 </td>
 <td style="text-align:right;">
-0.0e+00
+0.0
 </td>
 <td style="text-align:right;">
 7.1e-01
@@ -2513,19 +1858,19 @@ mean.cancer
 0.30
 </td>
 <td style="text-align:right;">
-1.7e+02
+170
 </td>
 <td style="text-align:right;">
 0.00
 </td>
 <td style="text-align:right;">
-0.0e+00
+0
 </td>
 <td style="text-align:right;">
 0.0e+00
 </td>
 <td style="text-align:right;">
-0.0e+00
+0.0
 </td>
 <td style="text-align:right;">
 2.4e-01
@@ -2542,19 +1887,19 @@ median.cancer
 0.00
 </td>
 <td style="text-align:right;">
-1.7e+02
+170
 </td>
 <td style="text-align:right;">
 0.00
 </td>
 <td style="text-align:right;">
-0.0e+00
+0
 </td>
 <td style="text-align:right;">
 0.0e+00
 </td>
 <td style="text-align:right;">
-0.0e+00
+0.0
 </td>
 <td style="text-align:right;">
 0.0e+00
@@ -2571,19 +1916,19 @@ min.cancer
 0.00
 </td>
 <td style="text-align:right;">
-1.0e+02
+100
 </td>
 <td style="text-align:right;">
 0.00
 </td>
 <td style="text-align:right;">
-0.0e+00
+0
 </td>
 <td style="text-align:right;">
 0.0e+00
 </td>
 <td style="text-align:right;">
-0.0e+00
+0.0
 </td>
 <td style="text-align:right;">
 0.0e+00
@@ -2600,19 +1945,19 @@ max.cancer
 8800.00
 </td>
 <td style="text-align:right;">
-1.6e+04
+16000
 </td>
 <td style="text-align:right;">
 5300.00
 </td>
 <td style="text-align:right;">
-4.3e+04
+43000
 </td>
 <td style="text-align:right;">
 1.2e+04
 </td>
 <td style="text-align:right;">
-4.1e+04
+41000.0
 </td>
 <td style="text-align:right;">
 1.7e+05
@@ -2629,19 +1974,19 @@ mean.cancer
 7400.00
 </td>
 <td style="text-align:right;">
-6.2e+03
+6200
 </td>
 <td style="text-align:right;">
 4800.00
 </td>
 <td style="text-align:right;">
-3.3e+04
+33000
 </td>
 <td style="text-align:right;">
 9.0e+03
 </td>
 <td style="text-align:right;">
-3.3e+04
+33000.0
 </td>
 <td style="text-align:right;">
 6.3e+04
@@ -2658,19 +2003,19 @@ median.cancer
 7600.00
 </td>
 <td style="text-align:right;">
-1.5e+03
+1500
 </td>
 <td style="text-align:right;">
 4700.00
 </td>
 <td style="text-align:right;">
-3.4e+04
+34000
 </td>
 <td style="text-align:right;">
 9.4e+03
 </td>
 <td style="text-align:right;">
-3.8e+04
+38000.0
 </td>
 <td style="text-align:right;">
 1.8e+04
@@ -2687,19 +2032,19 @@ min.cancer
 5800.00
 </td>
 <td style="text-align:right;">
-1.3e+03
+1300
 </td>
 <td style="text-align:right;">
 4200.00
 </td>
 <td style="text-align:right;">
-2.1e+04
+21000
 </td>
 <td style="text-align:right;">
 5.4e+03
 </td>
 <td style="text-align:right;">
-2.1e+04
+21000.0
 </td>
 <td style="text-align:right;">
 2.2e+03
@@ -2716,19 +2061,19 @@ max.cancer
 4.40
 </td>
 <td style="text-align:right;">
-3.7e+01
+37
 </td>
 <td style="text-align:right;">
 0.49
 </td>
 <td style="text-align:right;">
-4.1e+01
+41
 </td>
 <td style="text-align:right;">
 1.1e+00
 </td>
 <td style="text-align:right;">
-3.6e+00
+3.6
 </td>
 <td style="text-align:right;">
 7.3e+00
@@ -2745,167 +2090,22 @@ mean.cancer
 1.90
 </td>
 <td style="text-align:right;">
-1.3e+01
+13
 </td>
 <td style="text-align:right;">
 0.16
 </td>
 <td style="text-align:right;">
-1.5e+01
+15
 </td>
 <td style="text-align:right;">
 4.5e-01
 </td>
 <td style="text-align:right;">
-1.2e+00
+1.2
 </td>
 <td style="text-align:right;">
 2.4e+00
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-A2ML1
-</td>
-<td style="text-align:left;">
-median.cancer
-</td>
-<td style="text-align:right;">
-1.40
-</td>
-<td style="text-align:right;">
-4.8e-01
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-2.5e+00
-</td>
-<td style="text-align:right;">
-2.7e-01
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-A2ML1
-</td>
-<td style="text-align:left;">
-min.cancer
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-4.8e-01
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-1.7e+00
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-A4GNT
-</td>
-<td style="text-align:left;">
-max.cancer
-</td>
-<td style="text-align:right;">
-8.60
-</td>
-<td style="text-align:right;">
-4.8e-01
-</td>
-<td style="text-align:right;">
-3.90
-</td>
-<td style="text-align:right;">
-1.2e+00
-</td>
-<td style="text-align:right;">
-1.6e+00
-</td>
-<td style="text-align:right;">
-7.9e-01
-</td>
-<td style="text-align:right;">
-1.2e+00
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-A4GNT
-</td>
-<td style="text-align:left;">
-mean.cancer
-</td>
-<td style="text-align:right;">
-3.10
-</td>
-<td style="text-align:right;">
-1.6e-01
-</td>
-<td style="text-align:right;">
-1.30
-</td>
-<td style="text-align:right;">
-6.0e-01
-</td>
-<td style="text-align:right;">
-9.5e-01
-</td>
-<td style="text-align:right;">
-2.6e-01
-</td>
-<td style="text-align:right;">
-4.0e-01
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-A4GNT
-</td>
-<td style="text-align:left;">
-median.cancer
-</td>
-<td style="text-align:right;">
-0.54
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-<td style="text-align:right;">
-0.00
-</td>
-<td style="text-align:right;">
-5.6e-01
-</td>
-<td style="text-align:right;">
-8.2e-01
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-<td style="text-align:right;">
-0.0e+00
 </td>
 </tr>
 </tbody>
@@ -8544,7 +7744,7 @@ d4 <- full_dataset %>%
   group_by(hugo) %>%
   filter(min_rank(desc(RPKM)) < 2 | min_rank(RPKM) < 2) %>%
   arrange(hugo)
-d4 %>% head(15) %>%
+d4 %>% head(10) %>%
   kable("html") %>% kable_styling()
 ```
 
@@ -8571,7 +7771,7 @@ A1CF
 brca.s1
 </td>
 <td style="text-align:right;">
-0.0000
+0
 </td>
 </tr>
 <tr>
@@ -8582,7 +7782,7 @@ A1CF
 brca.s2
 </td>
 <td style="text-align:right;">
-0.0000
+0
 </td>
 </tr>
 <tr>
@@ -8593,7 +7793,7 @@ A1CF
 gbm.s1
 </td>
 <td style="text-align:right;">
-0.0000
+0
 </td>
 </tr>
 <tr>
@@ -8604,7 +7804,7 @@ A1CF
 gbm.s2
 </td>
 <td style="text-align:right;">
-0.0000
+0
 </td>
 </tr>
 <tr>
@@ -8615,7 +7815,7 @@ A1CF
 gbm.s3
 </td>
 <td style="text-align:right;">
-0.0000
+0
 </td>
 </tr>
 <tr>
@@ -8626,7 +7826,7 @@ A1CF
 pcpg.s1
 </td>
 <td style="text-align:right;">
-0.0000
+0
 </td>
 </tr>
 <tr>
@@ -8637,7 +7837,7 @@ A1CF
 pcpg.s2
 </td>
 <td style="text-align:right;">
-0.0000
+0
 </td>
 </tr>
 <tr>
@@ -8648,7 +7848,7 @@ A1CF
 pcpg.s3
 </td>
 <td style="text-align:right;">
-0.0000
+0
 </td>
 </tr>
 <tr>
@@ -8659,7 +7859,7 @@ A1CF
 sarc.s1
 </td>
 <td style="text-align:right;">
-0.0000
+0
 </td>
 </tr>
 <tr>
@@ -8670,62 +7870,7 @@ A1CF
 sarc.s2
 </td>
 <td style="text-align:right;">
-0.0000
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-A1CF
-</td>
-<td style="text-align:left;">
-sarc.s3
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-A1CF
-</td>
-<td style="text-align:left;">
-skcm.s1
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-A1CF
-</td>
-<td style="text-align:left;">
-skcm.s2
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-A1CF
-</td>
-<td style="text-align:left;">
-coadread.s1
-</td>
-<td style="text-align:right;">
-220.9865
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-A1CF
-</td>
-<td style="text-align:left;">
-dlbc.s1
-</td>
-<td style="text-align:right;">
-0.0000
+0
 </td>
 </tr>
 </tbody>
@@ -8969,7 +8114,7 @@ full_dataset %>%
   group_by(cancer.type) %>%
   mutate(sample, RPKM_z = (RPKM - mean(RPKM))/sd(RPKM)) %>%
   arrange(cancer.type, desc(RPKM_z)) %>%
-  head(15) %>%
+  head(10) %>%
   kable("html") %>% kable_styling()
 ```
 
@@ -9164,91 +8309,6 @@ brca.s1
 2.962013
 </td>
 </tr>
-<tr>
-<td style="text-align:left;">
-AAGAB
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:left;">
-brca.s2
-</td>
-<td style="text-align:right;">
-3541.055
-</td>
-<td style="text-align:right;">
-2.296782
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ABCC5
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:left;">
-brca.s3
-</td>
-<td style="text-align:right;">
-3300.997
-</td>
-<td style="text-align:right;">
-2.112911
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ABCA2
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:left;">
-brca.s3
-</td>
-<td style="text-align:right;">
-3208.522
-</td>
-<td style="text-align:right;">
-2.042080
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AAMP
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:left;">
-brca.s2
-</td>
-<td style="text-align:right;">
-2979.880
-</td>
-<td style="text-align:right;">
-1.866953
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ABCA3
-</td>
-<td style="text-align:left;">
-BRCA
-</td>
-<td style="text-align:left;">
-brca.s2
-</td>
-<td style="text-align:right;">
-2656.879
-</td>
-<td style="text-align:right;">
-1.619551
-</td>
-</tr>
 </tbody>
 </table>
 Since I do not have a time variable, I will not illustrate the lag() or lead() functions. If I ever have time series sequencing data, I will apply these functions.
@@ -9258,7 +8318,7 @@ Activity \#5 - Make a data manipulation sampler
 
 The example given of previous TA Andrew MacDonald can be found [here](https://gist.github.com/aammd/11386424).
 
-It would make more sense for a cheatsheet to be separate from the homework (and not embedded in it), so please click [HERE]() to see my Activity \#5.
+It would make more sense for a cheatsheet to be separate from the homework (and not embedded in it), so please click [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw4-thibodeau-mylinh/hw04-data-manipulation-cheatsheet.md) to see my Activity \#5.
 
 ------------------------------------------------------------------------
 
@@ -9819,7 +8879,7 @@ The Cancer Gene Census (cosmic\_census) provides annotations on 567 genes that h
 Test some join functions of dplyr
 ---------------------------------
 
-Please note that the cosmic\_census*G**e**n**e*.*S**y**m**b**o**l**c**o**r**r**e**s**p**o**n**d**t**o**b**r**c**a*<sub>*r*</sub>*n**a*<sub>*v*</sub>2hugo, hence why I account for it when joining by below. We will be joining the information of 2 datasets:
+Please note that the Gene.Symbol column of cosmic\_census correspond to the hugo column of brca\_rna\_v2, hence why I account for it when joining by below. We will be joining the information of 2 datasets:
 
 -   brca\_rna\_v2: contains the hugo genes and the RPKM (gene expression) values of one breast cancer tumour sample
 -   cosmic\_census: contains a list of Gene.Symbol genes involved in cancer, and several annotations: type of tumours in which it plays a role (Tumour.Types.Somatic.), type of somatic mutations that can lead to cancer (Mutation.Types), etc.
@@ -9841,7 +8901,7 @@ t1 <- left_join(cosmic_census, brca_rna_v2, by = c("Gene.Symbol"="hugo")) %>%
     ## coercing to character vector
 
 ``` r
-t1 %>% head(15) %>% kable(format = "markdown", align=NULL)
+t1 %>% head(10) %>% kable(format = "markdown", align=NULL)
 ```
 
 <table>
@@ -9919,36 +8979,6 @@ t1 %>% head(15) %>% kable(format = "markdown", align=NULL)
 <td>ALL</td>
 <td>oncogene, fusion</td>
 <td>3899.1253</td>
-</tr>
-<tr class="odd">
-<td>AKT1</td>
-<td>breast, colorectal, ovarian, NSCLC</td>
-<td>oncogene</td>
-<td>4534.3315</td>
-</tr>
-<tr class="even">
-<td>AKT2</td>
-<td>ovarian, pancreatic</td>
-<td>oncogene</td>
-<td>2564.2616</td>
-</tr>
-<tr class="odd">
-<td>ALK</td>
-<td>ALCL, NSCLC, neuroblastoma, inflammatory myofibroblastic tumour, Spitzoid tumour</td>
-<td>oncogene, fusion</td>
-<td>0.3447</td>
-</tr>
-<tr class="even">
-<td>AMER1</td>
-<td>Wilms tumour</td>
-<td>TSG</td>
-<td>439.0953</td>
-</tr>
-<tr class="odd">
-<td>APC</td>
-<td>colorectal, pancreatic, desmoid, hepatoblastoma, glioma, other CNS</td>
-<td>TSG</td>
-<td>1010.5397</td>
 </tr>
 </tbody>
 </table>
@@ -9978,7 +9008,7 @@ t2 <- right_join(cosmic_census, brca_rna_v2, by = c("Gene.Symbol"="hugo")) %>% s
     ## coercing to character vector
 
 ``` r
-t2 %>% head(15) %>% kable(format = "markdown", align=NULL)
+t2 %>% head(10) %>% kable(format = "markdown", align=NULL)
 ```
 
 | Gene.Symbol  | Tumour.Types.Somatic. | Role.in.Cancer | brca.s1   |
@@ -9993,11 +9023,6 @@ t2 %>% head(15) %>% kable(format = "markdown", align=NULL)
 | SSX9         | NA                    | NA             | 0.0000    |
 | LOC317712    | NA                    | NA             | 0.0000    |
 | CXORF67      | NA                    | NA             | 1.7233    |
-| EFCAB8       | NA                    | NA             | 0.3447    |
-| SRP14P1      | NA                    | NA             | 4.1359    |
-| LOC391343    | NA                    | NA             | 0.0000    |
-| TRIM75P      | NA                    | NA             | 0.6893    |
-| SPATA31B1P   | NA                    | NA             | 0.0000    |
 
 ``` r
 dim(t2)
@@ -10007,7 +9032,7 @@ dim(t2)
 
 *Observations*
 
--   Since the maximum of matches is 567 (number of rows in cosmic\_census) out of 20500 (number of rows in brca\_rna\_v2), it is not surprising that the Tumour.Types.Somatic. and Role.in.Cancer columns are populations with NA when we only look at 15 rows.
+-   Since the maximum of matches is 567 (number of rows in cosmic\_census) out of 20500 (number of rows in brca\_rna\_v2), it is not surprising that the Tumour.Types.Somatic. and Role.in.Cancer columns are populations with NA when we only look at 10 rows.
 -   Since right\_join(cosmic\_census, brca\_rna\_v2) is equivalent to left\_join(brca\_rna\_v2, cosmic\_census), I personally feel it is less confusing to stick with left\_join() and swap the order of the datasets inside the function.
 
 #### inner\_join()
@@ -10023,7 +9048,7 @@ select(Gene.Symbol, Tumour.Types.Somatic., Role.in.Cancer, brca.s1)
     ## coercing to character vector
 
 ``` r
-t3  %>% head(15) %>% kable(format = "markdown", align=NULL) 
+t3  %>% head(10) %>% kable(format = "markdown", align=NULL) 
 ```
 
 <table>
@@ -10102,36 +9127,6 @@ t3  %>% head(15) %>% kable(format = "markdown", align=NULL)
 <td>TSG</td>
 <td>439.0953</td>
 </tr>
-<tr class="odd">
-<td>APC</td>
-<td>colorectal, pancreatic, desmoid, hepatoblastoma, glioma, other CNS</td>
-<td>TSG</td>
-<td>1010.5397</td>
-</tr>
-<tr class="even">
-<td>APOBEC3B</td>
-<td></td>
-<td>oncogene, TSG</td>
-<td>139.9315</td>
-</tr>
-<tr class="odd">
-<td>AR</td>
-<td>prostate</td>
-<td>oncogene</td>
-<td>1097.7383</td>
-</tr>
-<tr class="even">
-<td>ARHGAP26</td>
-<td>AML, MDS</td>
-<td>TSG, fusion</td>
-<td>247.8097</td>
-</tr>
-<tr class="odd">
-<td>ARID1A</td>
-<td>clear cell ovarian carcinoma, RCC, breast</td>
-<td>TSG, fusion</td>
-<td>5379.7796</td>
-</tr>
 </tbody>
 </table>
 
@@ -10158,7 +9153,7 @@ t4 <-  full_join(cosmic_census, brca_rna_v2, by = c("Gene.Symbol"="hugo")) %>% s
     ## coercing to character vector
 
 ``` r
-t4 %>% head(15) %>% kable(format = "markdown", align=NULL)
+t4 %>% head(10) %>% kable(format = "markdown", align=NULL)
 ```
 
 <table>
@@ -10236,36 +9231,6 @@ t4 %>% head(15) %>% kable(format = "markdown", align=NULL)
 <td>ALL</td>
 <td>oncogene, fusion</td>
 <td>3899.1253</td>
-</tr>
-<tr class="odd">
-<td>AKT1</td>
-<td>breast, colorectal, ovarian, NSCLC</td>
-<td>oncogene</td>
-<td>4534.3315</td>
-</tr>
-<tr class="even">
-<td>AKT2</td>
-<td>ovarian, pancreatic</td>
-<td>oncogene</td>
-<td>2564.2616</td>
-</tr>
-<tr class="odd">
-<td>ALK</td>
-<td>ALCL, NSCLC, neuroblastoma, inflammatory myofibroblastic tumour, Spitzoid tumour</td>
-<td>oncogene, fusion</td>
-<td>0.3447</td>
-</tr>
-<tr class="even">
-<td>AMER1</td>
-<td>Wilms tumour</td>
-<td>TSG</td>
-<td>439.0953</td>
-</tr>
-<tr class="odd">
-<td>APC</td>
-<td>colorectal, pancreatic, desmoid, hepatoblastoma, glioma, other CNS</td>
-<td>TSG</td>
-<td>1010.5397</td>
 </tr>
 </tbody>
 </table>
@@ -10312,7 +9277,7 @@ dim(t5)
     ## [1] 419   3
 
 ``` r
-t5 %>% head(15) %>% kable(format = "markdown", align=NULL)
+t5 %>% head(10) %>% kable(format = "markdown", align=NULL)
 ```
 
 <table>
@@ -10379,31 +9344,6 @@ t5 %>% head(15) %>% kable(format = "markdown", align=NULL)
 <td>Wilms tumour</td>
 <td>TSG</td>
 </tr>
-<tr class="odd">
-<td>APC</td>
-<td>colorectal, pancreatic, desmoid, hepatoblastoma, glioma, other CNS</td>
-<td>TSG</td>
-</tr>
-<tr class="even">
-<td>APOBEC3B</td>
-<td></td>
-<td>oncogene, TSG</td>
-</tr>
-<tr class="odd">
-<td>AR</td>
-<td>prostate</td>
-<td>oncogene</td>
-</tr>
-<tr class="even">
-<td>ARHGAP26</td>
-<td>AML, MDS</td>
-<td>TSG, fusion</td>
-</tr>
-<tr class="odd">
-<td>ARID1A</td>
-<td>clear cell ovarian carcinoma, RCC, breast</td>
-<td>TSG, fusion</td>
-</tr>
 </tbody>
 </table>
 
@@ -10432,7 +9372,7 @@ dim(t6)
     ## [1] 148   3
 
 ``` r
-t6 %>% head(15) %>% kable(format = "markdown", align=NULL)
+t6 %>% head(10) %>% kable(format = "markdown", align=NULL)
 ```
 
 | Gene.Symbol | Tumour.Types.Somatic.                             | Role.in.Cancer   |
@@ -10447,20 +9387,14 @@ t6 %>% head(15) %>% kable(format = "markdown", align=NULL)
 | ATP1A1      | adrenal aldosterone producing adenoma             | oncogene, TSG    |
 | ATP2B3      | adrenal aldosterone producing adenoma             | TSG              |
 | ATRX        | pancreatic neuroendocrine tumours, paediatric GBM | TSG              |
-| BCL11A      | B-CLL                                             | oncogene, fusion |
-| BCL3        | CLL                                               | oncogene, fusion |
-| BCOR        | retinoblastoma, AML, APL (translocation)          | TSG, fusion      |
-| BMPR1A      |                                                   | oncogene, TSG    |
-| BRD3        | lethal midline carcinoma of young people          | oncogene, fusion |
 
 *Observation:*
 
 -   I can hardly imagine a role for this function with my current data, but that is because I picked my two datasets (cosmic\_census and brca\_rna\_v2) thinking about mutating and appending data, not about filtering out data, and therefore, my datasets have complementary information. If I had two redundant datasets, the filtering functions would be more applicable.
 
-Activity \#2 - Create your own cheatsheet
------------------------------------------
+Activity \#2 - Create your own cheatsheet of dplyr join functions
+-----------------------------------------------------------------
 
-Optional add-on: merge(), match()
----------------------------------
+Please click [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw4-thibodeau-mylinh/hw04-dplyr-join-cheatsheet.md) to see a minimalist dplyr joining functions cheatsheet.
 
 ------------------------------------------------------------------------

@@ -124,7 +124,7 @@ For my type of data, I think gather() will be useful when I realize that a group
 Let's take a look at the brca_rna data:
 ```{r}
 brca_rna %>%
-  head(15) %>%
+  head(10) %>%
   kable("html") %>% kable_styling()
 ```
 
@@ -150,11 +150,11 @@ dlbc_rna_gather <- dlbc_rna %>%
 And now, if we take the same brca data, but the after using the gather() function:
 ```{r}
 brca_rna_gather %>%
-  head(15) %>%
+  head(10) %>%
   kable("html") %>% kable_styling()
 ```
 
-### SPREAD: From vertical (longer) to horizontal (wide)
+### SPREAD: From vertical (longer) to horizontal (wide)  
 
 In order to revert back to the original format of the data, I can use the same key:value pairing in the spread() function. For example, the following code's output is the original data format since gather() and spread() are mirror functions from each other.
 
@@ -162,7 +162,7 @@ In order to revert back to the original format of the data, I can use the same k
 brca_rna %>%
   gather(key = sample, value = RPKM, brca.s1, brca.s2, brca.s3) %>%
   spread(key=sample, value=RPKM) %>%
-  head(15) %>%
+  head(10) %>%
   kable("html") %>% kable_styling()
 ```
 
@@ -177,12 +177,12 @@ brca_rna_dup$cancer.type <- "BRCA"
 brca_rna_dup %>%
   gather(key = sample, value = RPKM, brca.s1, brca.s2, brca.s3) %>%
   dcast(hugo~sample, fun.aggregate = mean, value=RPKM, na.rm=TRUE) %>%
-  head(15) %>%
+  head(10) %>%
   kable("html") %>% kable_styling()
 ```
 
 
-## Just making up the full_dataset 
+## Just making up the full_dataset  
 
 For the next step, I will have to skip ahead in the tasks a little and use some joining funcitons to compound all these TCGA datasets into one "gapminder-like" dataset.
 ```{r}
@@ -193,7 +193,7 @@ full_dataset <- list_datasets %>%
 ```
 **Note.** I won't lie, I needed to read a lot in order to figure the chunk of code above: I found how to use the Reduce function [here](https://stackoverflow.com/questions/8091303/simultaneously-merge-multiple-data-frames-in-a-list). Have a read and you will understand how it works :)
 
-## Activity #2 - Make a tibble with one row per year and columns for life expectancy for two or more countries
+## Activity #2 - Make a tibble with one row per year and columns for life expectancy for two or more countries  
 
 I will make a tibble with one row per gene (year) and columns for RPKM values (life expectancy) for two of more cancer samples (countries) in the BRCA group (continent).
 
@@ -201,11 +201,11 @@ I will make a tibble with one row per gene (year) and columns for RPKM values (l
 full_dataset %>%
   filter(cancer.type=="BRCA") %>%
   spread(key=sample, value =RPKM) %>%
-  head(15) %>%
+  head(10) %>%
   kable("html") %>% kable_styling()
 ```
 
-## Activity #3 - Tidyr
+## Activity #3 - Tidyr  
 
 Compute some measure of RPKM (lifeExp) (mean? median? min? max?) for all possible combinations of cancer group (continent) and hugo (year). 
 
@@ -213,7 +213,7 @@ Compute some measure of RPKM (lifeExp) (mean? median? min? max?) for all possibl
 full_dataset %>%
   group_by(hugo, cancer.type) %>%
   summarize(mean.cancer=signif(mean(RPKM),2), median.cancer = signif(median(RPKM), 2), min.cancer=signif(min(RPKM), 2), max.cancer=signif(max(RPKM), 2)) %>%
-  head(15) %>%
+  head(10) %>%
   kable("html") %>% kable_styling()
 ```
 
@@ -226,7 +226,7 @@ d1 <- full_dataset %>%
   summarize(mean.cancer= signif(mean(RPKM), 2)) %>%
   gather(key=stat.category, value= the.number , mean.cancer) %>%
   spread(key=cancer.type, value=the.number)
-d1 %>% head(15) %>% kable("html") %>% kable_styling()
+d1 %>% head(10) %>% kable("html") %>% kable_styling()
 ```
 
 **Wow ... that took a long time, so let me reason through the process for one second:**
@@ -260,10 +260,10 @@ d2 <- full_dataset %>%
   summarize(mean.cancer= signif(mean(RPKM), 2), median.cancer = signif(median(RPKM), 2), min.cancer=signif(min(RPKM), 2), max.cancer=signif(max(RPKM), 2)) %>%
   gather(key=stat.category, value= the.number , mean.cancer, median.cancer, min.cancer, max.cancer) %>%
   spread(key=cancer.type, value=the.number)
-d2 %>% head(15) %>% kable("html") %>% kable_styling()
+d2 %>% head(10) %>% kable("html") %>% kable_styling()
 ```
 
-## Activity #3 - Reshape
+## Activity #3 - Reshape  
 
 Actually, I think reshape is more appropriate to manipulate the data and make plots here. 
 ```{r}
@@ -318,7 +318,7 @@ d3 %>% head(16) %>%
   kable("html") %>% kable_styling()
 ```
 
-## Activity #4 - Window functions
+## Activity #4 - Window functions   
 
 * This cran [dplyr resource](https://cran.r-project.org/web/packages/dplyr/vignettes/window-functions.html) provided a bit more information on these functions.
 * This [hadley github vignette](https://github.com/tidyverse/dplyr/blob/master/vignettes/window-functions.Rmd)
@@ -339,7 +339,7 @@ d4 <- full_dataset %>%
   group_by(hugo) %>%
   filter(min_rank(desc(RPKM)) < 2 | min_rank(RPKM) < 2) %>%
   arrange(hugo)
-d4 %>% head(15) %>%
+d4 %>% head(10) %>%
   kable("html") %>% kable_styling()
 ```
 
@@ -364,17 +364,17 @@ full_dataset %>%
   group_by(cancer.type) %>%
   mutate(sample, RPKM_z = (RPKM - mean(RPKM))/sd(RPKM)) %>%
   arrange(cancer.type, desc(RPKM_z)) %>%
-  head(15) %>%
+  head(10) %>%
   kable("html") %>% kable_styling()
 ```
 
 Since I do not have a time variable, I will not illustrate the lag() or lead() functions. If I ever have time series sequencing data, I will apply these functions.
 
-## Activity #5 - Make a data manipulation sampler
+## Activity #5 - Make a data manipulation sampler  
 
 The example given of previous TA Andrew MacDonald can be found [here](https://gist.github.com/aammd/11386424).
 
-It would make more sense for a cheatsheet to be separate from the homework (and not embedded in it), so please click [HERE]() to see my Activity #5. 
+It would make more sense for a cheatsheet to be separate from the homework (and not embedded in it), so please click [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw4-thibodeau-mylinh/hw04-data-manipulation-cheatsheet.md) to see my Activity #5. 
 
 
 ***
@@ -382,9 +382,9 @@ It would make more sense for a cheatsheet to be separate from the homework (and 
 
 # Join, merge, look up
 
-## Activity #1 - Create two complementary data frames and use join functions
+## Activity #1 - Create two complementary data frames and use join functions  
 
-### DATASET 1
+### DATASET 1  
 
 I will create a smaller version of the first data frame I had for this exercise (because full_dataset is too large). 
 
@@ -395,7 +395,7 @@ colnames(brca_rna_v2) <- c("hugo", "brca.s1")
 brca_rna_v2 <- brca_rna_v2[!duplicated(brca_rna_v2$hugo), ]
 ```
 
-### DATASET 2
+### DATASET 2  
 
 The second dataset will be the The Cancer Gene Census (CGC) from the COSMIC (Catalogue of Somatic Mutations In Cancer) database. The Cancer Gene Census is publically available [here](http://cancer.sanger.ac.uk/census). 
 
@@ -417,7 +417,7 @@ The Cancer Gene Census (cosmic_census) provides annotations on 567 genes that ha
 
 ## Test some join functions of dplyr
 
-Please note that the cosmic_census$Gene.Symbol correspond to brca_rna_v2$hugo, hence why I account for it when joining by below. We will be joining the information of 2 datasets:
+Please note that the Gene.Symbol column of cosmic_census correspond to the hugo column of brca_rna_v2, hence why I account for it when joining by below. We will be joining the information of 2 datasets:
 
 * brca_rna_v2: contains the hugo genes and the RPKM (gene expression) values of one breast cancer tumour sample
 * cosmic_census: contains a list of Gene.Symbol genes involved in cancer,  and several annotations: type of tumours in which it plays a role (Tumour.Types.Somatic.), type of somatic mutations that can lead to cancer (Mutation.Types), etc.
@@ -433,7 +433,7 @@ brca_rna_v2$hugo genes are compared against cosmic_census$Gene.Symbol genes, whe
 ```{r}
 t1 <- left_join(cosmic_census, brca_rna_v2, by = c("Gene.Symbol"="hugo")) %>%
   select(Gene.Symbol, Tumour.Types.Somatic., Role.in.Cancer, brca.s1) 
-t1 %>% head(15) %>% kable(format = "markdown", align=NULL)
+t1 %>% head(10) %>% kable(format = "markdown", align=NULL)
 dim(t1)
 ```
 Note. I had error messages when trying to pipe the table into kable function, and I found that kable can introduce space or newline, and that I could solve it by using aling=NULL as explained [here](https://github.com/yihui/knitr/issues/699).
@@ -449,13 +449,13 @@ Note. I had error messages when trying to pipe the table into kable function, an
 
 ```{r}
 t2 <- right_join(cosmic_census, brca_rna_v2, by = c("Gene.Symbol"="hugo")) %>% select(Gene.Symbol, Tumour.Types.Somatic., Role.in.Cancer, brca.s1) 
-t2 %>% head(15) %>% kable(format = "markdown", align=NULL)
+t2 %>% head(10) %>% kable(format = "markdown", align=NULL)
 dim(t2)
 ```
 
 *Observations*
 
-* Since the maximum of matches is 567 (number of rows in cosmic_census) out of 20500 (number of rows in brca_rna_v2), it is not surprising that the Tumour.Types.Somatic. and Role.in.Cancer columns are populations with NA when we only look at 15 rows.
+* Since the maximum of matches is 567 (number of rows in cosmic_census) out of 20500 (number of rows in brca_rna_v2), it is not surprising that the Tumour.Types.Somatic. and Role.in.Cancer columns are populations with NA when we only look at 10 rows.
 * Since right_join(cosmic_census, brca_rna_v2) is equivalent to left_join(brca_rna_v2, cosmic_census), I personally feel it is less confusing to stick with left_join() and swap the order of the datasets inside the function.
 
 #### inner_join()
@@ -465,7 +465,7 @@ dim(t2)
 ```{r}
 t3 <- inner_join(cosmic_census, brca_rna_v2, by = c("Gene.Symbol"="hugo")) %>% 
 select(Gene.Symbol, Tumour.Types.Somatic., Role.in.Cancer, brca.s1)
-t3  %>% head(15) %>% kable(format = "markdown", align=NULL) 
+t3  %>% head(10) %>% kable(format = "markdown", align=NULL) 
 dim(t3)
 ```
 *Observations*
@@ -479,7 +479,7 @@ dim(t3)
 
 ```{r}
 t4 <-  full_join(cosmic_census, brca_rna_v2, by = c("Gene.Symbol"="hugo")) %>% select(Gene.Symbol, Tumour.Types.Somatic., Role.in.Cancer, brca.s1) 
-t4 %>% head(15) %>% kable(format = "markdown", align=NULL)
+t4 %>% head(10) %>% kable(format = "markdown", align=NULL)
 dim(t4)
 ```
 
@@ -506,7 +506,7 @@ t5 <- cosmic_census %>%
   semi_join(brca_rna_v2, by = c("Gene.Symbol"="hugo"))
 
 dim(t5)
-t5 %>% head(15) %>% kable(format = "markdown", align=NULL)
+t5 %>% head(10) %>% kable(format = "markdown", align=NULL)
 ```
 *Observations*
 
@@ -523,15 +523,15 @@ t6 <- cosmic_census %>%
   anti_join(brca_rna_v2, by = c("Gene.Symbol"="hugo"))
 
 dim(t6)
-t6 %>% head(15) %>% kable(format = "markdown", align=NULL)
+t6 %>% head(10) %>% kable(format = "markdown", align=NULL)
 ```
 
 *Observation:*
 
 * I can hardly imagine a role for this function with my current data, but that is because I picked my two datasets (cosmic_census and brca_rna_v2) thinking about mutating and appending data, not about filtering out data, and therefore, my datasets have complementary information. If I had two redundant datasets, the filtering functions would be more applicable.
 
-## Activity #2 - Create your own cheatsheet
+## Activity #2 - Create your own cheatsheet of dplyr join functions
 
-## Optional add-on: merge(), match()
+Please click [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw4-thibodeau-mylinh/hw04-dplyr-join-cheatsheet.md) to see a minimalist dplyr joining functions cheatsheet.
 
 ***

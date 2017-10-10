@@ -47,7 +47,7 @@ Considering two data.frame d1 and d2
 | 5. Keep rows of d1 if there is a match in d2         | semi\_join           |
 | 4. Discard rows of d1 if there is a match in d2      | anti\_join           |
 
-DATASET d1
+### DATASET d1
 
 ``` r
 d1 <- read.table("scratch-space/small_dataframe_example.txt",sep = "\t", header = TRUE)
@@ -158,7 +158,7 @@ high
 </tr>
 </tbody>
 </table>
-DATASET d2
+### DATASET d2
 
 ``` r
 d2 <- read.table("scratch-space/small_dataframe_example_2.txt",sep = "\t", header = TRUE)

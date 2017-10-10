@@ -49,5 +49,9 @@ I annotated my homework 4, and it reads fairly like a narrative. Therefore, this
 
 ## Newly acquired skills or knowledge
 
-* Compare and use data manipulation functions between Tidyr, Reshape2 and Base R
-* 
+* Create (or select) a genomic dataset with the appropriate underlying structure in order to complete data exploration exercises.
+* Compare and use data manipulation functions between Tidyr, Reshape2 and Base R, and learn which functions are better suited to certain tasks.
+* Explore dplyr join functions: mutating (left_join, right_join, inner_join, full_join) and filtering (semi_join, anti_join) functions.
+* Use of the function formula(data.frame) to figure out the underlying function of an object. E.g. formula(d1) results in "hugo ~ stat.category + BRCA + COADREAD + DLBC + GBM + PCPG + SARC + SKCM".
+* Space and newline can be introduced by kable, which result in error. Can be solved by changing syntax.
+

@@ -21,7 +21,9 @@ library(tidygenomics)
 
 Vincenzo Coia has approved my request to use published genomic data for the next assignments, therefore, I want to provide a few clarifications:
 
-* I have tried to introduce some basic explanations about the genomic dataset, but obviously, this is not a genetics course and my objective is to explore and learn how to use R and its packages, not to teach complex notions of cancer genomic analysis. Therefore, I don't expect people to understand what the data and plots represent if they haven't studied in related fields.  
+* I have tried to introduce some basic explanations about the genomic dataset, but as my objective is to explore and learn how to use R and its packages, not to teach cancer genomic analysis, I am sorry in advance if you are not sure what the data and plots represent if they haven't studied in related fields, but focus on the data manipulation behind and not what the data represents, and I hope you will still enjoy reading my homework !
+* Given the size of the data, I only display a few rows per table to keep it readable.
+* If you are not sure of the corresponding variables (or equivalences) between gapminder and my genomic datasets, you can always go back to the README.md file [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw4-thibodeau-mylinh)
 
 ## SOURCES OF DATA: The Cancer Genome Atlas (TCGA) and ClinVar 
 
@@ -344,11 +346,13 @@ It would make more sense for a cheatsheet to be separate from the homework (and 
 
 # Join, merge, look up
 
-## Activity #1 - Create a second data frame
+## Activity #1 - Create two complementary data frames and use join functions
 
 ### DATASET 1
 
-I will create a smaller version of the first data frame I had for this exercise: this one will contain the list of all genes and RPKM expression values for only one breast cancer tumour sequenced. 
+I will create a smaller version of the first data frame I had for this exercise (because full_dataset is too large). 
+
+The first dataset will contain the list of all genes and RPKM expression values for only one breast cancer tumour sample (brca.s1).
 ```{r}
 brca_rna_v2 <- read.table("/Users/mylinh/Documents/published_data/tcga/brca/tcga/data_RNA_Seq_v2_expression_median.txt", header = TRUE)[ ,c(1,3)]
 colnames(brca_rna_v2) <- c("hugo", "brca.s1")
@@ -357,7 +361,7 @@ brca_rna_v2 <- brca_rna_v2[!duplicated(brca_rna_v2$hugo), ]
 
 ### DATASET 2
 
-The second dataset will be the The Cancer Gene Census (CGC) from the COSMIC (Catalogue of Somatic Mutations In Cancer) database. The CGC is publically available [here](http://cancer.sanger.ac.uk/census). 
+The second dataset will be the The Cancer Gene Census (CGC) from the COSMIC (Catalogue of Somatic Mutations In Cancer) database. The Cancer Gene Census is publically available [here](http://cancer.sanger.ac.uk/census). 
 
 Original census and analysis publication:  
 Futreal PA, Coin L, Marshall M, Down T, Hubbard T, Wooster R, Rahman N,
@@ -365,18 +369,25 @@ Stratton MR. A census of human cancer genes. Nat Rev Cancer. 2004
 Mar;4(3):177-83. Review. PubMed PMID: 14993899; PubMed Central PMCID: PMC2665285.
 
 ```{r}
-cosmic_census <- read.table("Cosmic_Census.tsv", sep = "\t", header=TRUE)
+cosmic_census <- read.table("Cosmic_Census.tsv", sep = "\t", header=TRUE, strip.white = TRUE)
 summary(cosmic_census) %>% kable("html") %>% kable_styling()
+dim(cosmic_census)
+colnames(cosmic_census)
 #sapply(cosmic_census, class)  %>% kable("html") %>% kable_styling()  
 # View(cosmic_census)
 ```
 
+The Cancer Gene Census (cosmic_census) provides annotations on 567 genes that have been linked to cancer molecular pathophysiology. 
 
 ## Test some join functions of dplyr
+
+Please note that the cosmic_census$Gene.Symbol correspond to brca_rna_v2$hugo, hence why I account for it when joining by below.
 
 ### MUTATING JOIN
 
 #### left_join()
+
+Objective/process: with left_join(), I start with the cosmic_census, and then I append the brca_rna_v2 data based on a column of matching genes. brca_rna_v2$hugo genes are compared against cosmic_census$Gene.Symbol genes, when a match is found, the data from the matching corresponding brca_rna_v2 row is appended to cosmic_census. For genes only in cosmic_census, the new columns are populated with "NA".  
 
 ```{r}
 t1 <- left_join(cosmic_census, brca_rna_v2, by = c("Gene.Symbol"="hugo")) %>%
@@ -385,42 +396,55 @@ t1 %>% head(15) %>% kable(format = "markdown", align=NULL)
 ```
 Note. I had error messages when trying to pipe the table into kable function, and I found that kable can introduce space or newline, and that I could solve it by using aling=NULL as explained [here](https://github.com/yihui/knitr/issues/699).
 
+Observation: 
+
 #### right_join()
 
+Objective/process: 
 ```{r}
 t2 <- right_join(cosmic_census, brca_rna_v2, by = c("Gene.Symbol"="hugo"))
 t2 %>% select(Gene.Symbol, Tumour.Types.Somatic., Role.in.Cancer, brca.s1) %>% head(15) %>% kable(format = "markdown", align=NULL)
 ```
 
+Observation: 
+
 #### inner_join()
 
+Objective/process: 
 ```{r}
 t3 <- inner_join(cosmic_census, brca_rna_v2, by = c("Gene.Symbol"="hugo"))
 t3 %>% select(Gene.Symbol, Tumour.Types.Somatic., Role.in.Cancer, brca.s1) %>% head(15) %>% kable(format = "markdown", align=NULL) 
 ```
+Observation: 
 
 #### full_join()
 
+Objective/process: 
 ```{r}
 t4 <-  full_join(cosmic_census, brca_rna_v2, by = c("Gene.Symbol"="hugo"))
 t4 %>% select(Gene.Symbol, Tumour.Types.Somatic., Role.in.Cancer, brca.s1) %>% head(15) %>% kable(format = "markdown", align=NULL)
 ```
+Observation: 
 
 ## FILTERING JOIN
 
 #### semi_join()
 
+Objective/process: 
 ```{r}
 t5 <- semi_join(cosmic_census, brca_rna_v2, by = c("Gene.Symbol"="hugo"))
 t5 %>% head(15) %>% kable(format = "markdown", align=NULL)
 ```
+Observation: 
 
 #### anti_join()
 
+Objective/process: 
 ```{r}
 t6 <- anti_join(cosmic_census, brca_rna_v2, by = c("Gene.Symbol"="hugo"))
 t6 %>% head(15) %>% kable(format = "markdown", align=NULL)
 ```
+Observation: 
 
 ## Activity #2 - Create your own cheatsheet
 

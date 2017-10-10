@@ -1,17 +1,17 @@
 # README - stat545-hw4-thibodeau-mylinh
 
-## HOMEWORK FILES TO REVIEW
+# HOMEWORK FILES TO REVIEW
 
-As explained below, I unfortunately didn't realize that we only needed to pick two activities in total, and that's why my orginal [Homework 4](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw4-thibodeau-mylinh/stat545-hw04-thibodeau-mylinh.md) file is quite long, but for the marking/peer review purposes, you can limit yourself to these two cheatsheets:
+As explained below, I unfortunately didn't realize that we only needed to pick two activities in total, and that's why my original [Homework 4](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw4-thibodeau-mylinh/long-version-stat545-hw04-thibodeau-mylinh.md) file is quite long, but for the marking/peer review purposes, you can limit yourself to these two cheatsheets:
 
-* General data reshaping and relationship to aggregation - Activity #5 (data manipulation sample): cheatsheet md file [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw4-thibodeau-mylinh/hw04-data-manipulation-cheatsheet.md) comparing tidyr, reshape and R base ways of manipulating data  
-* Join, merge, look up - Activity #2 (create your own cheatsheet on join functions): minimalist dplyr joining function cheatsheet md file [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw4-thibodeau-mylinh/hw04-dplyr-join-cheatsheet.md) - A table is worth a thousand words
+* General data reshaping and relationship to aggregation - Activity #5 (data manipulation sample): cheatsheet md file [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw4-thibodeau-mylinh/hw04-data-manipulation-cheatsheet-thibodeau-mylinh.md) comparing tidyr, reshape and R base ways of manipulating data  
+* Join, merge, look up - Activity #2 (create your own cheatsheet on join functions): minimalist dplyr joining function cheatsheet md file [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw4-thibodeau-mylinh/hw04-dplyr-join-cheatsheet-thibodeau-mylinh.md) - A table is worth a thousand words
 
 
 ## If you are interested in the long version, you can take a look at the files below, but please don't feel obligated ! 
 
-- Homework 4 Md file [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw4-thibodeau-mylinh/stat545-hw04-thibodeau-mylinh.md) (that's the one with the tables)  
-- Homework 4 Rmd file [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw4-thibodeau-mylinh/stat545-hw04-thibodeau-mylinh.Rmd)  
+- Homework 4 Md file [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw4-thibodeau-mylinh/long-version-stat545-hw04-thibodeau-mylinh.md) (that's the one with the tables)  
+- Homework 4 Rmd file [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw4-thibodeau-mylinh/hw04-data-manipulation-cheatsheet-thibodeau-mylinh.Rmd) 
 
 *** 
 

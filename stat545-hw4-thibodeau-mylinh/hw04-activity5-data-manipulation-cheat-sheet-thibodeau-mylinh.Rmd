@@ -66,7 +66,7 @@ Note. Using reshape is a very convoluted way to do group data, Tidyr is better f
 ```{r}
 aggregate(gene.type~expression, d1, length)  %>% kable("html") %>% kable_styling()
 aggregate(. ~expression, d1, length)  %>% kable("html") %>% kable_styling()
-tapply(d1$gene.type, d1$expression, FUN=length)  %>% kable("html") %>% kable_styling()
+tapply(d1$gene.type, d1$expression, FUN=length)
 ```
 Note. Again, base R is not ideal to pursue grouping. I was not able to obtain the wanted table, and since Tidyr offers better alternative, I won't pursue further base R for grouping.
 

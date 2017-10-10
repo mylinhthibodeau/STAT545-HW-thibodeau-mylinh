@@ -14,7 +14,7 @@ library(reshape2)
 options(knitr.table.format = "html")
 ```
 
-# Essentials of data joining with dplyr
+# Essentials of data joining with dplyr - A table is worth a thousand words
 
 # Matching objectives and functions
 
@@ -23,23 +23,75 @@ options(knitr.table.format = "html")
 
 | Objective                                           | tidyr/dplyr function    | 
 |-----------------------------------------------------|-------------------------|
-| Append/join data                                    | MUTATING                | 
-|-----------------------------------------------------|-------------------------|
+| **APPEND/JOIN DATA**                                | **MUTATING**            |
 |1. Start with d1 and append matching column(s) of d2 | left_join               | 
 |2. Start with d2 and append matching column(s) of d1 | right_join              | 
-|3. Only keep overlap d1-d2 based on matching columns | inner_join              |
+|3. Keep overlap d1-d2 based on matching column(s)    | inner_join              |
 |4. Keep all of d1 and d2                             | full_join               |
-|-----------------------------------------------------|-------------------------|
-| Filter data                                         | FILTERING               | 
-|-----------------------------------------------------|-------------------------|
+| **FILTER DATA**                                     | **FILTERING**           | 
 |5. Keep rows of d1 if there is a match in d2         | semi_join               |
 |4. Discard rows of d1 if there is a match in d2      | anti_join               |
 
+DATASET d1
 ```{r}
-d1 <- read.table("small_dataframe_example.txt",sep = "\t", header = TRUE)
+d1 <- read.table("scratch-space/small_dataframe_example.txt",sep = "\t", header = TRUE)
 d1 %>% kable("html") %>% kable_styling()
-d2 <- read.table("small_dataframe_example_2.txt",sep = "\t", header = TRUE)
+```
+
+DATASET d2
+
+```{r}
+d2 <- read.table("scratch-space/small_dataframe_example_2.txt",sep = "\t", header = TRUE)
 d2 %>% kable("html") %>% kable_styling()
+```
+***
+
+## MUTATING JOIN
+
+### (1) left_join
+
+```{r}
+left_join(d1, d2, by = "gene") %>% kable("html") %>% kable_styling()
 ```
 
 
+### (2) right_join
+
+```{r}
+right_join(d1, d2, by = "gene") %>% kable("html") %>% kable_styling()
+```
+
+### (3) inner_join
+
+```{r}
+inner_join(d1, d2, by = "gene") %>% kable("html") %>% kable_styling()
+```
+
+
+### (4) full_join
+
+```{r}
+full_join(d1, d2, by = "gene") %>% kable("html") %>% kable_styling()
+``` 
+
+***
+
+## FILTERING JOIN
+
+### (5) semi_join
+
+```{r}
+semi_join(d1, d2, by = "gene") %>% kable("html") %>% kable_styling()
+```
+
+### (6) anti_join
+
+```{r}
+anti_join(d1, d2, by = "gene") %>% kable("html") %>% kable_styling()
+```
+
+***
+
+# I have omitted explanations in this cheatsheet on purpose
+
+The reason being that I spent a significant amount of time thinking about sample data.frame d1 and d2 and how to show in a visual snapshot what are the differences between the types of dplyr joining functions. 

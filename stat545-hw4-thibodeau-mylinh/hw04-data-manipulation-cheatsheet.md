@@ -52,7 +52,7 @@ Matching tasks and functions
 Let's make a small table to illustrate the different funcitons.
 
 ``` r
-d1 <- read.table("small_dataframe_example.txt",sep = "\t", header = TRUE)
+d1 <- read.table("scratch-space/small_dataframe_example.txt", sep = "\t", header = TRUE)
 d1 %>%
   kable("html") %>% kable_styling()
 ```
@@ -1196,7 +1196,7 @@ Note. Base R can provide the number of possible gene.type-expression pairs, but 
 Let's prepare another dataset (d2) for the following exercises.
 
 ``` r
-d2 <- read.table("small_dataframe_example_2.txt",sep = "\t", header = TRUE)
+d2 <- read.table("scratch-space/small_dataframe_example_2.txt",sep = "\t", header = TRUE)
 d2 %>% kable("html") %>% kable_styling()
 ```
 

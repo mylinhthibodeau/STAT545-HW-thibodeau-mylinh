@@ -2,11 +2,12 @@
 
 # HOMEWORK FILES TO REVIEW
 
-As explained below, I unfortunately didn't realize that we only needed to pick two activities in total, and that's why my original [Homework 4](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw4-thibodeau-mylinh/long-version-stat545-hw04-thibodeau-mylinh.md) file is quite long, but for the marking/peer review purposes, you can limit yourself to these two cheatsheets:
+As explained below, I unfortunately didn't realize that we only needed to pick two activities in total, and that's why my original Homework 4 (now entitled "long-version-stat545-hw04-thibodeau-mylinh") file is **not the one to review**.
+
+For the **marking/peer review purposes**, you can limit yourself to these two cheatsheets:
 
 * General data reshaping and relationship to aggregation - Activity #5 (data manipulation sample): cheatsheet md file [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw4-thibodeau-mylinh/hw04-data-manipulation-cheatsheet-thibodeau-mylinh.md) comparing tidyr, reshape and R base ways of manipulating data  
-* Join, merge, look up - Activity #2 (create your own cheatsheet on join functions): minimalist dplyr joining function cheatsheet md file [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw4-thibodeau-mylinh/hw04-dplyr-join-cheatsheet-thibodeau-mylinh.md) - A table is worth a thousand words
-
+* Join, merge, look up - Activity #2 (create your own cheatsheet on join functions): minimalist dplyr joining function cheatsheet md file [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw4-thibodeau-mylinh/hw04-dplyr-join-cheatsheet-thibodeau-mylinh.md) - A table is worth a thousand words
 
 ## If you are interested in the long version, you can take a look at the files below, but please don't feel obligated ! 
 
@@ -62,4 +63,5 @@ I annotated my homework 4, and it reads fairly like a narrative. Therefore, this
 * Explore dplyr join functions: mutating (left_join, right_join, inner_join, full_join) and filtering (semi_join, anti_join) functions.
 * Use of the function formula(data.frame) to figure out the underlying function of an object. E.g. formula(d1) results in "hugo ~ stat.category + BRCA + COADREAD + DLBC + GBM + PCPG + SARC + SKCM".
 * Space and newline can be introduced by kable, which result in error. Can be solved by changing syntax.
+* Making tables in Rmarkdown is really irritating, but I had to try it once at least, and now, I have a renewed respect for kable packages.
 

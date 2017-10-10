@@ -4,8 +4,8 @@
 
 # FOLDERS - SUMMARY 
 
-- Homework 4 Rmd file [HERE]
-- Homework 4 Md file [HERE]
+- Homework 4 Rmd file [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw4-thibodeau-mylinh/stat545-hw04-thibodeau-mylinh.Rmd)
+- Homework 4 Md file [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw4-thibodeau-mylinh/stat545-hw04-thibodeau-mylinh.md)
 
 *** 
 

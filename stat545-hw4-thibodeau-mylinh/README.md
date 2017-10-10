@@ -29,17 +29,17 @@ Vincenzo Coia has approved my request to use published genomic data for the home
 
 After trying for 3h to complete the homework 4 exercises with the data I used in [homework 3](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw3-thibodeau-mylinh), that regardless of how I organized the data, I still didn't have the right data format to complete the exercises. 
 
-![gapminder-underling-data-structure](scratch-space/gapminder-underlying-data-structure.jpg){ width=50% }
+![gapminder-underling-data-structure](scratch-space/gapminder-underlying-data-structure.jpg){:height="36px" width="36px"}
 
 ## FAILED: I was trying to do the homework with an "unfit" dataset
 
-![failed-genomic-data-structure](scratch-space/failed-genomic-data-structure.jpg){ width=50% }
+![failed-genomic-data-structure](scratch-space/failed-genomic-data-structure.jpg)
 
 *I have learned to think about the underlying structure of a dataset before trying to do anything with it ! I am hoping I won't make the same mistake again in the future and that I will be able to recognize these situations promptly rather than try to solve unsolvable problems due to the nature of the dataset.*
 
 ## SUCCESS: I will be using the data from The Cancer Genome Atlas (TCGA) instead, because as illustrated below, it can have a similar structure than gapminder. 
 
-![genomic-data-structure](scratch-space/genomic-data-structure.jpg){ width=50% }
+![genomic-data-structure](scratch-space/genomic-data-structure.jpg)
 
 ## Lesson #2 - Carefully read the requirements 
 

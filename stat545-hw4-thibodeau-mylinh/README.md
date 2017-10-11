@@ -20,8 +20,8 @@ For the **MARKING/PEER REVIEW FILES**, you can limit yourself to these two cheat
 
 Vincenzo Coia has approved my request to use published genomic data for the homework assignments.
 
-* I have tried to introduce some basic explanations about the genomic dataset, but obviously, this is not a genetics course and my objective is to explore and learn how to use R and its packages, not to teach complex notions of cancer genomic analysis. Therefore, I don't expect people to understand what the data and plots represent if they haven't studied in related fields. 
-* I would recommend you make abstraction of the underlying biological context and simply try to read this homework based on the variable types (e.g. copy.category is a categorical variable like "gain" or "loss") rather than what they represent.
+* I have tried to introduce some basic explanations about the genomic dataset, but as my objective is to explore and learn how to use R and its packages, not to teach cancer genomic analysis, I am sorry in advance if you are not sure what the data and plots represent if they haven't studied in related fields, but focus on the data manipulation behind and not what the data represents, and I hope you will still enjoy reading my homework !
+* If you have any questions, please don't hesitate to let me know :) 
 
 # Valuable lessons learned
 

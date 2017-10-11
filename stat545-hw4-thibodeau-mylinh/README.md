@@ -64,4 +64,5 @@ I annotated my homework 4, and it reads fairly like a narrative. Therefore, this
 * Use of the function formula(data.frame) to figure out the underlying function of an object. E.g. formula(d1) results in "hugo ~ stat.category + BRCA + COADREAD + DLBC + GBM + PCPG + SARC + SKCM".
 * Space and newline can be introduced by kable, which result in error. Can be solved by changing syntax.
 * Making tables in Rmarkdown is really irritating, but I had to try it once at least, and now, I have a renewed respect for kable packages.
+* I have learned how to re-size images [here](https://stackoverflow.com/questions/14675913/how-to-change-image-size-markdown)
 

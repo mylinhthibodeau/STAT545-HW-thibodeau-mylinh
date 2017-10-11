@@ -34,7 +34,8 @@ Genomic datasets - A few clarifications
 
 Vincenzo Coia has approved my request to use published genomic data for the next assignments, therefore, I want to provide a few clarifications:
 
--   I have tried to introduce some basic explanations about the genomic dataset, but as my objective is to explore and learn how to use R and its packages, not to teach cancer genomic analysis, I am sorry in advance if you are not sure what the data and plots represent if they haven't studied in related fields, but focus on the data manipulation behind and not what the data represents, and I hope you will still enjoy reading my homework !
+-   I have tried to introduce some basic explanations about the genomic dataset, but as my objective is to explore and learn how to use R and its packages, not to teach cancer genomic analysis, I am sorry in advance if you are not sure what the data and plots represent, but focus on the data manipulation behind and not what the data represents, and I hope you will still enjoy reading my homework !
+-   If you have any questions, please don't hesitate to let me know :)
 -   Given the size of the data, I only display a few rows per table to keep it readable.
 -   If you are not sure of the corresponding variables (or equivalences) between gapminder and my genomic datasets, you can always go back to the README.md file [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw4-thibodeau-mylinh)
 -   RPKM (Reads Per Kilobase of transcript per Million mapped reads) is a measure of gene expression obtained from RNAseq data.

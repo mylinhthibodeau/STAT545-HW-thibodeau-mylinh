@@ -969,4 +969,4 @@ I have omitted explanations in this cheatsheet on purpose
 
 The reason being that I spent a significant amount of time thinking about sample data.frame d1 and d2 and how to show in a visual snapshot what are the differences between the types of dplyr joining functions.
 
-#### If you would like more details explanations, please feel free to refer to the long version of this homework 4 [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw4-thibodeau-mylinh/long-version-stat545-hw04-thibodeau-mylinh.md)
+#### If you would like more details explanations, please feel free to refer to the long version of this homework 4 [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw4-thibodeau-mylinh/long-version-stat545-hw04-thibodeau-mylinh.md) !

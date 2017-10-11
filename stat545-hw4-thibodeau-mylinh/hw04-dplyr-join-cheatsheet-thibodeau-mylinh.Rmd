@@ -56,20 +56,20 @@ left_join(d1, d2, by = "gene") %>% kable("html") %>% kable_styling()
 ```
 
 
-### (2) right_join
+### (2) right_join  
 
 ```{r}
 right_join(d1, d2, by = "gene") %>% kable("html") %>% kable_styling()
 ```
 
-### (3) inner_join
+### (3) inner_join  
 
 ```{r}
 inner_join(d1, d2, by = "gene") %>% kable("html") %>% kable_styling()
 ```
 
 
-### (4) full_join
+### (4) full_join  
 
 ```{r}
 full_join(d1, d2, by = "gene") %>% kable("html") %>% kable_styling()
@@ -79,13 +79,13 @@ full_join(d1, d2, by = "gene") %>% kable("html") %>% kable_styling()
 
 ## FILTERING JOIN
 
-### (5) semi_join
+### (5) semi_join  
 
 ```{r}
 semi_join(d1, d2, by = "gene") %>% kable("html") %>% kable_styling()
 ```
 
-### (6) anti_join  
+### (6) anti_join    
 
 ```{r}
 anti_join(d1, d2, by = "gene") %>% kable("html") %>% kable_styling()

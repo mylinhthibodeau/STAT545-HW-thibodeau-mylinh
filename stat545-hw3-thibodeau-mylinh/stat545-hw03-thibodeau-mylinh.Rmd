@@ -174,7 +174,6 @@ rna_cnv %>%
   group_by(cancer.gene.type) %>%
   ggplot(aes(x=cancer.gene.type, y=RPKM, colour = cancer.gene.type)) + stat_summary(fun.y = mean, fun.ymin = min, fun.ymax = max,
   colour = "red") + theme(text = element_text(size=14), axis.text.x = element_text(angle=45, hjust=1)) 
-
 ```
 
 

@@ -12,6 +12,10 @@ library(knitr)
 library(kableExtra)
 options(knitr.table.format = "html")
 library(readr)
+library(forcats)
+#install.packages("gdata")
+library(gdata)
+library(lattice)
 #install.packages("tidygenomics") # Not used for now, but perhaps in another homework
 #library(tidygenomics) # Not used for now, but perhaps in another homework
 ```
@@ -44,6 +48,45 @@ gene_types_baseR <-  factor(chek2_rna_cnv$cancer.gene.type)
 gene_types_baseR %>% head(100) %>% kable("html") %>% kable_styling()
 gene_types_forcats <- as_factor(chek2_rna_cnv$cancer.gene.type)
 gene_types_forcats %>% head(100) %>% kable("html") %>% kable_styling()
+```
+
+LONG VERSION
+
+## (1A) Factorise
+
+Transform some of the variable of chek2_rna_cnv into factors. In cleaning up the dataset, we converted a factors column into characters then back to factors. 
+
+Let's see what class of data we have in chek2_rna_cnv first. 
+```{r}
+sapply(chek2_rna_cnv, class) %>% kable("html") %>% kable_styling()
+```
+
+
+Change the avg.TCGA.percentile (class integer) to factors with base R:
+```{r}
+chek2_rna_cnv$avg.TCGA.percentile <- as.factor(chek2_rna_cnv$avg.TCGA.percentile)
+chek2_rna_cnv %>% 
+  select(hugo,avg.TCGA.percentile) %>%
+  head(10) %>% kable("html") %>% kable_styling()
+#chek2_rna_cnv$avg.TCGA.percentile %>% head(10) %>% kable("html") %>% kable_styling()
+nlevels(chek2_rna_cnv$avg.TCGA.percentile)
+#avg.TCGA.percentile_types <- levels(chek2_rna_cnv$avg.TCGA.percentile) # alternative method to count levels
+#avg.TCGA.percentile_types
+#length(avg.TCGA.percentile_types)
+#avg.TCGA.percentile_types
+```
+
+Change the avg.TCGA.percentile (class integer) to factors with forcats:
+
+```{r}
+chek2_rna_cnv$avg.TCGA.percentile <- as_factor(chek2_rna_cnv$avg.TCGA.percentile) 
+chek2_rna_cnv %>% 
+  select(hugo,avg.TCGA.percentile) %>%
+  head(10) %>% kable("html") %>% kable_styling()
+nlevels(chek2_rna_cnv$avg.TCGA.percentile)
+#chek2_rna_cnv$avg.TCGA.percentile %>% head(10) %>% kable("html") %>% kable_styling()
+#avg.TCGA.percentile_types <- levels(chek2_rna_cnv$avg.TCGA.percentile)
+#avg.TCGA.percentile_types
 ```
 
 
@@ -81,4 +124,25 @@ p4 <- d2 %>%
   head(2000) %>%
   ggplot(aes(x=avg.TCGA.percentile, y=fct_reorder(avg.TCGA.percentile, count)), na.rm=TRUE)
 p4 + geom_bar()
+```
+
+
+# (2) Visualization design - Improve a figure 
+
+
+Merge color into data, as shown [here](https://github.com/jennybc/ggplot2-tutorial/blob/master/02-merge-color-into-data.r)
+
+```{r}
+library(plyr)
+hugo_colors_v2 <- read.delim("chek2-hugo-colors.tsv", colClasses = list(color = "character"), col.names = c("cancer.gene.type", "hugo", "hugo_color"))
+str(hugo_colors_v2)
+
+#insert color as a variable into d5
+d5 <- merge(d5, hugo_colors_v2)
+View(d5)
+
+hugo_colors_v3 <- hugo_colors[,2:3]
+head(hugo_colors_v3)
+hugo_colors_v3_t <- t(hugo_colors_v3)
+head(hugo_colors_v3_t)
 ```

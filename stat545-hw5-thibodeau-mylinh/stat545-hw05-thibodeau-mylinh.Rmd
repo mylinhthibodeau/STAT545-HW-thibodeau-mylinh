@@ -13,8 +13,11 @@ library(kableExtra)
 options(knitr.table.format = "html")
 library(readr)
 library(forcats)
-install.packages("gdata")
+#install.packages("gdata")
 library(gdata)
+library(lattice)
+# install.packages("RColorBrewer")
+library(RColorBrewer)
 #install.packages("tidygenomics") # Not used for now, but perhaps in another homework
 #library(tidygenomics) # Not used for now, but perhaps in another homework
 ```
@@ -77,7 +80,7 @@ Goals:
 4. Write some data to file and load it back into R. E.g., save a plot to file and include it in a R Markdown report via ![Alt text](/path/to/img.png).
 5. Organise your github, to celebrate the completion of STAT 545 and/or to prepare for the glorious future of STAT 547.
 
-# (1) Reorder a factor in a principled way
+# (1) FACTOR MANAGEMENT
 
 **Note 1.** I searched several online dictionaries, and I still do not understand the meaning of "principled": the online dictionaries are giving me answers like ["based on moral rules"](http://dictionary.cambridge.org/dictionary/english/principled) and ["(of a system or method) based on a given set of rules"](https://en.oxforddictionaries.com/definition/principled), so I will conclude that if my approach is coherent and follow a logical path, it is principled.   
 
@@ -92,28 +95,21 @@ sapply(chek2_rna_cnv, class) %>% kable("html") %>% kable_styling()
 
 Change the avg.TCGA.percentile (class integer) to factors with base R:
 ```{r}
-chek2_rna_cnv$avg.TCGA.percentile <- as.factor(chek2_rna_cnv$avg.TCGA.percentile)
-chek2_rna_cnv %>% 
+d0 <- chek2_rna_cnv
+d0$avg.TCGA.percentile <- as.factor(d0$avg.TCGA.percentile)
+d0 %>% 
   select(hugo,avg.TCGA.percentile) %>%
   head(10) %>% kable("html") %>% kable_styling()
-chek2_rna_cnv$avg.TCGA.percentile %>% head(10) %>% kable("html") %>% kable_styling()
-nlevels(chek2_rna_cnv$avg.TCGA.percentile)
-#avg.TCGA.percentile_types <- levels(chek2_rna_cnv$avg.TCGA.percentile) # alternative method to count levels
-#avg.TCGA.percentile_types
-#length(avg.TCGA.percentile_types)
-#avg.TCGA.percentile_types
+nlevels(d0$avg.TCGA.percentile)
 ```
 
 Change the avg.TCGA.percentile (class integer) to factors with forcats:
 
 ```{r}
-chek2_rna_cnv$avg.TCGA.percentile <- as_factor(chek2_rna_cnv$avg.TCGA.percentile) 
-chek2_rna_cnv %>% 
+d0$avg.TCGA.percentile <- as_factor(d0$avg.TCGA.percentile) 
+d0 %>% 
   select(hugo,avg.TCGA.percentile) %>%
   head(10) %>% kable("html") %>% kable_styling()
-chek2_rna_cnv$avg.TCGA.percentile %>% head(10) %>% kable("html") %>% kable_styling()
-#avg.TCGA.percentile_types <- levels(chek2_rna_cnv$avg.TCGA.percentile)
-#avg.TCGA.percentile_types
 ```
 
 In my case, I obtain the same result with base R and forcats with the avg.TCGA.percentile as factors, although I know that base R has a tendency to try re-ordering the data, which is not alway what we want, but the code syntax I used did not lead to this problem for me. 
@@ -122,22 +118,27 @@ In my case, I obtain the same result with base R and forcats with the avg.TCGA.p
 
 Filter chek2_rna_cnv to remove all the avg.TCGA.percentile equal to 0 and drop unused levels.
 
+### Method 1 - gdata
+
+So we are starting with 101 levels (0 to 100, inclusively)
 ```{r}
-nlevels(chek2_rna_cnv$avg.TCGA.percentile)
-# Method 1 - gdata
-d1 <- chek2_rna_cnv %>%
+nlevels(d0$avg.TCGA.percentile)
+d1 <- d0 %>%
   filter(avg.TCGA.percentile != 0) %>%
   arrange(avg.TCGA.percentile) %>%
   select(hugo, avg.TCGA.percentile)
 nlevels(d1$avg.TCGA.percentile)
 d1 <- data.frame(d1)
-d1 <- drop.levels(d1)
-#length(levels(d1$avg.TCGA.percentile)) # alternative method to count levels
+d1 <- gdata::drop.levels(d1)
+# length(levels(d1$avg.TCGA.percentile)) # alternative method to count levels
 nlevels(d1$avg.TCGA.percentile)
+```
 
-# Method 2 - Base R
-nlevels(chek2_rna_cnv$avg.TCGA.percentile)
-d1_v2 <- chek2_rna_cnv %>%
+### Method 2 - Base R
+
+Now let's see how we can do this with base R. 
+```{r}
+d1_v2 <- d0 %>%
   filter(avg.TCGA.percentile != 0) %>%
   arrange(avg.TCGA.percentile) %>%
   select(hugo, avg.TCGA.percentile)
@@ -148,9 +149,13 @@ nlevels(d1_v2$avg.TCGA.percentile)
 d1_v2 <- d1_v2 %>%
   droplevels()
 nlevels(d1_v2$avg.TCGA.percentile)
+```
 
-# Method 3 - forcats
-d1_v3 <- chek2_rna_cnv %>%
+### Method 3 - Forcats
+
+And now let's do the same with forcats.
+```{r}
+d1_v3 <- d0 %>%
   filter(avg.TCGA.percentile != 0) %>%
   arrange(avg.TCGA.percentile) %>%
   select(hugo, avg.TCGA.percentile)
@@ -160,6 +165,7 @@ d1_v3$avg.TCGA.percentile %>%
   fct_drop() %>%
   nlevels()
 ```
+
 **Note 1.** In the example above, you can see that the number of levels is initially 101 (length function) and after removing the avg.TCGA.percentile equal to 0, the number of levels is 100, so I successfully dropped the unused level "0".
 
 **Note 2.** To do this, I used a function of the gdata package, as exemplified  [here](https://www.r-bloggers.com/r-drop-factor-levels-in-a-dataset/)
@@ -167,7 +173,7 @@ d1_v3$avg.TCGA.percentile %>%
 **Note 3.** I had trouble with further manipulations on the data.frame because its class was grouped ("grouped_df" "tbl_df" "tbl" "data.frame") so I had to use the ungroup() function as shown [here](https://stackoverflow.com/questions/26694484/in-r-how-do-you-select-for-a-data-frame-that-has-been-grouped). 
 
 
-## (1C) Reorder the levels of avg.TCGA.percentile, cancer.gene.type or copy.category
+## (1C) Reorder the levels of avg.TCGA.percentile or cancer.gene.type
 
 Use the forcats package to change the order of the factor levels, based on a principled summary of one of the quantitative variables. Consider experimenting with a summary statistic beyond the most basic choice of the median.
 
@@ -294,15 +300,194 @@ Answer: Please refer above for several tables, ways of counting and dropping lev
 Resources: 
 [tidyverse and readr](https://github.com/tidyverse/readr/issues)
 
-# (2) Improve a figure
+# (2) FILE I/O
+
+## The examples of using read input and write ouput to a file are scattered across this homework !
+
+* It starts in the section "Get the data and clean the data" where I used read.table() to load the data into chek2_rna_cnv
+
+# (3) Visualization design - Improve a figure 
 
 
+In all honesty, I spent quite a bit of time on visual aspects of ggplot graph in in my [homework 3](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw3-thibodeau-mylinh) since I needed it for research-related problems at that time as well. 
 
-# (3) Implement visualization design principles
+Therefore, I will try something different here: making a color scheme for the hugo genes based on the cancer.gene.type category they belong to. The entire code below is based on the work of Jenny Brian, specifically tutorial on ggplot2 [here](https://github.com/jennybc/ggplot2-tutorial/blob/master/01_make-gapminder-color-scheme.r) (create color scheme for data) and [here](https://github.com/jennybc/ggplot2-tutorial/blob/master/gapminder-ggplot2-shock-and-awe.md) (plot the data).
+
+First, the values of cancer.gene.type (stored in gene_types) are too long, let's make abbreviations for them, and replace the cancer.gene.type by the abbreviation in d5.
+
+```{r}
+abbreviations_gene_types  <- factor(c("unknown", "ONC", "ONC.pTS", "ONC.TS", "pONC", "pONC.pTS", "pONC.TS", "pTS", "TS"))
+abbreviations_gene_types <- as.character(abbreviations_gene_types)
+abbr_table <- data.frame(Abbreviation = abbreviations_gene_types, cancer.gene.type = gene_types)
+abbr_table %>% kable("html") %>% kable_styling()
+d5 <- d0
+d5$cancer.gene.type <- as.character(d5$cancer.gene.type)
+d5$cancer.gene.type <- gsub("NA", "unknown", d5$cancer.gene.type)
+d5$cancer.gene.type <- gsub("oncogene", "ONC", d5$cancer.gene.type)
+d5$cancer.gene.type <- gsub("tumour suppressor", "TS", d5$cancer.gene.type)
+d5$cancer.gene.type <- gsub("putative", "p", d5$cancer.gene.type)
+d5$cancer.gene.type <- as.vector(d5$cancer.gene.type)
+d5$cancer.gene.type <- gsub("; ", ".", d5$cancer.gene.type)
+d5$cancer.gene.type <- gsub(" ", "", d5$cancer.gene.type)
+```
 
 
-# (4) File I/O: write some data to file and load it back into R, explore functions for reading an input file and writing to an output file
+cancer.gene.type-level info
+```{r}
+d5 <- d5 %>%
+  filter(cancer.gene.type != "unknown")
+dim(d5)
+d5.cancer.gene.type <- aggregate(hugo~cancer.gene.type, d5, function(x) length(unique(x)))
+n.cancer.gene.type <- nrow(d5.cancer.gene.type)
+n.cancer.gene.type
+d5.cancer.gene.type %>% kable("html") %>% kable_styling()
+```
 
+**Note 1.** I realized later on that it was not feasible to keep the unknown values, there were too many, so I had to filter them out.
+
+Map cancer.gene.type into colours using the RColorBrewer package
+```{r}
+display.brewer.all(type = "div")
+color_anchors <-
+  list(
+    # unknown = brewer.pal(n=3, 'RdBu')[7:9], # Removed, causing issues
+       ONC = brewer.pal(n=10, 'RdYlBu')[1:4], # 
+       ONC.pTS = brewer.pal(n=10, 'PuOr')[2:5], # 
+       ONC.TS = brewer.pal(n=10, 'RdYlBu')[5:8], # 
+       pONC = brewer.pal(n=10, 'PiYG')[1:4], # 
+       pONC.pTS=brewer.pal(n=3,'BrBG')[3:4], # 
+       pONC.TS = brewer.pal(n=3, 'PRGn')[3:4], #
+      pTS = brewer.pal(n=10, 'RdBu')[7:11], #
+      TS= brewer.pal(n=10, 'PiYG')[7:11])
+```
+
+Select the first or darkest color to represent the whole cancer.gene.type category
+
+```{r}
+d5.cancer.gene.type$color <- lapply(color_anchors, "[",1 )
+```
+
+Expand into palettes big enough to cover each gene in a continent
+
+```{r}
+library(plyr)
+d5 <- data.frame(d5)
+
+hugo_colors <- plyr::ddply(d5, ~cancer.gene.type, function(x) {
+  the.cancer.gene.type <- x$cancer.gene.type[1]
+  x <- droplevels(x)
+  hugo.lowtohigh <-
+    with(x, levels(reorder(hugo, RPKM)))
+  colorFun <- colorRampPalette(color_anchors[[the.cancer.gene.type]])
+  return(data.frame(hugo = I(hugo.lowtohigh),
+                    color = I(colorFun(length(hugo.lowtohigh)))))
+})
+
+## fiddly parameters that control printing of hugo names
+charLimit <- 12
+xFudge <- 0.05
+jCex <- 0.75
+```
+**Note 1.** ddply() is a function from the plyr package, as mentioned [here](https://groups.google.com/forum/#!topic/ggplot2/gT0Nmv1jqyE)
+
+
+We can then store the figure making code as a function so can make pdf and png.
+```{r}
+make_figure <- function() {
+  plot(c(0, n.cancer.gene.type), c(0,1), type = "n",
+       xlab = "", ylab="", xaxt = "n", yaxt = "n", bty = "n",
+       main="CHEK2 data - Cancer Gene Type - Color Scheme")
+  for(i in seq_len(n.cancer.gene.type)) {
+    this.cancer.gene.type <- d5.cancer.gene.type$cancer.gene.type[i]
+    nCols <- with(d5.cancer.gene.type, hugo[cancer.gene.type==this.cancer.gene.type])
+    yFudge = 0.1/nCols
+    foo <- seq(from = 0, to =1, length.out = nCols+1)
+    rect(xleft = i-1,
+          ybottom = foo[-(nCols + 1)],
+          xright = i,
+         ytop = foo[-1],
+         col=with(hugo_colors, color[cancer.gene.type==this.cancer.gene.type]))
+    text(x = i - 1 + xFudge,
+         y = foo[-(nCols + 1)] + yFudge,
+         labels = with(hugo_colors,
+                       substr(hugo[cancer.gene.type==this.cancer.gene.type], 1, charLimit)),
+         adj = c(0, 0), cex = jCex)
+  }
+  mtext(d5.cancer.gene.type$cancer.gene.type, side = 3, at = seq_len(n.cancer.gene.type) - 0.5)
+  mtext(c("highest.RPKM", "smallest.RPKM"),
+        side = 2, at = c(0.9, 0.1), las = 1)
+}
+
+op <- par(mar = c(1, 4, 6, 1) + 0.1)
+
+make_figure()
+par(op)
+png("chek2-cancer.gene.type-colors.png",
+    width = 30, height = 70, units = "in", res = 200)
+op <- par(mar = c(1, 4, 6, 1) + 0.1)
+
+make_figure()
+dev.off()
+par(op)
+pdf("chek2-cancer.gene.type-colors.pdf",
+   width = 30, height = 70)
+op <- par(mar = c(1, 4, 6, 1) + 0.1)
+make_figure()
+dev.off()
+par(op)
+
+write.table(hugo_colors, "chek2-hugo-colors.tsv",
+            quote = FALSE, sep = "\t", row.names = FALSE)
+
+d5.cancer.gene.type$cancer.gene.type <- as.character(d5.cancer.gene.type$cancer.gene.type)
+d5.cancer.gene.type$hugo <- as.character(d5.cancer.gene.type$hugo)
+d5.cancer.gene.type$color <- as.character(d5.cancer.gene.type$color)
+write.table(d5.cancer.gene.type, "chek2-cancer.gene.type-colors.tsv",
+            quote = FALSE, sep = "\t", row.names = FALSE)
+```
+**Note 1.** I had to convert the d5.cancer.gene.type table to characters before being able to write to a tsv file, as mentioned in this stack overflow discussion [here](https://stackoverflow.com/questions/24829027/unimplemented-type-list-when-trying-to-write-table).
+
+# (4) Writing figures to file
+
+
+Let's write a figure to a file, then load it back to embed it in this report.
+
+Merge color into data, as shown [here](https://github.com/jennybc/ggplot2-tutorial/blob/master/02-merge-color-into-data.r)
+
+```{r}
+library(plyr)
+hugo_colors_v2 <- read.delim("chek2-hugo-colors.tsv", colClasses = list(color = "character"), col.names = c("cancer.gene.type", "hugo", "hugo_color"))
+str(hugo_colors_v2)
+
+#insert color as a variable into d5
+d5 <- merge(d5, hugo_colors_v2)
+```
+
+Then we can use this to make plots, as Jenny Brian showed [here](https://github.com/jennybc/ggplot2-tutorial/blob/master/gapminder-ggplot2-shock-and-awe.md)
+
+```{r}
+color_scheme_hugo <- d5 %>%
+  select(hugo, hugo_color)
+head(color_scheme_hugo)
+p5 <- d5 %>%
+  filter(cancer.gene.type != "unknown") %>%
+  group_by(cancer.gene.type) %>%
+  ggplot(aes(x=log2(RPKM), y=FC.mean.Bodymap), na.rm=TRUE)
+p5 + geom_point(aes(shape=copy.category)) +
+  scale_size_continuous(range=c(1,40)) +
+  facet_wrap(~cancer.gene.type) +
+  aes(colour= hugo_color) + scale_colour_identity() +
+  theme_bw() + theme(strip.text = element_text(size = rel(1.1))) 
+ggsave("scratch-space/chek2_cancer_gene_type_color.png", width = 20, height = 20, units = "cm", dpi = 300)
+```
+**Note 1.** In the plot above, one might want to focus on the genes that have low expression (low RPKM) and copy loss, or high expression and copy gain, as these paired-values are more likely to be biologically relevant.
+
+![a_plot](scratch-space/chek2_cancer_gene_type_color.png)
+
+Resources:
+
+* ggplot tutorial of Jenny Brian [here](https://github.com/jennybc/ggplot2-tutorial)
+* use scale_colour_identity example [here](https://stackoverflow.com/questions/3079264/using-a-pre-defined-color-palette-in-ggplot)
 
 
 # (5) Organise your github

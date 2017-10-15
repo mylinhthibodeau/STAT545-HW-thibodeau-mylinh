@@ -1,0 +1,61 @@
+---
+title: "hw05-trials-errors-saved-history"
+author: "My Linh Thibodeau"
+date: '2017-10-14'
+output: github_document
+---
+
+```{r}
+suppressPackageStartupMessages(library(tidyverse))
+knitr::opts_chunk$set(fig.width=12, fig.height=9)
+library(knitr)
+library(kableExtra)
+options(knitr.table.format = "html")
+library(readr)
+#install.packages("tidygenomics") # Not used for now, but perhaps in another homework
+#library(tidygenomics) # Not used for now, but perhaps in another homework
+```
+
+
+READING A FILE
+
+FAILED 1
+```{r}
+chek2_rna_cnv <- read_table2("/Users/mylinh/Desktop/chek2-data-trial-stat545/chek2-rna-expression-cnv-data.txt")
+View(chek2_rna_cnv)
+sapply(chek2_rna_cnv, class)
+# class(chek2_rna_cnv)
+# typeof(chek2_rna_cnv)
+summary(chek2_rna_cnv) %>% kable("html") %>% kable_styling()
+dim(chek2_rna_cnv)
+```
+
+FAILED 2
+```{r}
+dget("/Users/mylinh/Desktop/chek2-data-trial-stat545/chek2-rna-expression-cnv-data.txt", keep.source = TRUE)
+```
+
+
+# Removed from (1A)
+
+
+```{r}
+gene_types_baseR <-  factor(chek2_rna_cnv$cancer.gene.type)
+gene_types_baseR %>% head(100) %>% kable("html") %>% kable_styling()
+gene_types_forcats <- as_factor(chek2_rna_cnv$cancer.gene.type)
+gene_types_forcats %>% head(100) %>% kable("html") %>% kable_styling()
+```
+
+# Removed from 1C
+
+```{r}
+chek2_rna_cnv$avg.TCGA.percentile <- as.numeric(chek2_rna_cnv$avg.TCGA.percentile) 
+class(chek2_rna_cnv$avg.TCGA.percentile)
+d3 <- chek2_rna_cnv %>%
+  filter(avg.TCGA.percentile != 0) %>%
+  arrange(avg.TCGA.percentile) %>%
+  group_by(cancer.gene.type) %>%
+  summarize(mean_by_type = mean(avg.TCGA.percentile)) %>%
+  mutate(exp_interpret = cut(RPKM, breaks = c(-Inf, 10, 90, Inf), labels =c("low", "middle", "high")))
+head(d3)
+```

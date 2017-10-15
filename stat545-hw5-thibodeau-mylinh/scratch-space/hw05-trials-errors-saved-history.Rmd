@@ -46,6 +46,7 @@ gene_types_forcats <- as_factor(chek2_rna_cnv$cancer.gene.type)
 gene_types_forcats %>% head(100) %>% kable("html") %>% kable_styling()
 ```
 
+
 # Removed from 1C
 
 ```{r}
@@ -58,4 +59,26 @@ d3 <- chek2_rna_cnv %>%
   summarize(mean_by_type = mean(avg.TCGA.percentile)) %>%
   mutate(exp_interpret = cut(RPKM, breaks = c(-Inf, 10, 90, Inf), labels =c("low", "middle", "high")))
 head(d3)
+```
+
+
+NOT WORKING
+
+Let's make a plot of the count for each avg.TCGA.percentile factor.
+```{r}
+p4 <- d2 %>%
+  group_by(cancer.gene.type) %>%
+  head(2000) %>%
+  ggplot(aes(x=avg.TCGA.percentile))
+p4 + geom_bar(aes(fill=cancer.gene.type))
+```
+
+Now, let's order them according to the ones with the maximum counts.
+
+```{r}
+p4 <- d2 %>%
+  group_by(cancer.gene.type) %>%
+  head(2000) %>%
+  ggplot(aes(x=avg.TCGA.percentile, y=fct_reorder(avg.TCGA.percentile, count)), na.rm=TRUE)
+p4 + geom_bar()
 ```

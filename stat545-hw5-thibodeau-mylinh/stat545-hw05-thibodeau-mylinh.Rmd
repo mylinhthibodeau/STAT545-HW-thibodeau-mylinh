@@ -74,11 +74,11 @@ dim(chek2_rna_cnv)
 
 Goals:
 
-1. Reorder a factor in a principled way based on the data and demonstrate the effect in arranged data and in figures.
-2. Improve a figure (or make one from scratch), using new knowledge, e.g., control the color scheme, use factor levels, smoother mechanics.
-3. Implement visualization design principles.
-4. Write some data to file and load it back into R. E.g., save a plot to file and include it in a R Markdown report via ![Alt text](/path/to/img.png).
-5. Organise your github, to celebrate the completion of STAT 545 and/or to prepare for the glorious future of STAT 547.
+*Reorder a factor in a principled way based on the data and demonstrate the effect in arranged data and in figures.
+* Improve a figure (or make one from scratch), using new knowledge, e.g., control the color scheme, use factor levels, smoother mechanics.
+* Implement visualization design principles.
+* Write some data to file and load it back into R. E.g., save a plot to file and include it in a R Markdown report via ![Alt text](/path/to/img.png).
+* Organise your github, to celebrate the completion of STAT 545 and/or to prepare for the glorious future of STAT 547.
 
 # (1) FACTOR MANAGEMENT
 
@@ -378,7 +378,6 @@ Expand into palettes big enough to cover each gene in a continent
 ```{r}
 library(plyr)
 d5 <- data.frame(d5)
-
 hugo_colors <- plyr::ddply(d5, ~cancer.gene.type, function(x) {
   the.cancer.gene.type <- x$cancer.gene.type[1]
   x <- droplevels(x)
@@ -395,7 +394,6 @@ xFudge <- 0.05
 jCex <- 0.75
 ```
 **Note 1.** ddply() is a function from the plyr package, as mentioned [here](https://groups.google.com/forum/#!topic/ggplot2/gT0Nmv1jqyE)
-
 
 We can then store the figure making code as a function so can make pdf and png.
 ```{r}
@@ -428,27 +426,27 @@ op <- par(mar = c(1, 4, 6, 1) + 0.1)
 
 make_figure()
 par(op)
-png("chek2-cancer.gene.type-colors.png",
+png("scratch-space/chek2-cancer.gene.type-colors.png",
     width = 30, height = 70, units = "in", res = 200)
 op <- par(mar = c(1, 4, 6, 1) + 0.1)
 
 make_figure()
 dev.off()
 par(op)
-pdf("chek2-cancer.gene.type-colors.pdf",
+pdf("scratch-space/chek2-cancer.gene.type-colors.pdf",
    width = 30, height = 70)
 op <- par(mar = c(1, 4, 6, 1) + 0.1)
 make_figure()
 dev.off()
 par(op)
 
-write.table(hugo_colors, "chek2-hugo-colors.tsv",
+write.table(hugo_colors, "scratch-space/chek2-hugo-colors.tsv",
             quote = FALSE, sep = "\t", row.names = FALSE)
 
 d5.cancer.gene.type$cancer.gene.type <- as.character(d5.cancer.gene.type$cancer.gene.type)
 d5.cancer.gene.type$hugo <- as.character(d5.cancer.gene.type$hugo)
 d5.cancer.gene.type$color <- as.character(d5.cancer.gene.type$color)
-write.table(d5.cancer.gene.type, "chek2-cancer.gene.type-colors.tsv",
+write.table(d5.cancer.gene.type, "scratch-space/chek2-cancer.gene.type-colors.tsv",
             quote = FALSE, sep = "\t", row.names = FALSE)
 ```
 **Note 1.** I had to convert the d5.cancer.gene.type table to characters before being able to write to a tsv file, as mentioned in this stack overflow discussion [here](https://stackoverflow.com/questions/24829027/unimplemented-type-list-when-trying-to-write-table).
@@ -462,7 +460,7 @@ Merge color into data, as shown [here](https://github.com/jennybc/ggplot2-tutori
 
 ```{r}
 library(plyr)
-hugo_colors_v2 <- read.delim("chek2-hugo-colors.tsv", colClasses = list(color = "character"), col.names = c("cancer.gene.type", "hugo", "hugo_color"))
+hugo_colors_v2 <- read.delim("scratch-space/chek2-hugo-colors.tsv", colClasses = list(color = "character"), col.names = c("cancer.gene.type", "hugo", "hugo_color"))
 str(hugo_colors_v2)
 
 #insert color as a variable into d5
@@ -490,6 +488,40 @@ ggsave("scratch-space/chek2_cancer_gene_type_color.png", width = 20, height = 20
 
 ![a_plot](scratch-space/chek2_cancer_gene_type_color.png)
 
+If you are generating two plots in the same code chunk, you need to specify which plot to save with ggsave. For example, let's take the same plots previously shown.
+
+```{r}
+p4 <- d2 %>%
+  group_by(cancer.gene.type) %>%
+  head(2000) %>%
+  ggplot(aes(x=avg.TCGA.percentile))
+p4_unordered <- p4 + geom_bar(aes(fill=cancer.gene.type))
+p4 <- d2 %>%
+  group_by(cancer.gene.type) %>%
+  head(2000) %>%
+  ggplot(aes(x=fct_infreq(avg.TCGA.percentile)))
+p4 + geom_bar(aes(fill=cancer.gene.type))
+p4_ordered <- p4 + geom_bar(aes(fill=cancer.gene.type))
+ggsave("scratch-space/p4_ordered.png", width = 20, height = 20, units = "cm", dpi = 300)
+```
+
+By default, ggsave use the last stored plot to save to the file, so if you want to save the first plot, you have to specify which plot you want to save with the argument plot = p4_unordered in our case.
+
+```{r}
+p4 <- d2 %>%
+  group_by(cancer.gene.type) %>%
+  head(2000) %>%
+  ggplot(aes(x=avg.TCGA.percentile))
+p4_unordered <- p4 + geom_bar(aes(fill=cancer.gene.type))
+p4 <- d2 %>%
+  group_by(cancer.gene.type) %>%
+  head(2000) %>%
+  ggplot(aes(x=fct_infreq(avg.TCGA.percentile)))
+p4 + geom_bar(aes(fill=cancer.gene.type))
+p4_ordered <- p4 + geom_bar(aes(fill=cancer.gene.type))
+ggsave("scratch-space/p4_unordered.png", plot=p4_unordered, width = 20, height = 20, units = "cm", dpi = 300)
+```
+
 Resources:
 
 * ggplot tutorial of Jenny Brian [here](https://github.com/jennybc/ggplot2-tutorial)
@@ -497,3 +529,10 @@ Resources:
 
 
 # (5) Organise your github
+
+## Some strategies to keep my github repository tidy
+
+I have used some strategies to keep my repository clean and organized:
+
+* For each folder, I am using a scratch-space subfolder that contains the figures and table files generated manually. This approach avoids having numerour files in the main repository, which makes it difficult for the reader to find the specific file to review. However, in order to do so, I need to plan in advance and remember to save the files in the scratch-space.
+* 

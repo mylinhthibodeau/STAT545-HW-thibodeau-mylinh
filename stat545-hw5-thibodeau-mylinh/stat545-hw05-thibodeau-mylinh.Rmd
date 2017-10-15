@@ -300,11 +300,18 @@ Answer: Please refer above for several tables, ways of counting and dropping lev
 Resources: 
 [tidyverse and readr](https://github.com/tidyverse/readr/issues)
 
+***
+
 # (2) FILE I/O
 
-## The examples of using read input and write ouput to a file are scattered across this homework !
 
-* It starts in the section "Get the data and clean the data" where I used read.table() to load the data into chek2_rna_cnv
+## The examples of using read input and write ouput to a file are scattered across the homework
+
+
+* It starts in the section "Get the data and clean the data" where I used read.table() to load the data into chek2_rna_cnv. As mentioned when I created the data.frame, I experienced challenges trying to use functions like write_ts/read_tsv, so I kept read.table() as my go to. 
+* There is another example using read.delim() in the section below to merge the chek2_hugo_colors information to the data.frame and to make a plot with that color system.
+
+***
 
 # (3) Visualization design - Improve a figure 
 
@@ -330,7 +337,6 @@ d5$cancer.gene.type <- as.vector(d5$cancer.gene.type)
 d5$cancer.gene.type <- gsub("; ", ".", d5$cancer.gene.type)
 d5$cancer.gene.type <- gsub(" ", "", d5$cancer.gene.type)
 ```
-
 
 cancer.gene.type-level info
 ```{r}

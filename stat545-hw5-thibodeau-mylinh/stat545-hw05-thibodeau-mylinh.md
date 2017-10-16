@@ -629,8 +629,8 @@ p1 <- d2 %>%
   labs(x="hugo genes")
 p1 + geom_point(aes(colour=cancer.gene.type), size = 2, alpha=0.9, shape=21) + 
   theme(
-    plot.title= element_text(color = "grey44", size=20, face="bold"),
-    text = element_text(size=16), 
+    plot.title= element_text(color = "grey44", size=24, face="bold"),
+    text = element_text(size=18), 
     #axis.title.x=element_blank(), 
     axis.text.x = element_blank(), 
     axis.ticks.x=element_blank())
@@ -657,8 +657,8 @@ p1 <- d2 %>%
   labs(x="hugo genes")
 p1 + geom_point(aes(colour=cancer.gene.type), size = 2, alpha=0.9, shape=21) + 
   theme(
-    plot.title= element_text(color = "grey44", size=20, face="bold"),
-    text = element_text(size=16), 
+    plot.title= element_text(color = "grey44", size=24, face="bold"),
+    text = element_text(size=18), 
     #axis.title.x=element_blank(), 
     axis.text.x = element_blank(), 
     axis.ticks.x=element_blank())
@@ -701,9 +701,9 @@ d3.mean.percentile.by.type  %>% kable(format = "markdown", align="c")
 p3 <- d3.mean.percentile.by.type %>%
   ggplot(aes(x=cancer.gene.type, y = mean.percentile.by.type)) +
   ggtitle("Mean percentile for each cancer.gene.type factor")
-p3 + geom_point() + theme(
-  plot.title= element_text(color = "grey44", size=20, face="bold"),
-  text = element_text(size=16), axis.text.x = element_text(angle=45, hjust=1))
+p3 + geom_point(aes(colour=cancer.gene.type), size=6) + theme(
+  plot.title= element_text(color = "grey44", size=24, face="bold"),
+  text = element_text(size=18), axis.text.x = element_text(angle=45, hjust=1))
 ```
 
 ![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-12-1.png)
@@ -713,9 +713,9 @@ p3 + geom_point() + theme(
 p3 <- d3.mean.percentile.by.type %>%
   ggplot(aes(x=fct_reorder(cancer.gene.type, mean.percentile.by.type), y = mean.percentile.by.type)) +
   ggtitle("Ordered - Mean percentile for each cancer.gene.type factor")
-p3 + geom_point() + theme(
-  plot.title= element_text(color = "grey44", size=18, face="bold"),
-  text = element_text(size=16), axis.text.x = element_text(angle=45, hjust=1))
+p3 + geom_point(aes(colour=cancer.gene.type), size=6) + theme(
+  plot.title= element_text(color = "grey44", size=24, face="bold"),
+  text = element_text(size=18), axis.text.x = element_text(angle=45, hjust=1))
 ```
 
 ![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-12-2.png)
@@ -814,8 +814,8 @@ p4 <- d2 %>%
   labs(x="avg.TCGA.percentile")
 p4 + geom_bar(aes(fill=cancer.gene.type)) + 
   theme(
-  plot.title= element_text(color = "grey44", size=20, face="bold"),
-  text = element_text(size=16))
+  plot.title= element_text(color = "grey44", size=24, face="bold"),
+  text = element_text(size=18))
 ```
 
 ![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-15-1.png)
@@ -1184,8 +1184,8 @@ p4 <- d2 %>%
   labs(x="avg.TCGA.percentile")
 p4 + geom_bar(aes(fill=cancer.gene.type)) + 
   theme(
-  plot.title= element_text(color = "grey44", size=20, face="bold"),
-  text = element_text(size=16))
+  plot.title= element_text(color = "grey44", size=24, face="bold"),
+  text = element_text(size=18))
 ```
 
 ![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-24-1.png)
@@ -1199,8 +1199,8 @@ p4 <- d2 %>%
   labs(x="Ordered factor - avg.TCGA.percentile")
 p4 + geom_bar(aes(fill=cancer.gene.type)) +
   theme(
-  plot.title= element_text(color = "grey44", size=20, face="bold"),
-  text = element_text(size=16))
+  plot.title= element_text(color = "grey44", size=24, face="bold"),
+  text = element_text(size=18))
 ```
 
 ![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-24-2.png)
@@ -1220,8 +1220,8 @@ p4_unordered <- d2 %>%
   labs(x="avg.TCGA.percentile")
 p4_unordered + geom_bar(aes(fill=cancer.gene.type)) + 
   theme(
-  plot.title= element_text(color = "grey44", size=20, face="bold"),
-  text = element_text(size=16))
+  plot.title= element_text(color = "grey44", size=24, face="bold"),
+  text = element_text(size=18))
 ```
 
 ![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-25-1.png)
@@ -1235,8 +1235,8 @@ p4 <- d2 %>%
   labs(x="Ordered factor - avg.TCGA.percentile")
 p4 + geom_bar(aes(fill=cancer.gene.type)) +
   theme(
-  plot.title= element_text(color = "grey44", size=20, face="bold"),
-  text = element_text(size=16))
+  plot.title= element_text(color = "grey44", size=24, face="bold"),
+  text = element_text(size=18))
 ```
 
 ![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-25-2.png)

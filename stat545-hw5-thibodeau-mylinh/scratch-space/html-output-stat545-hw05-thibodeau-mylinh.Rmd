@@ -1,16 +1,21 @@
+
 ---
-title: "stat545-hw05-thibodeau-mylinh"
+title: "html-output-stat545-hw05-thibodeau-mylinh"
 author: "My Linh Thibodeau"
-date: '2017-10-14'
-output: github_document
+date: '2017-10-15'
+output: 
+  html_document:
+  keep_md: true
 ---
+
+Resource on github document format [here](http://rmarkdown.rstudio.com/github_document_format.html), on html format [here](http://rmarkdown.rstudio.com/html_document_format.html)
 
 ```{r}
 suppressPackageStartupMessages(library(tidyverse))
 knitr::opts_chunk$set(fig.width=12, fig.height=9)
 library(knitr)
 library(kableExtra)
-options(knitr.table.format = "markdown")
+options(knitr.table.format = "html")
 library(readr)
 library(forcats)
 #install.packages("gdata")
@@ -42,7 +47,7 @@ chek2_rna_cnv <- read.table("/Users/mylinh/Desktop/chek2-data-trial-stat545/chek
 View(chek2_rna_cnv) 
 # class(chek2_rna_cnv)
 # typeof(chek2_rna_cnv)
-summary(chek2_rna_cnv) %>% kable(format = "markdown", align="c")
+summary(chek2_rna_cnv) %>% kable(format = "html") %>% kable_styling(bootstrap_options = c("striped", "hover", "condensed"), position = "center")
 dim(chek2_rna_cnv)
 ```
 
@@ -92,7 +97,7 @@ Transform some of the variable of chek2_rna_cnv into factors. In cleaning up the
 
 Let's see what class of data we have in chek2_rna_cnv first. 
 ```{r}
-sapply(chek2_rna_cnv, class) %>% kable(format = "markdown", align="c")
+sapply(chek2_rna_cnv, class) %>% kable(format = "html") %>% kable_styling(bootstrap_options = c("striped", "hover", "condensed"), position = "center")
 ```
 
 Change the avg.TCGA.percentile (class integer) to factors with base R:
@@ -101,7 +106,7 @@ d0 <- chek2_rna_cnv
 d0$avg.TCGA.percentile <- as.factor(d0$avg.TCGA.percentile)
 d0 %>% 
   select(hugo,avg.TCGA.percentile) %>%
-  head(10) %>% kable(format = "markdown", align="c")
+  head(10) %>% kable(format = "html") %>% kable_styling(bootstrap_options = c("striped", "hover", "condensed"), position = "center")
 nlevels(d0$avg.TCGA.percentile)
 ```
 
@@ -111,7 +116,7 @@ Change the avg.TCGA.percentile (class integer) to factors with forcats:
 d0$avg.TCGA.percentile <- as_factor(d0$avg.TCGA.percentile) 
 d0 %>% 
   select(hugo,avg.TCGA.percentile) %>%
-  head(10) %>% kable(format = "markdown", align="c")
+  head(10) %>% kable(format = "html") %>% kable_styling(bootstrap_options = c("striped", "hover", "condensed"), position = "center")
 ```
 
 In my case, I obtain the same result with base R and forcats with the avg.TCGA.percentile as factors, although I know that base R has a tendency to try re-ordering the data, which is not alway what we want, but the code syntax I used did not lead to this problem for me. 
@@ -233,7 +238,7 @@ d3 <- chek2_rna_cnv %>%
 d3.mean.percentile.by.type <- d3 %>%  
   group_by(cancer.gene.type) %>%
   dplyr::summarize(mean.percentile.by.type = mean(avg.TCGA.percentile))
-d3.mean.percentile.by.type  %>% kable(format = "markdown", align="c")
+d3.mean.percentile.by.type  %>% kable(format = "html") %>% kable_styling(bootstrap_options = c("striped", "hover", "condensed"), position = "center")
 
 # cancer.gene.type factors in alphabetical order
 p3 <- d3.mean.percentile.by.type %>%
@@ -251,8 +256,8 @@ p3 + geom_point() + theme(text = element_text(size=12), axis.text.x = element_te
 
 We can also order the data.frame factors according to their frequency. 
 ```{r}
-levels(d3$cancer.gene.type) %>% kable(format = "markdown", align="c")
-d3$cancer.gene.type %>% forcats::fct_infreq() %>% levels() %>% kable(format = "markdown", align="c")
+levels(d3$cancer.gene.type) %>% kable(format = "html") %>% kable_styling(bootstrap_options = c("striped", "hover", "condensed"), position = "center")
+d3$cancer.gene.type %>% forcats::fct_infreq() %>% levels() %>% kable(format = "html") %>% kable_styling(bootstrap_options = c("striped", "hover", "condensed"), position = "center")
 ```
 
 **Note 1.** So the most frequent factor is "NA", followed by "putative tumour suppressor", etc.
@@ -261,8 +266,8 @@ We can also re-order the factors avg.TCGA.percentile according to their frequenc
 
 ```{r}
 d3$avg.TCGA.percentile <- factor(d3$avg.TCGA.percentile) 
-levels(d3$avg.TCGA.percentile) %>% head(5) %>% kable(format = "markdown", align="c")
-d3$avg.TCGA.percentile %>% forcats::fct_infreq() %>% levels() %>% head(5) %>% kable(format = "markdown", align="c")
+levels(d3$avg.TCGA.percentile) %>% head(5) %>% kable(format = "html") %>% kable_styling(bootstrap_options = c("striped", "hover", "condensed"), position = "center")
+d3$avg.TCGA.percentile %>% forcats::fct_infreq() %>% levels() %>% head(5) %>% kable(format = "html") %>% kable_styling(bootstrap_options = c("striped", "hover", "condensed"), position = "center")
 ```
 
 **Note 1.** The most frequent avg.TCGA.percentile factor is 49, therefore, we know that there is a high number of hugo genes with a gene expression level at the 49th percentile.
@@ -337,7 +342,7 @@ First, the values of cancer.gene.type (stored in gene_types) are too long, let's
 abbreviations_gene_types  <- factor(c("unknown", "ONC", "ONC.pTS", "ONC.TS", "pONC", "pONC.pTS", "pONC.TS", "pTS", "TS"))
 abbreviations_gene_types <- as.character(abbreviations_gene_types)
 abbr_table <- data.frame(Abbreviation = abbreviations_gene_types, cancer.gene.type = gene_types)
-abbr_table %>% kable(format = "markdown", align="c")
+abbr_table %>% kable(format = "html") %>% kable_styling(bootstrap_options = c("striped", "hover", "condensed"), position = "center")
 d5 <- d0
 d5$cancer.gene.type <- as.character(d5$cancer.gene.type)
 d5$cancer.gene.type <- gsub("NA", "unknown", d5$cancer.gene.type)
@@ -357,7 +362,7 @@ dim(d5)
 d5.cancer.gene.type <- aggregate(hugo~cancer.gene.type, d5, function(x) length(unique(x)))
 n.cancer.gene.type <- nrow(d5.cancer.gene.type)
 n.cancer.gene.type
-d5.cancer.gene.type %>% kable(format = "markdown", align="c")
+d5.cancer.gene.type %>% kable(format = "html") %>% kable_styling(bootstrap_options = c("striped", "hover", "condensed"), position = "center")
 ```
 
 **Note 1.** I realized later on that it was not feasible to keep the unknown values, there were too many, so I had to filter them out.
@@ -438,27 +443,27 @@ op <- par(mar = c(1, 4, 6, 1) + 0.1)
 
 make_figure()
 par(op)
-png("scratch-space/chek2-cancer.gene.type-colors.png",
+png("chek2-cancer.gene.type-colors.png",
     width = 30, height = 70, units = "in", res = 200)
 op <- par(mar = c(1, 4, 6, 1) + 0.1)
 
 make_figure()
 dev.off()
 par(op)
-pdf("scratch-space/chek2-cancer.gene.type-colors.pdf",
+pdf("chek2-cancer.gene.type-colors.pdf",
    width = 30, height = 70)
 op <- par(mar = c(1, 4, 6, 1) + 0.1)
 make_figure()
 dev.off()
 par(op)
 
-write.table(hugo_colors, "scratch-space/chek2-hugo-colors.tsv",
+write.table(hugo_colors, "scratch-space2/chek2-hugo-colors.tsv",
             quote = FALSE, sep = "\t", row.names = FALSE)
 
 d5.cancer.gene.type$cancer.gene.type <- as.character(d5.cancer.gene.type$cancer.gene.type)
 d5.cancer.gene.type$hugo <- as.character(d5.cancer.gene.type$hugo)
 d5.cancer.gene.type$color <- as.character(d5.cancer.gene.type$color)
-write.table(d5.cancer.gene.type, "scratch-space/chek2-cancer.gene.type-colors.tsv",
+write.table(d5.cancer.gene.type, "scratch-space2/chek2-cancer.gene.type-colors.tsv",
             quote = FALSE, sep = "\t", row.names = FALSE)
 ```
 **Note 1.** I had to convert the d5.cancer.gene.type table to characters before being able to write to a tsv file, as mentioned in this stack overflow discussion [here](https://stackoverflow.com/questions/24829027/unimplemented-type-list-when-trying-to-write-table).
@@ -472,7 +477,7 @@ Merge color into data, as shown [here](https://github.com/jennybc/ggplot2-tutori
 
 ```{r}
 library(plyr)
-hugo_colors_v2 <- read.delim("scratch-space/chek2-hugo-colors.tsv", colClasses = list(color = "character"), col.names = c("cancer.gene.type", "hugo", "hugo_color"))
+hugo_colors_v2 <- read.delim("scratch-space2/chek2-hugo-colors.tsv", colClasses = list(color = "character"), col.names = c("cancer.gene.type", "hugo", "hugo_color"))
 str(hugo_colors_v2)
 
 #insert color as a variable into d5
@@ -494,13 +499,13 @@ p5 + geom_point(aes(shape=copy.category)) +
   facet_wrap(~cancer.gene.type) +
   aes(colour= hugo_color) + scale_colour_identity() +
   theme_bw() + theme(strip.text = element_text(size = rel(1.1))) 
-ggsave("scratch-space/chek2_cancer_gene_type_color_plot.png", width = 20, height = 20, units = "cm", dpi = 300)
+ggsave("scratch-space2/chek2_cancer_gene_type_color_plot.png", width = 20, height = 20, units = "cm", dpi = 300)
 ```
 **Note 1.** In the plot above, one might want to focus on the genes that have low expression (low RPKM) and copy loss, or high expression and copy gain, as these paired-values are more likely to be biologically relevant.
 
 Now, let's load the plot I just created with the Rmarkdown syntax ![Alt text](/path/to/img.png).
 
-![a_plot](scratch-space/chek2_cancer_gene_type_color_plot.png)
+![a_plot](chek2_cancer_gene_type_color_plot.png)
 
 If you are generating two plots in the same code chunk, you need to specify which plot to save with ggsave. For example, let's take the same plots previously shown.
 
@@ -516,7 +521,7 @@ p4 <- d2 %>%
   ggplot(aes(x=fct_infreq(avg.TCGA.percentile)))
 p4 + geom_bar(aes(fill=cancer.gene.type))
 p4_ordered <- p4 + geom_bar(aes(fill=cancer.gene.type))
-ggsave("scratch-space/p4_ordered.png", width = 20, height = 20, units = "cm", dpi = 300)
+ggsave("scratch-space2/p4_ordered.png", width = 20, height = 20, units = "cm", dpi = 300)
 ```
 
 By default, ggsave use the last stored plot to save to the file, so if you want to save the first plot, you have to specify which plot you want to save with the argument plot = p4_unordered in our case.
@@ -533,7 +538,7 @@ p4 <- d2 %>%
   ggplot(aes(x=fct_infreq(avg.TCGA.percentile)))
 p4 + geom_bar(aes(fill=cancer.gene.type))
 p4_ordered <- p4 + geom_bar(aes(fill=cancer.gene.type))
-ggsave("scratch-space/p4_unordered.png", plot=p4_unordered, width = 20, height = 20, units = "cm", dpi = 300)
+ggsave("scratch-space2/p4_unordered.png", plot=p4_unordered, width = 20, height = 20, units = "cm", dpi = 300)
 ```
 
 Resources:

@@ -41,7 +41,8 @@ d1 %>%
   kable("html") %>% kable_styling()
 ```
 
-## (1) GROUP   
+## (1) GROUP
+
 
 * Objective: group gene.type and copy.state, when count the number of rows (pairs) and the sum of the copy.number for each pair.
 

@@ -11,7 +11,7 @@ knitr::opts_chunk$set(fig.width=12, fig.height=9)
 library(knitr)
 library(kableExtra)
 library(reshape2)
-options(knitr.table.format = "html")
+options(knitr.table.format = "markdown")
 ```
 
 # Essentials of data joining with dplyr - A table is worth a thousand words !
@@ -36,14 +36,14 @@ options(knitr.table.format = "html")
 
 ```{r}
 d1 <- read.table("scratch-space/small_dataframe_example.txt",sep = "\t", header = TRUE)
-d1 %>% kable("html") %>% kable_styling()
+d1 %>% kable("markdown") %>% kable_styling()
 ```
 
 ### DATASET d2  
 
 ```{r}
 d2 <- read.table("scratch-space/small_dataframe_example_2.txt",sep = "\t", header = TRUE)
-d2 %>% kable("html") %>% kable_styling()
+d2 %>% kable("markdown") %>% kable_styling()
 ```
 ***
 
@@ -52,27 +52,27 @@ d2 %>% kable("html") %>% kable_styling()
 ### (1) left_join  
 
 ```{r}
-left_join(d1, d2, by = "gene") %>% kable("html") %>% kable_styling()
+left_join(d1, d2, by = "gene") %>% kable("markdown") %>% kable_styling()
 ```
 
 
 ### (2) right_join    
 
 ```{r}
-right_join(d1, d2, by = "gene") %>% kable("html") %>% kable_styling()
+right_join(d1, d2, by = "gene") %>% kable("markdown") %>% kable_styling()
 ```
 
 ### (3) inner_join    
 
 ```{r}
-inner_join(d1, d2, by = "gene") %>% kable("html") %>% kable_styling()
+inner_join(d1, d2, by = "gene") %>% kable("markdown") %>% kable_styling()
 ```
 
 
 ### (4) full_join    
 
 ```{r}
-full_join(d1, d2, by = "gene") %>% kable("html") %>% kable_styling()
+full_join(d1, d2, by = "gene") %>% kable("markdown") %>% kable_styling()
 ``` 
 
 ***
@@ -82,13 +82,13 @@ full_join(d1, d2, by = "gene") %>% kable("html") %>% kable_styling()
 ### (5) semi_join    
 
 ```{r}
-semi_join(d1, d2, by = "gene") %>% kable("html") %>% kable_styling()
+semi_join(d1, d2, by = "gene") %>% kable("markdown") %>% kable_styling()
 ```
 
 ### (6) anti_join       
 
 ```{r}
-anti_join(d1, d2, by = "gene") %>% kable("html") %>% kable_styling()
+anti_join(d1, d2, by = "gene") %>% kable("markdown") %>% kable_styling()
 ```
 
 ***

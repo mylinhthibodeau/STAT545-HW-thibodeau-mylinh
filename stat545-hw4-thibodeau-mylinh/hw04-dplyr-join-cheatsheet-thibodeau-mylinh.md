@@ -24,7 +24,7 @@ library(reshape2)
     ##     smiths
 
 ``` r
-options(knitr.table.format = "html")
+options(knitr.table.format = "markdown")
 ```
 
 Essentials of data joining with dplyr - A table is worth a thousand words !
@@ -51,190 +51,38 @@ Considering two data.frame d1 and d2
 
 ``` r
 d1 <- read.table("scratch-space/small_dataframe_example.txt",sep = "\t", header = TRUE)
-d1 %>% kable("html") %>% kable_styling()
+d1 %>% kable("markdown") %>% kable_styling()
 ```
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-gene.type
-</th>
-<th style="text-align:left;">
-gene
-</th>
-<th style="text-align:left;">
-expression
-</th>
-<th style="text-align:right;">
-copy.number
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-TP53
-</td>
-<td style="text-align:left;">
-very.low
-</td>
-<td style="text-align:right;">
-0
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-FLCN
-</td>
-<td style="text-align:left;">
-average
-</td>
-<td style="text-align:right;">
-4
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-SBHD
-</td>
-<td style="text-align:left;">
-very.low
-</td>
-<td style="text-align:right;">
-3
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-RB1
-</td>
-<td style="text-align:left;">
-low
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-KRAS
-</td>
-<td style="text-align:left;">
-very.high
-</td>
-<td style="text-align:right;">
-5
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-EGFR
-</td>
-<td style="text-align:left;">
-high
-</td>
-<td style="text-align:right;">
-0
-</td>
-</tr>
-</tbody>
-</table>
+    ## Currently generic markdown table using pandoc is not supported.
+
+| gene.type | gene | expression |  copy.number|
+|:----------|:-----|:-----------|------------:|
+| TS        | TP53 | very.low   |            0|
+| TS        | FLCN | average    |            4|
+| TS        | SBHD | very.low   |            3|
+| TS        | RB1  | low        |            1|
+| ONC       | KRAS | very.high  |            5|
+| ONC       | EGFR | high       |            0|
+
 ### DATASET d2
 
 ``` r
 d2 <- read.table("scratch-space/small_dataframe_example_2.txt",sep = "\t", header = TRUE)
-d2 %>% kable("html") %>% kable_styling()
+d2 %>% kable("markdown") %>% kable_styling()
 ```
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-gene
-</th>
-<th style="text-align:left;">
-IHC
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-TP53
-</td>
-<td style="text-align:left;">
-absent
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-FLCN
-</td>
-<td style="text-align:left;">
-normal
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SBHD
-</td>
-<td style="text-align:left;">
-absent
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-RB1
-</td>
-<td style="text-align:left;">
-absent
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-KRAS
-</td>
-<td style="text-align:left;">
-strong
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-EGFR
-</td>
-<td style="text-align:left;">
-normal
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-PALB2
-</td>
-<td style="text-align:left;">
-normal
-</td>
-</tr>
-</tbody>
-</table>
+    ## Currently generic markdown table using pandoc is not supported.
+
+| gene  | IHC    |
+|:------|:-------|
+| TP53  | absent |
+| FLCN  | normal |
+| SBHD  | absent |
+| RB1   | absent |
+| KRAS  | strong |
+| EGFR  | normal |
+| PALB2 | normal |
 
 ------------------------------------------------------------------------
 
@@ -244,573 +92,84 @@ MUTATING JOIN
 ### (1) left\_join
 
 ``` r
-left_join(d1, d2, by = "gene") %>% kable("html") %>% kable_styling()
+left_join(d1, d2, by = "gene") %>% kable("markdown") %>% kable_styling()
 ```
 
     ## Warning: Column `gene` joining factors with different levels, coercing to
     ## character vector
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-gene.type
-</th>
-<th style="text-align:left;">
-gene
-</th>
-<th style="text-align:left;">
-expression
-</th>
-<th style="text-align:right;">
-copy.number
-</th>
-<th style="text-align:left;">
-IHC
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-TP53
-</td>
-<td style="text-align:left;">
-very.low
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:left;">
-absent
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-FLCN
-</td>
-<td style="text-align:left;">
-average
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:left;">
-normal
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-SBHD
-</td>
-<td style="text-align:left;">
-very.low
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:left;">
-absent
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-RB1
-</td>
-<td style="text-align:left;">
-low
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-absent
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-KRAS
-</td>
-<td style="text-align:left;">
-very.high
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:left;">
-strong
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-EGFR
-</td>
-<td style="text-align:left;">
-high
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:left;">
-normal
-</td>
-</tr>
-</tbody>
-</table>
+    ## Currently generic markdown table using pandoc is not supported.
+
+| gene.type | gene | expression |  copy.number| IHC    |
+|:----------|:-----|:-----------|------------:|:-------|
+| TS        | TP53 | very.low   |            0| absent |
+| TS        | FLCN | average    |            4| normal |
+| TS        | SBHD | very.low   |            3| absent |
+| TS        | RB1  | low        |            1| absent |
+| ONC       | KRAS | very.high  |            5| strong |
+| ONC       | EGFR | high       |            0| normal |
+
 ### (2) right\_join
 
 ``` r
-right_join(d1, d2, by = "gene") %>% kable("html") %>% kable_styling()
+right_join(d1, d2, by = "gene") %>% kable("markdown") %>% kable_styling()
 ```
 
     ## Warning: Column `gene` joining factors with different levels, coercing to
     ## character vector
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-gene.type
-</th>
-<th style="text-align:left;">
-gene
-</th>
-<th style="text-align:left;">
-expression
-</th>
-<th style="text-align:right;">
-copy.number
-</th>
-<th style="text-align:left;">
-IHC
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-TP53
-</td>
-<td style="text-align:left;">
-very.low
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:left;">
-absent
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-FLCN
-</td>
-<td style="text-align:left;">
-average
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:left;">
-normal
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-SBHD
-</td>
-<td style="text-align:left;">
-very.low
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:left;">
-absent
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-RB1
-</td>
-<td style="text-align:left;">
-low
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-absent
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-KRAS
-</td>
-<td style="text-align:left;">
-very.high
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:left;">
-strong
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-EGFR
-</td>
-<td style="text-align:left;">
-high
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:left;">
-normal
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-PALB2
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-normal
-</td>
-</tr>
-</tbody>
-</table>
+    ## Currently generic markdown table using pandoc is not supported.
+
+| gene.type | gene  | expression |  copy.number| IHC    |
+|:----------|:------|:-----------|------------:|:-------|
+| TS        | TP53  | very.low   |            0| absent |
+| TS        | FLCN  | average    |            4| normal |
+| TS        | SBHD  | very.low   |            3| absent |
+| TS        | RB1   | low        |            1| absent |
+| ONC       | KRAS  | very.high  |            5| strong |
+| ONC       | EGFR  | high       |            0| normal |
+| NA        | PALB2 | NA         |           NA| normal |
+
 ### (3) inner\_join
 
 ``` r
-inner_join(d1, d2, by = "gene") %>% kable("html") %>% kable_styling()
+inner_join(d1, d2, by = "gene") %>% kable("markdown") %>% kable_styling()
 ```
 
     ## Warning: Column `gene` joining factors with different levels, coercing to
     ## character vector
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-gene.type
-</th>
-<th style="text-align:left;">
-gene
-</th>
-<th style="text-align:left;">
-expression
-</th>
-<th style="text-align:right;">
-copy.number
-</th>
-<th style="text-align:left;">
-IHC
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-TP53
-</td>
-<td style="text-align:left;">
-very.low
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:left;">
-absent
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-FLCN
-</td>
-<td style="text-align:left;">
-average
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:left;">
-normal
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-SBHD
-</td>
-<td style="text-align:left;">
-very.low
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:left;">
-absent
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-RB1
-</td>
-<td style="text-align:left;">
-low
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-absent
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-KRAS
-</td>
-<td style="text-align:left;">
-very.high
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:left;">
-strong
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-EGFR
-</td>
-<td style="text-align:left;">
-high
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:left;">
-normal
-</td>
-</tr>
-</tbody>
-</table>
+    ## Currently generic markdown table using pandoc is not supported.
+
+| gene.type | gene | expression |  copy.number| IHC    |
+|:----------|:-----|:-----------|------------:|:-------|
+| TS        | TP53 | very.low   |            0| absent |
+| TS        | FLCN | average    |            4| normal |
+| TS        | SBHD | very.low   |            3| absent |
+| TS        | RB1  | low        |            1| absent |
+| ONC       | KRAS | very.high  |            5| strong |
+| ONC       | EGFR | high       |            0| normal |
+
 ### (4) full\_join
 
 ``` r
-full_join(d1, d2, by = "gene") %>% kable("html") %>% kable_styling()
+full_join(d1, d2, by = "gene") %>% kable("markdown") %>% kable_styling()
 ```
 
     ## Warning: Column `gene` joining factors with different levels, coercing to
     ## character vector
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-gene.type
-</th>
-<th style="text-align:left;">
-gene
-</th>
-<th style="text-align:left;">
-expression
-</th>
-<th style="text-align:right;">
-copy.number
-</th>
-<th style="text-align:left;">
-IHC
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-TP53
-</td>
-<td style="text-align:left;">
-very.low
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:left;">
-absent
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-FLCN
-</td>
-<td style="text-align:left;">
-average
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:left;">
-normal
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-SBHD
-</td>
-<td style="text-align:left;">
-very.low
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:left;">
-absent
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-RB1
-</td>
-<td style="text-align:left;">
-low
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-absent
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-KRAS
-</td>
-<td style="text-align:left;">
-very.high
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:left;">
-strong
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-EGFR
-</td>
-<td style="text-align:left;">
-high
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:left;">
-normal
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-PALB2
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-normal
-</td>
-</tr>
-</tbody>
-</table>
+    ## Currently generic markdown table using pandoc is not supported.
+
+| gene.type | gene  | expression |  copy.number| IHC    |
+|:----------|:------|:-----------|------------:|:-------|
+| TS        | TP53  | very.low   |            0| absent |
+| TS        | FLCN  | average    |            4| normal |
+| TS        | SBHD  | very.low   |            3| absent |
+| TS        | RB1   | low        |            1| absent |
+| ONC       | KRAS  | very.high  |            5| strong |
+| ONC       | EGFR  | high       |            0| normal |
+| NA        | PALB2 | NA         |           NA| normal |
 
 ------------------------------------------------------------------------
 
@@ -820,147 +179,36 @@ FILTERING JOIN
 ### (5) semi\_join
 
 ``` r
-semi_join(d1, d2, by = "gene") %>% kable("html") %>% kable_styling()
+semi_join(d1, d2, by = "gene") %>% kable("markdown") %>% kable_styling()
 ```
 
     ## Warning: Column `gene` joining factors with different levels, coercing to
     ## character vector
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-gene.type
-</th>
-<th style="text-align:left;">
-gene
-</th>
-<th style="text-align:left;">
-expression
-</th>
-<th style="text-align:right;">
-copy.number
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-TP53
-</td>
-<td style="text-align:left;">
-very.low
-</td>
-<td style="text-align:right;">
-0
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-FLCN
-</td>
-<td style="text-align:left;">
-average
-</td>
-<td style="text-align:right;">
-4
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-SBHD
-</td>
-<td style="text-align:left;">
-very.low
-</td>
-<td style="text-align:right;">
-3
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-RB1
-</td>
-<td style="text-align:left;">
-low
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-KRAS
-</td>
-<td style="text-align:left;">
-very.high
-</td>
-<td style="text-align:right;">
-5
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-EGFR
-</td>
-<td style="text-align:left;">
-high
-</td>
-<td style="text-align:right;">
-0
-</td>
-</tr>
-</tbody>
-</table>
+    ## Currently generic markdown table using pandoc is not supported.
+
+| gene.type | gene | expression |  copy.number|
+|:----------|:-----|:-----------|------------:|
+| TS        | TP53 | very.low   |            0|
+| TS        | FLCN | average    |            4|
+| TS        | SBHD | very.low   |            3|
+| TS        | RB1  | low        |            1|
+| ONC       | KRAS | very.high  |            5|
+| ONC       | EGFR | high       |            0|
+
 ### (6) anti\_join
 
 ``` r
-anti_join(d1, d2, by = "gene") %>% kable("html") %>% kable_styling()
+anti_join(d1, d2, by = "gene") %>% kable("markdown") %>% kable_styling()
 ```
 
     ## Warning: Column `gene` joining factors with different levels, coercing to
     ## character vector
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-gene.type
-</th>
-<th style="text-align:left;">
-gene
-</th>
-<th style="text-align:left;">
-expression
-</th>
-<th style="text-align:right;">
-copy.number
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-</tr>
-</tbody>
-</table>
+    ## Currently generic markdown table using pandoc is not supported.
+
+| gene.type | gene | expression |  copy.number|
+|:----------|:-----|:-----------|------------:|
 
 ------------------------------------------------------------------------
 

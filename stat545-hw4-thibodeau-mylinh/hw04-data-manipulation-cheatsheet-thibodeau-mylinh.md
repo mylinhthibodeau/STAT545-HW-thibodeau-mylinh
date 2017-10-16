@@ -24,7 +24,7 @@ library(reshape2)
     ##     smiths
 
 ``` r
-options(knitr.table.format = "html")
+options(knitr.table.format = "markdown")
 ```
 
 Essentials of data manipulations in R
@@ -54,113 +54,19 @@ Let's make a small table to illustrate the different functions.
 ``` r
 d1 <- read.table("scratch-space/small_dataframe_example.txt", sep = "\t", header = TRUE)
 d1 %>%
-  kable("html") %>% kable_styling()
+  kable("markdown") %>% kable_styling()
 ```
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-gene.type
-</th>
-<th style="text-align:left;">
-gene
-</th>
-<th style="text-align:left;">
-expression
-</th>
-<th style="text-align:right;">
-copy.number
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-TP53
-</td>
-<td style="text-align:left;">
-very.low
-</td>
-<td style="text-align:right;">
-0
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-FLCN
-</td>
-<td style="text-align:left;">
-average
-</td>
-<td style="text-align:right;">
-4
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-SBHD
-</td>
-<td style="text-align:left;">
-very.low
-</td>
-<td style="text-align:right;">
-3
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-RB1
-</td>
-<td style="text-align:left;">
-low
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-KRAS
-</td>
-<td style="text-align:left;">
-very.high
-</td>
-<td style="text-align:right;">
-5
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-EGFR
-</td>
-<td style="text-align:left;">
-high
-</td>
-<td style="text-align:right;">
-0
-</td>
-</tr>
-</tbody>
-</table>
+    ## Currently generic markdown table using pandoc is not supported.
+
+| gene.type | gene | expression |  copy.number|
+|:----------|:-----|:-----------|------------:|
+| TS        | TP53 | very.low   |            0|
+| TS        | FLCN | average    |            4|
+| TS        | SBHD | very.low   |            3|
+| TS        | RB1  | low        |            1|
+| ONC       | KRAS | very.high  |            5|
+| ONC       | EGFR | high       |            0|
 
 ------------------------------------------------------------------------
 
@@ -174,100 +80,20 @@ high
 ``` r
 gr_tidy <- select(d1, gene.type, expression, copy.number) %>%
   group_by(gene.type, expression) %>%
-  summarize(Nrows = n(), SumCol.copy.number = sum(copy.number))
-gr_tidy %>% kable("html") %>% kable_styling()
+  dplyr::summarize(Nrows = n(), SumCol.copy.number = sum(copy.number))
+gr_tidy %>% kable("markdown") %>% kable_styling()
 ```
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-gene.type
-</th>
-<th style="text-align:left;">
-expression
-</th>
-<th style="text-align:right;">
-Nrows
-</th>
-<th style="text-align:right;">
-SumCol.copy.number
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-high
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-0
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-very.high
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-5
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-average
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-4
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-low
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-very.low
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-3
-</td>
-</tr>
-</tbody>
-</table>
+    ## Currently generic markdown table using pandoc is not supported.
+
+| gene.type | expression |  Nrows|  SumCol.copy.number|
+|:----------|:-----------|------:|-------------------:|
+| ONC       | high       |      1|                   0|
+| ONC       | very.high  |      1|                   5|
+| TS        | average    |      1|                   4|
+| TS        | low        |      1|                   1|
+| TS        | very.low   |      2|                   3|
+
 ### *Reshape*
 
 ``` r
@@ -286,235 +112,49 @@ gr_resh <- d1 %>%
     ## Using gene.type, expression as id variables
 
 ``` r
-gr_resh %>% kable("html") %>% kable_styling()
+gr_resh %>% kable("markdown") %>% kable_styling()
 ```
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-gene.type
-</th>
-<th style="text-align:left;">
-expression
-</th>
-<th style="text-align:right;">
-Nrows
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-average
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-high
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-low
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-very.high
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-very.low
-</td>
-<td style="text-align:right;">
-2
-</td>
-</tr>
-</tbody>
-</table>
+    ## Currently generic markdown table using pandoc is not supported.
+
+| gene.type | expression |  Nrows|
+|:----------|:-----------|------:|
+| TS        | average    |      1|
+| ONC       | high       |      1|
+| TS        | low        |      1|
+| ONC       | very.high  |      1|
+| TS        | very.low   |      2|
+
 Note. Using reshape is a very convoluted way to do group data, Tidyr is better for these data manipulations.
 
 ``` r
-aggregate(gene.type~expression, d1, length)  %>% kable("html") %>% kable_styling()
+aggregate(gene.type~expression, d1, length)  %>% kable("markdown") %>% kable_styling()
 ```
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-expression
-</th>
-<th style="text-align:right;">
-gene.type
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-average
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-high
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-low
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-very.high
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-very.low
-</td>
-<td style="text-align:right;">
-2
-</td>
-</tr>
-</tbody>
-</table>
+    ## Currently generic markdown table using pandoc is not supported.
+
+| expression |  gene.type|
+|:-----------|----------:|
+| average    |          1|
+| high       |          1|
+| low        |          1|
+| very.high  |          1|
+| very.low   |          2|
+
 ``` r
-aggregate(. ~expression, d1, length)  %>% kable("html") %>% kable_styling()
+aggregate(. ~expression, d1, length)  %>% kable("markdown") %>% kable_styling()
 ```
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-expression
-</th>
-<th style="text-align:right;">
-gene.type
-</th>
-<th style="text-align:right;">
-gene
-</th>
-<th style="text-align:right;">
-copy.number
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-average
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-high
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-low
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-very.high
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-very.low
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-2
-</td>
-</tr>
-</tbody>
-</table>
+    ## Currently generic markdown table using pandoc is not supported.
+
+| expression |  gene.type|  gene|  copy.number|
+|:-----------|----------:|-----:|------------:|
+| average    |          1|     1|            1|
+| high       |          1|     1|            1|
+| low        |          1|     1|            1|
+| very.high  |          1|     1|            1|
+| very.low   |          2|     2|            2|
+
 ``` r
 tapply(d1$gene.type, d1$expression, FUN=length)
 ```
@@ -543,221 +183,44 @@ split_tidy <- gr_tidy %>%
     ## Adding missing grouping variables: `expression`
 
 ``` r
-split_tidy %>% kable("html") %>% kable_styling()
+split_tidy %>% kable("markdown") %>% kable_styling()
 ```
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-gene.type
-</th>
-<th style="text-align:right;">
-average
-</th>
-<th style="text-align:right;">
-high
-</th>
-<th style="text-align:right;">
-low
-</th>
-<th style="text-align:right;">
-very.high
-</th>
-<th style="text-align:right;">
-very.low
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-2
-</td>
-</tr>
-</tbody>
-</table>
+    ## Currently generic markdown table using pandoc is not supported.
+
+| gene.type |  average|  high|  low|  very.high|  very.low|
+|:----------|--------:|-----:|----:|----------:|---------:|
+| ONC       |       NA|     1|   NA|          1|        NA|
+| TS        |        1|    NA|    1|         NA|         2|
+
 ### *Reshape*
 
 ``` r
 split_resh <- gr_tidy %>%
   dcast(gene.type~expression, value.var = "Nrows")
-split_resh %>% kable("html") %>% kable_styling()
+split_resh %>% kable("markdown") %>% kable_styling()
 ```
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-gene.type
-</th>
-<th style="text-align:right;">
-average
-</th>
-<th style="text-align:right;">
-high
-</th>
-<th style="text-align:right;">
-low
-</th>
-<th style="text-align:right;">
-very.high
-</th>
-<th style="text-align:right;">
-very.low
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-2
-</td>
-</tr>
-</tbody>
-</table>
+    ## Currently generic markdown table using pandoc is not supported.
+
+| gene.type |  average|  high|  low|  very.high|  very.low|
+|:----------|--------:|-----:|----:|----------:|---------:|
+| ONC       |       NA|     1|   NA|          1|        NA|
+| TS        |        1|    NA|    1|         NA|         2|
+
 ### *Base R*
 
 ``` r
 split_R <- with(d1, table(gene.type, expression))
-split_R %>% kable("html") %>% kable_styling()
+split_R %>% kable("markdown") %>% kable_styling()
 ```
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-</th>
-<th style="text-align:right;">
-average
-</th>
-<th style="text-align:right;">
-high
-</th>
-<th style="text-align:right;">
-low
-</th>
-<th style="text-align:right;">
-very.high
-</th>
-<th style="text-align:right;">
-very.low
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-0
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-2
-</td>
-</tr>
-</tbody>
-</table>
+    ## Currently generic markdown table using pandoc is not supported.
+
+|     |  average|  high|  low|  very.high|  very.low|
+|:----|--------:|-----:|----:|----------:|---------:|
+| ONC |        0|     1|    0|          1|         0|
+| TS  |        1|     0|    1|          0|         2|
 
 ------------------------------------------------------------------------
 
@@ -771,271 +234,47 @@ TS
 ``` r
 stack_tidy <- split_resh %>%
   gather(key = variable, value = expression, very.low, low,  average, very.high, high)
-stack_tidy %>% kable("html") %>% kable_styling()
+stack_tidy %>% kable("markdown") %>% kable_styling()
 ```
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-gene.type
-</th>
-<th style="text-align:left;">
-variable
-</th>
-<th style="text-align:right;">
-expression
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-very.low
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-very.low
-</td>
-<td style="text-align:right;">
-2
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-low
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-low
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-average
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-average
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-very.high
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-very.high
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-high
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-high
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-</tbody>
-</table>
+    ## Currently generic markdown table using pandoc is not supported.
+
+| gene.type | variable  |  expression|
+|:----------|:----------|-----------:|
+| ONC       | very.low  |          NA|
+| TS        | very.low  |           2|
+| ONC       | low       |          NA|
+| TS        | low       |           1|
+| ONC       | average   |          NA|
+| TS        | average   |           1|
+| ONC       | very.high |           1|
+| TS        | very.high |          NA|
+| ONC       | high      |           1|
+| TS        | high      |          NA|
+
 ### *Reshape*
 
 ``` r
 stack_resh <- melt(split_resh, id="gene.type") %>%
   arrange(gene.type)
-stack_resh %>% kable("html") %>% kable_styling()
+stack_resh %>% kable("markdown") %>% kable_styling()
 ```
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-gene.type
-</th>
-<th style="text-align:left;">
-variable
-</th>
-<th style="text-align:right;">
-value
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-average
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-high
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-low
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-very.high
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-very.low
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-average
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-high
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-low
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-very.high
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-very.low
-</td>
-<td style="text-align:right;">
-2
-</td>
-</tr>
-</tbody>
-</table>
+    ## Currently generic markdown table using pandoc is not supported.
+
+| gene.type | variable  |  value|
+|:----------|:----------|------:|
+| ONC       | average   |     NA|
+| ONC       | high      |      1|
+| ONC       | low       |     NA|
+| ONC       | very.high |      1|
+| ONC       | very.low  |     NA|
+| TS        | average   |      1|
+| TS        | high      |     NA|
+| TS        | low       |      1|
+| TS        | very.high |     NA|
+| TS        | very.low  |      2|
+
 Or also:
 
 ``` r
@@ -1049,136 +288,24 @@ stack_resh2 <- d1 %>% dcast(gene.type~expression) %>% melt()
     ## Using gene.type as id variables
 
 ``` r
-stack_resh2 %>% kable("html") %>% kable_styling()
+stack_resh2 %>% kable("markdown") %>% kable_styling()
 ```
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-gene.type
-</th>
-<th style="text-align:left;">
-variable
-</th>
-<th style="text-align:right;">
-value
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-average
-</td>
-<td style="text-align:right;">
-0
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-average
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-high
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-high
-</td>
-<td style="text-align:right;">
-0
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-low
-</td>
-<td style="text-align:right;">
-0
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-low
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-very.high
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-very.high
-</td>
-<td style="text-align:right;">
-0
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-very.low
-</td>
-<td style="text-align:right;">
-0
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-very.low
-</td>
-<td style="text-align:right;">
-2
-</td>
-</tr>
-</tbody>
-</table>
+    ## Currently generic markdown table using pandoc is not supported.
+
+| gene.type | variable  |  value|
+|:----------|:----------|------:|
+| ONC       | average   |      0|
+| TS        | average   |      1|
+| ONC       | high      |      1|
+| TS        | high      |      0|
+| ONC       | low       |      0|
+| TS        | low       |      1|
+| ONC       | very.high |      1|
+| TS        | very.high |      0|
+| ONC       | very.low  |      0|
+| TS        | very.low  |      2|
+
 ``` r
 stack(split_resh)
 ```
@@ -1205,79 +332,20 @@ Let's prepare another dataset (d2) for the following exercises.
 
 ``` r
 d2 <- read.table("scratch-space/small_dataframe_example_2.txt",sep = "\t", header = TRUE)
-d2 %>% kable("html") %>% kable_styling()
+d2 %>% kable("markdown") %>% kable_styling()
 ```
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-gene
-</th>
-<th style="text-align:left;">
-IHC
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-TP53
-</td>
-<td style="text-align:left;">
-absent
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-FLCN
-</td>
-<td style="text-align:left;">
-normal
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SBHD
-</td>
-<td style="text-align:left;">
-absent
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-RB1
-</td>
-<td style="text-align:left;">
-absent
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-KRAS
-</td>
-<td style="text-align:left;">
-strong
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-EGFR
-</td>
-<td style="text-align:left;">
-normal
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-PALB2
-</td>
-<td style="text-align:left;">
-normal
-</td>
-</tr>
-</tbody>
-</table>
+    ## Currently generic markdown table using pandoc is not supported.
+
+| gene  | IHC    |
+|:------|:-------|
+| TP53  | absent |
+| FLCN  | normal |
+| SBHD  | absent |
+| RB1   | absent |
+| KRAS  | strong |
+| EGFR  | normal |
+| PALB2 | normal |
 
 ------------------------------------------------------------------------
 
@@ -1300,266 +368,37 @@ join_tidy <- left_join(d1, d2, by = "gene")
     ## character vector
 
 ``` r
-join_tidy %>% kable("html") %>% kable_styling()
+join_tidy %>% kable("markdown") %>% kable_styling()
 ```
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-gene.type
-</th>
-<th style="text-align:left;">
-gene
-</th>
-<th style="text-align:left;">
-expression
-</th>
-<th style="text-align:right;">
-copy.number
-</th>
-<th style="text-align:left;">
-IHC
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-TP53
-</td>
-<td style="text-align:left;">
-very.low
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:left;">
-absent
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-FLCN
-</td>
-<td style="text-align:left;">
-average
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:left;">
-normal
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-SBHD
-</td>
-<td style="text-align:left;">
-very.low
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:left;">
-absent
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-RB1
-</td>
-<td style="text-align:left;">
-low
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-absent
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-KRAS
-</td>
-<td style="text-align:left;">
-very.high
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:left;">
-strong
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-EGFR
-</td>
-<td style="text-align:left;">
-high
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:left;">
-normal
-</td>
-</tr>
-</tbody>
-</table>
+    ## Currently generic markdown table using pandoc is not supported.
+
+| gene.type | gene | expression |  copy.number| IHC    |
+|:----------|:-----|:-----------|------------:|:-------|
+| TS        | TP53 | very.low   |            0| absent |
+| TS        | FLCN | average    |            4| normal |
+| TS        | SBHD | very.low   |            3| absent |
+| TS        | RB1  | low        |            1| absent |
+| ONC       | KRAS | very.high  |            5| strong |
+| ONC       | EGFR | high       |            0| normal |
+
 ### *Base R*
 
 ``` r
 join_R <- merge(d1, d2)
-join_R %>% kable("html") %>% kable_styling()
+join_R %>% kable("markdown") %>% kable_styling()
 ```
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-gene
-</th>
-<th style="text-align:left;">
-gene.type
-</th>
-<th style="text-align:left;">
-expression
-</th>
-<th style="text-align:right;">
-copy.number
-</th>
-<th style="text-align:left;">
-IHC
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-EGFR
-</td>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-high
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:left;">
-normal
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-FLCN
-</td>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-average
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:left;">
-normal
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-KRAS
-</td>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-very.high
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:left;">
-strong
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-RB1
-</td>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-low
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-absent
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SBHD
-</td>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-very.low
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:left;">
-absent
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TP53
-</td>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-very.low
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:left;">
-absent
-</td>
-</tr>
-</tbody>
-</table>
+    ## Currently generic markdown table using pandoc is not supported.
+
+| gene | gene.type | expression |  copy.number| IHC    |
+|:-----|:----------|:-----------|------------:|:-------|
+| EGFR | ONC       | high       |            0| normal |
+| FLCN | TS        | average    |            4| normal |
+| KRAS | ONC       | very.high  |            5| strong |
+| RB1  | TS        | low        |            1| absent |
+| SBHD | TS        | very.low   |            3| absent |
+| TP53 | TS        | very.low   |            0| absent |
 
 ------------------------------------------------------------------------
 
@@ -1573,57 +412,16 @@ absent
 ``` r
 subset_tidy <- d1 %>%
   filter(gene.type == "ONC") 
-subset_tidy %>% kable("html") %>% kable_styling()
+subset_tidy %>% kable("markdown") %>% kable_styling()
 ```
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-gene.type
-</th>
-<th style="text-align:left;">
-gene
-</th>
-<th style="text-align:left;">
-expression
-</th>
-<th style="text-align:right;">
-copy.number
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-KRAS
-</td>
-<td style="text-align:left;">
-very.high
-</td>
-<td style="text-align:right;">
-5
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-EGFR
-</td>
-<td style="text-align:left;">
-high
-</td>
-<td style="text-align:right;">
-0
-</td>
-</tr>
-</tbody>
-</table>
+    ## Currently generic markdown table using pandoc is not supported.
+
+| gene.type | gene | expression |  copy.number|
+|:----------|:-----|:-----------|------------:|
+| ONC       | KRAS | very.high  |            5|
+| ONC       | EGFR | high       |            0|
+
 ``` r
 subset_resh <- d1 %>% dcast(gene.type~expression) %>% melt(subset = .(gene.type=="ONC"))
 ```
@@ -1642,126 +440,27 @@ View(subset_resh)
 
 ``` r
 subset_R <- d1[which(d1$gene.type== 'ONC'),]
-subset_R %>% kable("html") %>% kable_styling()
+subset_R %>% kable("markdown") %>% kable_styling()
 ```
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-</th>
-<th style="text-align:left;">
-gene.type
-</th>
-<th style="text-align:left;">
-gene
-</th>
-<th style="text-align:left;">
-expression
-</th>
-<th style="text-align:right;">
-copy.number
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-5
-</td>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-KRAS
-</td>
-<td style="text-align:left;">
-very.high
-</td>
-<td style="text-align:right;">
-5
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-6
-</td>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-EGFR
-</td>
-<td style="text-align:left;">
-high
-</td>
-<td style="text-align:right;">
-0
-</td>
-</tr>
-</tbody>
-</table>
+    ## Currently generic markdown table using pandoc is not supported.
+
+|     | gene.type | gene | expression |  copy.number|
+|:----|:----------|:-----|:-----------|------------:|
+| 5   | ONC       | KRAS | very.high  |            5|
+| 6   | ONC       | EGFR | high       |            0|
+
 ``` r
 subset_R2 <- subset(d1, gene.type=='ONC')
-subset_R2 %>% kable("html") %>% kable_styling()
+subset_R2 %>% kable("markdown") %>% kable_styling()
 ```
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-</th>
-<th style="text-align:left;">
-gene.type
-</th>
-<th style="text-align:left;">
-gene
-</th>
-<th style="text-align:left;">
-expression
-</th>
-<th style="text-align:right;">
-copy.number
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-5
-</td>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-KRAS
-</td>
-<td style="text-align:left;">
-very.high
-</td>
-<td style="text-align:right;">
-5
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-6
-</td>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-EGFR
-</td>
-<td style="text-align:left;">
-high
-</td>
-<td style="text-align:right;">
-0
-</td>
-</tr>
-</tbody>
-</table>
+    ## Currently generic markdown table using pandoc is not supported.
+
+|     | gene.type | gene | expression |  copy.number|
+|:----|:----------|:-----|:-----------|------------:|
+| 5   | ONC       | KRAS | very.high  |            5|
+| 6   | ONC       | EGFR | high       |            0|
 
 ------------------------------------------------------------------------
 
@@ -1774,69 +473,18 @@ high
 
 ``` r
 transpose_R <- data.frame(t(subset_tidy))
-transpose_R %>% kable("html") %>% kable_styling()
+transpose_R %>% kable("markdown") %>% kable_styling()
 ```
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-</th>
-<th style="text-align:left;">
-X1
-</th>
-<th style="text-align:left;">
-X2
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-gene.type
-</td>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-ONC
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-gene
-</td>
-<td style="text-align:left;">
-KRAS
-</td>
-<td style="text-align:left;">
-EGFR
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-expression
-</td>
-<td style="text-align:left;">
-very.high
-</td>
-<td style="text-align:left;">
-high
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-copy.number
-</td>
-<td style="text-align:left;">
-5
-</td>
-<td style="text-align:left;">
-0
-</td>
-</tr>
-</tbody>
-</table>
+    ## Currently generic markdown table using pandoc is not supported.
+
+|             | X1        | X2   |
+|:------------|:----------|:-----|
+| gene.type   | ONC       | ONC  |
+| gene        | KRAS      | EGFR |
+| expression  | very.high | high |
+| copy.number | 5         | 0    |
+
 I note that the columns are called X1 and X2 instead of ONC and ONC. Oh well, we get the general idea anyway !
 
 ------------------------------------------------------------------------
@@ -1850,134 +498,19 @@ I note that the columns are called X1 and X2 instead of ONC and ONC. Oh well, we
 
 ``` r
 join_tidy %>%
-  arrange(copy.number) %>% kable("html") %>% kable_styling()
+  arrange(copy.number) %>% kable("markdown") %>% kable_styling()
 ```
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-gene.type
-</th>
-<th style="text-align:left;">
-gene
-</th>
-<th style="text-align:left;">
-expression
-</th>
-<th style="text-align:right;">
-copy.number
-</th>
-<th style="text-align:left;">
-IHC
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-TP53
-</td>
-<td style="text-align:left;">
-very.low
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:left;">
-absent
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-EGFR
-</td>
-<td style="text-align:left;">
-high
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:left;">
-normal
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-RB1
-</td>
-<td style="text-align:left;">
-low
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-absent
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-SBHD
-</td>
-<td style="text-align:left;">
-very.low
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:left;">
-absent
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-FLCN
-</td>
-<td style="text-align:left;">
-average
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:left;">
-normal
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-KRAS
-</td>
-<td style="text-align:left;">
-very.high
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:left;">
-strong
-</td>
-</tr>
-</tbody>
-</table>
+    ## Currently generic markdown table using pandoc is not supported.
+
+| gene.type | gene | expression |  copy.number| IHC    |
+|:----------|:-----|:-----------|------------:|:-------|
+| TS        | TP53 | very.low   |            0| absent |
+| ONC       | EGFR | high       |            0| normal |
+| TS        | RB1  | low        |            1| absent |
+| TS        | SBHD | very.low   |            3| absent |
+| TS        | FLCN | average    |            4| normal |
+| ONC       | KRAS | very.high  |            5| strong |
 
 ------------------------------------------------------------------------
 

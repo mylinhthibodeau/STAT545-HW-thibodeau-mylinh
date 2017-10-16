@@ -11,7 +11,7 @@ knitr::opts_chunk$set(fig.width=12, fig.height=9)
 library(knitr)
 library(kableExtra)
 library(reshape2)
-options(knitr.table.format = "html")
+options(knitr.table.format = "markdown")
 ```
 
 # Essentials of data manipulations in R  
@@ -38,7 +38,7 @@ Let's make a small table to illustrate the different functions.
 ```{r}
 d1 <- read.table("scratch-space/small_dataframe_example.txt", sep = "\t", header = TRUE)
 d1 %>%
-  kable("html") %>% kable_styling()
+  kable("markdown") %>% kable_styling()
 ```
 
 ***
@@ -54,8 +54,8 @@ d1 %>%
 ```{r}
 gr_tidy <- select(d1, gene.type, expression, copy.number) %>%
   group_by(gene.type, expression) %>%
-  summarize(Nrows = n(), SumCol.copy.number = sum(copy.number))
-gr_tidy %>% kable("html") %>% kable_styling()
+  dplyr::summarize(Nrows = n(), SumCol.copy.number = sum(copy.number))
+gr_tidy %>% kable("markdown") %>% kable_styling()
 ```
 
 
@@ -69,13 +69,13 @@ gr_resh <- d1 %>%
   melt(varnames = c("gene.type", "expression"), value.name = "Nrows", na.rm =TRUE) %>%
   filter(Nrows !=0) %>%
   select(gene.type, expression, Nrows)
-gr_resh %>% kable("html") %>% kable_styling()
+gr_resh %>% kable("markdown") %>% kable_styling()
 ```
 Note. Using reshape is a very convoluted way to do group data, Tidyr is better for these data manipulations.
 
 ```{r}
-aggregate(gene.type~expression, d1, length)  %>% kable("html") %>% kable_styling()
-aggregate(. ~expression, d1, length)  %>% kable("html") %>% kable_styling()
+aggregate(gene.type~expression, d1, length)  %>% kable("markdown") %>% kable_styling()
+aggregate(. ~expression, d1, length)  %>% kable("markdown") %>% kable_styling()
 tapply(d1$gene.type, d1$expression, FUN=length)
 ```
 Note. Again, base R is not ideal to pursue grouping. I was not able to obtain the wanted table, and since Tidyr offers better alternative, I won't pursue further base R for grouping.
@@ -95,7 +95,7 @@ split_tidy <- gr_tidy %>%
   group_by(gene.type, expression) %>%
   select(gene.type, Nrows) %>%
   spread(key=expression, value = Nrows)
-split_tidy %>% kable("html") %>% kable_styling()
+split_tidy %>% kable("markdown") %>% kable_styling()
 ```
 
 
@@ -105,7 +105,7 @@ split_tidy %>% kable("html") %>% kable_styling()
 ```{r}
 split_resh <- gr_tidy %>%
   dcast(gene.type~expression, value.var = "Nrows")
-split_resh %>% kable("html") %>% kable_styling()
+split_resh %>% kable("markdown") %>% kable_styling()
 ```
 
 
@@ -114,7 +114,7 @@ split_resh %>% kable("html") %>% kable_styling()
  
 ```{r}
 split_R <- with(d1, table(gene.type, expression))
-split_R %>% kable("html") %>% kable_styling()
+split_R %>% kable("markdown") %>% kable_styling()
 ```
 
 ***
@@ -130,7 +130,7 @@ split_R %>% kable("html") %>% kable_styling()
 ```{r}
 stack_tidy <- split_resh %>%
   gather(key = variable, value = expression, very.low, low,  average, very.high, high)
-stack_tidy %>% kable("html") %>% kable_styling()
+stack_tidy %>% kable("markdown") %>% kable_styling()
 ```
 
 
@@ -140,13 +140,13 @@ stack_tidy %>% kable("html") %>% kable_styling()
 ```{r}
 stack_resh <- melt(split_resh, id="gene.type") %>%
   arrange(gene.type)
-stack_resh %>% kable("html") %>% kable_styling()
+stack_resh %>% kable("markdown") %>% kable_styling()
 ```
 
 Or also:
 ```{r}
 stack_resh2 <- d1 %>% dcast(gene.type~expression) %>% melt()
-stack_resh2 %>% kable("html") %>% kable_styling()
+stack_resh2 %>% kable("markdown") %>% kable_styling()
 ```
 
 ```{r}
@@ -159,7 +159,7 @@ Note. Base R can provide the number of possible gene.type-expression pairs, but 
 Let's prepare another dataset (d2) for the following exercises.
 ```{r}
 d2 <- read.table("scratch-space/small_dataframe_example_2.txt",sep = "\t", header = TRUE)
-d2 %>% kable("html") %>% kable_styling()
+d2 %>% kable("markdown") %>% kable_styling()
 ```
 
 ***
@@ -179,7 +179,7 @@ Only one joining example below, but for the complete dplyr join functions cheats
 
 ```{r}
 join_tidy <- left_join(d1, d2, by = "gene")
-join_tidy %>% kable("html") %>% kable_styling()
+join_tidy %>% kable("markdown") %>% kable_styling()
 ```
 
 ### *Base R*  
@@ -187,7 +187,7 @@ join_tidy %>% kable("html") %>% kable_styling()
 
 ```{r}
 join_R <- merge(d1, d2)
-join_R %>% kable("html") %>% kable_styling()
+join_R %>% kable("markdown") %>% kable_styling()
 ```
 
 ***
@@ -203,7 +203,7 @@ join_R %>% kable("html") %>% kable_styling()
 ```{r}
 subset_tidy <- d1 %>%
   filter(gene.type == "ONC") 
-subset_tidy %>% kable("html") %>% kable_styling()
+subset_tidy %>% kable("markdown") %>% kable_styling()
 ``` 
 
 ```{r}
@@ -217,12 +217,12 @@ View(subset_resh)
 
 ```{r}
 subset_R <- d1[which(d1$gene.type== 'ONC'),]
-subset_R %>% kable("html") %>% kable_styling()
+subset_R %>% kable("markdown") %>% kable_styling()
 ```
 
 ```{r}
 subset_R2 <- subset(d1, gene.type=='ONC')
-subset_R2 %>% kable("html") %>% kable_styling()
+subset_R2 %>% kable("markdown") %>% kable_styling()
 ```
 
 ***
@@ -237,7 +237,7 @@ subset_R2 %>% kable("html") %>% kable_styling()
 
 ```{r}
 transpose_R <- data.frame(t(subset_tidy))
-transpose_R %>% kable("html") %>% kable_styling()
+transpose_R %>% kable("markdown") %>% kable_styling()
 ```
 
 I note that the columns are called X1 and X2 instead of ONC and ONC. Oh well, we get the general idea anyway !
@@ -254,7 +254,7 @@ I note that the columns are called X1 and X2 instead of ONC and ONC. Oh well, we
 
 ```{r}
 join_tidy %>%
-  arrange(copy.number) %>% kable("html") %>% kable_styling()
+  arrange(copy.number) %>% kable("markdown") %>% kable_styling()
 ```
 
 

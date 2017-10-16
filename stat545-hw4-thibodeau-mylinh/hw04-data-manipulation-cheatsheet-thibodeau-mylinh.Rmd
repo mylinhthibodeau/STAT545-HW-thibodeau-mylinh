@@ -1,5 +1,5 @@
 ---
-title: "hw04-activity5-data-manipulation-cheat-sheet-thibodeau-mylinh"
+title: "hw04-data-manipulation-cheat-sheet-thibodeau-mylinh"
 author: "My Linh Thibodeau"
 date: '2017-10-07'
 output: github_document

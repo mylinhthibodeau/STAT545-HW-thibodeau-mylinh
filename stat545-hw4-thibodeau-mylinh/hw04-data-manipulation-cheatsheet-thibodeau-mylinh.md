@@ -1,4 +1,4 @@
-hw04-activity5-data-manipulation-cheat-sheet-thibodeau-mylinh
+hw04-data-manipulation-cheat-sheet-thibodeau-mylinh
 ================
 My Linh Thibodeau
 2017-10-07

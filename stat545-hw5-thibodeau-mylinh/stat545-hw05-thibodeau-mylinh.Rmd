@@ -7,7 +7,7 @@ output: github_document
 
 ```{r}
 suppressPackageStartupMessages(library(tidyverse))
-knitr::opts_chunk$set(fig.width=12, fig.height=9)
+knitr::opts_chunk$set(fig.width=9, fig.height=7)
 library(knitr)
 library(kableExtra)
 options(knitr.table.format = "markdown")
@@ -79,7 +79,7 @@ OBJECTIVES:
 * Reorder a factor in a principled way based on the data and demonstrate the effect in arranged data and in figures.
 * Improve a figure (or make one from scratch), using new knowledge, e.g., control the color scheme, use factor levels, smoother mechanics.
 * Implement visualization design principles.
-* Write some data to file and load it back into R. E.g., save a plot to file and include it in a R Markdown report via ![Alt text](/path/to/img.png).
+* Write some data to file and load it back into R. E.g., save a plot to file and include it in a R Markdown report.
 * Organise your github, to celebrate the completion of STAT 545 and/or to prepare for the glorious future of STAT 547.
 
 # (1) FACTOR MANAGEMENT
@@ -498,7 +498,7 @@ ggsave("scratch-space/chek2_cancer_gene_type_color_plot.png", width = 20, height
 ```
 **Note 1.** In the plot above, one might want to focus on the genes that have low expression (low RPKM) and copy loss, or high expression and copy gain, as these paired-values are more likely to be biologically relevant.
 
-Now, let's load the plot I just created with the Rmarkdown syntax ![Alt text](/path/to/img.png).
+Now, let's load the plot I just created with the Rmarkdown syntax.
 
 ![a_plot](scratch-space/chek2_cancer_gene_type_color_plot.png)
 

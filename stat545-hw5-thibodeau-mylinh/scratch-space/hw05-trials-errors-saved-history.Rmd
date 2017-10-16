@@ -90,6 +90,21 @@ nlevels(chek2_rna_cnv$avg.TCGA.percentile)
 ```
 
 
+#### REORDER ACCORDING TO FREQUENCY - UNABLE TO KNITR
+
+
+Error message: line 251 Error:`f` must be a factor (or cahracter vector). Execution halted.
+
+We can also order the data.frame factors according to their frequency. 
+
+```{r}
+d2_baseR <- levels(d2$avg.TCGA.percentile) 
+d2_baseR %>% head(5) %>% kable("html") %>% kable_styling()
+d2_cats <- d2$avg.TCGA.percentile %>%
+  forcats::fct_infreq() %>% levels()
+d2_cats %>% head(5) %>% kable("html") %>% kable_styling()
+```
+
 # Removed from 1C
 
 ```{r}

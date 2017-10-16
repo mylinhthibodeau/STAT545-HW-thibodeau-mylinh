@@ -226,16 +226,17 @@ chek2_rna_cnv$avg.TCGA.percentile <- as.numeric(chek2_rna_cnv$avg.TCGA.percentil
 chek2_rna_cnv <- ungroup(chek2_rna_cnv)
 d3 <- chek2_rna_cnv %>%
   filter(avg.TCGA.percentile != 0) %>%
-  arrange(avg.TCGA.percentile) %>%
-  group_by(cancer.gene.type)
-d3.mean.percentile.by.type <- d3 %>%
+  arrange(avg.TCGA.percentile) 
+d3.mean.percentile.by.type <- d3 %>%  
   group_by(cancer.gene.type) %>%
-  summarize(mean.percentile.by.type = mean(avg.TCGA.percentile, na.rm =TRUE))
+  dplyr::summarize(mean.percentile.by.type = mean(avg.TCGA.percentile))
 d3.mean.percentile.by.type  %>% kable("html") %>% kable_styling()
+
 # cancer.gene.type factors in alphabetical order
 p3 <- d3.mean.percentile.by.type %>%
   ggplot(aes(x=cancer.gene.type, y = mean.percentile.by.type))
 p3 + geom_point() + theme(text = element_text(size=12), axis.text.x = element_text(angle=45, hjust=1))
+
 # cancer.gene.type factors ordered according to the mean.percentile.by.type      
 p3 <- d3.mean.percentile.by.type %>%
   ggplot(aes(x=fct_reorder(cancer.gene.type, mean.percentile.by.type), y = mean.percentile.by.type))
@@ -246,21 +247,26 @@ p3 + geom_point() + theme(text = element_text(size=12), axis.text.x = element_te
 #### REORDER ACCORDING TO FREQUENCY
 
 We can also order the data.frame factors according to their frequency. 
+```{r}
+levels(d3$cancer.gene.type) %>% kable("html") %>% kable_styling()
+d3$cancer.gene.type %>% forcats::fct_infreq() %>% levels() %>% kable("html") %>% kable_styling()
+```
+**Note 1.** So the most frequent factor is "NA", followed by "putative tumour suppressor", etc.
+
+We can also re-order the factors avg.TCGA.percentile according to their frequency:
 
 ```{r}
-class(d2$avg.TCGA.percentile)
-levels(d2$avg.TCGA.percentile)
-d2$avg.TCGA.percentile %>%
-  fct_infreq() %>%
-  levels() %>% head()
+d3$avg.TCGA.percentile <- factor(d3$avg.TCGA.percentile) 
+levels(d3$avg.TCGA.percentile) %>% head(5) %>% kable("html") %>% kable_styling()
+d3$avg.TCGA.percentile %>% forcats::fct_infreq() %>% levels() %>% head(5) %>% kable("html") %>% kable_styling()
 ```
-**Note 1.** So the most frequent factor is 49, followed by 2 and 1, etc.
-
+**Note 1.** The most frequent avg.TCGA.percentile factor is 49, therefore, we know that there is a high number of hugo genes with a gene expression level at the 49th percentile.
 
 PLOT EXAMPLE
 
 We will plot the avg.TCGA.percentile factors in un-ordered way, then ordered by frequency. We will only use the 2000 first data entries. 
 ```{r}
+d2$avg.TCGA.percentile <- factor(d2$avg.TCGA.percentile) 
 p4 <- d2 %>%
   group_by(cancer.gene.type) %>%
   head(2000) %>%

@@ -1777,7 +1777,7 @@ The examples of using read input and write ouput to a file are scattered across 
 
 In all honesty, I spent quite a bit of time on visual aspects of ggplot graph in in my [homework 3](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw3-thibodeau-mylinh) since I needed it for research-related problems at that time as well.
 
-Therefore, I will try something different here: making a color scheme for the hugo genes based on the cancer.gene.type category they belong to. The entire code below is based on the work of Jenny Brian, specifically tutorial on ggplot2 [here](https://github.com/jennybc/ggplot2-tutorial/blob/master/01_make-gapminder-color-scheme.r) (create color scheme for data) and [here](https://github.com/jennybc/ggplot2-tutorial/blob/master/gapminder-ggplot2-shock-and-awe.md) (plot the data).
+Therefore, I will try something different here: making a color scheme for the hugo genes based on the cancer.gene.type category they belong to. The entire code below is based on the work of Jenny Bryan, specifically tutorial on ggplot2 [here](https://github.com/jennybc/ggplot2-tutorial/blob/master/01_make-gapminder-color-scheme.r) (create color scheme for data) and [here](https://github.com/jennybc/ggplot2-tutorial/blob/master/gapminder-ggplot2-shock-and-awe.md) (plot the data).
 
 First, the values of cancer.gene.type (stored in gene\_types) are too long, let's make abbreviations for them, and replace the cancer.gene.type by the abbreviation in d5.
 
@@ -2166,7 +2166,7 @@ str(hugo_colors_v2)
 d5 <- merge(d5, hugo_colors_v2)
 ```
 
-Then we can use this to make plots, as Jenny Brian showed [here](https://github.com/jennybc/ggplot2-tutorial/blob/master/gapminder-ggplot2-shock-and-awe.md)
+Then we can use this to make plots, as Jenny Bryan showed [here](https://github.com/jennybc/ggplot2-tutorial/blob/master/gapminder-ggplot2-shock-and-awe.md)
 
 ``` r
 color_scheme_hugo <- d5 %>%
@@ -2201,6 +2201,8 @@ ggsave("scratch-space/chek2_cancer_gene_type_color_plot.png", width = 20, height
 ```
 
 **Note 1.** In the plot above, one might want to focus on the genes that have low expression (low RPKM) and copy loss, or high expression and copy gain, as these paired-values are more likely to be biologically relevant.
+
+Now, let's load the plot I just created with the Rmarkdown syntax ![Alt text](/path/to/img.png).
 
 ![a\_plot](scratch-space/chek2_cancer_gene_type_color_plot.png)
 
@@ -2250,7 +2252,7 @@ ggsave("scratch-space/p4_unordered.png", plot=p4_unordered, width = 20, height =
 
 Resources:
 
--   ggplot tutorial of Jenny Brian [here](https://github.com/jennybc/ggplot2-tutorial)
+-   ggplot tutorial of Jenny Bryan [here](https://github.com/jennybc/ggplot2-tutorial)
 -   use scale\_colour\_identity example [here](https://stackoverflow.com/questions/3079264/using-a-pre-defined-color-palette-in-ggplot)
 
 (5) Organise your github
@@ -2262,4 +2264,6 @@ Some strategies to keep my github repository tidy
 I have used some strategies to keep my repository clean and organized:
 
 -   For each folder, I am using a scratch-space subfolder that contains the figures and table files generated manually. This approach avoids having numerour files in the main repository, which makes it difficult for the reader to find the specific file to review. However, in order to do so, I need to plan in advance and remember to save the files in the scratch-space.
--
+-   Exception made of the homework 1, all of the stat545 homework assignements are in my mylinhthibodeau/STAT545-HW-thibodeau-mylinh repository [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh). I will eventually try to move homework 1 to this folder, but I am a bit fearful to re-create my "repository inside a repository" issue, so I will wait to have more time to tackle eventual problems before I do so.
+-   I try to keep the first repository README.md file as clear and succinct as possible (as shown [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/README.md))
+-   I am trying to make the README.md file in each homework folder as clear as possible

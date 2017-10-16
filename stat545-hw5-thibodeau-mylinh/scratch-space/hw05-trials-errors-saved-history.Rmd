@@ -25,13 +25,13 @@ READING A FILE
 
 FAILED 1
 ```{r}
-chek2_rna_cnv <- read_table2("/Users/mylinh/Desktop/chek2-data-trial-stat545/chek2-rna-expression-cnv-data.txt")
-View(chek2_rna_cnv)
-sapply(chek2_rna_cnv, class)
-# class(chek2_rna_cnv)
-# typeof(chek2_rna_cnv)
-summary(chek2_rna_cnv) %>% kable("html") %>% kable_styling()
-dim(chek2_rna_cnv)
+chek2_rna_cnv_f <- read_table2("/Users/mylinh/Desktop/chek2-data-trial-stat545/chek2-rna-expression-cnv-data.txt")
+View(chek2_rna_cnv_f)
+sapply(chek2_rna_cnv_f, class)
+# class(chek2_rna_cnv_f)
+# typeof(chek2_rna_cnv_f)
+summary(chek2_rna_cnv_f) %>% kable("html") %>% kable_styling()
+dim(chek2_rna_cnv_f)
 ```
 
 FAILED 2
@@ -39,6 +39,10 @@ FAILED 2
 dget("/Users/mylinh/Desktop/chek2-data-trial-stat545/chek2-rna-expression-cnv-data.txt", keep.source = TRUE)
 ```
 
+
+```{r}
+dget("/Users/mylinh/Desktop/chek2-data-trial-stat545/chek2-rna-expression-cnv-data.txt")
+```
 
 # Removed from (1A)
 
@@ -161,3 +165,5 @@ head(hugo_colors_v3)
 hugo_colors_v3_t <- t(hugo_colors_v3)
 head(hugo_colors_v3_t)
 ```
+
+Remove all legend example [here](http://www.cookbook-r.com/Graphs/Legends_(ggplot2)/)

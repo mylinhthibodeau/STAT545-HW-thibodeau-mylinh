@@ -5,4 +5,43 @@
 # HOMEWORK FILES TO REVIEW
 
 
+## Some examples of error messages
+
+I thought is could be useful for the future to track some of the error messages that caused me the most trouble:
+
+**Example 1.** "Error: `f` must be a factor (or character vector)."
+
+* Explanation: This happened when I tried to use functions for factors (e.g. forcats::fct_infreq()), but did not convert appropriately the variable to a factor.
+
+**Example 2.** 
+
+```{r}
+dget("/Users/mylinh/Desktop/chek2-data-trial-stat545/chek2-rna-expression-cnv-data.txt")
+```
+
+Error in parse(file = file, keep.source = keep.source) : /Users/mylinh/Desktop/chek2-data-trial-stat545/chek2-rna-expression-cnv-data.txt:1:9: unexpected symbol 1: chr start ^
+
+* Explanation: I believe this issue arise from the fact that the column names have spaces and dget doesn't know how to deal with white spaces. 
+
+**Example 3.** 
+
+```{r}
+chek2_rna_cnv_f <- read_table2("/Users/mylinh/Desktop/chek2-data-trial-stat545/chek2-rna-expression-cnv-data.txt")
+```
+
+**Partial error message pasted below **
+
+Duplicated column names deduplicated: 'copy' => 'copy_1' [12], 'avg' => 'avg_1' [16], 'cna' => 'cna_1' [17], 'gene' => 'gene_1' [19], 'SARC' => 'SARC_1' [32], 'avg' => 'avg_2' [37], 'percentile' => 'percentile_1' [39]
+
+* Explanation: I believe that read_table2() also has problems dealing with white spaces: it treated the variable "avg TCGA percentile" as 3 columns, and "avg TCGA norm percentile" as 4 columns. So the function attributed numbers to all the columns starting with "avg" (avg_1, avg_2, etc.) and the ones containing "TCGA" (TCGA_1, TCGA_2). The table was filled with NA values and very messy. 
+
+**Therefore, I decided to keep the same functions that works for me at the moment: read.table() and read.delim() from the R Utils Package.**
+
+
 ## Newly acquired skills or knowledge
+
+* I learned how to manipulate factors with base R and with forcats, which then allowed me to reorder data according to factors, and then make better tables and plots.
+* I read the tutorial of Jenny Bryan on ggplot2 and how to make plots, and I learned how to create my own colour function in order to pick and chose the colour scale I want for a specific factor. This can become handy for ploting data and make the data more visually pleasing. 
+* I have read some online resources on reading tables in R (like this datacamp website [here](https://www.datacamp.com/community/tutorials/r-tutorial-read-excel-into-r)). 
+* I have installed the gdata package, but I have not explored all its functions. I am planning to use the read.xls() functions and explore some of its functions to convert file types (e.g. from excel to tsv).
+* You can have general information on a library by typing the format: library(help = "tidyverse")

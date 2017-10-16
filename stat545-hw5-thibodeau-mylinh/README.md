@@ -51,4 +51,4 @@ Duplicated column names deduplicated: 'copy' => 'copy_1' [12], 'avg' => 'avg_1' 
 * You can have general information on a library by typing the format: library(help = "tidyverse")
 * It is better to use kable and knitr.table.format as rmarkdown with an output: github_document, because when I used html, it changed my formating ! Therefore, I will go back in all my previous documents to change this in order to avoid any additional formating issues. 
 * I explored some parameters of knitr::kable, but I am limited by the fact that html output does not look great on github, so I have to use the format markdown, which has limited options compared to html and latex. 
-
+* For some reason, the following text copied from the stat545 requirement caused problem with pandoc when I tried to have some html format and insert png image: "![Alt text](/path/to/img.png)"

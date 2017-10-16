@@ -699,11 +699,11 @@ d3.mean.percentile.by.type  %>% kable(format = "markdown", align="c")
 ``` r
 # cancer.gene.type factors in alphabetical order
 p3 <- d3.mean.percentile.by.type %>%
-  ggplot(aes(x=cancer.gene.type, y = mean.percentile.by.type)) +
+  ggplot(aes(x=cancer.gene.type, y = mean.percentile.by.type, colour=cancer.gene.type)) +
   ggtitle("Mean percentile for each cancer.gene.type factor")
-p3 + geom_point(aes(colour=cancer.gene.type), size=6) + theme(
+p3 + geom_point(size=6) + theme(
   plot.title= element_text(color = "grey44", size=24, face="bold"),
-  text = element_text(size=18), axis.text.x = element_text(angle=45, hjust=1))
+  text = element_text(size=16), axis.text.x = element_text(angle=45, hjust=1))
 ```
 
 ![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-12-1.png)
@@ -711,11 +711,14 @@ p3 + geom_point(aes(colour=cancer.gene.type), size=6) + theme(
 ``` r
 # cancer.gene.type factors ordered according to the mean.percentile.by.type      
 p3 <- d3.mean.percentile.by.type %>%
-  ggplot(aes(x=fct_reorder(cancer.gene.type, mean.percentile.by.type), y = mean.percentile.by.type)) +
-  ggtitle("Ordered - Mean percentile for each cancer.gene.type factor")
-p3 + geom_point(aes(colour=cancer.gene.type), size=6) + theme(
+  ggplot(aes(x=fct_reorder(cancer.gene.type, mean.percentile.by.type), y = mean.percentile.by.type, colour = fct_reorder(cancer.gene.type, mean.percentile.by.type))) +
+  ggtitle("Ordered - Mean percentile for each cancer.gene.type factor") +
+  labs(x="cancer.gene.type ordered\nby mean.percentile.by.type")
+p3 + geom_point( size=6) + theme(
   plot.title= element_text(color = "grey44", size=24, face="bold"),
-  text = element_text(size=18), axis.text.x = element_text(angle=45, hjust=1))
+  text = element_text(size=16), axis.text.x = element_text(angle=45, hjust=1)) +
+  guides(colour=guide_legend(title="Ordered cancer.gene.type", 
+                             title.theme= element_text(angle=0, size=17, face="bold")))
 ```
 
 ![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-12-2.png)
@@ -1150,14 +1153,14 @@ p5 <- d5 %>%
   filter(cancer.gene.type != "unknown") %>%
   group_by(cancer.gene.type) %>%
   ggplot(aes(x=log2(RPKM), y=FC.mean.Bodymap), na.rm=TRUE) +
-  ggtitle("FC.mean.Bodymap as a funciton of log2(RPKM)")
+  ggtitle("FC.mean.Bodymap as a function of log2(RPKM)")
 p5 + geom_point(aes(shape=copy.category)) +
   scale_size_continuous(range=c(1,40)) +
   facet_wrap(~cancer.gene.type) +
   aes(colour= hugo_color) + scale_colour_identity() +
   theme_bw() + theme(
-    plot.title= element_text(color = "grey44", size=20, face="bold"),
-    text = element_text(size =16),
+    plot.title= element_text(color = "grey44", size=24, face="bold"),
+    text = element_text(size =18),
     strip.text = element_text(size = rel(1.1))) 
 ```
 
@@ -1251,6 +1254,7 @@ Resources:
 -   use scale\_colour\_identity example [here](https://stackoverflow.com/questions/3079264/using-a-pre-defined-color-palette-in-ggplot)
 -   colour choices in ggplot [here](http://sape.inf.usi.ch/quick-reference/ggplot2/colour)
 -   add title in ggplot [here](http://www.sthda.com/english/wiki/ggplot2-title-main-axis-and-legend-titles)
+-   change labes on x-axis example [here](https://stackoverflow.com/questions/27418222/two-lines-of-x-axis-labels-in-ggplot)
 
 (5) Organise your github
 ========================

@@ -256,18 +256,27 @@ p3 <- d3.mean.percentile.by.type %>%
   ggtitle("Mean percentile for each cancer.gene.type factor")
 p3 + geom_point(size=6) + theme(
   plot.title= element_text(color = "grey44", size=24, face="bold"),
-  text = element_text(size=16), axis.text.x = element_text(angle=45, hjust=1))
+  text = element_text(size=18), axis.text.x = element_text(angle=45, hjust=1))
 
 # cancer.gene.type factors ordered according to the mean.percentile.by.type      
 p3 <- d3.mean.percentile.by.type %>%
   ggplot(aes(x=fct_reorder(cancer.gene.type, mean.percentile.by.type), y = mean.percentile.by.type, colour = fct_reorder(cancer.gene.type, mean.percentile.by.type))) +
-  ggtitle("Ordered - Mean percentile for each cancer.gene.type factor") +
-  labs(x="cancer.gene.type ordered\nby mean.percentile.by.type")
+  ggtitle("Ordered - Mean percentile for each cancer.gene.type factor")
 p3 + geom_point( size=6) + theme(
   plot.title= element_text(color = "grey44", size=24, face="bold"),
-  text = element_text(size=16), axis.text.x = element_text(angle=45, hjust=1)) +
-  guides(colour=guide_legend(title="Ordered cancer.gene.type", 
-                             title.theme= element_text(angle=0, size=17, face="bold")))
+  text = element_text(size=18), axis.text.x = element_text(angle=45, hjust=1)) +
+  scale_x_discrete(name ="cancer.gene.type", 
+                   labels = c("putative oncogene\ntumour suppressor",
+                              "oncogene\ntumour suppressor",
+                              "oncogene; putative\ntumour suppressor",
+                              "tumour suppresor",
+                              "putative oncogene",
+                              "putative oncogene\nputative tumour suppressor",
+                              "NA",
+                              "oncogene",
+                              "putative\ntumour suppressor"
+                              )
+                   )
 ```
 
 
@@ -526,14 +535,14 @@ p5 <- d5 %>%
   filter(cancer.gene.type != "unknown") %>%
   group_by(cancer.gene.type) %>%
   ggplot(aes(x=log2(RPKM), y=FC.mean.Bodymap), na.rm=TRUE) +
-  ggtitle("FC.mean.Bodymap as a function of log2(RPKM)")
+  ggtitle("FC.mean.Bodymap as a funciton of log2(RPKM)")
 p5 + geom_point(aes(shape=copy.category)) +
   scale_size_continuous(range=c(1,40)) +
   facet_wrap(~cancer.gene.type) +
   aes(colour= hugo_color) + scale_colour_identity() +
   theme_bw() + theme(
-    plot.title= element_text(color = "grey44", size=24, face="bold"),
-    text = element_text(size =18),
+    plot.title= element_text(color = "grey44", size=20, face="bold"),
+    text = element_text(size =16),
     strip.text = element_text(size = rel(1.1))) 
 ggsave("scratch-space/chek2_cancer_gene_type_color_plot.png", width = 20, height = 20, units = "cm", dpi = 300)
 ```
@@ -613,5 +622,4 @@ I have used some strategies to keep my repository clean and organized:
 * Exception made of the homework 1, all of the stat545 homework assignements are in my mylinhthibodeau/STAT545-HW-thibodeau-mylinh repository [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh). I will eventually try to move homework 1 to this folder, but I am a bit fearful to re-create my "repository inside a repository" issue, so I will wait to have more time to tackle eventual problems before I do so. 
 * I try to keep the first repository README.md file as clear and succinct as possible (as shown [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/README.md))
 * I am trying to make the README.md file in each homework folder as clear as possible
-
 

@@ -80,10 +80,10 @@ chek2_rna_cnv <- read.table("/Users/mylinh/Desktop/chek2-data-trial-stat545/chek
 View(chek2_rna_cnv) 
 # class(chek2_rna_cnv)
 # typeof(chek2_rna_cnv)
-summary(chek2_rna_cnv) %>% kable(format = "html") %>% kable_styling(position = "center")
+summary(chek2_rna_cnv) %>% kable(format = "html") %>% kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
 ```
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
+<table class="table table-striped" style="width: auto !important; ">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -827,10 +827,10 @@ Transform some of the variable of chek2\_rna\_cnv into factors. In cleaning up t
 Let's see what class of data we have in chek2\_rna\_cnv first.
 
 ``` r
-sapply(chek2_rna_cnv, class) %>% kable(format = "html") %>% kable_styling(position = "center")
+sapply(chek2_rna_cnv, class) %>% kable(format = "html") %>% kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
 ```
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
+<table class="table table-striped" style="width: auto !important; ">
 <tbody>
 <tr>
 <td style="text-align:left;">
@@ -1057,10 +1057,10 @@ d0 <- chek2_rna_cnv
 d0$avg.TCGA.percentile <- as.factor(d0$avg.TCGA.percentile)
 d0 %>% 
   select(hugo,avg.TCGA.percentile) %>%
-  head(10) %>% kable(format = "html") %>% kable_styling(position = "center")
+  head(10) %>% kable(format = "html") %>% kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
 ```
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
+<table class="table table-striped" style="width: auto !important; ">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -1166,10 +1166,10 @@ Change the avg.TCGA.percentile (class integer) to factors with forcats:
 d0$avg.TCGA.percentile <- as_factor(d0$avg.TCGA.percentile) 
 d0 %>% 
   select(hugo,avg.TCGA.percentile) %>%
-  head(10) %>% kable(format = "html") %>% kable_styling(position = "center")
+  head(10) %>% kable(format = "html") %>% kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
 ```
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
+<table class="table table-striped" style="width: auto !important; ">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -1425,10 +1425,10 @@ d3 <- chek2_rna_cnv %>%
 d3.mean.percentile.by.type <- d3 %>%  
   group_by(cancer.gene.type) %>%
   dplyr::summarize(mean.percentile.by.type = mean(avg.TCGA.percentile))
-d3.mean.percentile.by.type  %>% kable(format = "html") %>% kable_styling(position = "center")
+d3.mean.percentile.by.type  %>% kable(format = "html") %>% kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
 ```
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
+<table class="table table-striped" style="width: auto !important; ">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -1537,10 +1537,10 @@ p3 + geom_point() + theme(text = element_text(size=12), axis.text.x = element_te
 We can also order the data.frame factors according to their frequency.
 
 ``` r
-levels(d3$cancer.gene.type) %>% kable(format = "html") %>% kable_styling(position = "center")
+levels(d3$cancer.gene.type) %>% kable(format = "html") %>% kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
 ```
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
+<table class="table table-striped" style="width: auto !important; ">
 <tbody>
 <tr>
 <td style="text-align:left;">
@@ -1590,10 +1590,10 @@ tumour suppressor
 </tbody>
 </table>
 ``` r
-d3$cancer.gene.type %>% forcats::fct_infreq() %>% levels() %>% kable(format = "html") %>% kable_styling(position = "center")
+d3$cancer.gene.type %>% forcats::fct_infreq() %>% levels() %>% kable(format = "html") %>% kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
 ```
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
+<table class="table table-striped" style="width: auto !important; ">
 <tbody>
 <tr>
 <td style="text-align:left;">
@@ -1648,10 +1648,10 @@ We can also re-order the factors avg.TCGA.percentile according to their frequenc
 
 ``` r
 d3$avg.TCGA.percentile <- factor(d3$avg.TCGA.percentile) 
-levels(d3$avg.TCGA.percentile) %>% head(5) %>% kable(format = "html") %>% kable_styling(position = "center")
+levels(d3$avg.TCGA.percentile) %>% head(5) %>% kable(format = "html") %>% kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
 ```
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
+<table class="table table-striped" style="width: auto !important; ">
 <tbody>
 <tr>
 <td style="text-align:left;">
@@ -1681,10 +1681,10 @@ levels(d3$avg.TCGA.percentile) %>% head(5) %>% kable(format = "html") %>% kable_
 </tbody>
 </table>
 ``` r
-d3$avg.TCGA.percentile %>% forcats::fct_infreq() %>% levels() %>% head(5) %>% kable(format = "html") %>% kable_styling(position = "center")
+d3$avg.TCGA.percentile %>% forcats::fct_infreq() %>% levels() %>% head(5) %>% kable(format = "html") %>% kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
 ```
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
+<table class="table table-striped" style="width: auto !important; ">
 <tbody>
 <tr>
 <td style="text-align:left;">
@@ -1791,10 +1791,10 @@ First, the values of cancer.gene.type (stored in gene\_types) are too long, let'
 abbreviations_gene_types  <- factor(c("unknown", "ONC", "ONC.pTS", "ONC.TS", "pONC", "pONC.pTS", "pONC.TS", "pTS", "TS"))
 abbreviations_gene_types <- as.character(abbreviations_gene_types)
 abbr_table <- data.frame(Abbreviation = abbreviations_gene_types, cancer.gene.type = gene_types)
-abbr_table %>% kable(format = "html") %>% kable_styling(position = "center")
+abbr_table %>% kable(format = "html") %>% kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
 ```
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
+<table class="table table-striped" style="width: auto !important; ">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -1911,10 +1911,10 @@ n.cancer.gene.type
     ## [1] 8
 
 ``` r
-d5.cancer.gene.type %>% kable(format = "html") %>% kable_styling(position = "center")
+d5.cancer.gene.type %>% kable(format = "html") %>% kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
 ```
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
+<table class="table table-striped" style="width: auto !important; ">
 <thead>
 <tr>
 <th style="text-align:left;">

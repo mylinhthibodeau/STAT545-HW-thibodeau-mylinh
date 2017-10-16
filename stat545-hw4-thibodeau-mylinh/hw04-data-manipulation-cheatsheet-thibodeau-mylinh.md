@@ -49,7 +49,7 @@ Matching tasks and functions
 
 ------------------------------------------------------------------------
 
-Let's make a small table to illustrate the different funcitons.
+Let's make a small table to illustrate the different functions.
 
 ``` r
 d1 <- read.table("scratch-space/small_dataframe_example.txt", sep = "\t", header = TRUE)

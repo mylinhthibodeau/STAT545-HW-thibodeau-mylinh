@@ -80,7 +80,7 @@ chek2_rna_cnv <- read.table("/Users/mylinh/Desktop/chek2-data-trial-stat545/chek
 View(chek2_rna_cnv) 
 # class(chek2_rna_cnv)
 # typeof(chek2_rna_cnv)
-summary(chek2_rna_cnv) %>% kable("markdown") %>% kable_styling()
+summary(chek2_rna_cnv) %>% kable(format = "markdown") %>% kable_styling(position = "center")
 ```
 
     ## Currently generic markdown table using pandoc is not supported.
@@ -420,7 +420,7 @@ Transform some of the variable of chek2\_rna\_cnv into factors. In cleaning up t
 Let's see what class of data we have in chek2\_rna\_cnv first.
 
 ``` r
-sapply(chek2_rna_cnv, class) %>% kable("markdown") %>% kable_styling()
+sapply(chek2_rna_cnv, class) %>% kable(format = "markdown") %>% kable_styling(position = "center")
 ```
 
     ## Warning in kable_markdown(x = structure(c("chr", "start", "end",
@@ -465,7 +465,7 @@ d0 <- chek2_rna_cnv
 d0$avg.TCGA.percentile <- as.factor(d0$avg.TCGA.percentile)
 d0 %>% 
   select(hugo,avg.TCGA.percentile) %>%
-  head(10) %>% kable("markdown") %>% kable_styling()
+  head(10) %>% kable(format = "markdown") %>% kable_styling(position = "center")
 ```
 
     ## Currently generic markdown table using pandoc is not supported.
@@ -495,7 +495,7 @@ Change the avg.TCGA.percentile (class integer) to factors with forcats:
 d0$avg.TCGA.percentile <- as_factor(d0$avg.TCGA.percentile) 
 d0 %>% 
   select(hugo,avg.TCGA.percentile) %>%
-  head(10) %>% kable("markdown") %>% kable_styling()
+  head(10) %>% kable(format = "markdown") %>% kable_styling(position = "center")
 ```
 
     ## Currently generic markdown table using pandoc is not supported.
@@ -675,7 +675,7 @@ d3 <- chek2_rna_cnv %>%
 d3.mean.percentile.by.type <- d3 %>%  
   group_by(cancer.gene.type) %>%
   dplyr::summarize(mean.percentile.by.type = mean(avg.TCGA.percentile))
-d3.mean.percentile.by.type  %>% kable("markdown") %>% kable_styling()
+d3.mean.percentile.by.type  %>% kable(format = "markdown") %>% kable_styling(position = "center")
 ```
 
     ## Currently generic markdown table using pandoc is not supported.
@@ -715,7 +715,7 @@ p3 + geom_point() + theme(text = element_text(size=12), axis.text.x = element_te
 We can also order the data.frame factors according to their frequency.
 
 ``` r
-levels(d3$cancer.gene.type) %>% kable("markdown") %>% kable_styling()
+levels(d3$cancer.gene.type) %>% kable(format = "markdown") %>% kable_styling(position = "center")
 ```
 
     ## Warning in kable_markdown(x = structure(c("NA", "oncogene", "oncogene;
@@ -737,7 +737,7 @@ levels(d3$cancer.gene.type) %>% kable("markdown") %>% kable_styling()
 | tumour suppressor                             |
 
 ``` r
-d3$cancer.gene.type %>% forcats::fct_infreq() %>% levels() %>% kable("markdown") %>% kable_styling()
+d3$cancer.gene.type %>% forcats::fct_infreq() %>% levels() %>% kable(format = "markdown") %>% kable_styling(position = "center")
 ```
 
     ## Warning in kable_markdown(x = structure(c("NA", "putative tumour
@@ -763,7 +763,7 @@ We can also re-order the factors avg.TCGA.percentile according to their frequenc
 
 ``` r
 d3$avg.TCGA.percentile <- factor(d3$avg.TCGA.percentile) 
-levels(d3$avg.TCGA.percentile) %>% head(5) %>% kable("markdown") %>% kable_styling()
+levels(d3$avg.TCGA.percentile) %>% head(5) %>% kable(format = "markdown") %>% kable_styling(position = "center")
 ```
 
     ## Warning in kable_markdown(x = structure(c("1", "2", "3", "4", "5"), .Dim =
@@ -780,7 +780,7 @@ levels(d3$avg.TCGA.percentile) %>% head(5) %>% kable("markdown") %>% kable_styli
 | 5   |
 
 ``` r
-d3$avg.TCGA.percentile %>% forcats::fct_infreq() %>% levels() %>% head(5) %>% kable("markdown") %>% kable_styling()
+d3$avg.TCGA.percentile %>% forcats::fct_infreq() %>% levels() %>% head(5) %>% kable(format = "markdown") %>% kable_styling(position = "center")
 ```
 
     ## Warning in kable_markdown(x = structure(c("49", "2", "1", "3", "48"), .Dim
@@ -874,7 +874,7 @@ First, the values of cancer.gene.type (stored in gene\_types) are too long, let'
 abbreviations_gene_types  <- factor(c("unknown", "ONC", "ONC.pTS", "ONC.TS", "pONC", "pONC.pTS", "pONC.TS", "pTS", "TS"))
 abbreviations_gene_types <- as.character(abbreviations_gene_types)
 abbr_table <- data.frame(Abbreviation = abbreviations_gene_types, cancer.gene.type = gene_types)
-abbr_table %>% kable("markdown") %>% kable_styling()
+abbr_table %>% kable(format = "markdown") %>% kable_styling(position = "center")
 ```
 
     ## Currently generic markdown table using pandoc is not supported.
@@ -922,7 +922,7 @@ n.cancer.gene.type
     ## [1] 8
 
 ``` r
-d5.cancer.gene.type %>% kable("markdown") %>% kable_styling()
+d5.cancer.gene.type %>% kable(format = "markdown") %>% kable_styling(position = "center")
 ```
 
     ## Currently generic markdown table using pandoc is not supported.

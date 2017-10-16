@@ -80,695 +80,286 @@ chek2_rna_cnv <- read.table("/Users/mylinh/Desktop/chek2-data-trial-stat545/chek
 View(chek2_rna_cnv) 
 # class(chek2_rna_cnv)
 # typeof(chek2_rna_cnv)
-summary(chek2_rna_cnv) %>% kable(format = "html") %>% kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
+summary(chek2_rna_cnv) %>% kable(format = "markdown", align="c")
 ```
 
-<table class="table table-striped" style="width: auto !important; ">
+<table style="width:100%;">
+<colgroup>
+<col width="0%" />
+<col width="2%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="2%" />
+<col width="4%" />
+<col width="2%" />
+<col width="4%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="4%" />
+<col width="2%" />
+<col width="3%" />
+<col width="5%" />
+<col width="3%" />
+<col width="3%" />
+<col width="2%" />
+<col width="3%" />
+<col width="3%" />
+<col width="2%" />
+<col width="4%" />
+<col width="3%" />
+<col width="4%" />
+<col width="3%" />
+<col width="8%" />
+</colgroup>
 <thead>
-<tr>
-<th style="text-align:left;">
-</th>
-<th style="text-align:left;">
-      chr </th>
-
-<th style="text-align:left;">
-     start </th>
-
-<th style="text-align:left;">
-      end </th>
-
-<th style="text-align:left;">
-     strand </th>
-
-<th style="text-align:left;">
-    cytoband </th>
-
-<th style="text-align:left;">
-        Ensembl.gene.ID </th>
-
-<th style="text-align:left;">
-      hugo </th>
-
-<th style="text-align:left;">
-         copy.category </th>
-
-<th style="text-align:left;">
-copy.change
-</th>
-<th style="text-align:left;">
-    avg.cna </th>
-
-<th style="text-align:left;">
-avg.cna.by.gene
-</th>
-<th style="text-align:left;">
-breakpoint
-</th>
-<th style="text-align:left;">
-manually.curated.homd
-</th>
-<th style="text-align:left;">
-loh
-</th>
-<th style="text-align:left;">
-loh\_ratio
-</th>
-<th style="text-align:left;">
-intepreted.expression.status
-</th>
-<th style="text-align:left;">
-      RPKM </th>
-
-<th style="text-align:left;">
-SARC.percentile
-</th>
-<th style="text-align:left;">
-SARC.kIQR
-</th>
-<th style="text-align:left;">
-FC.mean.Bodymap
-</th>
-<th style="text-align:left;">
-avg.TCGA.percentile
-</th>
-<th style="text-align:left;">
-avg.TCGA.kIQR
-</th>
-<th style="text-align:left;">
-avg.TCGA.norm.percentile
-</th>
-<th style="text-align:left;">
-avg.TCGA.norm.kIQR
-</th>
-<th style="text-align:left;">
-UCEC.norm.percentile
-</th>
-<th style="text-align:left;">
-UCEC.norm.kIQR
-</th>
-<th style="text-align:left;">
-                             cancer.gene.type </th>
-
+<tr class="header">
+<th align="left"></th>
+<th align="center">chr</th>
+<th align="center">start</th>
+<th align="center">end</th>
+<th align="center">strand</th>
+<th align="center">cytoband</th>
+<th align="center">Ensembl.gene.ID</th>
+<th align="center">hugo</th>
+<th align="center">copy.category</th>
+<th align="center">copy.change</th>
+<th align="center">avg.cna</th>
+<th align="center">avg.cna.by.gene</th>
+<th align="center">breakpoint</th>
+<th align="center">manually.curated.homd</th>
+<th align="center">loh</th>
+<th align="center">loh_ratio</th>
+<th align="center">intepreted.expression.status</th>
+<th align="center">RPKM</th>
+<th align="center">SARC.percentile</th>
+<th align="center">SARC.kIQR</th>
+<th align="center">FC.mean.Bodymap</th>
+<th align="center">avg.TCGA.percentile</th>
+<th align="center">avg.TCGA.kIQR</th>
+<th align="center">avg.TCGA.norm.percentile</th>
+<th align="center">avg.TCGA.norm.kIQR</th>
+<th align="center">UCEC.norm.percentile</th>
+<th align="center">UCEC.norm.kIQR</th>
+<th align="center">cancer.gene.type</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-1 : 2042
-</td>
-<td style="text-align:left;">
-Min. : 5810
-</td>
-<td style="text-align:left;">
-Min. : 31427
-</td>
-<td style="text-align:left;">
-Min. :-1.00000
-</td>
-<td style="text-align:left;">
-p13.3 : 620
-</td>
-<td style="text-align:left;">
-ENSG00000000003: 1
-</td>
-<td style="text-align:left;">
-: 356
-</td>
-<td style="text-align:left;">
-: 34
-</td>
-<td style="text-align:left;">
-Min. :-2.00000
-</td>
-<td style="text-align:left;">
-Min. :-0.45000
-</td>
-<td style="text-align:left;">
-Min. :-0.47000
-</td>
-<td style="text-align:left;">
-Min. :0.00000
-</td>
-<td style="text-align:left;">
-Min. :0.00000
-</td>
-<td style="text-align:left;">
-: 92
-</td>
-<td style="text-align:left;">
-Min. :0.1800
-</td>
-<td style="text-align:left;">
-:18932
-</td>
-<td style="text-align:left;">
-Min. : 0.00
-</td>
-<td style="text-align:left;">
-Min. : 0.00
-</td>
-<td style="text-align:left;">
-Min. :-2.30
-</td>
-<td style="text-align:left;">
-Min. :-893.100
-</td>
-<td style="text-align:left;">
-Min. : 0.00
-</td>
-<td style="text-align:left;">
-Min. :-2.00
-</td>
-<td style="text-align:left;">
-Min. : 0.00
-</td>
-<td style="text-align:left;">
-Min. :-3.48
-</td>
-<td style="text-align:left;">
-Min. : 0.00
-</td>
-<td style="text-align:left;">
-Min. :-8.31
-</td>
-<td style="text-align:left;">
-:18335
-</td>
+<tr class="odd">
+<td align="left"></td>
+<td align="center">1 : 2042</td>
+<td align="center">Min. : 5810</td>
+<td align="center">Min. : 31427</td>
+<td align="center">Min. :-1.00000</td>
+<td align="center">p13.3 : 620</td>
+<td align="center">ENSG00000000003: 1</td>
+<td align="center">: 356</td>
+<td align="center">: 34</td>
+<td align="center">Min. :-2.00000</td>
+<td align="center">Min. :-0.45000</td>
+<td align="center">Min. :-0.47000</td>
+<td align="center">Min. :0.00000</td>
+<td align="center">Min. :0.00000</td>
+<td align="center">: 92</td>
+<td align="center">Min. :0.1800</td>
+<td align="center">:18932</td>
+<td align="center">Min. : 0.00</td>
+<td align="center">Min. : 0.00</td>
+<td align="center">Min. :-2.30</td>
+<td align="center">Min. :-893.100</td>
+<td align="center">Min. : 0.00</td>
+<td align="center">Min. :-2.00</td>
+<td align="center">Min. : 0.00</td>
+<td align="center">Min. :-3.48</td>
+<td align="center">Min. : 0.00</td>
+<td align="center">Min. :-8.31</td>
+<td align="center">:18335</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-19 : 1421
-</td>
-<td style="text-align:left;">
-1st Qu.: 31494320
-</td>
-<td style="text-align:left;">
-1st Qu.: 31525315
-</td>
-<td style="text-align:left;">
-1st Qu.:-1.00000
-</td>
-<td style="text-align:left;">
-q22.1 : 489
-</td>
-<td style="text-align:left;">
-ENSG00000000005: 1
-</td>
-<td style="text-align:left;">
-AGAP9 : 2
-</td>
-<td style="text-align:left;">
-Gain : 1092
-</td>
-<td style="text-align:left;">
-1st Qu.: 0.00000
-</td>
-<td style="text-align:left;">
-1st Qu.: 0.01000
-</td>
-<td style="text-align:left;">
-1st Qu.: 0.00000
-</td>
-<td style="text-align:left;">
-1st Qu.:0.00000
-</td>
-<td style="text-align:left;">
-1st Qu.:0.00000
-</td>
-<td style="text-align:left;">
-DLOH: 1
-</td>
-<td style="text-align:left;">
-1st Qu.:0.4700
-</td>
-<td style="text-align:left;">
-down: 460
-</td>
-<td style="text-align:left;">
-1st Qu.: 0.23
-</td>
-<td style="text-align:left;">
-1st Qu.: 27.00
-</td>
-<td style="text-align:left;">
-1st Qu.:-0.37
-</td>
-<td style="text-align:left;">
-1st Qu.: -1.480
-</td>
-<td style="text-align:left;">
-1st Qu.: 23.00
-</td>
-<td style="text-align:left;">
-1st Qu.:-0.40
-</td>
-<td style="text-align:left;">
-1st Qu.: 22.00
-</td>
-<td style="text-align:left;">
-1st Qu.:-0.42
-</td>
-<td style="text-align:left;">
-1st Qu.: 8.00
-</td>
-<td style="text-align:left;">
-1st Qu.:-0.83
-</td>
-<td style="text-align:left;">
-putative tumour suppressor : 667
-</td>
+<tr class="even">
+<td align="left"></td>
+<td align="center">19 : 1421</td>
+<td align="center">1st Qu.: 31494320</td>
+<td align="center">1st Qu.: 31525315</td>
+<td align="center">1st Qu.:-1.00000</td>
+<td align="center">q22.1 : 489</td>
+<td align="center">ENSG00000000005: 1</td>
+<td align="center">AGAP9 : 2</td>
+<td align="center">Gain : 1092</td>
+<td align="center">1st Qu.: 0.00000</td>
+<td align="center">1st Qu.: 0.01000</td>
+<td align="center">1st Qu.: 0.00000</td>
+<td align="center">1st Qu.:0.00000</td>
+<td align="center">1st Qu.:0.00000</td>
+<td align="center">DLOH: 1</td>
+<td align="center">1st Qu.:0.4700</td>
+<td align="center">down: 460</td>
+<td align="center">1st Qu.: 0.23</td>
+<td align="center">1st Qu.: 27.00</td>
+<td align="center">1st Qu.:-0.37</td>
+<td align="center">1st Qu.: -1.480</td>
+<td align="center">1st Qu.: 23.00</td>
+<td align="center">1st Qu.:-0.40</td>
+<td align="center">1st Qu.: 22.00</td>
+<td align="center">1st Qu.:-0.42</td>
+<td align="center">1st Qu.: 8.00</td>
+<td align="center">1st Qu.:-0.83</td>
+<td align="center">putative tumour suppressor : 667</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-11 : 1281
-</td>
-<td style="text-align:left;">
-Median : 57837876
-</td>
-<td style="text-align:left;">
-Median : 57882616
-</td>
-<td style="text-align:left;">
-Median : 1.00000
-</td>
-<td style="text-align:left;">
-q13.2 : 433
-</td>
-<td style="text-align:left;">
-ENSG00000000419: 1
-</td>
-<td style="text-align:left;">
-CT45A5 : 2
-</td>
-<td style="text-align:left;">
-Homozygous Loss: 79
-</td>
-<td style="text-align:left;">
-Median : 0.00000
-</td>
-<td style="text-align:left;">
-Median : 0.01000
-</td>
-<td style="text-align:left;">
-Median : 0.02000
-</td>
-<td style="text-align:left;">
-Median :0.00000
-</td>
-<td style="text-align:left;">
-Median :0.00000
-</td>
-<td style="text-align:left;">
-HET :19503
-</td>
-<td style="text-align:left;">
-Median :0.5000
-</td>
-<td style="text-align:left;">
-up : 224
-</td>
-<td style="text-align:left;">
-Median : 3.17
-</td>
-<td style="text-align:left;">
-Median : 51.00
-</td>
-<td style="text-align:left;">
-Median : 0.08
-</td>
-<td style="text-align:left;">
-Median : -1.060
-</td>
-<td style="text-align:left;">
-Median : 47.00
-</td>
-<td style="text-align:left;">
-Median :-0.01
-</td>
-<td style="text-align:left;">
-Median : 48.00
-</td>
-<td style="text-align:left;">
-Median : 0.00
-</td>
-<td style="text-align:left;">
-Median : 42.00
-</td>
-<td style="text-align:left;">
-Median :-0.18
-</td>
-<td style="text-align:left;">
-oncogene : 303
-</td>
+<tr class="odd">
+<td align="left"></td>
+<td align="center">11 : 1281</td>
+<td align="center">Median : 57837876</td>
+<td align="center">Median : 57882616</td>
+<td align="center">Median : 1.00000</td>
+<td align="center">q13.2 : 433</td>
+<td align="center">ENSG00000000419: 1</td>
+<td align="center">CT45A5 : 2</td>
+<td align="center">Homozygous Loss: 79</td>
+<td align="center">Median : 0.00000</td>
+<td align="center">Median : 0.01000</td>
+<td align="center">Median : 0.02000</td>
+<td align="center">Median :0.00000</td>
+<td align="center">Median :0.00000</td>
+<td align="center">HET :19503</td>
+<td align="center">Median :0.5000</td>
+<td align="center">up : 224</td>
+<td align="center">Median : 3.17</td>
+<td align="center">Median : 51.00</td>
+<td align="center">Median : 0.08</td>
+<td align="center">Median : -1.060</td>
+<td align="center">Median : 47.00</td>
+<td align="center">Median :-0.01</td>
+<td align="center">Median : 48.00</td>
+<td align="center">Median : 0.00</td>
+<td align="center">Median : 42.00</td>
+<td align="center">Median :-0.18</td>
+<td align="center">oncogene : 303</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-2 : 1224
-</td>
-<td style="text-align:left;">
-Mean : 74255388
-</td>
-<td style="text-align:left;">
-Mean : 74321328
-</td>
-<td style="text-align:left;">
-Mean : 0.01393
-</td>
-<td style="text-align:left;">
-p13.2 : 425
-</td>
-<td style="text-align:left;">
-ENSG00000000457: 1
-</td>
-<td style="text-align:left;">
-DCDC1 : 2
-</td>
-<td style="text-align:left;">
-Loss : 2147
-</td>
-<td style="text-align:left;">
-Mean :-0.05834
-</td>
-<td style="text-align:left;">
-Mean : 0.00147
-</td>
-<td style="text-align:left;">
-Mean : 0.00926
-</td>
-<td style="text-align:left;">
-Mean :0.00123
-</td>
-<td style="text-align:left;">
-Mean :0.00405
-</td>
-<td style="text-align:left;">
-HOMD: 14
-</td>
-<td style="text-align:left;">
-Mean :0.5027
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-Mean : 22.74
-</td>
-<td style="text-align:left;">
-Mean : 50.92
-</td>
-<td style="text-align:left;">
-Mean : Inf
-</td>
-<td style="text-align:left;">
-Mean : -1.208
-</td>
-<td style="text-align:left;">
-Mean : 47.83
-</td>
-<td style="text-align:left;">
-Mean : Inf
-</td>
-<td style="text-align:left;">
-Mean : 48.95
-</td>
-<td style="text-align:left;">
-Mean : Inf
-</td>
-<td style="text-align:left;">
-Mean : 43.87
-</td>
-<td style="text-align:left;">
-Mean : Inf
-</td>
-<td style="text-align:left;">
-tumour suppressor : 128
-</td>
+<tr class="even">
+<td align="left"></td>
+<td align="center">2 : 1224</td>
+<td align="center">Mean : 74255388</td>
+<td align="center">Mean : 74321328</td>
+<td align="center">Mean : 0.01393</td>
+<td align="center">p13.2 : 425</td>
+<td align="center">ENSG00000000457: 1</td>
+<td align="center">DCDC1 : 2</td>
+<td align="center">Loss : 2147</td>
+<td align="center">Mean :-0.05834</td>
+<td align="center">Mean : 0.00147</td>
+<td align="center">Mean : 0.00926</td>
+<td align="center">Mean :0.00123</td>
+<td align="center">Mean :0.00405</td>
+<td align="center">HOMD: 14</td>
+<td align="center">Mean :0.5027</td>
+<td align="center">NA</td>
+<td align="center">Mean : 22.74</td>
+<td align="center">Mean : 50.92</td>
+<td align="center">Mean : Inf</td>
+<td align="center">Mean : -1.208</td>
+<td align="center">Mean : 47.83</td>
+<td align="center">Mean : Inf</td>
+<td align="center">Mean : 48.95</td>
+<td align="center">Mean : Inf</td>
+<td align="center">Mean : 43.87</td>
+<td align="center">Mean : Inf</td>
+<td align="center">tumour suppressor : 128</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-17 : 1159
-</td>
-<td style="text-align:left;">
-3rd Qu.:111340848
-</td>
-<td style="text-align:left;">
-3rd Qu.:111383246
-</td>
-<td style="text-align:left;">
-3rd Qu.: 1.00000
-</td>
-<td style="text-align:left;">
-q11.2 : 366
-</td>
-<td style="text-align:left;">
-ENSG00000000460: 1
-</td>
-<td style="text-align:left;">
-DIO3 : 2
-</td>
-<td style="text-align:left;">
-Neutral :16206
-</td>
-<td style="text-align:left;">
-3rd Qu.: 0.00000
-</td>
-<td style="text-align:left;">
-3rd Qu.: 0.02000
-</td>
-<td style="text-align:left;">
-3rd Qu.: 0.04000
-</td>
-<td style="text-align:left;">
-3rd Qu.:0.00000
-</td>
-<td style="text-align:left;">
-3rd Qu.:0.00000
-</td>
-<td style="text-align:left;">
-NLOH: 6
-</td>
-<td style="text-align:left;">
-3rd Qu.:0.5400
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-3rd Qu.: 9.42
-</td>
-<td style="text-align:left;">
-3rd Qu.: 76.00
-</td>
-<td style="text-align:left;">
-3rd Qu.: 0.77
-</td>
-<td style="text-align:left;">
-3rd Qu.: 1.200
-</td>
-<td style="text-align:left;">
-3rd Qu.: 73.00
-</td>
-<td style="text-align:left;">
-3rd Qu.: 0.66
-</td>
-<td style="text-align:left;">
-3rd Qu.: 76.00
-</td>
-<td style="text-align:left;">
-3rd Qu.: 0.73
-</td>
-<td style="text-align:left;">
-3rd Qu.: 79.00
-</td>
-<td style="text-align:left;">
-3rd Qu.: 0.84
-</td>
-<td style="text-align:left;">
-putative oncogene : 114
-</td>
+<tr class="odd">
+<td align="left"></td>
+<td align="center">17 : 1159</td>
+<td align="center">3rd Qu.:111340848</td>
+<td align="center">3rd Qu.:111383246</td>
+<td align="center">3rd Qu.: 1.00000</td>
+<td align="center">q11.2 : 366</td>
+<td align="center">ENSG00000000460: 1</td>
+<td align="center">DIO3 : 2</td>
+<td align="center">Neutral :16206</td>
+<td align="center">3rd Qu.: 0.00000</td>
+<td align="center">3rd Qu.: 0.02000</td>
+<td align="center">3rd Qu.: 0.04000</td>
+<td align="center">3rd Qu.:0.00000</td>
+<td align="center">3rd Qu.:0.00000</td>
+<td align="center">NLOH: 6</td>
+<td align="center">3rd Qu.:0.5400</td>
+<td align="center">NA</td>
+<td align="center">3rd Qu.: 9.42</td>
+<td align="center">3rd Qu.: 76.00</td>
+<td align="center">3rd Qu.: 0.77</td>
+<td align="center">3rd Qu.: 1.200</td>
+<td align="center">3rd Qu.: 73.00</td>
+<td align="center">3rd Qu.: 0.66</td>
+<td align="center">3rd Qu.: 76.00</td>
+<td align="center">3rd Qu.: 0.73</td>
+<td align="center">3rd Qu.: 79.00</td>
+<td align="center">3rd Qu.: 0.84</td>
+<td align="center">putative oncogene : 114</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-3 : 1057
-</td>
-<td style="text-align:left;">
-Max. :249200395
-</td>
-<td style="text-align:left;">
-Max. :249214145
-</td>
-<td style="text-align:left;">
-Max. : 1.00000
-</td>
-<td style="text-align:left;">
-q21.3 : 348
-</td>
-<td style="text-align:left;">
-ENSG00000000938: 1
-</td>
-<td style="text-align:left;">
-DTX2 : 2
-</td>
-<td style="text-align:left;">
-No Data : 58
-</td>
-<td style="text-align:left;">
-Max. : 2.00000
-</td>
-<td style="text-align:left;">
-Max. : 0.42000
-</td>
-<td style="text-align:left;">
-Max. : 0.42000
-</td>
-<td style="text-align:left;">
-Max. :1.00000
-</td>
-<td style="text-align:left;">
-Max. :1.00000
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-Max. :0.9000
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-Max. :34198.14
-</td>
-<td style="text-align:left;">
-Max. :100.00
-</td>
-<td style="text-align:left;">
-Max. : Inf
-</td>
-<td style="text-align:left;">
-Max. : 121.580
-</td>
-<td style="text-align:left;">
-Max. :100.00
-</td>
-<td style="text-align:left;">
-Max. : Inf
-</td>
-<td style="text-align:left;">
-Max. :100.00
-</td>
-<td style="text-align:left;">
-Max. : Inf
-</td>
-<td style="text-align:left;">
-Max. :100.00
-</td>
-<td style="text-align:left;">
-Max. : Inf
-</td>
-<td style="text-align:left;">
-oncogene; putative tumour suppressor: 46
-</td>
+<tr class="even">
+<td align="left"></td>
+<td align="center">3 : 1057</td>
+<td align="center">Max. :249200395</td>
+<td align="center">Max. :249214145</td>
+<td align="center">Max. : 1.00000</td>
+<td align="center">q21.3 : 348</td>
+<td align="center">ENSG00000000938: 1</td>
+<td align="center">DTX2 : 2</td>
+<td align="center">No Data : 58</td>
+<td align="center">Max. : 2.00000</td>
+<td align="center">Max. : 0.42000</td>
+<td align="center">Max. : 0.42000</td>
+<td align="center">Max. :1.00000</td>
+<td align="center">Max. :1.00000</td>
+<td align="center">NA</td>
+<td align="center">Max. :0.9000</td>
+<td align="center">NA</td>
+<td align="center">Max. :34198.14</td>
+<td align="center">Max. :100.00</td>
+<td align="center">Max. : Inf</td>
+<td align="center">Max. : 121.580</td>
+<td align="center">Max. :100.00</td>
+<td align="center">Max. : Inf</td>
+<td align="center">Max. :100.00</td>
+<td align="center">Max. : Inf</td>
+<td align="center">Max. :100.00</td>
+<td align="center">Max. : Inf</td>
+<td align="center">oncogene; putative tumour suppressor: 46</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-(Other):11432
-</td>
-<td style="text-align:left;">
-NA's :92
-</td>
-<td style="text-align:left;">
-NA's :92
-</td>
-<td style="text-align:left;">
-NA's :92
-</td>
-<td style="text-align:left;">
-(Other):16935
-</td>
-<td style="text-align:left;">
-(Other) :19610
-</td>
-<td style="text-align:left;">
-(Other):19250
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA's :92
-</td>
-<td style="text-align:left;">
-NA's :92
-</td>
-<td style="text-align:left;">
-NA's :92
-</td>
-<td style="text-align:left;">
-NA's :92
-</td>
-<td style="text-align:left;">
-NA's :92
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA's :92
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA's :1347
-</td>
-<td style="text-align:left;">
-NA's :2454
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA's :760
-</td>
-<td style="text-align:left;">
-NA's :1867
-</td>
-<td style="text-align:left;">
-NA's :1347
-</td>
-<td style="text-align:left;">
-NA's :2331
-</td>
-<td style="text-align:left;">
-NA's :1347
-</td>
-<td style="text-align:left;">
-NA's :2438
-</td>
-<td style="text-align:left;">
-(Other) : 23
-</td>
+<tr class="odd">
+<td align="left"></td>
+<td align="center">(Other):11432</td>
+<td align="center">NA's :92</td>
+<td align="center">NA's :92</td>
+<td align="center">NA's :92</td>
+<td align="center">(Other):16935</td>
+<td align="center">(Other) :19610</td>
+<td align="center">(Other):19250</td>
+<td align="center">NA</td>
+<td align="center">NA's :92</td>
+<td align="center">NA's :92</td>
+<td align="center">NA's :92</td>
+<td align="center">NA's :92</td>
+<td align="center">NA's :92</td>
+<td align="center">NA</td>
+<td align="center">NA's :92</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA's :1347</td>
+<td align="center">NA's :2454</td>
+<td align="center">NA</td>
+<td align="center">NA's :760</td>
+<td align="center">NA's :1867</td>
+<td align="center">NA's :1347</td>
+<td align="center">NA's :2331</td>
+<td align="center">NA's :1347</td>
+<td align="center">NA's :2438</td>
+<td align="center">(Other) : 23</td>
 </tr>
 </tbody>
 </table>
+
 ``` r
 dim(chek2_rna_cnv)
 ```
@@ -827,229 +418,42 @@ Transform some of the variable of chek2\_rna\_cnv into factors. In cleaning up t
 Let's see what class of data we have in chek2\_rna\_cnv first.
 
 ``` r
-sapply(chek2_rna_cnv, class) %>% kable(format = "html") %>% kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
+sapply(chek2_rna_cnv, class) %>% kable(format = "markdown", align="c")
 ```
 
-<table class="table table-striped" style="width: auto !important; ">
-<tbody>
-<tr>
-<td style="text-align:left;">
-chr
-</td>
-<td style="text-align:left;">
-factor
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-start
-</td>
-<td style="text-align:left;">
-integer
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-end
-</td>
-<td style="text-align:left;">
-integer
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-strand
-</td>
-<td style="text-align:left;">
-integer
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-cytoband
-</td>
-<td style="text-align:left;">
-factor
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Ensembl.gene.ID
-</td>
-<td style="text-align:left;">
-factor
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-hugo
-</td>
-<td style="text-align:left;">
-factor
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-copy.category
-</td>
-<td style="text-align:left;">
-factor
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-copy.change
-</td>
-<td style="text-align:left;">
-integer
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-avg.cna
-</td>
-<td style="text-align:left;">
-numeric
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-avg.cna.by.gene
-</td>
-<td style="text-align:left;">
-numeric
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-breakpoint
-</td>
-<td style="text-align:left;">
-integer
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-manually.curated.homd
-</td>
-<td style="text-align:left;">
-integer
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-loh
-</td>
-<td style="text-align:left;">
-factor
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-loh\_ratio
-</td>
-<td style="text-align:left;">
-numeric
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-intepreted.expression.status
-</td>
-<td style="text-align:left;">
-factor
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-RPKM
-</td>
-<td style="text-align:left;">
-numeric
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SARC.percentile
-</td>
-<td style="text-align:left;">
-integer
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SARC.kIQR
-</td>
-<td style="text-align:left;">
-numeric
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-FC.mean.Bodymap
-</td>
-<td style="text-align:left;">
-numeric
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-avg.TCGA.percentile
-</td>
-<td style="text-align:left;">
-integer
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-avg.TCGA.kIQR
-</td>
-<td style="text-align:left;">
-numeric
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-avg.TCGA.norm.percentile
-</td>
-<td style="text-align:left;">
-integer
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-avg.TCGA.norm.kIQR
-</td>
-<td style="text-align:left;">
-numeric
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-UCEC.norm.percentile
-</td>
-<td style="text-align:left;">
-integer
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-UCEC.norm.kIQR
-</td>
-<td style="text-align:left;">
-numeric
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-cancer.gene.type
-</td>
-<td style="text-align:left;">
-factor
-</td>
-</tr>
-</tbody>
-</table>
+    ## Warning in kable_markdown(x = structure(c("chr", "start", "end",
+    ## "strand", : The table should have a header (column names)
+
+|                              |         |
+|:-----------------------------|:-------:|
+| chr                          |  factor |
+| start                        | integer |
+| end                          | integer |
+| strand                       | integer |
+| cytoband                     |  factor |
+| Ensembl.gene.ID              |  factor |
+| hugo                         |  factor |
+| copy.category                |  factor |
+| copy.change                  | integer |
+| avg.cna                      | numeric |
+| avg.cna.by.gene              | numeric |
+| breakpoint                   | integer |
+| manually.curated.homd        | integer |
+| loh                          |  factor |
+| loh\_ratio                   | numeric |
+| intepreted.expression.status |  factor |
+| RPKM                         | numeric |
+| SARC.percentile              | integer |
+| SARC.kIQR                    | numeric |
+| FC.mean.Bodymap              | numeric |
+| avg.TCGA.percentile          | integer |
+| avg.TCGA.kIQR                | numeric |
+| avg.TCGA.norm.percentile     | integer |
+| avg.TCGA.norm.kIQR           | numeric |
+| UCEC.norm.percentile         | integer |
+| UCEC.norm.kIQR               | numeric |
+| cancer.gene.type             |  factor |
+
 Change the avg.TCGA.percentile (class integer) to factors with base R:
 
 ``` r
@@ -1057,103 +461,22 @@ d0 <- chek2_rna_cnv
 d0$avg.TCGA.percentile <- as.factor(d0$avg.TCGA.percentile)
 d0 %>% 
   select(hugo,avg.TCGA.percentile) %>%
-  head(10) %>% kable(format = "html") %>% kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
+  head(10) %>% kable(format = "markdown", align="c")
 ```
 
-<table class="table table-striped" style="width: auto !important; ">
-<thead>
-<tr>
-<th style="text-align:left;">
-hugo
-</th>
-<th style="text-align:left;">
-avg.TCGA.percentile
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-A1BG
-</td>
-<td style="text-align:left;">
-85
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-A1CF
-</td>
-<td style="text-align:left;">
-32
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-A2M
-</td>
-<td style="text-align:left;">
-90
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-A2ML1
-</td>
-<td style="text-align:left;">
-70
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-A4GALT
-</td>
-<td style="text-align:left;">
-62
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-A4GNT
-</td>
-<td style="text-align:left;">
-43
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AAAS
-</td>
-<td style="text-align:left;">
-11
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AACS
-</td>
-<td style="text-align:left;">
-3
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AADAC
-</td>
-<td style="text-align:left;">
-75
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AADACL2
-</td>
-<td style="text-align:left;">
-77
-</td>
-</tr>
-</tbody>
-</table>
+|   hugo  | avg.TCGA.percentile |
+|:-------:|:-------------------:|
+|   A1BG  |          85         |
+|   A1CF  |          32         |
+|   A2M   |          90         |
+|  A2ML1  |          70         |
+|  A4GALT |          62         |
+|  A4GNT  |          43         |
+|   AAAS  |          11         |
+|   AACS  |          3          |
+|  AADAC  |          75         |
+| AADACL2 |          77         |
+
 ``` r
 nlevels(d0$avg.TCGA.percentile)
 ```
@@ -1166,103 +489,22 @@ Change the avg.TCGA.percentile (class integer) to factors with forcats:
 d0$avg.TCGA.percentile <- as_factor(d0$avg.TCGA.percentile) 
 d0 %>% 
   select(hugo,avg.TCGA.percentile) %>%
-  head(10) %>% kable(format = "html") %>% kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
+  head(10) %>% kable(format = "markdown", align="c")
 ```
 
-<table class="table table-striped" style="width: auto !important; ">
-<thead>
-<tr>
-<th style="text-align:left;">
-hugo
-</th>
-<th style="text-align:left;">
-avg.TCGA.percentile
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-A1BG
-</td>
-<td style="text-align:left;">
-85
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-A1CF
-</td>
-<td style="text-align:left;">
-32
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-A2M
-</td>
-<td style="text-align:left;">
-90
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-A2ML1
-</td>
-<td style="text-align:left;">
-70
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-A4GALT
-</td>
-<td style="text-align:left;">
-62
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-A4GNT
-</td>
-<td style="text-align:left;">
-43
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AAAS
-</td>
-<td style="text-align:left;">
-11
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AACS
-</td>
-<td style="text-align:left;">
-3
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AADAC
-</td>
-<td style="text-align:left;">
-75
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AADACL2
-</td>
-<td style="text-align:left;">
-77
-</td>
-</tr>
-</tbody>
-</table>
+|   hugo  | avg.TCGA.percentile |
+|:-------:|:-------------------:|
+|   A1BG  |          85         |
+|   A1CF  |          32         |
+|   A2M   |          90         |
+|  A2ML1  |          70         |
+|  A4GALT |          62         |
+|  A4GNT  |          43         |
+|   AAAS  |          11         |
+|   AACS  |          3          |
+|  AADAC  |          75         |
+| AADACL2 |          77         |
+
 In my case, I obtain the same result with base R and forcats with the avg.TCGA.percentile as factors, although I know that base R has a tendency to try re-ordering the data, which is not alway what we want, but the code syntax I used did not lead to this problem for me.
 
 (1B) Drop 0
@@ -1425,95 +667,21 @@ d3 <- chek2_rna_cnv %>%
 d3.mean.percentile.by.type <- d3 %>%  
   group_by(cancer.gene.type) %>%
   dplyr::summarize(mean.percentile.by.type = mean(avg.TCGA.percentile))
-d3.mean.percentile.by.type  %>% kable(format = "html") %>% kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
+d3.mean.percentile.by.type  %>% kable(format = "markdown", align="c")
 ```
 
-<table class="table table-striped" style="width: auto !important; ">
-<thead>
-<tr>
-<th style="text-align:left;">
-cancer.gene.type
-</th>
-<th style="text-align:right;">
-mean.percentile.by.type
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-47.96121
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-oncogene
-</td>
-<td style="text-align:right;">
-49.04714
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-oncogene; putative tumour suppressor
-</td>
-<td style="text-align:right;">
-41.17778
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-oncogene; tumour suppressor
-</td>
-<td style="text-align:right;">
-40.66667
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-putative oncogene
-</td>
-<td style="text-align:right;">
-44.84821
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-putative oncogene; putative tumour suppressor
-</td>
-<td style="text-align:right;">
-46.14286
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-putative oncogene; tumour suppressor
-</td>
-<td style="text-align:right;">
-21.33333
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-putative tumour suppressor
-</td>
-<td style="text-align:right;">
-50.62422
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-tumour suppressor
-</td>
-<td style="text-align:right;">
-42.50781
-</td>
-</tr>
-</tbody>
-</table>
+|                cancer.gene.type               | mean.percentile.by.type |
+|:---------------------------------------------:|:-----------------------:|
+|                       NA                      |         47.96121        |
+|                    oncogene                   |         49.04714        |
+|      oncogene; putative tumour suppressor     |         41.17778        |
+|          oncogene; tumour suppressor          |         40.66667        |
+|               putative oncogene               |         44.84821        |
+| putative oncogene; putative tumour suppressor |         46.14286        |
+|      putative oncogene; tumour suppressor     |         21.33333        |
+|           putative tumour suppressor          |         50.62422        |
+|               tumour suppressor               |         42.50781        |
+
 ``` r
 # cancer.gene.type factors in alphabetical order
 p3 <- d3.mean.percentile.by.type %>%
@@ -1537,182 +705,79 @@ p3 + geom_point() + theme(text = element_text(size=12), axis.text.x = element_te
 We can also order the data.frame factors according to their frequency.
 
 ``` r
-levels(d3$cancer.gene.type) %>% kable(format = "html") %>% kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
+levels(d3$cancer.gene.type) %>% kable(format = "markdown", align="c")
 ```
 
-<table class="table table-striped" style="width: auto !important; ">
-<tbody>
-<tr>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-oncogene
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-oncogene; putative tumour suppressor
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-oncogene; tumour suppressor
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-putative oncogene
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-putative oncogene; putative tumour suppressor
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-putative oncogene; tumour suppressor
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-putative tumour suppressor
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-tumour suppressor
-</td>
-</tr>
-</tbody>
-</table>
+    ## Warning in kable_markdown(x = structure(c("NA", "oncogene", "oncogene;
+    ## putative tumour suppressor", : The table should have a header (column
+    ## names)
+
+|                                               |
+|:---------------------------------------------:|
+|                       NA                      |
+|                    oncogene                   |
+|      oncogene; putative tumour suppressor     |
+|          oncogene; tumour suppressor          |
+|               putative oncogene               |
+| putative oncogene; putative tumour suppressor |
+|      putative oncogene; tumour suppressor     |
+|           putative tumour suppressor          |
+|               tumour suppressor               |
+
 ``` r
-d3$cancer.gene.type %>% forcats::fct_infreq() %>% levels() %>% kable(format = "html") %>% kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
+d3$cancer.gene.type %>% forcats::fct_infreq() %>% levels() %>% kable(format = "markdown", align="c")
 ```
 
-<table class="table table-striped" style="width: auto !important; ">
-<tbody>
-<tr>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-putative tumour suppressor
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-oncogene
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-tumour suppressor
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-putative oncogene
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-oncogene; putative tumour suppressor
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-oncogene; tumour suppressor
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-putative oncogene; putative tumour suppressor
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-putative oncogene; tumour suppressor
-</td>
-</tr>
-</tbody>
-</table>
+    ## Warning in kable_markdown(x = structure(c("NA", "putative tumour
+    ## suppressor", : The table should have a header (column names)
+
+|                                               |
+|:---------------------------------------------:|
+|                       NA                      |
+|           putative tumour suppressor          |
+|                    oncogene                   |
+|               tumour suppressor               |
+|               putative oncogene               |
+|      oncogene; putative tumour suppressor     |
+|          oncogene; tumour suppressor          |
+| putative oncogene; putative tumour suppressor |
+|      putative oncogene; tumour suppressor     |
+
 **Note 1.** So the most frequent factor is "NA", followed by "putative tumour suppressor", etc.
 
 We can also re-order the factors avg.TCGA.percentile according to their frequency:
 
 ``` r
 d3$avg.TCGA.percentile <- factor(d3$avg.TCGA.percentile) 
-levels(d3$avg.TCGA.percentile) %>% head(5) %>% kable(format = "html") %>% kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
+levels(d3$avg.TCGA.percentile) %>% head(5) %>% kable(format = "markdown", align="c")
 ```
 
-<table class="table table-striped" style="width: auto !important; ">
-<tbody>
-<tr>
-<td style="text-align:left;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-2
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-3
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-4
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5
-</td>
-</tr>
-</tbody>
-</table>
+    ## Warning in kable_markdown(x = structure(c("1", "2", "3", "4", "5"), .Dim =
+    ## c(5L, : The table should have a header (column names)
+
+|     |
+|:---:|
+|  1  |
+|  2  |
+|  3  |
+|  4  |
+|  5  |
+
 ``` r
-d3$avg.TCGA.percentile %>% forcats::fct_infreq() %>% levels() %>% head(5) %>% kable(format = "html") %>% kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
+d3$avg.TCGA.percentile %>% forcats::fct_infreq() %>% levels() %>% head(5) %>% kable(format = "markdown", align="c")
 ```
 
-<table class="table table-striped" style="width: auto !important; ">
-<tbody>
-<tr>
-<td style="text-align:left;">
-49
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-2
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-3
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-48
-</td>
-</tr>
-</tbody>
-</table>
+    ## Warning in kable_markdown(x = structure(c("49", "2", "1", "3", "48"), .Dim
+    ## = c(5L, : The table should have a header (column names)
+
+|     |
+|:---:|
+|  49 |
+|  2  |
+|  1  |
+|  3  |
+|  48 |
+
 **Note 1.** The most frequent avg.TCGA.percentile factor is 49, therefore, we know that there is a high number of hugo genes with a gene expression level at the 49th percentile.
 
 PLOT EXAMPLE
@@ -1791,95 +856,21 @@ First, the values of cancer.gene.type (stored in gene\_types) are too long, let'
 abbreviations_gene_types  <- factor(c("unknown", "ONC", "ONC.pTS", "ONC.TS", "pONC", "pONC.pTS", "pONC.TS", "pTS", "TS"))
 abbreviations_gene_types <- as.character(abbreviations_gene_types)
 abbr_table <- data.frame(Abbreviation = abbreviations_gene_types, cancer.gene.type = gene_types)
-abbr_table %>% kable(format = "html") %>% kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
+abbr_table %>% kable(format = "markdown", align="c")
 ```
 
-<table class="table table-striped" style="width: auto !important; ">
-<thead>
-<tr>
-<th style="text-align:left;">
-Abbreviation
-</th>
-<th style="text-align:left;">
-cancer.gene.type
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-unknown
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:left;">
-oncogene
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ONC.pTS
-</td>
-<td style="text-align:left;">
-oncogene; putative tumour suppressor
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ONC.TS
-</td>
-<td style="text-align:left;">
-oncogene; tumour suppressor
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-pONC
-</td>
-<td style="text-align:left;">
-putative oncogene
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-pONC.pTS
-</td>
-<td style="text-align:left;">
-putative oncogene; putative tumour suppressor
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-pONC.TS
-</td>
-<td style="text-align:left;">
-putative oncogene; tumour suppressor
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-pTS
-</td>
-<td style="text-align:left;">
-putative tumour suppressor
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:left;">
-tumour suppressor
-</td>
-</tr>
-</tbody>
-</table>
+| Abbreviation |                cancer.gene.type               |
+|:------------:|:---------------------------------------------:|
+|    unknown   |                       NA                      |
+|      ONC     |                    oncogene                   |
+|    ONC.pTS   |      oncogene; putative tumour suppressor     |
+|    ONC.TS    |          oncogene; tumour suppressor          |
+|     pONC     |               putative oncogene               |
+|   pONC.pTS   | putative oncogene; putative tumour suppressor |
+|    pONC.TS   |      putative oncogene; tumour suppressor     |
+|      pTS     |           putative tumour suppressor          |
+|      TS      |               tumour suppressor               |
+
 ``` r
 d5 <- d0
 d5$cancer.gene.type <- as.character(d5$cancer.gene.type)
@@ -1911,87 +902,20 @@ n.cancer.gene.type
     ## [1] 8
 
 ``` r
-d5.cancer.gene.type %>% kable(format = "html") %>% kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
+d5.cancer.gene.type %>% kable(format = "markdown", align="c")
 ```
 
-<table class="table table-striped" style="width: auto !important; ">
-<thead>
-<tr>
-<th style="text-align:left;">
-cancer.gene.type
-</th>
-<th style="text-align:right;">
-hugo
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-ONC
-</td>
-<td style="text-align:right;">
-303
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ONC.pTS
-</td>
-<td style="text-align:right;">
-46
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ONC.TS
-</td>
-<td style="text-align:right;">
-12
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-pONC
-</td>
-<td style="text-align:right;">
-114
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-pONC.pTS
-</td>
-<td style="text-align:right;">
-8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-pONC.TS
-</td>
-<td style="text-align:right;">
-3
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-pTS
-</td>
-<td style="text-align:right;">
-667
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TS
-</td>
-<td style="text-align:right;">
-128
-</td>
-</tr>
-</tbody>
-</table>
+| cancer.gene.type | hugo |
+|:----------------:|:----:|
+|        ONC       |  303 |
+|      ONC.pTS     |  46  |
+|      ONC.TS      |  12  |
+|       pONC       |  114 |
+|     pONC.pTS     |   8  |
+|      pONC.TS     |   3  |
+|        pTS       |  667 |
+|        TS        |  128 |
+
 **Note 1.** I realized later on that it was not feasible to keep the unknown values, there were too many, so I had to filter them out.
 
 Map cancer.gene.type into colours using the RColorBrewer package

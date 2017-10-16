@@ -169,7 +169,7 @@ high
 
 -   Objective: group gene.type and copy.state, when count the number of rows (pairs) and the sum of the copy.number for each pair.
 
-### Tidyr
+### *Tidyr*
 
 ``` r
 gr_tidy <- select(d1, gene.type, expression, copy.number) %>%
@@ -268,7 +268,7 @@ very.low
 </tr>
 </tbody>
 </table>
-### Reshape
+### *Reshape*
 
 ``` r
 gr_resh <- d1 %>%
@@ -524,12 +524,14 @@ tapply(d1$gene.type, d1$expression, FUN=length)
 
 Note. Again, base R is not ideal to pursue grouping. I was not able to obtain the wanted table, and since Tidyr offers better alternative, I won't pursue further base R for grouping.
 
+------------------------------------------------------------------------
+
 (2) SPLIT
 ---------
 
 -   objective: transform the Nrows column (count of gene.type-expression pairs) of gr\_tidy so that each group (TS, ONC) is represented by one row, each expression category by one column, and the numbers (Nrows of gr\_tidy) represent the number of occurence in each pair (gene.type-expression).
 
-### Tidyr
+### *Tidyr*
 
 ``` r
 split_tidy <- gr_tidy %>%
@@ -610,7 +612,7 @@ NA
 </tr>
 </tbody>
 </table>
-### Reshape
+### *Reshape*
 
 ``` r
 split_resh <- gr_tidy %>%
@@ -684,7 +686,7 @@ NA
 </tr>
 </tbody>
 </table>
-### Base R
+### *Base R*
 
 ``` r
 split_R <- with(d1, table(gene.type, expression))
@@ -756,12 +758,15 @@ TS
 </tr>
 </tbody>
 </table>
+
+------------------------------------------------------------------------
+
 (3) STACK
 ---------
 
 -   objective: display split\_resh in a way such that all possible gene.type-expression pairs are displayed in col1 and col2, which col3 returns the count of such pairs (Nrows)
 
-### Tidyr
+### *Tidyr*
 
 ``` r
 stack_tidy <- split_resh %>%
@@ -896,7 +901,7 @@ NA
 </tr>
 </tbody>
 </table>
-### Reshape
+### *Reshape*
 
 ``` r
 stack_resh <- melt(split_resh, id="gene.type") %>%
@@ -1281,7 +1286,7 @@ normal
 
 -   objective: join d1 and d2 according to the common column gene.
 
-### Tidyr
+### *Tidyr*
 
 Only one joining example below, but for the complete dplyr join functions cheatsheet, please go [HERE]() !
 
@@ -1423,7 +1428,7 @@ normal
 </tr>
 </tbody>
 </table>
-### Base R
+### *Base R*
 
 ``` r
 join_R <- merge(d1, d2)
@@ -1555,12 +1560,15 @@ absent
 </tr>
 </tbody>
 </table>
+
+------------------------------------------------------------------------
+
 (5) SUBSET
 ----------
 
 -   objective: only take the data for the ONC gene.type.
 
-### Tidyr
+### *Tidyr*
 
 ``` r
 subset_tidy <- d1 %>%
@@ -1630,7 +1638,7 @@ subset_resh <- d1 %>% dcast(gene.type~expression) %>% melt(subset = .(gene.type=
 View(subset_resh)
 ```
 
-### Base R
+### *Base R*
 
 ``` r
 subset_R <- d1[which(d1$gene.type== 'ONC'),]
@@ -1754,12 +1762,15 @@ high
 </tr>
 </tbody>
 </table>
-(5) TRANSPOSE
+
+------------------------------------------------------------------------
+
+(6) TRANSPOSE
 -------------
 
 -   objective: take the subset\_tidy horizontal table and transpose it to a vertical position such that the rows become columns and vice versa.
 
-### Base R
+### *Base R*
 
 ``` r
 transpose_R <- data.frame(t(subset_tidy))
@@ -1828,12 +1839,14 @@ copy.number
 </table>
 I note that the columns are called X1 and X2 instead of ONC and ONC. Oh well, we get the general idea anyway !
 
+------------------------------------------------------------------------
+
 (7) SORT
 --------
 
 -   objective: sort the table according to ascending copy.number
 
-### Tidyr
+### *Tidyr*
 
 ``` r
 join_tidy %>%

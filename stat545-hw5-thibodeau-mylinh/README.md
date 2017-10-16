@@ -15,7 +15,7 @@ I thought is could be useful for the future to track some of the error messages 
 
 "Error: `f` must be a factor (or character vector)."
 
-* Explanation: This happened when I tried to use functions for factors (e.g. forcats::fct_infreq()), but did not convert appropriately the variable to a factor.
+EXPLANATION: This happened when I tried to use functions for factors (e.g. forcats::fct_infreq()), but did not convert appropriately the variable to a factor.
 
 **EXAMPLE 2.** 
 
@@ -25,7 +25,7 @@ dget("/Users/mylinh/Desktop/chek2-data-trial-stat545/chek2-rna-expression-cnv-da
 
 Error in parse(file = file, keep.source = keep.source) : /Users/mylinh/Desktop/chek2-data-trial-stat545/chek2-rna-expression-cnv-data.txt:1:9: unexpected symbol 1: chr start ^
 
-* Explanation: I believe this issue arise from the fact that the column names have spaces and dget doesn't know how to deal with white spaces. 
+EXPLANATION: I believe this issue arise from the fact that the column names have spaces and dget doesn't know how to deal with white spaces. 
 
 **EXAMPLE 3.** 
 
@@ -37,7 +37,7 @@ chek2_rna_cnv_f <- read_table2("/Users/mylinh/Desktop/chek2-data-trial-stat545/c
 
 Duplicated column names deduplicated: 'copy' => 'copy_1' [12], 'avg' => 'avg_1' [16], 'cna' => 'cna_1' [17], 'gene' => 'gene_1' [19], 'SARC' => 'SARC_1' [32], 'avg' => 'avg_2' [37], 'percentile' => 'percentile_1' [39]
 
-* Explanation: I believe that read_table2() also has problems dealing with white spaces: it treated the variable "avg TCGA percentile" as 3 columns, and "avg TCGA norm percentile" as 4 columns. So the function attributed numbers to all the columns starting with "avg" (avg_1, avg_2, etc.) and the ones containing "TCGA" (TCGA_1, TCGA_2). The table was filled with NA values and very messy. 
+EXPLANATION: I believe that read_table2() also has problems dealing with white spaces: it treated the variable "avg TCGA percentile" as 3 columns, and "avg TCGA norm percentile" as 4 columns. So the function attributed numbers to all the columns starting with "avg" (avg_1, avg_2, etc.) and the ones containing "TCGA" (TCGA_1, TCGA_2). The table was filled with NA values and very messy. 
 
 **Therefore, I decided to keep the same functions that works for me at the moment: read.table() and read.delim() from the R Utils Package.**
 

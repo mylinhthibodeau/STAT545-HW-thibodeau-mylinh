@@ -10,7 +10,7 @@ suppressPackageStartupMessages(library(tidyverse))
     ## Warning: package 'dplyr' was built under R version 3.4.2
 
 ``` r
-knitr::opts_chunk$set(fig.width=9, fig.height=7)
+knitr::opts_chunk$set(fig.width=12, fig.height=8)
 library(knitr)
 library(kableExtra)
 options(knitr.table.format = "markdown")
@@ -624,9 +624,16 @@ d2 <- ungroup(d2)
 p1 <- d2 %>%
   group_by(hugo) %>%
   arrange(RPKM) %>%
-  ggplot(aes(x=hugo, y=RPKM))
-p1 + geom_point(aes(colour=cancer.gene.type), alpha = 0.6) + 
-  theme(text = element_text(size=12), axis.title.x=element_blank(), axis.text.x = element_blank(), axis.ticks.x=element_blank())
+  ggplot(aes(x=hugo, y=RPKM)) + 
+  ggtitle("RPKM (gene expression) for each hugo gene") +
+  labs(x="hugo genes")
+p1 + geom_point(aes(colour=cancer.gene.type), size = 2, alpha=0.9, shape=21) + 
+  theme(
+    plot.title= element_text(color = "grey44", size=20, face="bold"),
+    text = element_text(size=16), 
+    #axis.title.x=element_blank(), 
+    axis.text.x = element_blank(), 
+    axis.ticks.x=element_blank())
 ```
 
 ![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-10-1.png)
@@ -645,9 +652,16 @@ p1 <- d2 %>%
   group_by(hugo) %>%
   arrange(RPKM) %>%
   filter(cancer.gene.type != "NA") %>%
-  ggplot(aes(x=hugo, y=RPKM))
-p1 + geom_point(aes(colour=cancer.gene.type), alpha = 0.6) + 
-  theme(text = element_text(size=12), axis.title.x=element_blank(), axis.text.x = element_blank(), axis.ticks.x=element_blank())
+  ggplot(aes(x=hugo, y=RPKM)) + 
+  ggtitle("Ordered- RPKM (gene expression)\nfor each hugo gene factor") +
+  labs(x="hugo genes")
+p1 + geom_point(aes(colour=cancer.gene.type), size = 2, alpha=0.9, shape=21) + 
+  theme(
+    plot.title= element_text(color = "grey44", size=20, face="bold"),
+    text = element_text(size=16), 
+    #axis.title.x=element_blank(), 
+    axis.text.x = element_blank(), 
+    axis.ticks.x=element_blank())
 ```
 
 ![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-11-1.png)
@@ -685,8 +699,11 @@ d3.mean.percentile.by.type  %>% kable(format = "markdown", align="c")
 ``` r
 # cancer.gene.type factors in alphabetical order
 p3 <- d3.mean.percentile.by.type %>%
-  ggplot(aes(x=cancer.gene.type, y = mean.percentile.by.type))
-p3 + geom_point() + theme(text = element_text(size=12), axis.text.x = element_text(angle=45, hjust=1))
+  ggplot(aes(x=cancer.gene.type, y = mean.percentile.by.type)) +
+  ggtitle("Mean percentile for each cancer.gene.type factor")
+p3 + geom_point() + theme(
+  plot.title= element_text(color = "grey44", size=20, face="bold"),
+  text = element_text(size=16), axis.text.x = element_text(angle=45, hjust=1))
 ```
 
 ![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-12-1.png)
@@ -694,8 +711,11 @@ p3 + geom_point() + theme(text = element_text(size=12), axis.text.x = element_te
 ``` r
 # cancer.gene.type factors ordered according to the mean.percentile.by.type      
 p3 <- d3.mean.percentile.by.type %>%
-  ggplot(aes(x=fct_reorder(cancer.gene.type, mean.percentile.by.type), y = mean.percentile.by.type))
-p3 + geom_point() + theme(text = element_text(size=12), axis.text.x = element_text(angle=45, hjust=1))
+  ggplot(aes(x=fct_reorder(cancer.gene.type, mean.percentile.by.type), y = mean.percentile.by.type)) +
+  ggtitle("Ordered - Mean percentile for each cancer.gene.type factor")
+p3 + geom_point() + theme(
+  plot.title= element_text(color = "grey44", size=18, face="bold"),
+  text = element_text(size=16), axis.text.x = element_text(angle=45, hjust=1))
 ```
 
 ![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-12-2.png)
@@ -789,8 +809,13 @@ d2$avg.TCGA.percentile <- factor(d2$avg.TCGA.percentile)
 p4 <- d2 %>%
   group_by(cancer.gene.type) %>%
   head(2000) %>%
-  ggplot(aes(x=avg.TCGA.percentile))
-p4 + geom_bar(aes(fill=cancer.gene.type))
+  ggplot(aes(x=avg.TCGA.percentile)) +
+  ggtitle("Count of hugo genes for each\navg.TCGA.percentile factor") +
+  labs(x="avg.TCGA.percentile")
+p4 + geom_bar(aes(fill=cancer.gene.type)) + 
+  theme(
+  plot.title= element_text(color = "grey44", size=20, face="bold"),
+  text = element_text(size=16))
 ```
 
 ![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-15-1.png)
@@ -799,8 +824,13 @@ p4 + geom_bar(aes(fill=cancer.gene.type))
 p4 <- d2 %>%
   group_by(cancer.gene.type) %>%
   head(2000) %>%
-  ggplot(aes(x=fct_infreq(avg.TCGA.percentile)))
-p4 + geom_bar(aes(fill=cancer.gene.type))
+  ggplot(aes(x=fct_infreq(avg.TCGA.percentile))) +
+  ggtitle("Ordered - Count of hugo genes for each\navg.TCGA.percentile factor") +
+  labs(x="Ordered factor - avg.TCGA.percentile")
+p4 + geom_bar(aes(fill=cancer.gene.type)) +
+  theme(
+  plot.title= element_text(color = "grey44", size=20, face="bold"),
+  text = element_text(size=16))
 ```
 
 ![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-15-2.png)
@@ -813,8 +843,8 @@ Resources:
 -   Examples of forcats [here](https://blog.rstudio.com/2016/08/31/forcats-0-1-0/)
 -   The most useful resource is from stat545 [here](http://stat545.com/block029_factors.html)
 
-(1D) Characterize the (derived) data before and after your factor re-leveling.
-------------------------------------------------------------------------------
+(1D) Characterize the (derived) data before and after your factor re-leveling
+-----------------------------------------------------------------------------
 
 -   Explore the effects of arrange(). Does merely arranging the data have any effect on, say, a figure?
 
@@ -1065,7 +1095,9 @@ write.table(d5.cancer.gene.type, "scratch-space/chek2-cancer.gene.type-colors.ts
             quote = FALSE, sep = "\t", row.names = FALSE)
 ```
 
-**Note 1.** I had to convert the d5.cancer.gene.type table to characters before being able to write to a tsv file, as mentioned in this stack overflow discussion [here](https://stackoverflow.com/questions/24829027/unimplemented-type-list-when-trying-to-write-table).
+**Note 1.** I know you can't read anything in this image, but I have put it simply to give you an idea, as it would be hard to make around 20000 gene names (hugo) fit on a screen ! To see the png, you can click [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw5-thibodeau-mylinh/scratch-space/chek2-cancer.gene.type-colors.png)
+
+**Note 2.** I had to convert the d5.cancer.gene.type table to characters before being able to write to a tsv file, as mentioned in this stack overflow discussion [here](https://stackoverflow.com/questions/24829027/unimplemented-type-list-when-trying-to-write-table).
 
 (4) Writing figures to file
 ===========================
@@ -1101,27 +1133,32 @@ Then we can use this to make plots, as Jenny Bryan showed [here](https://github.
 ``` r
 color_scheme_hugo <- d5 %>%
   select(hugo, hugo_color)
-head(color_scheme_hugo)
+head(color_scheme_hugo) %>% kable(format = "markdown", align="c")
 ```
 
-    ##    hugo hugo_color
-    ## 1  ABI1    #F67B49
-    ## 2  ABI2    #0E4179
-    ## 3  ABL1    #F78950
-    ## 4  ABL2    #D93529
-    ## 5 ACACA    #C51B7D
-    ## 6 ACAD8    #B2126E
+|  hugo | hugo\_color |
+|:-----:|:-----------:|
+|  ABI1 |   \#F67B49  |
+|  ABI2 |   \#0E4179  |
+|  ABL1 |   \#F78950  |
+|  ABL2 |   \#D93529  |
+| ACACA |   \#C51B7D  |
+| ACAD8 |   \#B2126E  |
 
 ``` r
 p5 <- d5 %>%
   filter(cancer.gene.type != "unknown") %>%
   group_by(cancer.gene.type) %>%
-  ggplot(aes(x=log2(RPKM), y=FC.mean.Bodymap), na.rm=TRUE)
+  ggplot(aes(x=log2(RPKM), y=FC.mean.Bodymap), na.rm=TRUE) +
+  ggtitle("FC.mean.Bodymap as a funciton of log2(RPKM)")
 p5 + geom_point(aes(shape=copy.category)) +
   scale_size_continuous(range=c(1,40)) +
   facet_wrap(~cancer.gene.type) +
   aes(colour= hugo_color) + scale_colour_identity() +
-  theme_bw() + theme(strip.text = element_text(size = rel(1.1))) 
+  theme_bw() + theme(
+    plot.title= element_text(color = "grey44", size=20, face="bold"),
+    text = element_text(size =16),
+    strip.text = element_text(size = rel(1.1))) 
 ```
 
 ![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-23-1.png)
@@ -1142,41 +1179,69 @@ If you are generating two plots in the same code chunk, you need to specify whic
 p4 <- d2 %>%
   group_by(cancer.gene.type) %>%
   head(2000) %>%
-  ggplot(aes(x=avg.TCGA.percentile))
-p4_unordered <- p4 + geom_bar(aes(fill=cancer.gene.type))
-p4 <- d2 %>%
-  group_by(cancer.gene.type) %>%
-  head(2000) %>%
-  ggplot(aes(x=fct_infreq(avg.TCGA.percentile)))
-p4 + geom_bar(aes(fill=cancer.gene.type))
+  ggplot(aes(x=avg.TCGA.percentile)) +
+  ggtitle("Count of hugo genes for each\navg.TCGA.percentile factor") +
+  labs(x="avg.TCGA.percentile")
+p4 + geom_bar(aes(fill=cancer.gene.type)) + 
+  theme(
+  plot.title= element_text(color = "grey44", size=20, face="bold"),
+  text = element_text(size=16))
 ```
 
 ![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-24-1.png)
 
 ``` r
-p4_ordered <- p4 + geom_bar(aes(fill=cancer.gene.type))
+p4 <- d2 %>%
+  group_by(cancer.gene.type) %>%
+  head(2000) %>%
+  ggplot(aes(x=fct_infreq(avg.TCGA.percentile))) +
+  ggtitle("Ordered - Count of hugo genes for each\navg.TCGA.percentile factor") +
+  labs(x="Ordered factor - avg.TCGA.percentile")
+p4 + geom_bar(aes(fill=cancer.gene.type)) +
+  theme(
+  plot.title= element_text(color = "grey44", size=20, face="bold"),
+  text = element_text(size=16))
+```
+
+![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-24-2.png)
+
+``` r
 ggsave("scratch-space/p4_ordered.png", width = 20, height = 20, units = "cm", dpi = 300)
 ```
 
 By default, ggsave use the last stored plot to save to the file, so if you want to save the first plot, you have to specify which plot you want to save with the argument plot = p4\_unordered in our case.
 
 ``` r
-p4 <- d2 %>%
+p4_unordered <- d2 %>%
   group_by(cancer.gene.type) %>%
   head(2000) %>%
-  ggplot(aes(x=avg.TCGA.percentile))
-p4_unordered <- p4 + geom_bar(aes(fill=cancer.gene.type))
-p4 <- d2 %>%
-  group_by(cancer.gene.type) %>%
-  head(2000) %>%
-  ggplot(aes(x=fct_infreq(avg.TCGA.percentile)))
-p4 + geom_bar(aes(fill=cancer.gene.type))
+  ggplot(aes(x=avg.TCGA.percentile)) +
+  ggtitle("Count of hugo genes for each\navg.TCGA.percentile factor") +
+  labs(x="avg.TCGA.percentile")
+p4_unordered + geom_bar(aes(fill=cancer.gene.type)) + 
+  theme(
+  plot.title= element_text(color = "grey44", size=20, face="bold"),
+  text = element_text(size=16))
 ```
 
 ![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-25-1.png)
 
 ``` r
-p4_ordered <- p4 + geom_bar(aes(fill=cancer.gene.type))
+p4 <- d2 %>%
+  group_by(cancer.gene.type) %>%
+  head(2000) %>%
+  ggplot(aes(x=fct_infreq(avg.TCGA.percentile))) +
+  ggtitle("Ordered - Count of hugo genes for each\navg.TCGA.percentile factor") +
+  labs(x="Ordered factor - avg.TCGA.percentile")
+p4 + geom_bar(aes(fill=cancer.gene.type)) +
+  theme(
+  plot.title= element_text(color = "grey44", size=20, face="bold"),
+  text = element_text(size=16))
+```
+
+![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-25-2.png)
+
+``` r
 ggsave("scratch-space/p4_unordered.png", plot=p4_unordered, width = 20, height = 20, units = "cm", dpi = 300)
 ```
 
@@ -1184,6 +1249,8 @@ Resources:
 
 -   ggplot tutorial of Jenny Bryan [here](https://github.com/jennybc/ggplot2-tutorial)
 -   use scale\_colour\_identity example [here](https://stackoverflow.com/questions/3079264/using-a-pre-defined-color-palette-in-ggplot)
+-   colour choices in ggplot [here](http://sape.inf.usi.ch/quick-reference/ggplot2/colour)
+-   add title in ggplot [here](http://www.sthda.com/english/wiki/ggplot2-title-main-axis-and-legend-titles)
 
 (5) Organise your github
 ========================

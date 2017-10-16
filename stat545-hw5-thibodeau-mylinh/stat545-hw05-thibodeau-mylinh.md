@@ -806,9 +806,13 @@ dim(chek2_rna_cnv)
 HOMEWORK REQUIREMENTS
 =====================
 
-Goals:
+OBJECTIVES:
 
-*Reorder a factor in a principled way based on the data and demonstrate the effect in arranged data and in figures. * Improve a figure (or make one from scratch), using new knowledge, e.g., control the color scheme, use factor levels, smoother mechanics. \* Implement visualization design principles. \* Write some data to file and load it back into R. E.g., save a plot to file and include it in a R Markdown report via ![Alt text](/path/to/img.png). \* Organise your github, to celebrate the completion of STAT 545 and/or to prepare for the glorious future of STAT 547.
+-   Reorder a factor in a principled way based on the data and demonstrate the effect in arranged data and in figures.
+-   Improve a figure (or make one from scratch), using new knowledge, e.g., control the color scheme, use factor levels, smoother mechanics.
+-   Implement visualization design principles.
+-   Write some data to file and load it back into R. E.g., save a plot to file and include it in a R Markdown report via ![Alt text](/path/to/img.png).
+-   Organise your github, to celebrate the completion of STAT 545 and/or to prepare for the glorious future of STAT 547.
 
 (1) FACTOR MANAGEMENT
 =====================
@@ -1383,7 +1387,9 @@ p1 + geom_point(aes(colour=cancer.gene.type), alpha = 0.6) +
   theme(text = element_text(size=12), axis.title.x=element_blank(), axis.text.x = element_blank(), axis.ticks.x=element_blank())
 ```
 
-![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-10-1.png) **Note 1.** This is not very pretty, I would like to re-order the hugo gene according to their increasing value of RPKM.
+![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-10-1.png)
+
+**Note 1.** This is not very pretty, I would like to re-order the hugo gene according to their increasing value of RPKM.
 
 **Note 2.** Using the arrange() function did not resolve this problem because the factors "hugo" are not re-arranged according to RPKM. We need additional functions to do so (see below for examples).
 

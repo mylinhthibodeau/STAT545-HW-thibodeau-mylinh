@@ -1,19 +1,23 @@
 # README - stat545-hw5-thibodeau-mylinh
 
-# IN PROGRESS
-
 # HOMEWORK FILES TO REVIEW
 
+* Homework 5 RMD file [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw5-thibodeau-mylinh/stat545-hw05-thibodeau-mylinh.Rmd) 
+* Homework 5 MD file [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw5-thibodeau-mylinh/stat545-hw05-thibodeau-mylinh.md) - That's the one with the plots and the tables ;) 
+
+I have a scratch-space in each subfolder of my repository, which contains manually saved data files or intermediate files to do my homework. It keeps my repository folders more tidy, but please don't feel oblige to look at it because all the information for marking is in the RMD and MD files! The one for this repository is located [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw5-thibodeau-mylinh/scratch-space).
 
 ## Some examples of error messages
 
 I thought is could be useful for the future to track some of the error messages that caused me the most trouble:
 
-**Example 1.** "Error: `f` must be a factor (or character vector)."
+**EXAMPLE 1.** 
+
+"Error: `f` must be a factor (or character vector)."
 
 * Explanation: This happened when I tried to use functions for factors (e.g. forcats::fct_infreq()), but did not convert appropriately the variable to a factor.
 
-**Example 2.** 
+**EXAMPLE 2.** 
 
 ```{r}
 dget("/Users/mylinh/Desktop/chek2-data-trial-stat545/chek2-rna-expression-cnv-data.txt")
@@ -23,13 +27,13 @@ Error in parse(file = file, keep.source = keep.source) : /Users/mylinh/Desktop/c
 
 * Explanation: I believe this issue arise from the fact that the column names have spaces and dget doesn't know how to deal with white spaces. 
 
-**Example 3.** 
+**EXAMPLE 3.** 
 
 ```{r}
 chek2_rna_cnv_f <- read_table2("/Users/mylinh/Desktop/chek2-data-trial-stat545/chek2-rna-expression-cnv-data.txt")
 ```
 
-**Partial error message pasted below **
+**Partial error message pasted below**
 
 Duplicated column names deduplicated: 'copy' => 'copy_1' [12], 'avg' => 'avg_1' [16], 'cna' => 'cna_1' [17], 'gene' => 'gene_1' [19], 'SARC' => 'SARC_1' [32], 'avg' => 'avg_2' [37], 'percentile' => 'percentile_1' [39]
 

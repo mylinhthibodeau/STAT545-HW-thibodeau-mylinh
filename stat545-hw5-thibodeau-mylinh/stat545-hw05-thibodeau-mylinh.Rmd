@@ -45,6 +45,7 @@ View(chek2_rna_cnv)
 summary(chek2_rna_cnv) %>% kable("html") %>% kable_styling()
 dim(chek2_rna_cnv)
 ```
+
 **Note 1.** I tried to use the functions from readr (read_table(), read_table2 and read_tsv()), but the column names with spaces (e.g. Ensembl gene ID) were not converted to column names with dot separation like it is done in read.table (E.g. Ensembl gene ID -> Ensembl.gene.ID.), which messed up the full data frame. I had error messages when trying to use dget() and dput. Therefore, why change a functional approach: I decided to keep read.table to do this homework.
 
 Let's clean up the data first:
@@ -68,13 +69,14 @@ chek2_rna_cnv <- chek2_rna_cnv %>%
   slice(1L)
 dim(chek2_rna_cnv)
 ```
+
 ** Note 1.** You might have noticed that I manipulated the cancer.gene.type variable to change it to a character in order to replace the cancer.gene.type empty cells by "NA", then converted back to a factor, which partially answers exercise **(1A)** (see below)
 
 # HOMEWORK REQUIREMENTS
 
-Goals:
+OBJECTIVES:
 
-*Reorder a factor in a principled way based on the data and demonstrate the effect in arranged data and in figures.
+* Reorder a factor in a principled way based on the data and demonstrate the effect in arranged data and in figures.
 * Improve a figure (or make one from scratch), using new knowledge, e.g., control the color scheme, use factor levels, smoother mechanics.
 * Implement visualization design principles.
 * Write some data to file and load it back into R. E.g., save a plot to file and include it in a R Markdown report via ![Alt text](/path/to/img.png).
@@ -195,6 +197,7 @@ p1 <- d2 %>%
 p1 + geom_point(aes(colour=cancer.gene.type), alpha = 0.6) + 
   theme(text = element_text(size=12), axis.title.x=element_blank(), axis.text.x = element_blank(), axis.ticks.x=element_blank())
 ```
+
 **Note 1.** This is not very pretty, I would like to re-order the hugo gene according to their increasing value of RPKM.
 
 **Note 2.** Using the arrange() function did not resolve this problem because the factors "hugo" are not re-arranged according to RPKM. We need additional functions to do so (see below for examples).
@@ -251,6 +254,7 @@ We can also order the data.frame factors according to their frequency.
 levels(d3$cancer.gene.type) %>% kable("html") %>% kable_styling()
 d3$cancer.gene.type %>% forcats::fct_infreq() %>% levels() %>% kable("html") %>% kable_styling()
 ```
+
 **Note 1.** So the most frequent factor is "NA", followed by "putative tumour suppressor", etc.
 
 We can also re-order the factors avg.TCGA.percentile according to their frequency:
@@ -260,6 +264,7 @@ d3$avg.TCGA.percentile <- factor(d3$avg.TCGA.percentile)
 levels(d3$avg.TCGA.percentile) %>% head(5) %>% kable("html") %>% kable_styling()
 d3$avg.TCGA.percentile %>% forcats::fct_infreq() %>% levels() %>% head(5) %>% kable("html") %>% kable_styling()
 ```
+
 **Note 1.** The most frequent avg.TCGA.percentile factor is 49, therefore, we know that there is a high number of hugo genes with a gene expression level at the 49th percentile.
 
 PLOT EXAMPLE
@@ -399,6 +404,7 @@ charLimit <- 12
 xFudge <- 0.05
 jCex <- 0.75
 ```
+
 **Note 1.** ddply() is a function from the plyr package, as mentioned [here](https://groups.google.com/forum/#!topic/ggplot2/gT0Nmv1jqyE)
 
 We can then store the figure making code as a function so can make pdf and png.

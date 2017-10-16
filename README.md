@@ -8,5 +8,8 @@ This file provides a general overview of the content in this repository.
 - [homework 2](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw2-thibodeau-mylinh)
 - [homework 3](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw3-thibodeau-mylinh)
 - [homework 4](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw4-thibodeau-mylinh)
+- [homework 5](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw5-thibodeau-mylinh)
 
-*Each homework folder will contain a README.md file, but not the [scratch-space](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/scratch-space) as it is used to store non essential images or gif*
+*Each homework folder will contain a README.md file, but not the [scratch-space](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/scratch-space) as it is used to store non essential images, gif or files*
+
+*Each homework subfolder will have its own scratch-space if needed, which keeps the folders more organized*

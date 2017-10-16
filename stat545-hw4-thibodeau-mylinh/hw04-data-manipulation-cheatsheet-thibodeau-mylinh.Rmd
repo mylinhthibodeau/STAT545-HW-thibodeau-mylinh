@@ -41,6 +41,8 @@ d1 %>%
   kable("html") %>% kable_styling()
 ```
 
+***
+
 ## (1) GROUP
 
 

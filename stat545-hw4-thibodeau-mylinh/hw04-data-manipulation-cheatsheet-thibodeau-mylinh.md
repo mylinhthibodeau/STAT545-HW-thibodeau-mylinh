@@ -164,7 +164,7 @@ high
 (1) GROUP
 ---------
 
-Objective: group gene.type and copy.state, when count the number of rows (pairs) and the sum of the copy.number for each pair.
+-   Objective: group gene.type and copy.state, when count the number of rows (pairs) and the sum of the copy.number for each pair.
 
 ### Tidyr
 
@@ -524,7 +524,7 @@ Note. Again, base R is not ideal to pursue grouping. I was not able to obtain th
 (2) SPLIT
 ---------
 
-Objective: transform the Nrows column (count of gene.type-expression pairs) of gr\_tidy so that each group (TS, ONC) is represented by one row, each expression category by one column, and the numbers (Nrows of gr\_tidy) represent the number of occurence in each pair (gene.type-expression).
+-   objective: transform the Nrows column (count of gene.type-expression pairs) of gr\_tidy so that each group (TS, ONC) is represented by one row, each expression category by one column, and the numbers (Nrows of gr\_tidy) represent the number of occurence in each pair (gene.type-expression).
 
 ### Tidyr
 
@@ -756,7 +756,7 @@ TS
 (3) STACK
 ---------
 
-Objective: display split\_resh in a way such that all possible gene.type-expression pairs are displayed in col1 and col2, which col3 returns the count of such pairs (Nrows)
+-   objective: display split\_resh in a way such that all possible gene.type-expression pairs are displayed in col1 and col2, which col3 returns the count of such pairs (Nrows)
 
 ### Tidyr
 
@@ -1276,7 +1276,7 @@ normal
 (4) JOIN
 --------
 
-Objective: join d1 and d2 according to the common column gene.
+-   objective: join d1 and d2 according to the common column gene.
 
 ### Tidyr
 
@@ -1555,7 +1555,7 @@ absent
 (5) SUBSET
 ----------
 
-Objective: only take the data for the ONC gene.type.
+-   objective: only take the data for the ONC gene.type.
 
 ### Tidyr
 
@@ -1754,7 +1754,7 @@ high
 (5) TRANSPOSE
 -------------
 
-Objective: take the subset\_tidy horizontal table and transpose it to a vertical position such that the rows become columns and vice versa.
+-   objective: take the subset\_tidy horizontal table and transpose it to a vertical position such that the rows become columns and vice versa.
 
 ### Base R
 
@@ -1828,7 +1828,7 @@ I note that the columns are called X1 and X2 instead of ONC and ONC. Oh well, we
 (7) SORT
 --------
 
-Objective: sort the table according to ascending copy.number
+-   objective: sort the table according to ascending copy.number
 
 ### Tidyr
 

@@ -49,3 +49,5 @@ Duplicated column names deduplicated: 'copy' => 'copy_1' [12], 'avg' => 'avg_1' 
 * I have read some online resources on reading tables in R (like this datacamp website [here](https://www.datacamp.com/community/tutorials/r-tutorial-read-excel-into-r)). 
 * I have installed the gdata package, but I have not explored all its functions. I am planning to use the read.xls() functions and explore some of its functions to convert file types (e.g. from excel to tsv).
 * You can have general information on a library by typing the format: library(help = "tidyverse")
+* It is better to use kable and knitr.table.format as rmarkdown with an output: github_document, because when I used html, it changed my formating ! Therefore, I will go back in all my previous documents to change this in order to avoid any additional formating issues. 
+

@@ -2197,12 +2197,12 @@ p5 + geom_point(aes(shape=copy.category)) +
 ![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-23-1.png)
 
 ``` r
-ggsave("scratch-space/chek2_cancer_gene_type_color.png", width = 20, height = 20, units = "cm", dpi = 300)
+ggsave("scratch-space/chek2_cancer_gene_type_color_plot.png", width = 20, height = 20, units = "cm", dpi = 300)
 ```
 
 **Note 1.** In the plot above, one might want to focus on the genes that have low expression (low RPKM) and copy loss, or high expression and copy gain, as these paired-values are more likely to be biologically relevant.
 
-![a\_plot](scratch-space/chek2_cancer_gene_type_color.png)
+![a\_plot](scratch-space/chek2_cancer_gene_type_color_plot.png)
 
 If you are generating two plots in the same code chunk, you need to specify which plot to save with ggsave. For example, let's take the same plots previously shown.
 

@@ -488,11 +488,11 @@ p5 + geom_point(aes(shape=copy.category)) +
   facet_wrap(~cancer.gene.type) +
   aes(colour= hugo_color) + scale_colour_identity() +
   theme_bw() + theme(strip.text = element_text(size = rel(1.1))) 
-ggsave("scratch-space/chek2_cancer_gene_type_color.png", width = 20, height = 20, units = "cm", dpi = 300)
+ggsave("scratch-space/chek2_cancer_gene_type_color_plot.png", width = 20, height = 20, units = "cm", dpi = 300)
 ```
 **Note 1.** In the plot above, one might want to focus on the genes that have low expression (low RPKM) and copy loss, or high expression and copy gain, as these paired-values are more likely to be biologically relevant.
 
-![a_plot](scratch-space/chek2_cancer_gene_type_color.png)
+![a_plot](scratch-space/chek2_cancer_gene_type_color_plot.png)
 
 If you are generating two plots in the same code chunk, you need to specify which plot to save with ggsave. For example, let's take the same plots previously shown.
 

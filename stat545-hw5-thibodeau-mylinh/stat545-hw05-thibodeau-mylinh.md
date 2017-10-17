@@ -994,7 +994,6 @@ make_figure <- function() {
 }
 
 op <- par(mar = c(1, 4, 6, 1) + 0.1)
-
 make_figure()
 ```
 
@@ -1002,10 +1001,10 @@ make_figure()
 
 ``` r
 par(op)
+
 png("scratch-space/chek2-cancer.gene.type-colors.png",
     width = 30, height = 70, units = "in", res = 200)
 op <- par(mar = c(1, 4, 6, 1) + 0.1)
-
 make_figure()
 dev.off()
 ```
@@ -1015,6 +1014,7 @@ dev.off()
 
 ``` r
 par(op)
+  
 pdf("scratch-space/chek2-cancer.gene.type-colors.pdf",
    width = 30, height = 70)
 op <- par(mar = c(1, 4, 6, 1) + 0.1)
@@ -1030,7 +1030,6 @@ par(op)
 
 write.table(hugo_colors, "scratch-space/chek2-hugo-colors.tsv",
             quote = FALSE, sep = "\t", row.names = FALSE)
-
 d2.cancer.gene.type$cancer.gene.type <- as.character(d2.cancer.gene.type$cancer.gene.type)
 d2.cancer.gene.type$hugo <- as.character(d2.cancer.gene.type$hugo)
 d2.cancer.gene.type$color <- as.character(d2.cancer.gene.type$color)
@@ -1038,7 +1037,7 @@ write.table(d2.cancer.gene.type, "scratch-space/chek2-cancer.gene.type-colors.ts
             quote = FALSE, sep = "\t", row.names = FALSE)
 ```
 
-**Note 1.** I know you can't read anything in this image, but I have put it simply to give you an idea, as it would be hard to make around 20000 gene names (hugo) fit on a screen ! To see the png, you can click [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw5-thibodeau-mylinh/scratch-space/chek2-cancer.gene.type-colors.png)
+### **Note 1.** I know you can't read anything in this image, but I have put it simply to give you an idea, as it would be hard to make around 20000 gene names (hugo) fit on a screen ! To see the png, you can click [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw5-thibodeau-mylinh/scratch-space/chek2-cancer.gene.type-colors.png)
 
 **Note 2.** I had to convert the d2.cancer.gene.type table to characters before being able to write to a tsv file, as mentioned in this stack overflow discussion [here](https://stackoverflow.com/questions/24829027/unimplemented-type-list-when-trying-to-write-table).
 

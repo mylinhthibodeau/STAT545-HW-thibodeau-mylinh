@@ -4,57 +4,20 @@ My Linh Thibodeau
 2017-10-14
 
 ``` r
+suppressPackageStartupMessages(library(plyr))
+suppressWarnings(suppressMessages(library(dplyr)))
 suppressPackageStartupMessages(library(tidyverse))
-```
-
-    ## Warning: package 'dplyr' was built under R version 3.4.2
-
-``` r
+suppressWarnings(library(tidyverse))
 knitr::opts_chunk$set(fig.width=12, fig.height=8)
-library(knitr)
-library(kableExtra)
-options(knitr.table.format = "markdown")
+suppressWarnings(suppressMessages(library(knitr)))
+suppressWarnings(suppressMessages(library(kableExtra)))
+suppressWarnings(options(knitr.table.format = "markdown"))
 library(readr)
-library(forcats)
+suppressWarnings(suppressMessages(library(forcats)))
 #install.packages("gdata")
-library(gdata)
-```
-
-    ## gdata: read.xls support for 'XLS' (Excel 97-2004) files ENABLED.
-
-    ## 
-
-    ## gdata: read.xls support for 'XLSX' (Excel 2007+) files ENABLED.
-
-    ## 
-    ## Attaching package: 'gdata'
-
-    ## The following objects are masked from 'package:dplyr':
-    ## 
-    ##     combine, first, last
-
-    ## The following object is masked from 'package:purrr':
-    ## 
-    ##     keep
-
-    ## The following object is masked from 'package:stats':
-    ## 
-    ##     nobs
-
-    ## The following object is masked from 'package:utils':
-    ## 
-    ##     object.size
-
-    ## The following object is masked from 'package:base':
-    ## 
-    ##     startsWith
-
-``` r
-library(lattice)
+suppressWarnings(suppressMessages(library(gdata)))
 # install.packages("RColorBrewer")
 library(RColorBrewer)
-#install.packages("tidygenomics") # Not used for now, but perhaps in another homework
-#library(tidygenomics) # Not used for now, but perhaps in another homework
 ```
 
 Genomic datasets - A few clarifications
@@ -69,7 +32,7 @@ Vincenzo Coia has approved my request to use published genomic data for the next
 SOURCES OF DATA: The Cancer Genome Atlas (TCGA) and ClinVar
 -----------------------------------------------------------
 
-Thibodeau, M. L. et al. Genomic profiling of pelvic genital type leiomyosarcoma in a woman with a germline CHEK2:c.1100delC mutation and a concomitant diagnosis of metastatic invasive ductal breast carcinoma. Cold Spring Harb Mol Case Stud mcs.a001628 (2017). <doi:10.1101/mcs.a001628>
+Thibodeau, M. L. et al. Genomic profiling of pelvic genital type leiomyosarcoma in a woman with a germline CHEK2:c.1100delC mutation and a concomitant diagnosis of metastatic invasive ductal breast carcinoma. Cold Spring Harb Mol Case Stud mcs.a001628 (2017). `doi:10.1101/mcs.a001628`
 Open access article and data available [here](http://molecularcasestudies.cshlp.org/content/3/5/a001628.long)
 
 Get the data and clean the data
@@ -77,7 +40,7 @@ Get the data and clean the data
 
 ``` r
 chek2_rna_cnv <- read.table("/Users/mylinh/Desktop/chek2-data-trial-stat545/chek2-rna-expression-cnv-data.txt", sep="\t",  strip.white = TRUE, header = TRUE)
-View(chek2_rna_cnv) 
+#View(chek2_rna_cnv) 
 # class(chek2_rna_cnv)
 # typeof(chek2_rna_cnv)
 summary(chek2_rna_cnv) %>% kable(format = "markdown", align="c")
@@ -369,8 +332,9 @@ dim(chek2_rna_cnv)
 **Note 1.** I tried to use the functions from readr (read\_table(), read\_table2 and read\_tsv()), but the column names with spaces (e.g. Ensembl gene ID) were not converted to column names with dot separation like it is done in read.table (E.g. Ensembl gene ID -&gt; Ensembl.gene.ID.), which messed up the full data frame. I had error messages when trying to use dget() and dput. Therefore, why change a functional approach: I decided to keep read.table to do this homework.
 
 Let's clean up the data first:
+------------------------------
 
--   Remove the rows for which there is no empty values for these columns: chr, start, end, strand, Ensembl.gene.ID., hugo
+-   Remove the rows for which there is no empty cells (NA) for these columns: chr, start, end, strand, Ensembl.gene.ID., hugo
 -   fill the cancer.gene.type empty cells with the mention "NA"
 -   remove the duplicate hugo genes
 
@@ -387,12 +351,58 @@ gene_types <- levels(chek2_rna_cnv$cancer.gene.type)
 chek2_rna_cnv <- chek2_rna_cnv %>%
   group_by(hugo) %>%
   slice(1L)
+chek2_rna_cnv <- ungroup(chek2_rna_cnv)
 dim(chek2_rna_cnv)
 ```
 
     ## [1] 19182    27
 
-\*\* Note 1.\*\* You might have noticed that I manipulated the cancer.gene.type variable to change it to a character in order to replace the cancer.gene.type empty cells by "NA", then converted back to a factor, which partially answers exercise **(1A)** (see below)
+**Note 1.** You might have noticed that I manipulated the cancer.gene.type variable to change it to a character in order to replace the cancer.gene.type empty cells by "NA", then converted back to a factor, which partially answers exercise **(1A)** (see below)
+
+**Note 2.** I had trouble with further manipulations on the data.frame because its class was grouped ("grouped\_df" "tbl\_df" "tbl" "data.frame") so I tried to use the ungroup() function for some code chunks as shown [here](https://stackoverflow.com/questions/26694484/in-r-how-do-you-select-for-a-data-frame-that-has-been-grouped).
+
+Let's use some abbreviations for cancer.gene.type
+-------------------------------------------------
+
+This will become handy for tables and plots, you'll see:
+
+-   The values of cancer.gene.type are too long, let's make a vector of factors containing abbreviations, but we need to be careful to the syntax, as white space and some characters should be avoided for these factors names.
+-   You might ask: My Linh, why are you making factors since you are changing them to characters and then back to factors? The reason is simple: to ensure I don't forget that I "started with factors" and need to change them back.
+-   Lets change the data frame replace the cancer.gene.type by the abbreviation in chek2\_rna\_cnv data frame: in order to use gsub, we need to swap everything to characters, then not forget to change back to factors.
+-   Let's also make a table of abbreviations, for future reference :)
+
+``` r
+abbreviations_gene_types  <- factor(c("unknown", "ONC", "ONC.pTS", "ONC.TS", "pONC", "pONC.pTS", "pONC.TS", "pTS", "TS"))
+abbreviations_gene_types <- as.character(abbreviations_gene_types)
+abbr_table <- data.frame(Abbreviation = abbreviations_gene_types, cancer.gene.type = gene_types)
+abbr_table %>% kable(format = "markdown", align="c")
+```
+
+| Abbreviation |                cancer.gene.type               |
+|:------------:|:---------------------------------------------:|
+|    unknown   |                       NA                      |
+|      ONC     |                    oncogene                   |
+|    ONC.pTS   |      oncogene; putative tumour suppressor     |
+|    ONC.TS    |          oncogene; tumour suppressor          |
+|     pONC     |               putative oncogene               |
+|   pONC.pTS   | putative oncogene; putative tumour suppressor |
+|    pONC.TS   |      putative oncogene; tumour suppressor     |
+|      pTS     |           putative tumour suppressor          |
+|      TS      |               tumour suppressor               |
+
+``` r
+chek2_rna_cnv$cancer.gene.type <- as.character(chek2_rna_cnv$cancer.gene.type)
+chek2_rna_cnv$cancer.gene.type <- gsub("NA", "unknown", chek2_rna_cnv$cancer.gene.type)
+chek2_rna_cnv$cancer.gene.type <- gsub("oncogene", "ONC", chek2_rna_cnv$cancer.gene.type)
+chek2_rna_cnv$cancer.gene.type <- gsub("tumour suppressor", "TS", chek2_rna_cnv$cancer.gene.type)
+chek2_rna_cnv$cancer.gene.type <- gsub("putative", "p", chek2_rna_cnv$cancer.gene.type)
+chek2_rna_cnv$cancer.gene.type <- as.vector(chek2_rna_cnv$cancer.gene.type)
+chek2_rna_cnv$cancer.gene.type <- gsub("; ", ".", chek2_rna_cnv$cancer.gene.type)
+chek2_rna_cnv$cancer.gene.type <- gsub(" ", "", chek2_rna_cnv$cancer.gene.type)
+chek2_rna_cnv$cancer.gene.type <- as.factor(chek2_rna_cnv$cancer.gene.type)
+```
+
+------------------------------------------------------------------------
 
 HOMEWORK REQUIREMENTS
 =====================
@@ -410,15 +420,21 @@ OBJECTIVES:
 
 **Note 1.** I searched several online dictionaries, and I still do not understand the meaning of "principled": the online dictionaries are giving me answers like ["based on moral rules"](http://dictionary.cambridge.org/dictionary/english/principled) and ["(of a system or method) based on a given set of rules"](https://en.oxforddictionaries.com/definition/principled), so I will conclude that if my approach is coherent and follow a logical path, it is principled.
 
+**Note 2.** I have temporarily "broken" (messed up) my original data frame (chek2\_rna\_cnv) several times in the course of this homework, so I will store it in a variable d0 to use in data manipulation just in case I make mistakes.
+
+``` r
+d0 <- chek2_rna_cnv
+```
+
 (1A) Factorise
 --------------
 
 Transform some of the variable of chek2\_rna\_cnv into factors. In cleaning up the dataset, we converted a factors column into characters then back to factors.
 
-Let's see what class of data we have in chek2\_rna\_cnv first.
+Let's see what classes of data we have in our data frame:
 
 ``` r
-sapply(chek2_rna_cnv, class) %>% kable(format = "markdown", align="c")
+sapply(d0, class) %>% kable(format = "markdown", align="c")
 ```
 
     ## Warning in kable_markdown(x = structure(c("chr", "start", "end",
@@ -457,7 +473,6 @@ sapply(chek2_rna_cnv, class) %>% kable(format = "markdown", align="c")
 Change the avg.TCGA.percentile (class integer) to factors with base R:
 
 ``` r
-d0 <- chek2_rna_cnv
 d0$avg.TCGA.percentile <- as.factor(d0$avg.TCGA.percentile)
 d0 %>% 
   select(hugo,avg.TCGA.percentile) %>%
@@ -483,13 +498,16 @@ nlevels(d0$avg.TCGA.percentile)
 
     ## [1] 101
 
-Change the avg.TCGA.percentile (class integer) to factors with forcats:
+Change the avg.TCGA.percentile (class integer) to factors with forcats (let's reset the classes first by "reinitializing" dataframe d0).
 
 ``` r
-d0$avg.TCGA.percentile <- as_factor(d0$avg.TCGA.percentile) 
-d0 %>% 
+d0 <- chek2_rna_cnv
+d0 <- with(d0, d0[!is.na(avg.TCGA.percentile),])
+d0$avg.TCGA.percentile <- as.character(d0$avg.TCGA.percentile) 
+d0$avg.TCGA.percentile <- forcats::as_factor(d0$avg.TCGA.percentile)
+d0 %>%
   select(hugo,avg.TCGA.percentile) %>%
-  head(10) %>% kable(format = "markdown", align="c")
+  head(10) %>% kable(format = "markdown", align="c") 
 ```
 
 |   hugo  | avg.TCGA.percentile |
@@ -505,7 +523,17 @@ d0 %>%
 |  AADAC  |          75         |
 | AADACL2 |          77         |
 
-In my case, I obtain the same result with base R and forcats with the avg.TCGA.percentile as factors, although I know that base R has a tendency to try re-ordering the data, which is not alway what we want, but the code syntax I used did not lead to this problem for me.
+``` r
+nlevels(d0$avg.TCGA.percentile)
+```
+
+    ## [1] 101
+
+**Note 1.** The forcats package can only "transform" characters into factors, while base R can transform many classes to factors (characters, numeric and integer), that's why I prefer base R for this specific initial task.
+
+**Note 2.** Forcats does not like the fact that some values are not available (NA) in the avg.TCGA.percentile. Base R did not have problems with this, but in order to illustrate this function with forcats, I had to remove the rows for which avg.TCGA.percentile was not available).
+
+In the end, I obtain the same result with base R and forcats with the avg.TCGA.percentile as factors, although I know that base R has a tendency to try re-ordering the data, which is not alway what we want.
 
 (1B) Drop 0
 -----------
@@ -517,61 +545,42 @@ Filter chek2\_rna\_cnv to remove all the avg.TCGA.percentile equal to 0 and drop
 So we are starting with 101 levels (0 to 100, inclusively)
 
 ``` r
+d1 <- d0 %>%
+  filter(avg.TCGA.percentile != 0) %>%
+  arrange(avg.TCGA.percentile) %>%
+  select(hugo, avg.TCGA.percentile) 
+
 nlevels(d0$avg.TCGA.percentile)
 ```
 
     ## [1] 101
 
 ``` r
-d1 <- d0 %>%
-  filter(avg.TCGA.percentile != 0) %>%
-  arrange(avg.TCGA.percentile) %>%
-  select(hugo, avg.TCGA.percentile)
-nlevels(d1$avg.TCGA.percentile)
-```
-
-    ## [1] 101
-
-``` r
-d1 <- data.frame(d1)
-d1 <- gdata::drop.levels(d1)
-# length(levels(d1$avg.TCGA.percentile)) # alternative method to count levels
-nlevels(d1$avg.TCGA.percentile)
+d_gdata <- gdata::drop.levels(d1)
+nlevels(d_gdata$avg.TCGA.percentile)
 ```
 
     ## [1] 100
+
+``` r
+# length(levels(d_gdata$avg.TCGA.percentile)) # alternative method to count levels
+```
+
+**Note 1.** gdata is very slow, I would not recommend it !
 
 ### Method 2 - Base R
 
 Now let's see how we can do this with base R.
 
 ``` r
-d1_v2 <- d0 %>%
-  filter(avg.TCGA.percentile != 0) %>%
-  arrange(avg.TCGA.percentile) %>%
-  select(hugo, avg.TCGA.percentile)
-class(d1_v2)
-```
-
-    ## [1] "grouped_df" "tbl_df"     "tbl"        "data.frame"
-
-``` r
-d1_v2 <- ungroup(d1_v2)
-class(d1_v2)
-```
-
-    ## [1] "tbl_df"     "tbl"        "data.frame"
-
-``` r
-nlevels(d1_v2$avg.TCGA.percentile)
+nlevels(d0$avg.TCGA.percentile)
 ```
 
     ## [1] 101
 
 ``` r
-d1_v2 <- d1_v2 %>%
-  droplevels()
-nlevels(d1_v2$avg.TCGA.percentile)
+d1_baseR <- d1 %>% droplevels()
+nlevels(d1_baseR$avg.TCGA.percentile)
 ```
 
     ## [1] 100
@@ -581,29 +590,22 @@ nlevels(d1_v2$avg.TCGA.percentile)
 And now let's do the same with forcats.
 
 ``` r
-d1_v3 <- d0 %>%
-  filter(avg.TCGA.percentile != 0) %>%
-  arrange(avg.TCGA.percentile) %>%
-  select(hugo, avg.TCGA.percentile)
-nlevels(d1_v3$avg.TCGA.percentile)
+nlevels(d0$avg.TCGA.percentile)
 ```
 
     ## [1] 101
 
 ``` r
-d1_v3 <- ungroup(d1_v3)
-d1_v3$avg.TCGA.percentile %>%
+d1$avg.TCGA.percentile %>%
   fct_drop() %>%
   nlevels()
 ```
 
     ## [1] 100
 
-**Note 1.** In the example above, you can see that the number of levels is initially 101 (length function) and after removing the avg.TCGA.percentile equal to 0, the number of levels is 100, so I successfully dropped the unused level "0".
+**Note 1.** In the example above, you can see that the number of levels is initially 101 and after removing the avg.TCGA.percentile equal to 0, the number of levels is 100, so I successfully dropped the unused level "0".
 
 **Note 2.** To do this, I used a function of the gdata package, as exemplified [here](https://www.r-bloggers.com/r-drop-factor-levels-in-a-dataset/)
-
-**Note 3.** I had trouble with further manipulations on the data.frame because its class was grouped ("grouped\_df" "tbl\_df" "tbl" "data.frame") so I had to use the ungroup() function as shown [here](https://stackoverflow.com/questions/26694484/in-r-how-do-you-select-for-a-data-frame-that-has-been-grouped).
 
 (1C) Reorder the levels of avg.TCGA.percentile or cancer.gene.type
 ------------------------------------------------------------------
@@ -617,26 +619,21 @@ Use the forcats package to change the order of the factor levels, based on a pri
 I will plot the RPKM value according to each hugo gene.
 
 ``` r
-d2 <- chek2_rna_cnv %>%
-  filter(avg.TCGA.percentile != 0) %>%
-  arrange(avg.TCGA.percentile)
-d2 <- ungroup(d2)
-p1 <- d2 %>%
-  group_by(hugo) %>%
+d0 <- chek2_rna_cnv
+d0 %>%
   arrange(RPKM) %>%
   ggplot(aes(x=hugo, y=RPKM)) + 
-  ggtitle("RPKM (gene expression) for each hugo gene") +
-  labs(x="hugo genes")
-p1 + geom_point(aes(colour=cancer.gene.type), size = 2, alpha=0.9, shape=21) + 
+  labs(x="hugo genes") +
   theme(
     plot.title= element_text(color = "grey44", size=24, face="bold"),
-    text = element_text(size=18), 
-    #axis.title.x=element_blank(), 
+    text = element_text(size=18),
     axis.text.x = element_blank(), 
-    axis.ticks.x=element_blank())
+    axis.ticks.x=element_blank()) + 
+  ggtitle("RPKM (gene expression) for each hugo gene") +
+  geom_point(aes(colour=cancer.gene.type), size = 2, alpha=0.9, shape=21)
 ```
 
-![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-10-1.png)
+![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-12-1.png)
 
 **Note 1.** This is not very pretty, I would like to re-order the hugo gene according to their increasing value of RPKM.
 
@@ -647,24 +644,21 @@ p1 + geom_point(aes(colour=cancer.gene.type), size = 2, alpha=0.9, shape=21) +
 I will arrange the order of the factor hugo according to the ascending value of RPKM, as previously exemplified in my [homework 3](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw3-thibodeau-mylinh).
 
 ``` r
-d2$hugo <- factor(d2$hugo, levels = d2$hugo[order(d2$RPKM)]) 
-p1 <- d2 %>%
-  group_by(hugo) %>%
+d0$hugo <- factor(d0$hugo, levels = d0$hugo[order(d0$RPKM)])
+d0 %>%
   arrange(RPKM) %>%
-  filter(cancer.gene.type != "NA") %>%
   ggplot(aes(x=hugo, y=RPKM)) + 
-  ggtitle("Ordered- RPKM (gene expression)\nfor each hugo gene factor") +
-  labs(x="hugo genes")
-p1 + geom_point(aes(colour=cancer.gene.type), size = 2, alpha=0.9, shape=21) + 
+  labs(x="hugo genes") +
   theme(
     plot.title= element_text(color = "grey44", size=24, face="bold"),
     text = element_text(size=18), 
-    #axis.title.x=element_blank(), 
     axis.text.x = element_blank(), 
-    axis.ticks.x=element_blank())
+    axis.ticks.x=element_blank()) + 
+  ggtitle("Ascending RPKM (gene expression) for each hugo gene") +
+  geom_point(aes(colour=cancer.gene.type), size = 2, alpha=0.9, shape=21)
 ```
 
-![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-11-1.png)
+![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-13-1.png)
 
 ### FORCATS
 
@@ -673,121 +667,122 @@ p1 + geom_point(aes(colour=cancer.gene.type), size = 2, alpha=0.9, shape=21) +
 I will start by changing the lcass of avg.TCGA.percentile back to a numeric so that I can do a mean function on it. Then, I will show the difference between ordered and un-ordered factors cancer.gene.type according to the mean.
 
 ``` r
-chek2_rna_cnv$avg.TCGA.percentile <- as.numeric(chek2_rna_cnv$avg.TCGA.percentile)
-chek2_rna_cnv <- ungroup(chek2_rna_cnv)
-d3 <- chek2_rna_cnv %>%
+d0$avg.TCGA.percentile <- as.numeric(d0$avg.TCGA.percentile)
+mean_per_type <- d0 %>%
   filter(avg.TCGA.percentile != 0) %>%
-  arrange(avg.TCGA.percentile) 
-d3.mean.percentile.by.type <- d3 %>%  
+  arrange(avg.TCGA.percentile) %>%
   group_by(cancer.gene.type) %>%
-  dplyr::summarize(mean.percentile.by.type = mean(avg.TCGA.percentile))
-d3.mean.percentile.by.type  %>% kable(format = "markdown", align="c")
+  dplyr::summarize(mean.percentile.by.type = mean(avg.TCGA.percentile)) 
+mean_per_type %>% kable(format = "markdown", align="c")
 ```
 
-|                cancer.gene.type               | mean.percentile.by.type |
-|:---------------------------------------------:|:-----------------------:|
-|                       NA                      |         47.96121        |
-|                    oncogene                   |         49.04714        |
-|      oncogene; putative tumour suppressor     |         41.17778        |
-|          oncogene; tumour suppressor          |         40.66667        |
-|               putative oncogene               |         44.84821        |
-| putative oncogene; putative tumour suppressor |         46.14286        |
-|      putative oncogene; tumour suppressor     |         21.33333        |
-|           putative tumour suppressor          |         50.62422        |
-|               tumour suppressor               |         42.50781        |
+| cancer.gene.type | mean.percentile.by.type |
+|:----------------:|:-----------------------:|
+|        ONC       |         49.04714        |
+|      ONC.pTS     |         41.17778        |
+|      ONC.TS      |         40.66667        |
+|       pONC       |         44.84821        |
+|     pONC.pTS     |         46.14286        |
+|      pONC.TS     |         21.33333        |
+|        pTS       |         50.62422        |
+|        TS        |         42.50781        |
+|      unknown     |         47.96121        |
 
 ``` r
 # cancer.gene.type factors in alphabetical order
-p3 <- d3.mean.percentile.by.type %>%
+unordered_plot <- mean_per_type %>%
   ggplot(aes(x=cancer.gene.type, y = mean.percentile.by.type, colour=cancer.gene.type)) +
-  ggtitle("Mean percentile for each cancer.gene.type factor")
-p3 + geom_point(size=6) + theme(
+  ggtitle("Mean percentile for each cancer.gene.type factor") + 
+  geom_point(size=6) + theme(
   plot.title= element_text(color = "grey44", size=24, face="bold"),
   text = element_text(size=16), axis.text.x = element_text(angle=45, hjust=1))
+unordered_plot 
 ```
 
-![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-12-1.png)
+![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-14-1.png)
 
 ``` r
 # cancer.gene.type factors ordered according to the mean.percentile.by.type      
-p3 <- d3.mean.percentile.by.type %>%
+ordered_plot <-  mean_per_type %>%
   ggplot(aes(x=fct_reorder(cancer.gene.type, mean.percentile.by.type), y = mean.percentile.by.type, colour = fct_reorder(cancer.gene.type, mean.percentile.by.type))) +
   ggtitle("Ordered - Mean percentile for each cancer.gene.type factor") +
-  labs(x="cancer.gene.type ordered\nby mean.percentile.by.type")
-p3 + geom_point( size=6) + theme(
+  labs(x="cancer.gene.type ordered\nby mean.percentile.by.type") + 
+  geom_point( size=6) + theme(
   plot.title= element_text(color = "grey44", size=24, face="bold"),
   text = element_text(size=16), axis.text.x = element_text(angle=45, hjust=1)) +
   guides(colour=guide_legend(title="Ordered cancer.gene.type", 
                              title.theme= element_text(angle=0, size=17, face="bold")))
+ordered_plot 
 ```
 
-![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-12-2.png)
+![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-14-2.png)
+
+**Note 1.** I had initially printed the full length labels (e.g. "putative tumour suppressor" instead of pTS) and the labels were always outside the figure, not very practival !
 
 #### REORDER ACCORDING TO FREQUENCY
 
 We can also order the data.frame factors according to their frequency.
 
 ``` r
-levels(d3$cancer.gene.type) %>% kable(format = "markdown", align="c")
+levels(d0$cancer.gene.type) %>% kable(format = "markdown", align="c")
 ```
 
-    ## Warning in kable_markdown(x = structure(c("NA", "oncogene", "oncogene;
-    ## putative tumour suppressor", : The table should have a header (column
-    ## names)
+    ## Warning in kable_markdown(x = structure(c("ONC", "ONC.pTS", "ONC.TS",
+    ## "pONC", : The table should have a header (column names)
 
-|                                               |
-|:---------------------------------------------:|
-|                       NA                      |
-|                    oncogene                   |
-|      oncogene; putative tumour suppressor     |
-|          oncogene; tumour suppressor          |
-|               putative oncogene               |
-| putative oncogene; putative tumour suppressor |
-|      putative oncogene; tumour suppressor     |
-|           putative tumour suppressor          |
-|               tumour suppressor               |
+|          |
+|:--------:|
+|    ONC   |
+|  ONC.pTS |
+|  ONC.TS  |
+|   pONC   |
+| pONC.pTS |
+|  pONC.TS |
+|    pTS   |
+|    TS    |
+|  unknown |
 
 ``` r
-d3$cancer.gene.type %>% forcats::fct_infreq() %>% levels() %>% kable(format = "markdown", align="c")
+d0$cancer.gene.type %>% forcats::fct_infreq() %>% levels() %>% kable(format = "markdown", align="c")
 ```
 
-    ## Warning in kable_markdown(x = structure(c("NA", "putative tumour
-    ## suppressor", : The table should have a header (column names)
+    ## Warning in kable_markdown(x = structure(c("unknown", "pTS", "ONC", "TS", :
+    ## The table should have a header (column names)
 
-|                                               |
-|:---------------------------------------------:|
-|                       NA                      |
-|           putative tumour suppressor          |
-|                    oncogene                   |
-|               tumour suppressor               |
-|               putative oncogene               |
-|      oncogene; putative tumour suppressor     |
-|          oncogene; tumour suppressor          |
-| putative oncogene; putative tumour suppressor |
-|      putative oncogene; tumour suppressor     |
+|          |
+|:--------:|
+|  unknown |
+|    pTS   |
+|    ONC   |
+|    TS    |
+|   pONC   |
+|  ONC.pTS |
+|  ONC.TS  |
+| pONC.pTS |
+|  pONC.TS |
 
-**Note 1.** So the most frequent factor is "NA", followed by "putative tumour suppressor", etc.
+**Note 1.** So the most frequent factor is unknown, then pTS (putative tumour suppressor), then ONC (oncogene), etc.
 
 We can also re-order the factors avg.TCGA.percentile according to their frequency:
 
 ``` r
-d3$avg.TCGA.percentile <- factor(d3$avg.TCGA.percentile) 
-levels(d3$avg.TCGA.percentile) %>% head(5) %>% kable(format = "markdown", align="c")
+d0$avg.TCGA.percentile <- factor(d0$avg.TCGA.percentile) 
+levels(d0$avg.TCGA.percentile) %>% head(5) %>% kable(format = "markdown", align="c")
 ```
 
-    ## Warning in kable_markdown(x = structure(c("1", "2", "3", "4", "5"), .Dim =
+    ## Warning in kable_markdown(x = structure(c("0", "1", "2", "3", "4"), .Dim =
     ## c(5L, : The table should have a header (column names)
 
 |     |
 |:---:|
+|  0  |
 |  1  |
 |  2  |
 |  3  |
 |  4  |
-|  5  |
 
 ``` r
-d3$avg.TCGA.percentile %>% forcats::fct_infreq() %>% levels() %>% head(5) %>% kable(format = "markdown", align="c")
+d0$avg.TCGA.percentile %>% forcats::fct_infreq() %>% levels() %>% head(5) %>% kable(format = "markdown", align="c")
 ```
 
     ## Warning in kable_markdown(x = structure(c("49", "2", "1", "3", "48"), .Dim
@@ -801,42 +796,43 @@ d3$avg.TCGA.percentile %>% forcats::fct_infreq() %>% levels() %>% head(5) %>% ka
 |  3  |
 |  48 |
 
-**Note 1.** The most frequent avg.TCGA.percentile factor is 49, therefore, we know that there is a high number of hugo genes with a gene expression level at the 49th percentile.
+**Note 1.** The most frequent avg.TCGA.percentile factor is 49, therefore, we know that there is a high number of hugo genes with a gene expression level at the 49th percentile. After that, the second most frequent percentile value is 2, then 1, etc.
 
-PLOT EXAMPLE
+#### PLOT EXAMPLE
 
-We will plot the avg.TCGA.percentile factors in un-ordered way, then ordered by frequency. We will only use the 2000 first data entries.
+We will plot the avg.TCGA.percentile factors in un-ordered fashion.
 
 ``` r
-d2$avg.TCGA.percentile <- factor(d2$avg.TCGA.percentile) 
-p4 <- d2 %>%
+d0 %>%
   group_by(cancer.gene.type) %>%
-  head(2000) %>%
   ggplot(aes(x=avg.TCGA.percentile)) +
   ggtitle("Count of hugo genes for each\navg.TCGA.percentile factor") +
-  labs(x="avg.TCGA.percentile")
-p4 + geom_bar(aes(fill=cancer.gene.type)) + 
+  labs(x="avg.TCGA.percentile") + 
+  geom_bar(aes(fill=cancer.gene.type)) + 
   theme(
   plot.title= element_text(color = "grey44", size=24, face="bold"),
-  text = element_text(size=18))
+  text = element_text(size=12),
+  axis.text.x = element_text(angle=45, hjust=1))
 ```
 
-![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-15-1.png)
+![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-17-1.png)
+
+Then we will plot the avg.TCGA.percentile in ordered fashion: from the highest count to lowest (and NA will be displayed last by default):
 
 ``` r
-p4 <- d2 %>%
+d0 %>%
   group_by(cancer.gene.type) %>%
-  head(2000) %>%
   ggplot(aes(x=fct_infreq(avg.TCGA.percentile))) +
   ggtitle("Ordered - Count of hugo genes for each\navg.TCGA.percentile factor") +
-  labs(x="Ordered factor - avg.TCGA.percentile")
-p4 + geom_bar(aes(fill=cancer.gene.type)) +
+  labs(x="Ordered factor - avg.TCGA.percentile") +
+  geom_bar(aes(fill=cancer.gene.type)) + 
   theme(
-  plot.title= element_text(color = "grey44", size=20, face="bold"),
-  text = element_text(size=16))
+  plot.title= element_text(color = "grey44", size=24, face="bold"),
+  text = element_text(size=12),
+  axis.text.x = element_text(angle=45, hjust=1))
 ```
 
-![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-15-2.png)
+![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-18-1.png)
 
 **Note 1.** The reason why the factors are not the same than illustrated in the previous example is because I only selected the first 2000 data entries and the factors were already ordered in ascending fashion in the d2 dataset.
 
@@ -851,7 +847,7 @@ Resources:
 
 -   Explore the effects of arrange(). Does merely arranging the data have any effect on, say, a figure?
 
-Answer: As exemplified above, arrange() is not sufficient to re-order data according to a factor. For example, the hugo genes were not re-ordered according to the RPKM even after using arrange(RPKM), and the visual output is not very intuitine. We need to use functions of base R or forcats to do this (see examples above).
+Answer: As exemplified above, arrange() is not sufficient to re-order data according to a factor. For example, the hugo genes were not re-ordered according to the RPKM even after using arrange(RPKM), and the visual output is not easy to read/interprete when you don't rearrange the data according to factors. We need to use functions of base R or forcats to do this (see examples above).
 
 -   Explore the effects of reordering a factor and factor reordering coupled with arrange(). Especially, what effect does this have on a figure?
 
@@ -883,59 +879,26 @@ In all honesty, I spent quite a bit of time on visual aspects of ggplot graph in
 
 Therefore, I will try something different here: making a color scheme for the hugo genes based on the cancer.gene.type category they belong to. The entire code below is based on the work of Jenny Bryan, specifically tutorial on ggplot2 [here](https://github.com/jennybc/ggplot2-tutorial/blob/master/01_make-gapminder-color-scheme.r) (create color scheme for data) and [here](https://github.com/jennybc/ggplot2-tutorial/blob/master/gapminder-ggplot2-shock-and-awe.md) (plot the data).
 
-First, the values of cancer.gene.type (stored in gene\_types) are too long, let's make abbreviations for them, and replace the cancer.gene.type by the abbreviation in d5.
+In order to decide of the colour scheme needed, I need to know how many hugo genes there is in each cancer.gene.type category:
 
 ``` r
-abbreviations_gene_types  <- factor(c("unknown", "ONC", "ONC.pTS", "ONC.TS", "pONC", "pONC.pTS", "pONC.TS", "pTS", "TS"))
-abbreviations_gene_types <- as.character(abbreviations_gene_types)
-abbr_table <- data.frame(Abbreviation = abbreviations_gene_types, cancer.gene.type = gene_types)
-abbr_table %>% kable(format = "markdown", align="c")
-```
-
-| Abbreviation |                cancer.gene.type               |
-|:------------:|:---------------------------------------------:|
-|    unknown   |                       NA                      |
-|      ONC     |                    oncogene                   |
-|    ONC.pTS   |      oncogene; putative tumour suppressor     |
-|    ONC.TS    |          oncogene; tumour suppressor          |
-|     pONC     |               putative oncogene               |
-|   pONC.pTS   | putative oncogene; putative tumour suppressor |
-|    pONC.TS   |      putative oncogene; tumour suppressor     |
-|      pTS     |           putative tumour suppressor          |
-|      TS      |               tumour suppressor               |
-
-``` r
-d5 <- d0
-d5$cancer.gene.type <- as.character(d5$cancer.gene.type)
-d5$cancer.gene.type <- gsub("NA", "unknown", d5$cancer.gene.type)
-d5$cancer.gene.type <- gsub("oncogene", "ONC", d5$cancer.gene.type)
-d5$cancer.gene.type <- gsub("tumour suppressor", "TS", d5$cancer.gene.type)
-d5$cancer.gene.type <- gsub("putative", "p", d5$cancer.gene.type)
-d5$cancer.gene.type <- as.vector(d5$cancer.gene.type)
-d5$cancer.gene.type <- gsub("; ", ".", d5$cancer.gene.type)
-d5$cancer.gene.type <- gsub(" ", "", d5$cancer.gene.type)
-```
-
-cancer.gene.type-level info
-
-``` r
-d5 <- d5 %>%
+d2 <- d0 %>%
   filter(cancer.gene.type != "unknown")
-dim(d5)
+dim(d2)
 ```
 
     ## [1] 1281   27
 
 ``` r
-d5.cancer.gene.type <- aggregate(hugo~cancer.gene.type, d5, function(x) length(unique(x)))
-n.cancer.gene.type <- nrow(d5.cancer.gene.type)
+d2.cancer.gene.type <- aggregate(hugo~cancer.gene.type, d2, function(x) length(unique(x)))
+n.cancer.gene.type <- nrow(d2.cancer.gene.type)
 n.cancer.gene.type
 ```
 
     ## [1] 8
 
 ``` r
-d5.cancer.gene.type %>% kable(format = "markdown", align="c")
+d2.cancer.gene.type %>% kable(format = "markdown", align="c")
 ```
 
 | cancer.gene.type | hugo |
@@ -957,7 +920,7 @@ Map cancer.gene.type into colours using the RColorBrewer package
 display.brewer.all(type = "div")
 ```
 
-![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-18-1.png)
+![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-20-1.png)
 
 ``` r
 color_anchors <-
@@ -976,38 +939,15 @@ color_anchors <-
 Select the first or darkest color to represent the whole cancer.gene.type category
 
 ``` r
-d5.cancer.gene.type$color <- lapply(color_anchors, "[",1 )
+d2.cancer.gene.type$color <- lapply(color_anchors, "[",1 )
 ```
 
 Expand into palettes big enough to cover each gene in a continent
 
 ``` r
 library(plyr)
-```
-
-    ## -------------------------------------------------------------------------
-
-    ## You have loaded plyr after dplyr - this is likely to cause problems.
-    ## If you need functions from both plyr and dplyr, please load plyr first, then dplyr:
-    ## library(plyr); library(dplyr)
-
-    ## -------------------------------------------------------------------------
-
-    ## 
-    ## Attaching package: 'plyr'
-
-    ## The following objects are masked from 'package:dplyr':
-    ## 
-    ##     arrange, count, desc, failwith, id, mutate, rename, summarise,
-    ##     summarize
-
-    ## The following object is masked from 'package:purrr':
-    ## 
-    ##     compact
-
-``` r
-d5 <- data.frame(d5)
-hugo_colors <- plyr::ddply(d5, ~cancer.gene.type, function(x) {
+d2 <- data.frame(d2)
+hugo_colors <- plyr::ddply(d2, ~cancer.gene.type, function(x) {
   the.cancer.gene.type <- x$cancer.gene.type[1]
   x <- droplevels(x)
   hugo.lowtohigh <-
@@ -1033,8 +973,8 @@ make_figure <- function() {
        xlab = "", ylab="", xaxt = "n", yaxt = "n", bty = "n",
        main="CHEK2 data - Cancer Gene Type - Color Scheme")
   for(i in seq_len(n.cancer.gene.type)) {
-    this.cancer.gene.type <- d5.cancer.gene.type$cancer.gene.type[i]
-    nCols <- with(d5.cancer.gene.type, hugo[cancer.gene.type==this.cancer.gene.type])
+    this.cancer.gene.type <- d2.cancer.gene.type$cancer.gene.type[i]
+    nCols <- with(d2.cancer.gene.type, hugo[cancer.gene.type==this.cancer.gene.type])
     yFudge = 0.1/nCols
     foo <- seq(from = 0, to =1, length.out = nCols+1)
     rect(xleft = i-1,
@@ -1048,7 +988,7 @@ make_figure <- function() {
                        substr(hugo[cancer.gene.type==this.cancer.gene.type], 1, charLimit)),
          adj = c(0, 0), cex = jCex)
   }
-  mtext(d5.cancer.gene.type$cancer.gene.type, side = 3, at = seq_len(n.cancer.gene.type) - 0.5)
+  mtext(d2.cancer.gene.type$cancer.gene.type, side = 3, at = seq_len(n.cancer.gene.type) - 0.5)
   mtext(c("highest.RPKM", "smallest.RPKM"),
         side = 2, at = c(0.9, 0.1), las = 1)
 }
@@ -1058,7 +998,7 @@ op <- par(mar = c(1, 4, 6, 1) + 0.1)
 make_figure()
 ```
 
-![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-21-1.png)
+![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-23-1.png)
 
 ``` r
 par(op)
@@ -1091,16 +1031,16 @@ par(op)
 write.table(hugo_colors, "scratch-space/chek2-hugo-colors.tsv",
             quote = FALSE, sep = "\t", row.names = FALSE)
 
-d5.cancer.gene.type$cancer.gene.type <- as.character(d5.cancer.gene.type$cancer.gene.type)
-d5.cancer.gene.type$hugo <- as.character(d5.cancer.gene.type$hugo)
-d5.cancer.gene.type$color <- as.character(d5.cancer.gene.type$color)
-write.table(d5.cancer.gene.type, "scratch-space/chek2-cancer.gene.type-colors.tsv",
+d2.cancer.gene.type$cancer.gene.type <- as.character(d2.cancer.gene.type$cancer.gene.type)
+d2.cancer.gene.type$hugo <- as.character(d2.cancer.gene.type$hugo)
+d2.cancer.gene.type$color <- as.character(d2.cancer.gene.type$color)
+write.table(d2.cancer.gene.type, "scratch-space/chek2-cancer.gene.type-colors.tsv",
             quote = FALSE, sep = "\t", row.names = FALSE)
 ```
 
 **Note 1.** I know you can't read anything in this image, but I have put it simply to give you an idea, as it would be hard to make around 20000 gene names (hugo) fit on a screen ! To see the png, you can click [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw5-thibodeau-mylinh/scratch-space/chek2-cancer.gene.type-colors.png)
 
-**Note 2.** I had to convert the d5.cancer.gene.type table to characters before being able to write to a tsv file, as mentioned in this stack overflow discussion [here](https://stackoverflow.com/questions/24829027/unimplemented-type-list-when-trying-to-write-table).
+**Note 2.** I had to convert the d2.cancer.gene.type table to characters before being able to write to a tsv file, as mentioned in this stack overflow discussion [here](https://stackoverflow.com/questions/24829027/unimplemented-type-list-when-trying-to-write-table).
 
 (4) Writing figures to file
 ===========================
@@ -1110,33 +1050,27 @@ Let's write a figure to a file, then load it back to embed it in this report.
 Merge color into data, as shown [here](https://github.com/jennybc/ggplot2-tutorial/blob/master/02-merge-color-into-data.r)
 
 ``` r
-library(plyr)
-hugo_colors_v2 <- read.delim("scratch-space/chek2-hugo-colors.tsv", colClasses = list(color = "character"), col.names = c("cancer.gene.type", "hugo", "hugo_color"))
+suppressWarnings(suppressMessages(library(plyr)))
+hugo_colors <- read.delim("scratch-space/chek2-hugo-colors.tsv", colClasses = list(color = "character"), col.names = c("cancer.gene.type", "hugo", "hugo_color"))
 ```
 
     ## Warning in read.table(file = file, header = header, sep = sep, quote =
     ## quote, : not all columns named in 'colClasses' exist
 
 ``` r
-str(hugo_colors_v2)
+#str(hugo_colors)
+
+#insert color as a variable into d2
+d2 <- merge(d2, hugo_colors)
 ```
 
-    ## 'data.frame':    1281 obs. of  3 variables:
-    ##  $ cancer.gene.type: Factor w/ 8 levels "ONC","ONC.pTS",..: 1 1 1 1 1 1 1 1 1 1 ...
-    ##  $ hugo            : Factor w/ 1281 levels "ABI1","ABI2",..: 194 396 399 400 530 740 742 846 850 1116 ...
-    ##  $ hugo_color      : Factor w/ 1025 levels "#053061","#053062",..: 555 555 555 557 557 562 562 565 565 567 ...
+So now we have added a column specifying a color for each gene:
 
 ``` r
-#insert color as a variable into d5
-d5 <- merge(d5, hugo_colors_v2)
-```
-
-Then we can use this to make plots, as Jenny Bryan showed [here](https://github.com/jennybc/ggplot2-tutorial/blob/master/gapminder-ggplot2-shock-and-awe.md)
-
-``` r
-color_scheme_hugo <- d5 %>%
-  select(hugo, hugo_color)
-head(color_scheme_hugo) %>% kable(format = "markdown", align="c")
+d2 %>%
+  select(hugo, hugo_color) %>%
+  head(5) %>%
+  kable(format = "markdown", align="c")
 ```
 
 |  hugo | hugo\_color |
@@ -1146,25 +1080,26 @@ head(color_scheme_hugo) %>% kable(format = "markdown", align="c")
 |  ABL1 |   \#F78950  |
 |  ABL2 |   \#D93529  |
 | ACACA |   \#C51B7D  |
-| ACAD8 |   \#B2126E  |
+
+Then we can use this to make plots, as Jenny Bryan showed [here](https://github.com/jennybc/ggplot2-tutorial/blob/master/gapminder-ggplot2-shock-and-awe.md)
 
 ``` r
-p5 <- d5 %>%
+d2 %>%
   filter(cancer.gene.type != "unknown") %>%
   group_by(cancer.gene.type) %>%
-  ggplot(aes(x=log2(RPKM), y=FC.mean.Bodymap), na.rm=TRUE) +
-  ggtitle("FC.mean.Bodymap as a function of log2(RPKM)")
-p5 + geom_point(aes(shape=copy.category)) +
+  ggplot(aes(x=log2(RPKM), y=FC.mean.Bodymap, shape=copy.category), na.rm=TRUE) +
+  ggtitle("FC.mean.Bodymap as a function of log2(RPKM)") +
   scale_size_continuous(range=c(1,40)) +
   facet_wrap(~cancer.gene.type) +
   aes(colour= hugo_color) + scale_colour_identity() +
   theme_bw() + theme(
     plot.title= element_text(color = "grey44", size=24, face="bold"),
     text = element_text(size =18),
-    strip.text = element_text(size = rel(1.1))) 
+    strip.text = element_text(size = rel(1.1))) + 
+  geom_point()
 ```
 
-![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-23-1.png)
+![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-26-1.png)
 
 ``` r
 ggsave("scratch-space/chek2_cancer_gene_type_color_plot.png", width = 20, height = 20, units = "cm", dpi = 300)
@@ -1172,80 +1107,68 @@ ggsave("scratch-space/chek2_cancer_gene_type_color_plot.png", width = 20, height
 
 **Note 1.** In the plot above, one might want to focus on the genes that have low expression (low RPKM) and copy loss, or high expression and copy gain, as these paired-values are more likely to be biologically relevant.
 
-Now, let's load the plot I just created with the Rmarkdown syntax.
+### Now, let's load the plot I just created with the Rmarkdown syntax.
 
 ![a\_plot](scratch-space/chek2_cancer_gene_type_color_plot.png)
 
-If you are generating two plots in the same code chunk, you need to specify which plot to save with ggsave. For example, let's take the same plots previously shown.
+If you are generating two plots in the same code chunk, you need to specify which plot to save with ggsave, otherwise, only the last plot will be saved. For example, let's take the same plots previously shown.
 
 ``` r
-p4 <- d2 %>%
-  group_by(cancer.gene.type) %>%
-  head(2000) %>%
-  ggplot(aes(x=avg.TCGA.percentile)) +
-  ggtitle("Count of hugo genes for each\navg.TCGA.percentile factor") +
-  labs(x="avg.TCGA.percentile")
-p4 + geom_bar(aes(fill=cancer.gene.type)) + 
-  theme(
-  plot.title= element_text(color = "grey44", size=24, face="bold"),
-  text = element_text(size=18))
+unordered_plot
 ```
 
-![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-24-1.png)
+![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-27-1.png)
 
 ``` r
-p4 <- d2 %>%
-  group_by(cancer.gene.type) %>%
-  head(2000) %>%
-  ggplot(aes(x=fct_infreq(avg.TCGA.percentile))) +
-  ggtitle("Ordered - Count of hugo genes for each\navg.TCGA.percentile factor") +
-  labs(x="Ordered factor - avg.TCGA.percentile")
-p4 + geom_bar(aes(fill=cancer.gene.type)) +
-  theme(
-  plot.title= element_text(color = "grey44", size=24, face="bold"),
-  text = element_text(size=18))
+ordered_plot
 ```
 
-![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-24-2.png)
+![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-27-2.png)
 
 ``` r
-ggsave("scratch-space/p4_ordered.png", width = 20, height = 20, units = "cm", dpi = 300)
+ggsave("scratch-space/some_plot.png", width = 20, height = 20, units = "cm", dpi = 300)
 ```
 
-By default, ggsave use the last stored plot to save to the file, so if you want to save the first plot, you have to specify which plot you want to save with the argument plot = p4\_unordered in our case.
+As you can see, the plot saved [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw5-thibodeau-mylinh/scratch-space/some_plot.png) is the ordered\_plot because that was the last one in the code chunk, while unordered\_plot has not been saved.
+
+If you want to save all the plots in a code chunk, you have to add the ggsave() function after each plot code block, or you can put one ggsave() function for each plot (and specify the plot) at the end of the code chunk.
+
+Put the ggsave function after each plot:
 
 ``` r
-p4_unordered <- d2 %>%
-  group_by(cancer.gene.type) %>%
-  head(2000) %>%
-  ggplot(aes(x=avg.TCGA.percentile)) +
-  ggtitle("Count of hugo genes for each\navg.TCGA.percentile factor") +
-  labs(x="avg.TCGA.percentile")
-p4_unordered + geom_bar(aes(fill=cancer.gene.type)) + 
-  theme(
-  plot.title= element_text(color = "grey44", size=24, face="bold"),
-  text = element_text(size=18))
+unordered_plot
 ```
 
-![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-25-1.png)
+![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-28-1.png)
 
 ``` r
-p4 <- d2 %>%
-  group_by(cancer.gene.type) %>%
-  head(2000) %>%
-  ggplot(aes(x=fct_infreq(avg.TCGA.percentile))) +
-  ggtitle("Ordered - Count of hugo genes for each\navg.TCGA.percentile factor") +
-  labs(x="Ordered factor - avg.TCGA.percentile")
-p4 + geom_bar(aes(fill=cancer.gene.type)) +
-  theme(
-  plot.title= element_text(color = "grey44", size=24, face="bold"),
-  text = element_text(size=18))
+ggsave("scratch-space/unordered.png", width = 20, height = 20, units = "cm", dpi = 300)
+ordered_plot
 ```
 
-![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-25-2.png)
+![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-28-2.png)
 
 ``` r
-ggsave("scratch-space/p4_unordered.png", plot=p4_unordered, width = 20, height = 20, units = "cm", dpi = 300)
+ggsave("scratch-space/ordered.png", width = 20, height = 20, units = "cm", dpi = 300)
+```
+
+Or you can put the ggsave functions at the end:
+
+``` r
+unordered_plot
+```
+
+![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-29-1.png)
+
+``` r
+ordered_plot
+```
+
+![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-29-2.png)
+
+``` r
+ggsave("scratch-space/unordered.png", plot =unordered_plot, width = 20, height = 20, units = "cm", dpi = 300)
+ggsave("scratch-space/ordered.png", plot =ordered_plot, width = 20, height = 20, units = "cm", dpi = 300)
 ```
 
 Resources:

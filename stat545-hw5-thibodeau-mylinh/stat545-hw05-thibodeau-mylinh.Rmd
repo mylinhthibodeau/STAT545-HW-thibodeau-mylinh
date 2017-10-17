@@ -552,7 +552,7 @@ d2 %>%
     text = element_text(size =18),
     strip.text = element_text(size = rel(1.1))) + 
   geom_point()
-ggsave("scratch-space/chek2_cancer_gene_type_color_plot.png", width = 20, height = 20, units = "cm", dpi = 300)
+ggsave("scratch-space/chek2_cancer_gene_type_color_plot.png", width = 30, height = 20, units = "cm", dpi = 300)
 ```
 **Note 1.** In the plot above, one might want to focus on the genes that have low expression (low RPKM) and copy loss, or high expression and copy gain, as these paired-values are more likely to be biologically relevant.
 
@@ -565,7 +565,7 @@ If you are generating two plots in the same code chunk, you need to specify whic
 ```{r}
 unordered_plot
 ordered_plot
-ggsave("scratch-space/some_plot.png", width = 20, height = 20, units = "cm", dpi = 300)
+ggsave("scratch-space/some_plot.png", width = 30, height = 20, units = "cm", dpi = 300)
 ```
 
 As you can see, the plot saved [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw5-thibodeau-mylinh/scratch-space/some_plot.png) is the ordered_plot because that was the last one in the code chunk, while unordered_plot has not been saved.
@@ -575,9 +575,9 @@ If you want to save all the plots in a code chunk, you have to add the ggsave() 
 Put the ggsave function after each plot:
 ```{r}
 unordered_plot
-ggsave("scratch-space/unordered.png", width = 20, height = 20, units = "cm", dpi = 300)
+ggsave("scratch-space/unordered.png", width = 30, height = 20, units = "cm", dpi = 300)
 ordered_plot
-ggsave("scratch-space/ordered.png", width = 20, height = 20, units = "cm", dpi = 300)
+ggsave("scratch-space/ordered.png", width = 30, height = 20, units = "cm", dpi = 300)
 ```
 
 Or you can put the ggsave functions at the end:
@@ -585,10 +585,11 @@ Or you can put the ggsave functions at the end:
 ```{r}
 unordered_plot
 ordered_plot
-ggsave("scratch-space/unordered.png", plot =unordered_plot, width = 20, height = 20, units = "cm", dpi = 300)
-ggsave("scratch-space/ordered.png", plot =ordered_plot, width = 20, height = 20, units = "cm", dpi = 300)
+ggsave("scratch-space/unordered.png", plot =unordered_plot, width = 30, height = 20, units = "cm", dpi = 300)
+ggsave("scratch-space/ordered.png", plot =ordered_plot, width = 30, height = 20, units = "cm", dpi = 300)
 ```
 
+And you can see that both plots were successfully saved: unordered_plot [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw5-thibodeau-mylinh/scratch-space/unordered.png) and ordered_plot [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw5-thibodeau-mylinh/scratch-space/ordered.png) !
 
 Resources:
 
@@ -596,7 +597,7 @@ Resources:
 * use scale_colour_identity example [here](https://stackoverflow.com/questions/3079264/using-a-pre-defined-color-palette-in-ggplot)
 * colour choices in ggplot [here](http://sape.inf.usi.ch/quick-reference/ggplot2/colour)
 * add title in ggplot [here](http://www.sthda.com/english/wiki/ggplot2-title-main-axis-and-legend-titles)
-* change labes on x-axis example [here](https://stackoverflow.com/questions/27418222/two-lines-of-x-axis-labels-in-ggplot)
+* change labels on x-axis example [here](https://stackoverflow.com/questions/27418222/two-lines-of-x-axis-labels-in-ggplot)
 
 # (5) Organise your github
 
@@ -605,7 +606,7 @@ Resources:
 I have used some strategies to keep my repository clean and organized:
 
 * For each folder, I am using a scratch-space subfolder that contains the figures and table files generated manually. This approach avoids having numerour files in the main repository, which makes it difficult for the reader to find the specific file to review. However, in order to do so, I need to plan in advance and remember to save the files in the scratch-space.
-* Exception made of the homework 1, all of the stat545 homework assignements are in my mylinhthibodeau/STAT545-HW-thibodeau-mylinh repository [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh). I will eventually try to move homework 1 to this folder, but I am a bit fearful to re-create my "repository inside a repository" issue, so I will wait to have more time to tackle eventual problems before I do so. 
+* Exception made of the homework 1 (which is [here](https://github.com/mylinhthibodeau/STAT545-hw01-thibodeau-mylinh)), all of the stat545 homework assignements are in my mylinhthibodeau/STAT545-HW-thibodeau-mylinh repository [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh). I will eventually try to move homework 1 to this folder, but I am a bit fearful to re-create my "repository inside a repository" issue, so I will wait to have more time to tackle eventual problems before I do so. 
 * I try to keep the first repository README.md file as clear and succinct as possible (as shown [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/README.md))
 * I am trying to make the README.md file in each homework folder as clear as possible
 

@@ -10,7 +10,7 @@ suppressPackageStartupMessages(library(tidyverse))
 knitr::opts_chunk$set(fig.width=12, fig.height=9)
 library(knitr)
 library(kableExtra)
-options(knitr.table.format = "html")
+options(knitr.table.format = "markdown")
 library(reshape2)
 #install.packages("tidygenomics") # Not used for now, but perhaps in another homework
 #library(tidygenomics) # Not used for now, but perhaps in another homework
@@ -126,7 +126,7 @@ Let's take a look at the brca_rna data:
 ```{r}
 brca_rna %>%
   head(10) %>%
-  kable("html") %>% kable_styling()
+  kable("markdown") %>% kable_styling()
 ```
 
 The TCGA RNAseq datasets are perfect for this exercise, because the columns in each dataset represent a different sample, and therefore, they are actually different obversations. I will start by making new "gathered" data.frame.
@@ -152,7 +152,7 @@ And now, if we take the same brca data, but the after using the gather() functio
 ```{r}
 brca_rna_gather %>%
   head(10) %>%
-  kable("html") %>% kable_styling()
+  kable("markdown") %>% kable_styling()
 ```
 
 ### SPREAD: From vertical (longer) to horizontal (wide)  
@@ -164,7 +164,7 @@ brca_rna %>%
   gather(key = sample, value = RPKM, brca.s1, brca.s2, brca.s3) %>%
   spread(key=sample, value=RPKM) %>%
   head(10) %>%
-  kable("html") %>% kable_styling()
+  kable("markdown") %>% kable_styling()
 ```
 
 * *Initially, I had an error message: "Error: Duplicate identifiers for rows (2, 3), (52, 53), (102, 103)". It turns out that the spread() function does not like the fact that some gene names are duplicated for the sample (because of non-unique identifiers, it is unable to match back the columns after gather). When I didn't know better, I applied some extra functions to filter the gene duplicates (e.g. brca_rna <- brca_rna[!duplicated(brca_rna$hugo), ]).*
@@ -179,7 +179,7 @@ brca_rna_dup %>%
   gather(key = sample, value = RPKM, brca.s1, brca.s2, brca.s3) %>%
   dcast(hugo~sample, fun.aggregate = mean, value=RPKM, na.rm=TRUE) %>%
   head(10) %>%
-  kable("html") %>% kable_styling()
+  kable("markdown") %>% kable_styling()
 ```
 
 
@@ -203,7 +203,7 @@ full_dataset %>%
   filter(cancer.type=="BRCA") %>%
   spread(key=sample, value =RPKM) %>%
   head(10) %>%
-  kable("html") %>% kable_styling()
+  kable("markdown") %>% kable_styling()
 ```
 
 ## Activity #3 - Tidyr  
@@ -215,7 +215,7 @@ full_dataset %>%
   group_by(hugo, cancer.type) %>%
   summarize(mean.cancer=signif(mean(RPKM),2), median.cancer = signif(median(RPKM), 2), min.cancer=signif(min(RPKM), 2), max.cancer=signif(max(RPKM), 2)) %>%
   head(10) %>%
-  kable("html") %>% kable_styling()
+  kable("markdown") %>% kable_styling()
 ```
 
 Reshape that to have one row per hugo (year) and one variable for each cancer group (continent). 
@@ -227,7 +227,7 @@ d1 <- full_dataset %>%
   summarize(mean.cancer= signif(mean(RPKM), 2)) %>%
   gather(key=stat.category, value= the.number , mean.cancer) %>%
   spread(key=cancer.type, value=the.number)
-d1 %>% head(10) %>% kable("html") %>% kable_styling()
+d1 %>% head(10) %>% kable("markdown") %>% kable_styling()
 ```
 
 **Wow ... that took a long time, so let me reason through the process for one second:**
@@ -261,7 +261,7 @@ d2 <- full_dataset %>%
   summarize(mean.cancer= signif(mean(RPKM), 2), median.cancer = signif(median(RPKM), 2), min.cancer=signif(min(RPKM), 2), max.cancer=signif(max(RPKM), 2)) %>%
   gather(key=stat.category, value= the.number , mean.cancer, median.cancer, min.cancer, max.cancer) %>%
   spread(key=cancer.type, value=the.number)
-d2 %>% head(10) %>% kable("html") %>% kable_styling()
+d2 %>% head(10) %>% kable("markdown") %>% kable_styling()
 ```
 
 ## Activity #3 - Reshape  
@@ -271,7 +271,7 @@ Actually, I think reshape is more appropriate to manipulate the data and make pl
 d_resh <- d2 %>%
   melt() %>%
   dcast(variable + hugo ~stat.category , sum)
-d_resh %>% head(16) %>% kable("html") %>% kable_styling()
+d_resh %>% head(16) %>% kable("markdown") %>% kable_styling()
 ```
 
 **Is there a plot that is easier to make with the data in this shape versus the usual form? If so (or you think so), try it! Reflect.**
@@ -316,7 +316,7 @@ d3 <- full_dataset %>%
   gather(key=stat.category, value= the.number , mean.cancer, median.cancer, min.cancer, max.cancer) %>%
   spread(key=hugo, value=the.number)
 d3 %>% head(16) %>%
-  kable("html") %>% kable_styling()
+  kable("markdown") %>% kable_styling()
 ```
 
 ## Activity #4 - Window functions   
@@ -341,7 +341,7 @@ d4 <- full_dataset %>%
   filter(min_rank(desc(RPKM)) < 2 | min_rank(RPKM) < 2) %>%
   arrange(hugo)
 d4 %>% head(10) %>%
-  kable("html") %>% kable_styling()
+  kable("markdown") %>% kable_styling()
 ```
 
 *RANKING*
@@ -353,7 +353,7 @@ full_dataset %>%
   group_by(cancer.type) %>%
   arrange(RPKM, hugo) %>%
   filter(min_rank(desc(RPKM)) <= 2) %>%
-  kable("html") %>% kable_styling()
+  kable("markdown") %>% kable_styling()
 ```
 Note. I tried to understand this R-manual article on [rank and ties.methods](https://stat.ethz.ch/R-manual/R-devel/library/base/html/rank.html), but I can't figure out how to use data from a matrix with this function.
 
@@ -366,7 +366,7 @@ full_dataset %>%
   mutate(sample, RPKM_z = (RPKM - mean(RPKM))/sd(RPKM)) %>%
   arrange(cancer.type, desc(RPKM_z)) %>%
   head(10) %>%
-  kable("html") %>% kable_styling()
+  kable("markdown") %>% kable_styling()
 ```
 
 Since I do not have a time variable, I will not illustrate the lag() or lead() functions. If I ever have time series sequencing data, I will apply these functions.
@@ -375,7 +375,7 @@ Since I do not have a time variable, I will not illustrate the lag() or lead() f
 
 The example given of previous TA Andrew MacDonald can be found [here](https://gist.github.com/aammd/11386424).
 
-It would make more sense for a cheatsheet to be separate from the homework (and not embedded in it), so please click [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw4-thibodeau-mylinh/hw04-data-manipulation-cheatsheet.md) to see my Activity #5. 
+It would make more sense for a cheatsheet to be separate from the homework (and not embedded in it), so please click [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw4-thibodeau-mylinh/hw04-data-manipulation-cheatsheet-thibodeau-mylinh.md) to see my Activity #5. 
 
 
 ***
@@ -407,10 +407,10 @@ Mar;4(3):177-83. Review. PubMed PMID: 14993899; PubMed Central PMCID: PMC2665285
 
 ```{r}
 cosmic_census <- read.table("scratch-space/Cosmic_Census.tsv", sep = "\t", header=TRUE, strip.white = TRUE)
-summary(cosmic_census) %>% kable("html") %>% kable_styling()
+summary(cosmic_census) %>% kable("markdown") %>% kable_styling()
 dim(cosmic_census)
 colnames(cosmic_census)
-#sapply(cosmic_census, class)  %>% kable("html") %>% kable_styling()  
+#sapply(cosmic_census, class)  %>% kable("markdown") %>% kable_styling()  
 # View(cosmic_census)
 ```
 
@@ -533,6 +533,6 @@ t6 %>% head(10) %>% kable(format = "markdown", align=NULL)
 
 ## Activity #2 - Create your own cheatsheet of dplyr join functions
 
-Please click [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw4-thibodeau-mylinh/hw04-dplyr-join-cheatsheet.md) to see a minimalist dplyr joining functions cheatsheet.
+Please click [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw4-thibodeau-mylinh/hw04-dplyr-join-cheatsheet-thibodeau-mylinh.md) to see a minimalist dplyr joining functions cheatsheet.
 
 ***

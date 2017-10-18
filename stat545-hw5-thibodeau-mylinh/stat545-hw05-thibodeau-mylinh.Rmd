@@ -570,6 +570,7 @@ ggsave("scratch-space/some_plot.png", width = 30, height = 20, units = "cm", dpi
 
 As you can see, the plot saved [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw5-thibodeau-mylinh/scratch-space/some_plot.png) is the ordered_plot because that was the last one in the code chunk, while unordered_plot has not been saved.
 
+
 If you want to save all the plots in a code chunk, you have to add the ggsave() function after each plot code block, or you can put one ggsave() function for each plot (and specify the plot) at the end of the code chunk. 
 
 Put the ggsave function after each plot:

@@ -8,7 +8,7 @@ suppressPackageStartupMessages(library(plyr))
 suppressWarnings(suppressMessages(library(dplyr)))
 suppressPackageStartupMessages(library(tidyverse))
 suppressWarnings(library(tidyverse))
-knitr::opts_chunk$set(fig.width=12, fig.height=8)
+knitr::opts_chunk$set(fig.width=13, fig.height=8)
 suppressWarnings(suppressMessages(library(knitr)))
 suppressWarnings(suppressMessages(library(kableExtra)))
 suppressWarnings(options(knitr.table.format = "markdown"))
@@ -834,13 +834,13 @@ d0 %>%
 
 ![](stat545-hw05-thibodeau-mylinh_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-18-1.png)
 
-**Note 1.** The reason why the factors are not the same than illustrated in the previous example is because I only selected the first 2000 data entries and the factors were already ordered in ascending fashion in the d2 dataset.
+**Note 1.** I know it's a bit difficult to read all the factors, but I wanted to give an overview of individual percentile value as a factor, and in the next homework, I am hoping to learn how to group the values according to a range into bins to make more informative plots.
 
 Resources:
 
--   Stack overflow example for cut [here](https://stackoverflow.com/questions/40380112/categorize-continuous-variable-with-dplyr)
 -   Examples of forcats [here](https://blog.rstudio.com/2016/08/31/forcats-0-1-0/)
 -   The most useful resource is from stat545 [here](http://stat545.com/block029_factors.html)
+-   Stack overflow example for cut [here](https://stackoverflow.com/questions/40380112/categorize-continuous-variable-with-dplyr), but I did not end up using this function in the end.
 
 (1D) Characterize the (derived) data before and after your factor re-leveling
 -----------------------------------------------------------------------------

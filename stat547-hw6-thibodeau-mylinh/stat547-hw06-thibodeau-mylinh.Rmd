@@ -7,9 +7,8 @@ output: html_document:
 ---
 
 
-```{r}
-suppressPackageStartupMessages(library(plyr))
-suppressWarnings(suppressMessages(library(dplyr)))
+```{r message=FALSE}
+#suppressPackageStartupMessages(library(plyr))
 suppressPackageStartupMessages(library(tidyverse))
 suppressWarnings(library(tidyverse))
 knitr::opts_chunk$set(fig.width=13, fig.height=8)
@@ -18,8 +17,26 @@ suppressWarnings(suppressMessages(library(kableExtra)))
 suppressWarnings(options(knitr.table.format = "markdown"))
 library(readr)
 suppressWarnings(suppressMessages(library(forcats)))
-#install.packages("gdata")
-suppressWarnings(suppressMessages(library(gdata)))
-# install.packages("RColorBrewer")
-library(RColorBrewer)
+library(purrr)
+library(repurrrsive)
+library(tibble)
+library(devtools)
+library(singer)
+library(listviewer)
+library(jsonlite)
+library(dplyr)
+library(tibble)
+library(rlang)
+install.packages("ontologyIndex")
 ```
+
+# Homework instructions
+
+**Pick (at least) two of the six (numbered) topics below and do one of the exercise prompts listed, or something comparable using your dataset of choice.**
+
+
+
+```{r}
+
+```
+

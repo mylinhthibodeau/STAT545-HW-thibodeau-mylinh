@@ -1,0 +1,25 @@
+---
+title: "stat547-hw06-thibodeau-mylinh"
+author: "My Linh Thibodeau"
+date: '2017-11-05'
+output: html_document:
+  keep_md: true
+---
+
+
+```{r}
+suppressPackageStartupMessages(library(plyr))
+suppressWarnings(suppressMessages(library(dplyr)))
+suppressPackageStartupMessages(library(tidyverse))
+suppressWarnings(library(tidyverse))
+knitr::opts_chunk$set(fig.width=13, fig.height=8)
+suppressWarnings(suppressMessages(library(knitr)))
+suppressWarnings(suppressMessages(library(kableExtra)))
+suppressWarnings(options(knitr.table.format = "markdown"))
+library(readr)
+suppressWarnings(suppressMessages(library(forcats)))
+#install.packages("gdata")
+suppressWarnings(suppressMessages(library(gdata)))
+# install.packages("RColorBrewer")
+library(RColorBrewer)
+```

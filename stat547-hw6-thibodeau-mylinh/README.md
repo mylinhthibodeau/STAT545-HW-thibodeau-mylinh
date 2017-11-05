@@ -1,4 +1,4 @@
-# README - stat545-hw6-thibodeau-mylinh
+# README - stat547-hw6-thibodeau-mylinh
 
 # IN PROGRESS
 

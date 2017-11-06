@@ -20,6 +20,7 @@ suppressWarnings(suppressMessages(library(forcats)))
 library(purrr)
 library(repurrrsive)
 library(tibble)
+library(stringr)
 library(devtools)
 library(singer)
 library(listviewer)
@@ -34,7 +35,8 @@ library(ontologyIndex)
 #install.packages("ontologySimilarity")
 library(ontologySimilarity)
 #install.packages("ontologyPlot")
-library(ontologyPlot)
+#install.packages("Rgraphviz")
+#library(ontologyPlot)
 ```
 
 ```{r}
@@ -45,31 +47,239 @@ getNamespaceExports("ontologySimilarity")
 
 First step, get the Human Disease Ontology as explained [here](https://github.com/DiseaseOntology/HumanDiseaseOntology/blob/master/src/ontology/README-editors.md), I had to clone the repository (which I called HumanDiseaseOntology_git, as suggested by the github README document).
 ```{r}
-HumanDO <- get_ontology("HumanDiseaseOntology_git/src/ontology/HumanDO.obo")
+get_relation_names("HumanDiseaseOntology_git/src/ontology/HumanDO.obo")
+HumanDO <- get_ontology("HumanDiseaseOntology_git/src/ontology/HumanDO.obo", propagate_relationships=c("is_a", "part_of"))
 View(HumanDO)
 ```
 
-Second, get the Human Phenotype Ontology information:
+I have downloaded a basic version of the Gene Ontology (GO) at [here](http://www.geneontology.org/page/download-ontology) and I will now look into what are the relationships between the GO terms.
+```{r}
+get_relation_names("GO/go-basic.obo")
+GO <- get_ontology("GO/go-basic.obo")
+View(GO)
+```
+
+
+Interestingly, the ontologyIndex package does come with an R version of HPO (Human Phenotype Ontology) and GO (Gene Ontology), which you can load as follow.
 ```{r}
 data(hpo)
-glimpse(hpo) 
 View(hpo)
 data(go)
 View(go)
 ```
-
-There is a specific file with information on the Online Mendelian Inheritance in Man (OMIM) annotations that I would like to look into with the ontologyIndex package, but the formal of the file is OWL, and I need to convert it to OBO first. I have used this github repository [here](https://github.com/owlcollab/oboformat) to find information about ROBOT and how to convert the file. 
-
-```{r}
-doid_plus_omim <- get_ontology("HumanDiseaseOntology_git/src/ontology/DO_NON_Production_Files/doid-plus-omim.obo")
-```
-
+*Note.* I will try not use the R lists of the ontologyIndex, because I am trying to learn how to read and manipulate the OBO format files directly. 
 
 # Homework instructions
 
 **Pick (at least) two of the six (numbered) topics below and do one of the exercise prompts listed, or something comparable using your dataset of choice.**
 
+The two tasks I picked are the following:
 
+1. Character data
+5. Work with a list
+
+***
+
+# Character data
+
+## Let's take a peak at the data 
+
+For the first task, we will be exploring some character data, and we will use ontology terms for this. This examples is modelled on Daniel Greene's work [here](https://cran.r-project.org/web/packages/ontologySimilarity/vignettes/ontologySimilarity-introduction.html). 
+
+However, I think it would be useful to try and understand the data of HumanDO a bit better first. Here are some key concepts about HumanDO:
+
+* As opposed to the GO dataset above, HumanDO only has one type of relationship and it is "is_a"
+* It is a large list of 6 elements
+* These 6 elements are:
+1. id: specific DOID (Disease Ontology ID) identifier
+2. name: specific term attached to the identifier (e.g. angiosarcoma)
+3. parents: an ontology goes from general terms (parents) to more specific terms (children)
+4. children: on parent can have zero children (if it is a unique term), or many children (if it is a general term which can be further divided into more specific terms)
+5. ancestors: this list keep an aggregate list of all the more general terms that preceded a term (all the parents, grand-parents, great grand-parents "terms", etc.)
+6. obsolete: this is a boolean list, which includes all the terms/DOID identifiers that were once in the HumanOD ontology: most of these are currently valid ("TRUE"), but some are not in use anymore ("FALSE")
+
+Let us look at an example. Let's look at the diseases that contain the word "encephalitis":
+```{r}
+head(HumanDO$name[grep(x=HumanDO$name, pattern = "encephalitis")])
+```
+Note. Use of grep in ontology data also from Daniel Greene's work [here](https://cran.r-project.org/web/packages/ontologyIndex/vignettes/intro-to-ontologyX.html)
+
+We note that DOID:0050080 is associated with the disease "iodine deficiency". 
+
+```{r}
+get_term_property(ontology=HumanDO, property = "parents", term = "DOID:0050080")
+get_term_property(ontology=HumanDO, property = "children", term = "DOID:0050080")
+get_term_property(ontology=HumanDO, property = "ancestors", term = "DOID:0050080",as_names=TRUE)
+```
+
+Let's look at the diseases that contain the word "Japanese":
+```{r}
+head(HumanDO$name[grep(x=HumanDO$name, pattern = "Japanese")])
+```
+
+We note that DOID:0050050 is associated with the disease "Japanese spotted fever". Let's look at the ancestor of this term.
+
+```{r}
+get_term_property(ontology=HumanDO, property = "ancestors", term = "DOID:0050050",as_names=TRUE)
+```
+Note. So this is pretty intuitive when we think about it: some terms like "disease" are very general, and when the ontology tree gains more granularity, then the addition of characteristics such as "bacterial", "infectious" and "spotted fever" lead to the creation of a specific ontology disease identifier:diagnosis (DOID:0050050 = Japanese spotted fever).
+
+***
+
+We will use the HumanDO data and set a seed.
+```{r}
+data(HumanDO)
+set.seed(1)
+```
+
+Then, we will use the `descendants_IC()` function to calculate information content of terms based on frequency with which it is an ancestor of other terms.
+```{r}
+information_content <- descendants_IC(HumanDO)
+```
+
+Then, we generate 5 random sets of 8 terms.
+```{r}
+term_sets <- replicate(simplify=FALSE, n=5, expr=minimal_set(HumanDO, sample(HumanDO$id, size=8)))
+term_sets 
+```
+
+Note that the term_sets variable is a small nested list of characters items: there are 5 lists, each of which contains one list of 8 items, as exemplified here:
+```{r}
+str(term_sets)
+```
+
+In genomics, it can be helpful to compare sets of terms and determine how much similarity is shared between datasets (here, we have 5 lists, or 5 "mini datasets"). We can use the `get_sim_grid()` function to produce a similarity matrix and verify if any dataset is highly similar to another one.
+```{r}
+similarity_matrix <- get_sim_grid(ontology= HumanDO, term_sets = term_sets)
+# similarity_matrix %>% kable(format = "markdown", align="c")
+similarity_matrix
+```
+Note. From the top-left corner to the bottom-right corner, the similarity score is always 1 because we are comparing respectively list 1 with list 1, list 2 with list 2, etc. 
+
+***
+
+## Let's manipulate some strings now
+
+I will be completed the tasks of this R for Data Science tutorial [here](http://r4ds.had.co.nz/strings.html), as suggested in the homework 6 instructions.
+
+### String basics
+
+```{r}
+string1 <- "anemia"
+string2 <- 'I am looking for the word "anemia" in a list' # Using double quotes inside simple quotes
+
+```
+
+Using one double quote or single quote
+```{r}
+double_quote <- "\""
+double_quote2 <- '"'
+single_quote <- '\'' 
+single_quote2 <- "'"
+```
+
+```{r}
+double_quote
+double_quote2
+single_quote
+single_quote2
+```
+Note. In the tutorial, it seems as if the backslash bar is not printed, but in the example above, it does get printed. It seems that only the use of single quotes provides us with the expected result, so I will keep this format in the future. 
+
+Let's try to print a backslash.
+```{r}
+"\"
+"\\"
+"\ "
+"\ '"
+```
+Note. This provides us with an error message or it simply does not print a backslash.
+
+As shown in block028 of the character data stat545 website [here](http://stat545.com/block028_character-data.html), using the function cat instead of print allow us to print a backslash (or "escape")
+```{r}
+cat("Here is a backslash: \\ ")
+```
+
+There can be some printed representation of a string that is not the same than the string itself, and using the `writeLines()` function allows us to see the raw content:
+```{r}
+x <- c("one \"", "two \\")
+x
+writeLines(x)
+```
+
+Other handy special characters are `"\n"` (newline) and `"\t"`
+```{r}
+cat("We can use \n to print a new line \n\n")
+cat("While \t inserts a tab")
+```
+
+Some strings actually represent non-English characters in all coding platforms, for example:
+```{r}
+x <- "\u00b5"
+x
+```
+
+Strings can be put into a charactor vector
+```{r}
+c("anemia", "low iron", "pallor")
+```
+
+### String length
+
+How many character in this string? Use str_length
+```{r}
+str_length(c("anemia", "low iron", "pallor"))
+```
+Note. White spaces count as characters.
+
+
+### Combining strings
+
+Use `str_c()`
+```{r}
+str_c("anemia", "low iron", "pallor")
+```
+Note. As mentioned, white spaces count as characters, so the white space in "low iron" is preserved here.
+
+You can also specify the separator:
+```{r}
+str_c("anemia", "low iron", "pallor", sep=" = ")
+```
+
+You can specify what the missing values "NA" can be replaced with:
+```{r}
+x <- c("anemia",  NA)
+str_c("--> ", x , " <--")
+str_c("--> ", str_replace_na(x), " <--")
+```
+
+In the example, `str_c()` is vectorized, and it makes the shorter vectors the same length as the longest vector:
+
+```{r}
+str_c("prefix-", c("a", "b", "c"), "", "-suffix")
+```
+Note. Objects of length zero (e.g. "" above) are dropped.
+
+This can be used with an if statement.
+```{r}
+cancer_type <- "breast cancer"
+time_since_diagnosis <- "2 years"
+day_of_diagnosis <- FALSE
+
+str_c(
+  "It has been ", time_since_diagnosis, " since your diagnosis of ", cancer_type, 
+  if (day_of_diagnosis) "and I am sorry to give you this bad news today"
+)
+```
+
+We can also collapse a vector of strings as followed:
+```{r}
+str_c(c("anemia", "low iron", "pallor"), collapse=" = ")
+```
+
+###  Subsetting strings
+
+We can extract part of a string with `str_sub()`
 
 ```{r}
 

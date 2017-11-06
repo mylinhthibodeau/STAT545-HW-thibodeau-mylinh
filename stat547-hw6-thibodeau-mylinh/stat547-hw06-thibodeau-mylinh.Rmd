@@ -6,7 +6,6 @@ output: html_document:
   keep_md: true
 ---
 
-
 ```{r message=FALSE}
 #suppressPackageStartupMessages(library(plyr))
 suppressPackageStartupMessages(library(tidyverse))
@@ -22,14 +21,8 @@ library(repurrrsive)
 library(tibble)
 library(stringr)
 library(devtools)
-library(singer)
 library(listviewer)
 library(jsonlite)
-library(dplyr)
-library(tibble)
-library(rlang)
-#install.packages("ggmap")
-library(ggmap)
 #install.packages("ontologyIndex")
 library(ontologyIndex)
 #install.packages("ontologySimilarity")
@@ -58,7 +51,6 @@ get_relation_names("GO/go-basic.obo")
 GO <- get_ontology("GO/go-basic.obo")
 View(GO)
 ```
-
 
 Interestingly, the ontologyIndex package does come with an R version of HPO (Human Phenotype Ontology) and GO (Gene Ontology), which you can load as follow.
 ```{r}
@@ -104,13 +96,6 @@ head(HumanDO$name[grep(x=HumanDO$name, pattern = "encephalitis")])
 ```
 Note. Use of grep in ontology data also from Daniel Greene's work [here](https://cran.r-project.org/web/packages/ontologyIndex/vignettes/intro-to-ontologyX.html)
 
-We note that DOID:0050080 is associated with the disease "iodine deficiency". 
-
-```{r}
-get_term_property(ontology=HumanDO, property = "parents", term = "DOID:0050080")
-get_term_property(ontology=HumanDO, property = "children", term = "DOID:0050080")
-get_term_property(ontology=HumanDO, property = "ancestors", term = "DOID:0050080",as_names=TRUE)
-```
 
 Let's look at the diseases that contain the word "Japanese":
 ```{r}
@@ -128,7 +113,6 @@ Note. So this is pretty intuitive when we think about it: some terms like "disea
 
 We will use the HumanDO data and set a seed.
 ```{r}
-data(HumanDO)
 set.seed(1)
 ```
 
@@ -232,7 +216,6 @@ str_length(c("anemia", "low iron", "pallor"))
 ```
 Note. White spaces count as characters.
 
-
 ### Combining strings
 
 Use `str_c()`
@@ -279,7 +262,145 @@ str_c(c("anemia", "low iron", "pallor"), collapse=" = ")
 
 ###  Subsetting strings
 
-We can extract part of a string with `str_sub()`
+We can extract part of a string with `str_sub()`, and specify the inclusive positions (start and end) of the substring to extract. 
+
+```{r}
+list_of_strings <- c("dominant", "recessive", "X-linked", "mitochondrial")
+str_sub(list_of_strings, 1, 4)
+```
+
+```{r}
+str_sub(list_of_strings, -4, -1)
+```
+
+Even if you put "too big of a range", it will still works !
+```{r}
+str_sub(list_of_strings, 1, 15)
+```
+
+```{r}
+str_sub(list_of_strings, -1, -1) <- str_to_upper(str_sub(list_of_strings, -1, -1))
+list_of_strings
+```
+
+### Locales
+
+Here are some functions to change the letter format:
+
+```{r}
+str_to_upper("recessive") # Change to upper case
+str_to_lower("PIK3CA") # Change to lower case
+str_to_title("MTOR pathway") # Capitalizes the first letter of each word
+```
+
+Locales are used to specify special characters according to the specific language. Different languages have different rules for changing case, hence the need to specify. ISO is a 639 language code, you can peak [here](http://www.loc.gov/standards/iso639-2/php/English_list.php).
+```{r}
+str_to_upper("i") # English
+str_to_upper("i", "tr") # Turkish
+```
+
+Base R has some functions, like order() and sort() functions, which can sort strings using the current locale. But stringr functions is more consistent and flexible as it can take a locale argument. 
+```{r}
+list_of_strings <- c("recessive", "X-linked", "dominant",  "mitochondrial", "anticipation")
+str_sort(list_of_strings, locale = "en")
+str_sort(list_of_strings, locale = "haw")
+```
+
+```{r}
+str_order(list_of_strings, locale = "en")
+str_order(list_of_strings, locale = "haw")
+```
+Note. Apparently, the order can change according to the locale (language) selected, as showed [here](http://r4ds.had.co.nz/strings.html), but I must have tried a dozen languages and it never changed the order of my list. Oh well, I'll still keep it in mind just in case.
+
+***
+
+Exploring some functions.
+
+*paste() and paste0()*
+```{r}
+paste("PIK3CA", "BRCA1", "TP53", "PTEN", "MLH1")
+paste0("PIK3CA", "BRCA1", "TP53", "PTEN", "MLH1")
+```
+I found with this blog [here](https://www.r-bloggers.com/difference-between-paste-and-paste0/) that the difference between paste and paste0 is that their separator is " " and "" respectively.
+
+*Get the character in the middle using str_length() and str_sub()*
+```{r}
+gene1 <- "BRCA1"
+str_sub(gene1, ceiling(str_length(gene1)/2), ceiling(str_length(gene1)/2))
+```
+
+*Difference between sep and collapse?*
+
+```{r}
+str_c("BRCA1", "PTEN", sep = " and ") # Takes the list of strings as argument
+str_c(c("BRCA1", "PTEN"), collapse = " + ") # Takes a vector as argument
+```
+
+The function str_wrap() can be used to reformat strings, but I see very little application for this function in my type of research work, so I will not illustrate it here.
+
+str_trim() trim whitespace from start and enf of string.
+```{r}
+cancer_diagnoses <- str_trim(c(" breast cancer", "paraganglioma   ", "medullary thyroid cancer", "   glioblastoma", "pheochromocytoma"))
+#str(cancer_diagnoses)
+```
+
+## Matching patterns with regular expressions
+
+Find a substring to highlight with str_view()
+```{r}
+str_view(cancer_diagnoses, "oma")
+```
+
+A dot (".") can be used to replace any unknown character.
+```{r}
+str_view(cancer_diagnoses, "..oma")
+```
+Note. The two dots highlight the 2 characters preceeding "oma".
+
+You have to use the escape `\\` in order to be able to search for the actual "." character in strings.
+```{r}
+dot <- "\\."
+writeLines(dot)
+str_view(c("abc", "a.c", "bef"), "a\\.c")
+```
+
+In order to look for a backslash, you need no less than 4 of them:
+```{r}
+x <- "a\\b"
+writeLines(x)
+#> a\b
+
+str_view(x, "\\\\")
+```
+
+Why each of these strings don’t match a `\`: `"\"`, `"\\"`, `"\\\"` ?
+```{r}
+"\"
+"\\"
+"\\\"
+```
+
+* `"\"` : this doesn't work because the backslash is leading to an "escape" for the `"` and the expression is still open. 
+* `"\\"`: this doesn't work because it literally prints `"\\"`.
+* `"\\\"`: the expression is interpreted as is still open.
+
+## Anchor
+
+Here are some useful options as well: 
+
+* ^ to match the start of the string.
+* $ to match the end of the string.
+
+```{r}
+str_view(cancer_diagnoses, "oma$")
+str_view(cancer_diagnoses, "^p")
+```
+
+```{r}
+lung_cancer <- c("Non-Small Cell Lung Carcinoma", "Small Cell Lung Cancer", "Lung Carcinoid Tumor")
+str_view(lung_cancer, "^Lung$") # Exact match is not found, so it's not highlighted
+str_view(lung_cancer, "Lung")
+```
 
 ```{r}
 

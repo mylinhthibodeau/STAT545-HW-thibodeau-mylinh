@@ -27,8 +27,28 @@ library(jsonlite)
 library(dplyr)
 library(tibble)
 library(rlang)
-install.packages("ontologyIndex")
+#install.packages("ggmap")
+library(ggmap)
+#install.packages("ontologyIndex")
+library(ontologyIndex)
+#install.packages("ontologySimilarity")
+library(ontologySimilarity)
+#install.packages("ontologyPlot")
+library(ontologyPlot)
 ```
+
+First step, get the Human Disease Ontology as explained [here](https://github.com/DiseaseOntology/HumanDiseaseOntology/blob/master/src/ontology/README-editors.md), I had to clone the repository (which I called HumanDiseaseOntology_git, as suggested by the github README document).
+```{r}
+get_ontology("HumanDiseaseOntology_git/src/ontology/HumanDO.obo")
+```
+
+Second, get the Human Phenotype Ontology information:
+```{r}
+data(hpo)
+glimpse(hpo) 
+View(hpo)
+```
+
 
 # Homework instructions
 

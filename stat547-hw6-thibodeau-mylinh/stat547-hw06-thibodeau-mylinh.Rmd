@@ -37,9 +37,16 @@ library(ontologySimilarity)
 library(ontologyPlot)
 ```
 
+```{r}
+getNamespaceExports("ontologyIndex") 
+getNamespaceExports("ontologySimilarity") 
+```
+
+
 First step, get the Human Disease Ontology as explained [here](https://github.com/DiseaseOntology/HumanDiseaseOntology/blob/master/src/ontology/README-editors.md), I had to clone the repository (which I called HumanDiseaseOntology_git, as suggested by the github README document).
 ```{r}
-get_ontology("HumanDiseaseOntology_git/src/ontology/HumanDO.obo")
+HumanDO <- get_ontology("HumanDiseaseOntology_git/src/ontology/HumanDO.obo")
+View(HumanDO)
 ```
 
 Second, get the Human Phenotype Ontology information:
@@ -47,6 +54,14 @@ Second, get the Human Phenotype Ontology information:
 data(hpo)
 glimpse(hpo) 
 View(hpo)
+data(go)
+View(go)
+```
+
+There is a specific file with information on the Online Mendelian Inheritance in Man (OMIM) annotations that I would like to look into with the ontologyIndex package, but the formal of the file is OWL, and I need to convert it to OBO first. I have used this github repository [here](https://github.com/owlcollab/oboformat) to find information about ROBOT and how to convert the file. 
+
+```{r}
+doid_plus_omim <- get_ontology("HumanDiseaseOntology_git/src/ontology/DO_NON_Production_Files/doid-plus-omim.obo")
 ```
 
 

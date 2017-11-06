@@ -1,0 +1,4 @@
+format-version: 1.2
+import: http://purl.obolibrary.org/obo/doid/bridge/omim_bridge.owl
+ontology: doid/doid-plus-omim
+

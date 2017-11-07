@@ -15,7 +15,7 @@ suppressWarnings(suppressMessages(library(knitr)))
 suppressWarnings(suppressMessages(library(kableExtra)))
 #suppressWarnings(options(knitr.table.format = "markdown"))
 #install.packages("webshot")
-webshot::install_phantomjs()
+#webshot::install_phantomjs()
 #install.packages("pander")
 library(readr)
 suppressWarnings(suppressMessages(library(forcats)))
@@ -589,7 +589,7 @@ Talking of ontology, it appears that the stringi package is actually an ancestor
 We can use the getNamespaceExports() to see what functions stringi has.
 ```{r}
 library(stringi)
-getNamespaceExports("stringi")
+getNamespaceExports("stringi") %>% head()
 ```
 
 
@@ -629,30 +629,35 @@ GenomicDataCommons::status()
 
 ```{r}
 library(GenomicDataCommons)
-file_records = files() %>%
-filter(~ cases.project.project_id == 'TCGA-DLBC' &
-data_type == 'Gene Expression Quantification' &
-analysis.workflow_type == 'HTSeq - Counts'
-) %>%
-select(default_fields('files')) %>%
-response_all()
-```
-
-```{r}
-manifest_df = file_records %>% manifest()
+library(magrittr)
+ge_manifest = files() %>% 
+    GenomicDataCommons::filter( ~ cases.project.project_id == 'TCGA-OV' &
+                type == 'gene_expression') %>%
+    manifest()
 ```
 
 ```{r}
 library(BiocParallel)
 register(MulticoreParam())
 destdir = tempdir()
-fnames = bplapply(ge_manifest$id,gdcdata,
-                  destination_dir=destdir,
-                  BPPARAM = MulticoreParam(progressbar=TRUE))
+#fnames = bplapply(ge_manifest$id, gdcdata,
+#                  destination_dir=destdir,
+#                  BPPARAM = MulticoreParam(progressbar=TRUE))
 ```
+Note. At this stage, I kept having an error message as followed:
 
+`Error: BiocParallel errors element index: 1, 2, 3, 4, 5, 6, ... first error: SSL certificate problem: Invalid certificate chain`
 
+I have tries to troubleshoot this SSL certificate issue, but I have to give up as it took too much time.
+
+Let's just make a simpler nested data.frame with information about the patients, diagnoses, samples, etc.
 ```{r}
+qfiles = files() %>% 
+  GenomicDataCommons::filter( ~ cases.project.project_id == 'TCGA-DLBC' &
+                            type == 'gene_expression' &
+                            analysis.workflow_type == 'HTSeq - Counts')
+manifest_df = qfiles %>% manifest()
+nrow(manifest_df)
 str(manifest_df , max.level = 1)
 ```
 
@@ -728,18 +733,16 @@ ggplot(res$project.project_id,aes(x = key, y = doc_count)) +
 ```
 
 ```{r}
-d1 = cases() %>% filter(~ project.project_id=='TCGA-DLBC') %>%
+d1 = cases() %>% GenomicDataCommons::filter(~ project.project_id=='TCGA-DLBC') %>%
     GenomicDataCommons::select(c(default_fields(cases()),'samples.sample_type')) %>%
     response_all()
-count(d1)
 d2 = d1 %>% results()
 str(d1[1],list.len=6)
 head(ids(d1))
-View(d1)
-View(d2)
+str(d1, max.level = 1)
+#View(d1)
+#View(d2)
+str(d2, max.level = 1)
 ```
 
-```{r}
-
-```
 

@@ -606,7 +606,11 @@ Note. Here, ICU stands for the International Components for Unicode, which Wikip
 
 # 5. Work with a list
 
-This exercise is based on the GitHub tutorial [here](https://github.com/seandavi/GenomicDataCommons#filtering) which shows a step by step process to obtain some cancer genomic data.
+This exercise is using the GitHub GenomicDataCommons tutorial [here](https://github.com/seandavi/GenomicDataCommons#filtering) which shows a step by step process to obtain some cancer genomic data. 
+
+The tasks completed are based on the STAT545/547 purrr tutorial (Simplifying data from a list of GitHub users) [here](https://jennybc.github.io/purrr-tutorial/ls02_map-extraction-advanced.html), the general purrr tutorial [here](https://jennybc.github.io/purrr-tutorial/index.html), the Trump tweets tutorial [here](https://jennybc.github.io/purrr-tutorial/ls08_trump-tweets.html) and the class notes from the [STAT545](http://stat545.com/syllabus.html) course this Fall 2017.
+
+### DATA AND BASIC WRANGLING
 
 From the [Genomic Data Commons (GDC) website](https://gdc.cancer.gov/about-gdc):
 
@@ -732,6 +736,10 @@ ggplot(res$project.project_id,aes(x = key, y = doc_count)) +
     theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
 ```
 
+### Create a nested list with multiple levels
+
+In this section, I will create 3 nested lists (d2, d4, d6) containing data information of 3 TCGA datasets (DLBC, GBM, LUAD), and then I will make a list of these 3 lists called "list_d".
+
 ```{r}
 d1 = cases() %>% GenomicDataCommons::filter(~ project.project_id=='TCGA-DLBC') %>%
     GenomicDataCommons::select(c(default_fields(cases()),'samples.sample_type')) %>%
@@ -743,6 +751,72 @@ str(d1, max.level = 1)
 #View(d1)
 #View(d2)
 str(d2, max.level = 1)
+typeof(d2)
 ```
 
+```{r}
+str(d2, list.len = 3)
+```
+
+I will make another nested list d4.
+```{r}
+d3 = cases() %>% GenomicDataCommons::filter(~ project.project_id=='TCGA-GBM') %>%
+    GenomicDataCommons::select(c(default_fields(cases()),'samples.sample_type')) %>%
+    response_all()
+d4 = d3 %>% results()
+typeof(d4)
+```
+
+
+```{r}
+d5 = cases() %>% GenomicDataCommons::filter(~ project.project_id=='TCGA-LUAD') %>%
+    GenomicDataCommons::select(c(default_fields(cases()),'samples.sample_type')) %>%
+    response_all()
+d6 = d5 %>% results()
+typeof(d6)
+```
+
+```{r}
+list_d <- list(d2, d4, d6)
+typeof(list_d)
+#View(list_d)
+```
+
+
+### Explore some purrr mapping
+
+#### Individual list exploration (e.g. d2)
+
+```{r}
+str(d2[[1]], list.len = 1) # This is the first list in this nested data.frame, and it the values are from "updated_datetime"
+```
+
+
+```{r}
+map(d2, 1) 
+```
+Note. This provides the first element of each list in the d2 data.frame, but since there are multiple levels to the data.frame, it 
+
+For example, if we were to manually pull out the first element of "primary_site" and "submitter_aliquot_ids", these functions illustrated below would be equivalent.
+```{r}
+map(d2["primary_site"], 1)
+d2[["primary_site"]][[1]]
+map(d2["submitter_aliquot_ids"], 1)
+d2[["submitter_aliquot_ids"]][[1]]
+```
+
+### Explore the nested list_d 
+
+Let's look at the first 2 levels of our nested list_d.
+```{r}
+str(list_d, max.level = 2)
+str(list_d[3], list.len = 1) # Look at the first level of the 3rd list in list_d, which is the LUAD dataset.
+#list_d[[1]][c("samples")]
+map(list_d[["updated_time"]][[1]], 1)
+list_d[["submitter_aliquot_ids"]][[1]]
+```
+
+```{r}
+
+```
 

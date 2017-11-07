@@ -30,9 +30,10 @@ library(jsonlite)
 library(ontologyIndex)
 #install.packages("ontologySimilarity")
 library(ontologySimilarity)
-#install.packages("ontologyPlot") 
-#install.packages("Rgraphviz")
-#library(ontologyPlot) # does not work yet with the most recent version of R though
+#install.packages("ontologyPlot") is not available (for R version 3.4.1)
+#install.packages("Rgraphviz") is not available (for R version 3.4.1)
+#library(ontologyPlot) # is not available (for R version 3.4.1)
+#install.packages("GO.db") # is not available (for R version 3.4.1)
 ```
 
 I installed these new packages of the ontologyX suite [here](https://cran.r-project.org/web/packages/ontologyIndex/vignettes/intro-to-ontologyX.html), which offer tools to explore ontology data. 
@@ -605,6 +606,138 @@ Note. Here, ICU stands for the International Components for Unicode, which Wikip
 
 # 5. Work with a list
 
+This exercise is based on the GitHub tutorial [here](https://github.com/seandavi/GenomicDataCommons#filtering) which shows a step by step process to obtain some cancer genomic data.
+
+From the [Genomic Data Commons (GDC) website](https://gdc.cancer.gov/about-gdc):
+
+The National Cancer Institute's (NCI's) Genomic Data Commons (GDC) is a data sharing platform that promotes precision medicine in oncology. It is not just a database or a tool; it is an expandable knowledge network supporting the import and standardization of genomic and clinical data from cancer research programs.
+
+I installed a few bioconductor packages. References: Bioconductor packages [here](https://bioconductor.org/install/#install-bioconductor-packages) and [here](https://bioconductor.org/packages/release/bioc/html/GenomicDataCommons.html), and pdf information on GenomicDataCommons [here](https://www.biorxiv.org/content/biorxiv/early/2017/04/04/117200.full.pdf).
+```{r}
+library(magrittr)
+library(devtools)
+#source("https://bioconductor.org/biocLite.R")
+#biocLite(c("GenomicFeatures", "AnnotationDbi", "GenomeInfoDbData"))
+#biocLite("GenomicDataCommons")
+library(GenomicDataCommons)
+```
+
+```{r}
+GenomicDataCommons::status()
+```
+
+
+```{r}
+library(GenomicDataCommons)
+file_records = files() %>%
+filter(~ cases.project.project_id == 'TCGA-DLBC' &
+data_type == 'Gene Expression Quantification' &
+analysis.workflow_type == 'HTSeq - Counts'
+) %>%
+select(default_fields('files')) %>%
+response_all()
+```
+
+```{r}
+manifest_df = file_records %>% manifest()
+```
+
+```{r}
+library(BiocParallel)
+register(MulticoreParam())
+destdir = tempdir()
+fnames = bplapply(ge_manifest$id,gdcdata,
+                  destination_dir=destdir,
+                  BPPARAM = MulticoreParam(progressbar=TRUE))
+```
+
+
+```{r}
+str(manifest_df , max.level = 1)
+```
+
+Creating a data query
+```{r}
+pquery = projects()
+presults = pquery %>% results()
+```
+
+
+```{r}
+# total number of files of a specific type
+res = files() %>% facet(c('type','data_type')) %>% aggregations()
+res$type
+```
+
+Select only he gene_expression data.
+```{r}
+qfiles = files() %>% filter(~ type == 'gene_expression')
+# here is what the filter looks like after translation
+str(get_filter(qfiles))
+```
+
+```{r}
+grep('pro',available_fields('files'),value=TRUE)
+```
+
+The aggregation function will group data of the same type together.
+```{r}
+files() %>% facet('cases.project.project_id') %>% aggregations() 
+```
+
+```{r}
+files() %>% facet('cases.project.project_id') %>% aggregations()  %>% str(max.level = 1)
+```
+
+I only want o select the TCGA-DLBC subset of data.
+```{r}
+qfiles = files() %>% filter( ~ cases.project.project_id == 'TCGA-DLBC' & type == 'gene_expression')
+str(get_filter(qfiles))
+qfiles %>% count()
+qfiles %>% str(max.level = 1)
+```
+
+
+```{r}
+manifest_df = qfiles %>% manifest()
+head(manifest_df)
+```
+
+```{r}
+qfiles = files() %>% filter( ~ cases.project.project_id == 'TCGA-DLBC' &
+                            type == 'gene_expression' &
+                            analysis.workflow_type == 'HTSeq - Counts')
+manifest_df = qfiles %>% manifest()
+nrow(manifest_df)
+```
+
+```{r}
+fnames = gdcdata(manifest_df$id[1:2],progress=FALSE)
+```
+
+
+***
+
+```{r}
+res = cases() %>% facet("project.project_id") %>% aggregations()
+head(res)
+library(ggplot2)
+ggplot(res$project.project_id,aes(x = key, y = doc_count)) +
+    geom_bar(stat='identity') +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+```
+
+```{r}
+d1 = cases() %>% filter(~ project.project_id=='TCGA-DLBC') %>%
+    GenomicDataCommons::select(c(default_fields(cases()),'samples.sample_type')) %>%
+    response_all()
+count(d1)
+d2 = d1 %>% results()
+str(d1[1],list.len=6)
+head(ids(d1))
+View(d1)
+View(d2)
+```
 
 ```{r}
 

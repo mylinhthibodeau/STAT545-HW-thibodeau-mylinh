@@ -122,9 +122,6 @@ $(document).ready(function () {
 
 </div>
 
-<div id="TOC">
-true
-</div>
 
 <p>I installed these new packages of the ontologyX suite <a href="https://cran.r-project.org/web/packages/ontologyIndex/vignettes/intro-to-ontologyX.html">here</a>, which offer tools to explore ontology data.</p>
 <p>We can use the getNamespaceExports() to see what are the functions of these packages !</p>
@@ -635,9 +632,9 @@ microbenchmark::microbenchmark(
   times = 20
 )</code></pre>
 <pre><code>## Unit: microseconds
-##   expr    min     lq    mean  median      uq     max neval cld
-##  fixed 28.512 30.974 45.1013 32.6525 33.3815 272.375    20   a
-##  regex 15.577 16.726 20.7346 18.6990 19.3645  68.818    20   a</code></pre>
+##   expr    min      lq     mean median      uq     max neval cld
+##  fixed 31.269 34.8335 55.34975 36.165 52.2115 259.798    20   b
+##  regex 17.064 19.8370 29.45770 21.411 27.4620  72.985    20  a</code></pre>
 <p>Note.1. As you can see, the fixed() function takes about twice as much time to run than regex. Note.2. It can not be used with non-English data. As there are often multiple ways of representing the same character, this can cause problem. For example, there are two ways to define “á”: either as a single character or as an “a” plus an accent:</p>
 <pre class="r"><code>a1 &lt;- &quot;\u00e1&quot;
 a2 &lt;- &quot;a\u0301&quot;
@@ -680,9 +677,12 @@ i</code></pre>
 <p>Note. I find it funny to see that the English language borrowed the term “apropos” from French. However, in the French language, this expression is actually written “à propos” and it can have two different meanings, as seen in the Collins dictionary <a href="https://www.collinsdictionary.com/dictionary/french-english/%C3%A0-propos">here</a>: “to show presence of mind, to do the right thing” or “suitably, aptly”.</p>
 <p>List all the files in the directory with dir()</p>
 <pre class="r"><code>dir()</code></pre>
-<pre><code>## [1] &quot;GO&quot;                                &quot;HumanDiseaseOntology_git&quot;         
-## [3] &quot;README.md&quot;                         &quot;scratch-space&quot;                    
-## [5] &quot;stat547-hw06-thibodeau-mylinh.md&quot;  &quot;stat547-hw06-thibodeau-mylinh.Rmd&quot;</code></pre>
+<pre><code>## [1] &quot;GO&quot;                                
+## [2] &quot;HumanDiseaseOntology_git&quot;          
+## [3] &quot;README.md&quot;                         
+## [4] &quot;scratch-space&quot;                     
+## [5] &quot;stat547-hw06-thibodeau-mylinh.html&quot;
+## [6] &quot;stat547-hw06-thibodeau-mylinh.Rmd&quot;</code></pre>
 </div>
 <div id="stringi" class="section level3">
 <h3>stringi</h3>

@@ -3,8 +3,6 @@ title: "stat547-hw06-thibodeau-mylinh"
 output:  
 pdf_document: 
     latex_engine: xelatex
-number_sections: yes
-toc: yes
 ---
 
 ```{r global_options, include = FALSE}

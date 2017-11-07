@@ -5,7 +5,7 @@
 # HOMEWORK FILES TO REVIEW
 
 * Homework 6 RMD file [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat547-hw6-thibodeau-mylinh/stat547-hw06-thibodeau-mylinh.Rmd)
-* Homework 6 MD file [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat547-hw6-thibodeau-mylinh/stat547-hw06-thibodeau-mylinh.md) - That's the one with the plots and the tables ;) 
+* Homework 6 PDF file [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat547-hw6-thibodeau-mylinh/stat547-hw06-thibodeau-mylinh.pdf) - I was not able to made a "readable" md file because of the stringr view functions and receiving endless error messages, so I have made a pdf for you guys. 
 
 I have a scratch-space in each subfolder of my repository, which contains manually saved data files or intermediate files to do my homework. It keeps my repository folders more tidy. 
 

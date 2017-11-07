@@ -2,8 +2,8 @@
 title: "stat547-hw06-thibodeau-mylinh"
 author: "My Linh Thibodeau"
 date: '2017-11-05'
-output: html_document:
-  keep_md: true
+output: github_document
+always_allow_html: yes
 ---
 
 ```{r message=FALSE}
@@ -27,11 +27,14 @@ library(jsonlite)
 library(ontologyIndex)
 #install.packages("ontologySimilarity")
 library(ontologySimilarity)
-#install.packages("ontologyPlot")
+#install.packages("ontologyPlot") 
 #install.packages("Rgraphviz")
-#library(ontologyPlot)
+#library(ontologyPlot) # does not work yet with the most recent version of R though
 ```
 
+I installed these new packages of the ontologyX suite [here](https://cran.r-project.org/web/packages/ontologyIndex/vignettes/intro-to-ontologyX.html), which offer tools to explore ontology data. 
+
+We can use the getNamespaceExports() to see what are the functions of these packages !
 ```{r}
 getNamespaceExports("ontologyIndex") 
 getNamespaceExports("ontologySimilarity") 
@@ -42,22 +45,22 @@ First step, get the Human Disease Ontology as explained [here](https://github.co
 ```{r}
 get_relation_names("HumanDiseaseOntology_git/src/ontology/HumanDO.obo")
 HumanDO <- get_ontology("HumanDiseaseOntology_git/src/ontology/HumanDO.obo", propagate_relationships=c("is_a", "part_of"))
-View(HumanDO)
+#View(HumanDO)
 ```
 
 I have downloaded a basic version of the Gene Ontology (GO) at [here](http://www.geneontology.org/page/download-ontology) and I will now look into what are the relationships between the GO terms.
 ```{r}
 get_relation_names("GO/go-basic.obo")
 GO <- get_ontology("GO/go-basic.obo")
-View(GO)
+#View(GO)
 ```
 
 Interestingly, the ontologyIndex package does come with an R version of HPO (Human Phenotype Ontology) and GO (Gene Ontology), which you can load as follow.
 ```{r}
 data(hpo)
-View(hpo)
+#View(hpo)
 data(go)
-View(go)
+#View(go)
 ```
 *Note.* I will try not use the R lists of the ontologyIndex, because I am trying to learn how to read and manipulate the OBO format files directly. 
 
@@ -72,7 +75,7 @@ The two tasks I picked are the following:
 
 ***
 
-# Character data
+# 1. Character data
 
 ## Let's take a peak at the data 
 
@@ -99,7 +102,7 @@ Note. Use of grep in ontology data also from Daniel Greene's work [here](https:/
 
 Let's look at the diseases that contain the word "Japanese":
 ```{r}
-head(HumanDO$name[grep(x=HumanDO$name, pattern = "Japanese")])
+HumanDO$name[grep(x=HumanDO$name, pattern = "Japanese")]
 ```
 
 We note that DOID:0050050 is associated with the disease "Japanese spotted fever". Let's look at the ancestor of this term.
@@ -170,14 +173,16 @@ single_quote2
 ```
 Note. In the tutorial, it seems as if the backslash bar is not printed, but in the example above, it does get printed. It seems that only the use of single quotes provides us with the expected result, so I will keep this format in the future. 
 
-Let's try to print a backslash.
+Let's try to print a backslash. These all produced an error message:
+
+* "\"
+* "\\"
+* "\ "
+
 ```{r}
-"\"
-"\\"
-"\ "
 "\ '"
 ```
-Note. This provides us with an error message or it simply does not print a backslash.
+Note. This simply does not print a backslash.
 
 As shown in block028 of the character data stat545 website [here](http://stat545.com/block028_character-data.html), using the function cat instead of print allow us to print a backslash (or "escape")
 ```{r}
@@ -374,11 +379,6 @@ str_view(x, "\\\\")
 ```
 
 Why each of these strings don’t match a `\`: `"\"`, `"\\"`, `"\\\"` ?
-```{r}
-"\"
-"\\"
-"\\\"
-```
 
 * `"\"` : this doesn't work because the backslash is leading to an "escape" for the `"` and the expression is still open. 
 * `"\\"`: this doesn't work because it literally prints `"\\"`.
@@ -398,9 +398,209 @@ str_view(cancer_diagnoses, "^p")
 
 ```{r}
 lung_cancer <- c("Non-Small Cell Lung Carcinoma", "Small Cell Lung Cancer", "Lung Carcinoid Tumor")
-str_view(lung_cancer, "^Lung$") # Exact match is not found, so it's not highlighted
-str_view(lung_cancer, "Lung")
+str_view(lung_cancer, "^Lung$") # Exact match is not found (starts with and finishes with), so it's not highlighted by this function
+str_view(lung_cancer, "Lung") # Highlights all the words mathing "Lung" regardless of position of the word
 ```
+
+### Replacing matched
+
+Replace matches with new string (here, replace vowels by "*")
+```{r}
+str_replace(lung_cancer, "[aeiou]", "*")
+str_replace_all(lung_cancer, "[aeiou]", "*")
+```
+
+Can be used for multiple replacements:
+```{r}
+copy_number <- c("2 copies of PTEN", "4 copies of GSK3B", "1 copy of TP53")
+str_replace_all(copy_number, c("1" = "one", "2" = "two", "4" = "four"))
+```
+
+```{r}
+sentences <- c("Lung cancer is largely due to tobacco smoking (active and passive).", "Sun exposure increases the risk for melanoma.", "Acute lymphoblastic leukemia is largely a diagnosis of the pediatric age group.")
+sentences %>% 
+  str_replace("([^ ]+) ([^ ]+) ([^ ]+)", "\\1 \\3 \\2") 
+```
+Note. This flips the order of the 2nd and 3rd word.
+
+### Splitting
+
+Let's explore str_split() function, which returns a list separated by a white space (as specified below)
+```{r}
+sentences %>%
+  str_split(" ")
+```
+
+```{r}
+"breast|brain|lung|pancreas" %>%
+  str_split("\\|") %>%
+  .[[1]]
+```
+Note. Since the vector length is one, it's easier to extract the 1st element of the list.
+
+In a matrix, simplify = TRUE can be used:
+```{r}
+sentences %>%
+  str_split(" ", simplify = TRUE)
+```
+Note. This puts the sentences in a "3 by 12" matrix, each cell containing 1 word (or nothing is the sentence is shorter than the longest sentence).
+ 
+For example, we can isolate the word Japanese.  
+```{r}
+Japanese_disorders <- HumanDO$name[grep(x=HumanDO$name, pattern = "Japanese")]
+Japanese_disorders %>% str_split(" ", n = 2, simplify = TRUE)
+```
+ 
+Highlights all the words or sentences using the boundary argument.
+```{r}
+str_view_all(Japanese_disorders, boundary("word")) 
+str_view_all(Japanese_disorders, boundary("sentence")) 
+```
+This only takes the first element of the list.  
+```{r}
+str_split(Japanese_disorders, boundary("word"))[[1]]
+```
+ 
+### Find matches 
+
+With regex() !
+
+```{r}
+encephalitis_disorders <- HumanDO$name[grep(x=HumanDO$name, pattern = "encephalitis")]
+str_view(encephalitis_disorders, regex("vir"))
+```
+Note. This allows use to highligth words containing "vir", so here "viral" and "virus".
+
+ignore_case = TRUE can be useful! 
+```{r}
+fever_disorders <- HumanDO$name[grep(x=HumanDO$name, pattern = "fever")]
+str_view(fever_disorders, "rocky")
+str_view(fever_disorders, regex("rocky", ignore_case = TRUE))
+```
+Note. In the first example, the word "Rocky" is not found because the first letter is capitalized, but using regex with ignore_case = TRUE resolves this issues.
+
+
+Another useful one: multiline = TRUE allows ^ and $ to match the start and end of each line 
+```{r}
+x <- "BRCA1 1\nPTEN 2\nTP53 3\nBRCA2 4"
+str_extract_all(x, "^BRCA")[[1]]
+str_extract_all(x, regex("^BRCA", multiline = TRUE))[[1]]
+```
+
+As mentioned in the [tutorial](http://r4ds.had.co.nz/strings.html), comments = TRUE allows you to use comments and white space to make complex regular expressions more understandable. Spaces are ignored, as is everything after #. To match a literal space, you’ll need to escape it: "\\ "
+
+If we use genomic coordinates for example, with regex, you can put optional format so that the function can accept either a specific chromosomal location or a chromosomal region range.
+```{r}
+genomic_position <- regex("
+  (^chr)   # specify the chromosome number will be indicated
+  (\\d{1}) # chromosome number
+  (:)      # nomenclature
+  (\\d{7}) # five numbers
+  [ -]?    # optional dash (for genomic range)
+  (\\d{7})?
+  ", comments = TRUE)
+str_match("chr1:1234567", genomic_position)
+str_match("chr1:1234567-3217654", genomic_position)
+```
+
+Note. dotall = TRUE allows . to match everything, including \n.
+```{r}
+genomic_position2 <- regex("
+  (^chr)   # specify the chromosome number will be indicated
+  (\\d{1}) # chromosome number
+  (.)      # nomenclature
+  (\\d{7}) # five numbers
+  [-]?     # optional dash (for genomic range)
+  (\\d{7})?
+  ", comments = TRUE,
+  dotall = TRUE)
+str_match("chr1:1234567", genomic_position2)
+str_match("chr1:1234567-3217654", genomic_position2)
+str_match("chr1*1234567-3217654", genomic_position2)
+```
+Note. In the example above, I replace the ":" by "." and then regardless of the character at that position, the function will take it. 
+
+Three other options for "regex-like" tasks.
+
+Option 1 - fixed(), the fast one, ignores all special regular expressions.
+
+The microbenchmark package is able to evaluate how much rime expressions are taking to run. 
+```{r}
+#install.packages("microbenchmark")
+library(microbenchmark)
+microbenchmark::microbenchmark(
+  fixed = str_detect(sentences, fixed("the")),
+  regex = str_detect(sentences, "the"),
+  times = 20
+)
+```
+Note.1. As you can see, the fixed() function takes about twice as much time to run than regex. 
+Note.2. It can not be used with non-English data. As there are often multiple ways of representing the same character, this can cause problem. For example, there are two ways to define “á”: either as a single character or as an “a” plus an accent:
+```{r}
+a1 <- "\u00e1"
+a2 <- "a\u0301"
+c(a1, a2)
+a1 == a2
+```
+
+
+Option 2 - coll()
+```{r}
+str_detect(a1, fixed(a2)) # Regex does not identify that the two terms are identical, because it looks at the litteral form and they are encoded differently
+str_detect(a1, coll(a2)) # coll is able to identify it's the same letter 
+```
+Note.1. So I guess I won't be using French with regex then ;) 
+Note.2. coll() though compares strings using standard collation rules, which is useful for doing case insensitive matching, and it takes a locale parameter.
+```{r}
+i <- c("I", "İ", "i", "ı")
+i
+str_subset(i, coll("i", ignore_case = TRUE)) # reads the Turkish "İ" as "I"
+str_subset(i, coll("i", ignore_case = TRUE, locale = "tr")) # presents the Turkish "İ"
+```
+
+This allows you to identify your default locale (English Canada here).
+```{r}
+stringi::stri_locale_info()
+```
+
+The boundary argument used in str_split can also be used in the other stringr package functions. 
+### Other uses of regular expressions
+
+This function apropos() searches all objects available from the global environment, which is particularly helpful when you can't quite remember the object/function name but you know it contains a word like "replace".
+```{r}
+apropos("replace")
+```
+Note. I find it funny to see that the English language borrowed the term "apropos" from French. However, in the French language, this expression is actually written "à propos" and it can have two different meanings, as seen in the Collins dictionary [here](https://www.collinsdictionary.com/dictionary/french-english/%C3%A0-propos): "to show presence of mind, to do the right thing" or "suitably, aptly".
+
+List all the files in the directory with dir()
+```{r}
+dir()
+```
+
+###  stringi
+
+Talking of ontology, it appears that the stringi package is actually an ancestor of stringr, which was built on top of stringi. 
+
+We can use the getNamespaceExports() to see what functions stringi has.
+```{r}
+library(stringi)
+getNamespaceExports("stringi")
+```
+
+
+```{r}
+stri_join("BRCA1", "BRCA2")
+stri_compare("BRCA1", "BRCA2") # the only difference between these 2 words is a position -1
+stri_info() # Get the default settings used by the ICU library.
+```
+Note. Here, ICU stands for the International Components for Unicode, which Wikipedia [here](https://en.wikipedia.org/wiki/International_Components_for_Unicode) tells me are a set of opend source C/C++ and Java libraries. However, my brain always thinks about Intensive Care Unit (ICU) when I read it because of my clinical training ;) 
+
+#### Wow, this took a lot of time !! Of course, not all the lines have code and I tried something different, but still, reaching 600 lines for the first part of the homework, that is a a bit intense. 
+
+***
+
+# 5. Work with a list
+
 
 ```{r}
 

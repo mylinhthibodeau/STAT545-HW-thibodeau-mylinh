@@ -53,6 +53,7 @@ I have downloaded a basic version of the Gene Ontology (GO) at [here](http://www
 get_relation_names("GO/go-basic.obo")
 GO <- get_ontology("GO/go-basic.obo")
 #View(GO)
+str(GO, max.level = 1) %>% head() 
 ```
 
 Interestingly, the ontologyIndex package does come with an R version of HPO (Human Phenotype Ontology) and GO (Gene Ontology), which you can load as follow.

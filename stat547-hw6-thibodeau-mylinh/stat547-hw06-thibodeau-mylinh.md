@@ -90,7 +90,23 @@ get_relation_names("GO/go-basic.obo")
 ``` r
 GO <- get_ontology("GO/go-basic.obo")
 #View(GO)
+str(GO, max.level = 1) %>% head() 
 ```
+
+    ## List of 6
+    ##  $ id       : Named chr [1:47068] "GO:0000001" "GO:0000002" "GO:0000003" "GO:0000005" ...
+    ##   ..- attr(*, "names")= chr [1:47068] "GO:0000001" "GO:0000002" "GO:0000003" "GO:0000005" ...
+    ##  $ name     : Named chr [1:47068] "mitochondrion inheritance" "mitochondrial genome maintenance" "reproduction" "obsolete ribosomal chaperone activity" ...
+    ##   ..- attr(*, "names")= chr [1:47068] "GO:0000001" "GO:0000002" "GO:0000003" "GO:0000005" ...
+    ##  $ parents  :List of 47068
+    ##  $ children :List of 47068
+    ##  $ ancestors:List of 47068
+    ##  $ obsolete : Named logi [1:47068] FALSE FALSE FALSE TRUE FALSE FALSE ...
+    ##   ..- attr(*, "names")= chr [1:47068] "GO:0000001" "GO:0000002" "GO:0000003" "GO:0000005" ...
+    ##  - attr(*, "class")= chr "ontology_index"
+    ##  - attr(*, "version")= chr [1:30] "format-version: 1.2" "data-version: releases/2017-11-03" "subsetdef: goantislim_grouping \"Grouping classes that can be excluded\"" "subsetdef: gocheck_do_not_annotate \"Term not to be used for direct annotation\"" ...
+
+    ## NULL
 
 Interestingly, the ontologyIndex package does come with an R version of HPO (Human Phenotype Ontology) and GO (Gene Ontology), which you can load as follow.
 
@@ -966,8 +982,8 @@ microbenchmark::microbenchmark(
 
     ## Unit: microseconds
     ##   expr    min      lq     mean median      uq     max neval cld
-    ##  fixed 28.619 32.1185 53.46315  32.77 56.9280 241.184    20   b
-    ##  regex 15.638 17.5765 23.54330  18.49 20.2105  66.806    20  a
+    ##  fixed 30.005 31.6600 45.33760 34.313 36.1685 247.504    20   b
+    ##  regex 15.162 16.5975 20.68685 18.540 18.7980  71.596    20  a
 
 Note.1. As you can see, the fixed() function takes about twice as much time to run than regex. Note.2. It can not be used with non-English data. As there are often multiple ways of representing the same character, this can cause problem. For example, there are two ways to define “á”: either as a single character or as an “a” plus an accent:
 
@@ -1059,7 +1075,8 @@ dir()
 ```
 
     ## [1] "GO"                                "HumanDiseaseOntology_git"         
-    ## [3] "README.md"                         "stat547-hw06-thibodeau-mylinh.Rmd"
+    ## [3] "README.md"                         "scratch-space"                    
+    ## [5] "stat547-hw06-thibodeau-mylinh.md"  "stat547-hw06-thibodeau-mylinh.Rmd"
 
 ### stringi
 

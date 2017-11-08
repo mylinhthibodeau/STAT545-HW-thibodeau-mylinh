@@ -632,9 +632,9 @@ microbenchmark::microbenchmark(
   times = 20
 )</code></pre>
 <pre><code>## Unit: microseconds
-##   expr    min     lq     mean  median      uq     max neval cld
-##  fixed 29.425 31.305 46.02005 32.8495 34.3395 261.859    20   b
-##  regex 15.322 16.766 21.06100 18.1510 19.3085  75.916    20  a</code></pre>
+##   expr    min     lq     mean median     uq     max neval cld
+##  fixed 31.647 33.467 48.16670 34.705 36.820 281.629    20   a
+##  regex 16.402 18.385 22.87135 19.347 20.127  70.003    20   a</code></pre>
 <p>Note.1. As you can see, the fixed() function takes about twice as much time to run than regex. Note.2. It can not be used with non-English data. As there are often multiple ways of representing the same character, this can cause problem. For example, there are two ways to define “á”: either as a single character or as an “a” plus an accent:</p>
 <pre class="r"><code>a1 &lt;- &quot;\u00e1&quot;
 a2 &lt;- &quot;a\u0301&quot;
@@ -677,14 +677,13 @@ i</code></pre>
 <p>Note. I find it funny to see that the English language borrowed the term “apropos” from French. However, in the French language, this expression is actually written “à propos” and it can have two different meanings, as seen in the Collins dictionary <a href="https://www.collinsdictionary.com/dictionary/french-english/%C3%A0-propos">here</a>: “to show presence of mind, to do the right thing” or “suitably, aptly”.</p>
 <p>List all the files in the directory with dir()</p>
 <pre class="r"><code>dir()</code></pre>
-<pre><code>## [1] &quot;GO&quot;                                 
-## [2] &quot;HumanDiseaseOntology_git&quot;           
-## [3] &quot;README.md&quot;                          
-## [4] &quot;scratch-space&quot;                      
-## [5] &quot;stat547-hw06-thibodeau-mylinh_files&quot;
-## [6] &quot;stat547-hw06-thibodeau-mylinh.html&quot; 
-## [7] &quot;stat547-hw06-thibodeau-mylinh.pdf&quot;  
-## [8] &quot;stat547-hw06-thibodeau-mylinh.Rmd&quot;</code></pre>
+<pre><code>## [1] &quot;GO&quot;                                
+## [2] &quot;HumanDiseaseOntology_git&quot;          
+## [3] &quot;README.md&quot;                         
+## [4] &quot;scratch-space&quot;                     
+## [5] &quot;stat547-hw06-thibodeau-mylinh.html&quot;
+## [6] &quot;stat547-hw06-thibodeau-mylinh.pdf&quot; 
+## [7] &quot;stat547-hw06-thibodeau-mylinh.Rmd&quot;</code></pre>
 </div>
 <div id="stringi" class="section level3">
 <h3>stringi</h3>
@@ -1453,10 +1452,52 @@ str(one_cancer, max.level=1)</code></pre>
 ## #   slide_ids &lt;list&gt;, state &lt;chr&gt;, aliquot_ids &lt;list&gt;, primary_site &lt;chr&gt;,
 ## #   samples &lt;list&gt;, submitter_aliquot_ids &lt;list&gt;,
 ## #   submitter_sample_ids &lt;list&gt;, submitter_slide_ids &lt;list&gt;</code></pre>
-<p>We can scale it up for all 3 cancer dataset (DLBC, GBM and LUAD)</p>
+<p>We can scale it up for all 3 cancer dataset (DLBC, GBM and LUAD), and see that the rows represent one single case.</p>
 <pre class="r"><code>d3 &lt;- cancer_df_list_d %&gt;%
   mutate(cancer_info = list_d %&gt;%
-           map(. %&gt;% map_df(`[`, c(1,3,4))))</code></pre>
+           map(. %&gt;% map_df(`[`, c(1,3,4))))
+d3$cancer_info[c(1,2,3)]</code></pre>
+<pre><code>## [[1]]
+## # A tibble: 3 x 19
+##                   updated_datetime submitter_analyte_ids analyte_ids
+##                              &lt;chr&gt;                &lt;list&gt;      &lt;list&gt;
+## 1 2017-03-04T16:39:19.244769-06:00             &lt;chr [5]&gt;   &lt;chr [5]&gt;
+## 2 2017-03-04T16:39:19.244769-06:00             &lt;chr [5]&gt;   &lt;chr [5]&gt;
+## 3 2017-03-04T16:39:19.244769-06:00             &lt;chr [5]&gt;   &lt;chr [5]&gt;
+## # ... with 16 more variables: submitter_id &lt;chr&gt;, case_id &lt;chr&gt;, id &lt;chr&gt;,
+## #   disease_type &lt;chr&gt;, sample_ids &lt;list&gt;, portion_ids &lt;list&gt;,
+## #   submitter_portion_ids &lt;list&gt;, created_datetime &lt;lgl&gt;,
+## #   slide_ids &lt;list&gt;, state &lt;chr&gt;, aliquot_ids &lt;list&gt;, primary_site &lt;chr&gt;,
+## #   samples &lt;list&gt;, submitter_aliquot_ids &lt;list&gt;,
+## #   submitter_sample_ids &lt;list&gt;, submitter_slide_ids &lt;list&gt;
+## 
+## [[2]]
+## # A tibble: 3 x 19
+##                   updated_datetime submitter_analyte_ids analyte_ids
+##                              &lt;chr&gt;                &lt;list&gt;      &lt;list&gt;
+## 1 2017-03-04T16:39:19.244769-06:00             &lt;chr [6]&gt;   &lt;chr [6]&gt;
+## 2 2017-03-04T16:39:19.244769-06:00             &lt;chr [3]&gt;   &lt;chr [3]&gt;
+## 3 2017-03-04T16:39:19.244769-06:00             &lt;chr [6]&gt;   &lt;chr [6]&gt;
+## # ... with 16 more variables: submitter_id &lt;chr&gt;, case_id &lt;chr&gt;, id &lt;chr&gt;,
+## #   disease_type &lt;chr&gt;, sample_ids &lt;list&gt;, portion_ids &lt;list&gt;,
+## #   submitter_portion_ids &lt;list&gt;, created_datetime &lt;lgl&gt;,
+## #   slide_ids &lt;list&gt;, state &lt;chr&gt;, aliquot_ids &lt;list&gt;, primary_site &lt;chr&gt;,
+## #   samples &lt;list&gt;, submitter_aliquot_ids &lt;list&gt;,
+## #   submitter_sample_ids &lt;list&gt;, submitter_slide_ids &lt;list&gt;
+## 
+## [[3]]
+## # A tibble: 3 x 19
+##                   updated_datetime submitter_analyte_ids analyte_ids
+##                              &lt;chr&gt;                &lt;list&gt;      &lt;list&gt;
+## 1 2017-03-04T16:39:19.244769-06:00             &lt;chr [6]&gt;   &lt;chr [6]&gt;
+## 2 2017-03-09T09:44:12.300985-06:00             &lt;chr [6]&gt;   &lt;chr [6]&gt;
+## 3 2017-03-04T16:39:19.244769-06:00             &lt;chr [6]&gt;   &lt;chr [6]&gt;
+## # ... with 16 more variables: submitter_id &lt;chr&gt;, case_id &lt;chr&gt;, id &lt;chr&gt;,
+## #   disease_type &lt;chr&gt;, sample_ids &lt;list&gt;, portion_ids &lt;list&gt;,
+## #   submitter_portion_ids &lt;list&gt;, created_datetime &lt;lgl&gt;,
+## #   slide_ids &lt;list&gt;, state &lt;chr&gt;, aliquot_ids &lt;list&gt;, primary_site &lt;chr&gt;,
+## #   samples &lt;list&gt;, submitter_aliquot_ids &lt;list&gt;,
+## #   submitter_sample_ids &lt;list&gt;, submitter_slide_ids &lt;list&gt;</code></pre>
 </div>
 </div>
 

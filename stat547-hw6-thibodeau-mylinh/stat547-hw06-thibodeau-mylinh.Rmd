@@ -929,10 +929,11 @@ one_submitter_analyte_ids[c(1,3,4)] # We present exactly 3 submitter_analyte and
 map_df(one_cancer, `[`, c(1,3,4)) 
 ```
 
-We can scale it up for all 3 cancer dataset (DLBC, GBM and LUAD)
+We can scale it up for all 3 cancer dataset (DLBC, GBM and LUAD), and see that the rows represent one single case.
 ```{r}
 d3 <- cancer_df_list_d %>%
   mutate(cancer_info = list_d %>%
            map(. %>% map_df(`[`, c(1,3,4))))
+d3$cancer_info[c(1,2,3)]
 ```
 

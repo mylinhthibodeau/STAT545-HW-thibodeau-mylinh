@@ -736,16 +736,18 @@ ggplot(res$project.project_id,aes(x = key, y = doc_count)) +
     theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
 ```
 
-### Create a nested list with multiple levels
+# Purrr tutorial exercises
 
-In this section, I will create 3 nested lists (d2, d4, d6) containing data information of 3 TCGA datasets (DLBC, GBM, LUAD), and then I will make a list of these 3 lists called "list_d".
+## Part 1. Create a recursive list with multiple levels (analogous to gh_users)
+
+In this section, I will create 3 nested recursive (d2, d4, d6) containing data information of 3 TCGA datasets (DLBC, GBM, LUAD) which all have the same format, and then I will make a list of these 3 lists called "list_d".
 
 ```{r}
 d1 = cases() %>% GenomicDataCommons::filter(~ project.project_id=='TCGA-DLBC') %>%
     GenomicDataCommons::select(c(default_fields(cases()),'samples.sample_type')) %>%
     response_all()
 d2 = d1 %>% results()
-str(d1[1],list.len=6)
+str(d1[1],list.len=1)
 head(ids(d1))
 str(d1, max.level = 1)
 #View(d1)
@@ -755,7 +757,7 @@ typeof(d2)
 ```
 
 ```{r}
-str(d2, list.len = 3)
+str(d2, list.len = 1)
 ```
 
 I will make another nested list d4.
@@ -782,10 +784,9 @@ typeof(list_d)
 #View(list_d)
 ```
 
+## Part 2. Name and position shortcuts
 
-### Explore some purrr mapping
-
-#### Individual list exploration (e.g. d2)
+### For simplicity, let's start by looking at d2 only
 
 ```{r}
 str(d2[[1]], list.len = 1) # This is the first list in this nested data.frame, and it the values are from "updated_datetime"
@@ -805,18 +806,133 @@ map(d2["submitter_aliquot_ids"], 1)
 d2[["submitter_aliquot_ids"]][[1]]
 ```
 
-### Explore the nested list_d 
+### Let's move on to the recursive list_d
 
-Let's look at the first 2 levels of our nested list_d.
+Let's look at the first level of our nested list_d.
 ```{r}
-str(list_d, max.level = 2)
-str(list_d[3], list.len = 1) # Look at the first level of the 3rd list in list_d, which is the LUAD dataset.
+str(list_d, max.level = 1)
+str(list_d[[3]], list.len = 1) # Look at the first level (updated_datetime) of the 3rd list in list_d, which is the LUAD dataset.
 #list_d[[1]][c("samples")]
 map(list_d[["updated_time"]][[1]], 1)
 list_d[["submitter_aliquot_ids"]][[1]]
 ```
 
+We can extract multiple values of the LUAD (3rd list of list_d) using map
 ```{r}
+str(list_d[[1]][c("state", "primary_site")], max.level =1) # extract the state and primary site of the first list (TCGA-DLBC)
+x <- map(list_d, `[`, c("state", "primary_site")) # extrate the state and primary site for all lists
+str(x[1:2]) # shows the 1st and 2nd list attribute
+```
 
+The extract function of magrittr can also be used, which provides the same result.
+
+```{r}
+x <- map(list_d, magrittr::extract, c("state", "primary_site"))
+str(x[1:2])
+```
+
+Exercise. Use your list inspection skills to determine the position of the elements named “state” and "primary_site". Map [ over the lists, requesting elements by position instead of name. "state" and "primary_site" are at position 13 and 15 respectively in each list.
+
+```{r}
+str(list_d[[1]][c(13, 15)], max.level =1) # only for TCGA-DLBC
+x <- map(list_d, `[`, c(13, 15)) # for all 3 TCGA lists
+str(x[1:3])
+```
+
+We can also use piping with these functions !
+```{r}
+list_d %>%
+  map(`[`, c(13, 15)) %>%
+  str()
+```
+
+## Part 3. Type-specific map
+
+At this stage, it's worth exploring if the lists only have character data, or other types of data (e.g. numeric). We can take a quick peak:
+```{r}
+sapply(list_d[[1]], class) 
+```
+Note. It seems like at least the top levels are characters, but it is good to keep in mind that if we use specific map function. I checked if map_chr works the same here, but it received and error message (`Error: Result 1 is not a length 1 atomic vector`) because not only the list_d contains character, but it also contains vector, and therefore, using the general map() funciton is more appropriate here.
+
+```
+list_d %>%
+  map_chr(`[`, c(13, 15)) %>%
+  str()
+```
+
+## Part 4. Data frame output
+
+Let's stack up some of these lists on top of each other with map_df(). 
+
+```{r}
+map_df(list_d, `[`, c(5, 13, 15))  # here I am selection the case_id, state and primary_site
+```
+
+I tried to create the same stacked up list with the explicit function, but since my elements (e.g. "case_id") are lists, I was only able to produce a data.frame with nested lists.
+```{r}
+library(dplyr)
+library(tibble)
+df_list_d <- list_d %>% {
+  tibble(
+      case_id = map(., "case_id"),
+      state = map(., "state"),
+      primary_site = map(., "primary_site"))
+}
+class(df_list_d)
+```
+
+## Part 5. "Repositories for each user"
+
+So in this exercise, we are suppose to switch from gh_users to gh_repos, the latter having multiple nested lists (at least 4 levels from what I see).
+
+I will keep the same nested object (called list_d) because although my data is less layered and smaller, there is one item (called "samples") which has a 4th level of modest size, with each sample id containing a list of 2 items: what type of sample was used for normal DNA and for cancer DNA studies.
+
+Let's extract some specific data values:
+
+Task: submitter_analyte_ids is the *2nd* item in each list. For each list, retrieve the *1st* sample listed in the *3rd* submitter_analyte_ids.
+```{r}
+list_d %>%
+  map(c(2, 3, 1))
+```
+
+## Part 6. List inside a data frame
+
+As mentioned previously, we do have a data frame with lists inside: df_list_d.
+
+However, it would be nice to have the TCGA cancer type (DLBC, GBM, LUAD) also in that data frame. Interestingly enough, the name of the TCGA dataset is not stored anywhere in the data, so we will simply select the primary_site of cancer then.
+```{r}
+(primary_site_cancer <- map(list_d, c(15, 1, 1)))
+(cancer_df_list_d <- list_d %>%
+    set_names(primary_site_cancer) %>% 
+    enframe("primary_site_cancer", "list_d"))
+```
+
+You might have noticed the presence of *S3:* preceding the list. There is actually 3 levels of information here. 
+```{r}
+sapply(list_d, class)
+```
+This is actually refering to a more advanced object in R, which I will not dive into here, but if you would like more information, please click [here](http://adv-r.had.co.nz/S3.html).
+
+How do we create “one row’s worth” of data for one cancer dataset? How do we do that for all lists for a single cancer dataset?
+
+Let's start with a simpler example. We will select the 3rd cancer type (LUAD = Lung adenocarcinoma) and only one element of each list submitter_analyte_ids. Then we will create a 4 rows tibble with each row representing the values corresponding to the first element of the list submitter_analyte_ids.
+```{r}
+one_cancer <- cancer_df_list_d$list_d[[3]]
+View(one_cancer)
+one_submitter_analyte_ids <- one_cancer$submitter_analyte_ids[[1]][1:3]
+one_submitter_analyte_ids 
+#one_cancer$submitter_analyte_ids <- one_cancer$submitter_analyte_ids[[2]][1:3]
+View(one_cancer)
+str(one_cancer, max.level=1)
+str(one_submitter_analyte_ids, max.level = 1, list.len = 1) 
+one_submitter_analyte_ids[c(1,3,4)] # We present exactly 3 submitter_analyte and the corresponding TCGA sample identifiers
+map_df(one_cancer, `[`, c(1,3,4)) 
+```
+
+We can scale it up for all 3 cancer dataset (DLBC, GBM and LUAD)
+```{r}
+d3 <- cancer_df_list_d %>%
+  mutate(cancer_info = list_d %>%
+           map(. %>% map_df(`[`, c(1,3,4))))
 ```
 

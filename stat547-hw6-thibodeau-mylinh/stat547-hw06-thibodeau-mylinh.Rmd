@@ -105,6 +105,11 @@ head(HumanDO$name[grep(x=HumanDO$name, pattern = "encephalitis")])
 Note. Use of grep in ontology data also from Daniel Greene's work [here](https://cran.r-project.org/web/packages/ontologyIndex/vignettes/intro-to-ontologyX.html)
 
 
+***
+Put in a dataframe?
+
+***
+
 Let's look at the diseases that contain the word "Japanese":
 ```{r}
 HumanDO$name[grep(x=HumanDO$name, pattern = "Japanese")]
@@ -630,7 +635,6 @@ library(GenomicDataCommons)
 GenomicDataCommons::status()
 ```
 
-
 ```{r}
 library(GenomicDataCommons)
 library(magrittr)
@@ -644,9 +648,9 @@ ge_manifest = files() %>%
 library(BiocParallel)
 register(MulticoreParam())
 destdir = tempdir()
-#fnames = bplapply(ge_manifest$id, gdcdata,
-#                  destination_dir=destdir,
-#                  BPPARAM = MulticoreParam(progressbar=TRUE))
+fnames = bplapply(ge_manifest$id, gdcdata,
+                  destination_dir=destdir,
+                  BPPARAM = MulticoreParam(progressbar=TRUE))
 ```
 Note. At this stage, I kept having an error message as followed:
 

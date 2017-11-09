@@ -1,0 +1,11 @@
+packages:
+	-	ggplot2
+	-	tidyverse
+	
+targets:
+	all:
+		depends: /stat545-hw5-thibodeau-mylinh/stat545-hw05-thibodeau-mylinh.html
+		
+	stat545-hw05-thibodeau-mylinh.html
+		command: rmarkdown::render("/stat545-hw5-thibodeau-mylinh/stat545-hw05-thibodeau-mylinh.Rmd")
+		depends: /stat545-hw5-thibodeau-mylinh/stat545-hw05-thibodeau-mylinh.Rmd

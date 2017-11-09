@@ -2,7 +2,7 @@
 title: "stat545-hw05-thibodeau-mylinh"
 author: "My Linh Thibodeau"
 date: '2017-10-14'
-output: github_document
+output: html_document
 ---
 
 ```{r}

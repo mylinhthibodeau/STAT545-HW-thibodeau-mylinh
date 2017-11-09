@@ -213,6 +213,9 @@ data(go)
 ##                    DOID:0050126                    DOID:0050170 
 ##     &quot;Tahyna virus encephalitis&quot; &quot;Jamestown Canyon encephalitis&quot;</code></pre>
 <p>Note. Use of grep in ontology data also from Daniel Greene’s work <a href="https://cran.r-project.org/web/packages/ontologyIndex/vignettes/intro-to-ontologyX.html">here</a></p>
+<hr />
+<p>Put in a dataframe?</p>
+<hr />
 <p>Let’s look at the diseases that contain the word “Japanese”:</p>
 <pre class="r"><code>HumanDO$name[grep(x=HumanDO$name, pattern = &quot;Japanese&quot;)]</code></pre>
 <pre><code>##             DOID:0050050               DOID:10844 
@@ -632,9 +635,9 @@ microbenchmark::microbenchmark(
   times = 20
 )</code></pre>
 <pre><code>## Unit: microseconds
-##   expr    min     lq     mean median     uq     max neval cld
-##  fixed 31.647 33.467 48.16670 34.705 36.820 281.629    20   a
-##  regex 16.402 18.385 22.87135 19.347 20.127  70.003    20   a</code></pre>
+##   expr    min      lq     mean  median      uq     max neval cld
+##  fixed 28.984 30.2565 43.76160 31.8315 33.1705 256.324    20   b
+##  regex 15.610 17.0075 20.39105 18.3275 19.0400  67.155    20  a</code></pre>
 <p>Note.1. As you can see, the fixed() function takes about twice as much time to run than regex. Note.2. It can not be used with non-English data. As there are often multiple ways of representing the same character, this can cause problem. For example, there are two ways to define “á”: either as a single character or as an “a” plus an accent:</p>
 <pre class="r"><code>a1 &lt;- &quot;\u00e1&quot;
 a2 &lt;- &quot;a\u0301&quot;
@@ -810,16 +813,17 @@ ge_manifest = files() %&gt;%
     GenomicDataCommons::filter( ~ cases.project.project_id == 'TCGA-OV' &amp;
                 type == 'gene_expression') %&gt;%
     manifest()</code></pre>
-<pre class="r"><code>library(BiocParallel)</code></pre>
-<pre><code>## Warning: package 'BiocParallel' was built under R version 3.4.2</code></pre>
-<pre class="r"><code>register(MulticoreParam())
-destdir = tempdir()
+<pre class="r"><code>#library(BiocParallel)
+#register(MulticoreParam())
+#destdir = tempdir()
 #fnames = bplapply(ge_manifest$id, gdcdata,
-#                  destination_dir=destdir,
-#                  BPPARAM = MulticoreParam(progressbar=TRUE))</code></pre>
-<p>Note. At this stage, I kept having an error message as followed:</p>
+                  #destination_dir=destdir,
+                  #BPPARAM = MulticoreParam(progressbar=TRUE))</code></pre>
+<p>Note. At this stage, I kept having error messages, for example:</p>
 <p><code>Error: BiocParallel errors element index: 1, 2, 3, 4, 5, 6, ... first error: SSL certificate problem: Invalid certificate chain</code></p>
-<p>I have tries to troubleshoot this SSL certificate issue, but I have to give up as it took too much time.</p>
+<ul>
+<li>I have tries to troubleshoot this SSL certificate issue, but after several hours, I had to give up as I was getting nowhere. I kept the code chunk just in case I am able to resolve this SSL issue at a later time.</li>
+</ul>
 <p>Let’s just make a simpler nested data.frame with information about the patients, diagnoses, samples, etc.</p>
 <pre class="r"><code>qfiles = files() %&gt;% 
   GenomicDataCommons::filter( ~ cases.project.project_id == 'TCGA-DLBC' &amp;

@@ -645,18 +645,18 @@ ge_manifest = files() %>%
 ```
 
 ```{r}
-library(BiocParallel)
-register(MulticoreParam())
-destdir = tempdir()
-fnames = bplapply(ge_manifest$id, gdcdata,
-                  destination_dir=destdir,
-                  BPPARAM = MulticoreParam(progressbar=TRUE))
+#library(BiocParallel)
+#register(MulticoreParam())
+#destdir = tempdir()
+#fnames = bplapply(ge_manifest$id, gdcdata,
+                  #destination_dir=destdir,
+                  #BPPARAM = MulticoreParam(progressbar=TRUE))
 ```
-Note. At this stage, I kept having an error message as followed:
+Note. At this stage, I kept having error messages, for example:
 
-`Error: BiocParallel errors element index: 1, 2, 3, 4, 5, 6, ... first error: SSL certificate problem: Invalid certificate chain`
+`Error: BiocParallel errors element index: 1, 2, 3, 4, 5, 6, ... first error: SSL certificate problem: Invalid certificate chain` 
 
-I have tries to troubleshoot this SSL certificate issue, but I have to give up as it took too much time.
+* I have tries to troubleshoot this SSL certificate issue, but after several hours, I had to give up as I was getting nowhere. I kept the code chunk just in case I am able to resolve this SSL issue at a later time. 
 
 Let's just make a simpler nested data.frame with information about the patients, diagnoses, samples, etc.
 ```{r}

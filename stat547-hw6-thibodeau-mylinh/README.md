@@ -1,6 +1,6 @@
 # README - stat547-hw6-thibodeau-mylinh
 
-# A LITTLE SOMETHING ABOUT ME
+# About me
 
 Dear reader,
 

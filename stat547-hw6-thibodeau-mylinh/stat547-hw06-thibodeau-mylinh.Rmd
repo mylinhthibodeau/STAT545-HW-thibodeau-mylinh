@@ -943,4 +943,4 @@ d3$cancer_info[c(1,2,3)]
 
 # THE END - Finally ;)
 
-*I have done everything I could (and more) to make this homework both relevant for my learning and to fulfill the requirements of the course, but this has been an extremly difficult task. I hope you will understand that as this is my 14th year of postsecondary schooling and at this point in my educational path, I am trying to focus on learning things that have direct applications to my research.*
+*I have done everything I could (and more) to make this homework both relevant for my learning and to fulfill the requirements of the course, but this has been an extremly difficult task. I hope you will understand that this is my 14th year of postsecondary schooling and at this point in my educational path, I am trying to focus on learning things that have direct applications to my research.*

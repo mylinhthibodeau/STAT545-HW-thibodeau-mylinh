@@ -6,7 +6,7 @@ Dear reader,
 
 I hope you will enjoy reading my STAT545/547 homework :) I am a Medical Genetics resident and master student in bioinformatics and my topic of research is cancer genomics. 
 
-I have been trying to find innovative ways to come up with genomic datasets that can fulfill the homework requirements. Please don't get distracted by the specific aspects of genomic terms, but to the underlying structure of the data. Genomic data is quite similar to other data types (e.g. gene names are strings, just like the countries of Gapminder).
+I have been trying to find innovative ways to come up with genomic datasets that can fulfill the homework requirements. Please don't get distracted by the specific aspects of genomic terms, but focus on the underlying structure of the data. Genomic data is quite similar to other data types (e.g. gene names are strings, just like the countries of Gapminder).
 
 The Canadian Cancer Research Conference took place in Vancouver from November 5-7/2017 and I unfortunately didn't have as much time as usual to put into this homework (which took a very long time) but I believe I fulfill most of the requirements :)
 

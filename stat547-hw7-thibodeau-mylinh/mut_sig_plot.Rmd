@@ -6,15 +6,16 @@ output: html_document
 ---
 
 ```{r, echo = FALSE}
+setwd("~/Desktop/STAT545-HW-thibodeau-mylinh/stat547-hw7-thibodeau-mylinh/")
 suppressMessages(suppressWarnings(library(tidyverse)))
 suppressMessages(suppressWarnings(knitr::opts_chunk$set(fig.width=13, fig.height=8)))
 mut_sig <- read.table("mut_sig.tsv", header = TRUE, sep = "\t")
 mut_sig3 <- readRDS("mut_sig_ordered_by_sig3.rds")
 mut_sig_v2 <- read.table("mut_sig_v2.tsv", header = TRUE, sep="\t")
-#mut_sig_v4 <- read.table("mut_sig_v4.tsv", header = TRUE, sep="\t")
+pancreas_mut_v2 <- read.table("somatic_mutations_formated_files/pancreas_mut_v2.tsv", header = TRUE, sep = "\t")
 ```
 
-Note. The multiplot_function was taken from the R cookbook (http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/)
+Note. The multiplot_function was taken from the R cookbook [here](http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/).
 ```{r}
 #load packages
 suppressMessages(suppressWarnings(library(tidyverse)))
@@ -99,6 +100,8 @@ dev.off()
 
 Note. I was able to save the output of the multiplot function to a pdf file based on the suggestion of this Stackoverflow discussion [here](https://stackoverflow.com/questions/11721401/r-save-multiplot-to-file).
 
+# Ploting data from the reference table of somatic signatures
+
 ## Plot 2
 
 ```{r}
@@ -136,4 +139,15 @@ mut_sig_sub <- mut_sig_v2 %>%
 ggsave("plots/mutation_scores_for_all_snv_type_facet_signature_colored_snv.pdf", mut_sig_sub, width = 10, height =6) 
 ```
 
+# Ploting data from specific cancer types and their somatic mutations
+
+## Plot 4
+
+```{r}
+pancreas_mut_p1 <- pancreas_mut_v2 %>%
+	group_by(case_id) %>%
+	ggplot(aes(x=case_id, y=number)) +
+	geom_point()
+pancreas_mut_p1
+```
 

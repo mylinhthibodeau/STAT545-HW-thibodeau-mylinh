@@ -1,0 +1,67 @@
+---
+title: "stat547-hw07-thibodeau-mylinh"
+author: "My Linh Thibodeau"
+date: '2017-11-11'
+output: html_document:
+	keep_md: true
+---
+
+For this homework, I will be using open access complete set of cancer somatic mutations from: 
+
+Alexandrov, L. B. et al. Signatures of mutational processes in human cancer. 500, 415–421 (2013).
+
+### Please note that I deliberately broke down each step of this homework in very small chunks/steps/scripts to make this material more "generalizable", which will allow me to use them for my research work as well.
+
+***
+
+This files will contain a narrative of homework 7 and some helpful notes regarding my process.
+
+# Download the data
+
+I started by using curl shell script in my Makefile to download the complete set of cancer somatic mutations:
+
+```
+mut_sig_raw.txt:
+	curl -o mut_sig_raw.txt ftp://ftp.sanger.ac.uk/pub/cancer/AlexandrovEtAl/signatures.txt
+```
+
+I am also using my `mut_sig_clean.R` script to format the data. I performed that step to remove empty spaces from the column names because this would create problems with variable manipulation later.
+
+# Perform exploratory analyses
+
+Tasks:
+
+* Bring the data in as data frame.
+* Save a couple descriptive plots to file with highly informative names.
+* Reorder the continents based on life expectancy. You decide the details.
+* Sort the actual data in a deliberate fashion. You decide the details, but this should at least implement your new continent ordering.
+* Write the Gapminder data to file(s), for immediate and future reuse.
+
+**Please note that I did not complete the 5 tasks above in the order suggested because it made more sense to proceed in the order outlined below with my dataset ! **
+
+(1) I am using my `mut_sig_tables.Rmd` script bring the mutational signatures in as a data frame. I am using the gather function of tidyverse to create a new dataframe table which will facilitate making plots later. I saved the output of this new data frame to mut_sig2.tsv.
+
+(2) I am reordering the Somatic.Mutation.Type (e.g. A[C>A]A, A[C>A]C, etc.) according to their Signature.3 Score. 
+
+(3) Sort the actual data in a deliberate fashion: Then I will order the Somatic.Mutation.Type according to ascending Signature.3 Score.
+
+(4)  In this section, I am using the mut_sig_plot.Rmd script to create some plots, which I save in the subfolder called plots.
+
+(5) Writing the mutational signatures input/output to files is performed (embedded) in the scripts mentioned above. 
+
+# Perform statistical analyses
+
+Tasks:
+
+* Import the data created in the first script.
+* Make sure your new continent order is still in force. You decide the details.
+* Fit a linear regression of life expectancy on year within each country. Write the estimated intercepts, slopes, and residual error variance (or sd) to file. The R package broom may be useful here.
+* Find the 3 or 4 “worst” and “best” countries for each continent. You decide the details.
+
+As you know, I am using genomic data, so I have to adapt the tasks to my data.
+
+
+# Generate figures
+
+# Automate the pipeline
+

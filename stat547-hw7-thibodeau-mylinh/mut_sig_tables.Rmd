@@ -1,0 +1,30 @@
+---
+title: "mut_sig_tables"
+author: "My Linh Thibodeau"
+date: '2017-11-11'
+output: html_document
+---
+
+```{r}
+suppressMessages(library(tidyverse))
+mut_sig <- read.table("mut_sig.tsv", header = TRUE, sep ="\t")
+#View(mut_sig)
+```
+
+```{r}
+mut_sig_v2 <- mut_sig %>%
+	group_by(Substitution.Type, Trinucleotide, Somatic.Mutation.Type) %>%
+	gather(key = Signature, value = Score, Signature.1A, Signature.1B, Signature.2, Signature.3, Signature.4, Signature.5, Signature.6, Signature.7, Signature.8, Signature.9, Signature.10, Signature.11, Signature.12, Signature.13, Signature.14, Signature.15, Signature.16, Signature.17, Signature.18, Signature.19, Signature.20, Signature.21, Signature.R1, Signature.R2, Signature.R3, Signature.U1, Signature.U2)
+write_tsv(mut_sig_v2, "mut_sig_v2.tsv")
+```
+
+```{r}
+mut_sig_v4 <- data.frame(mut_sig_v2)
+mut_sig_v4 <- mut_sig_v4 %>%
+	select(Somatic.Mutation.Type, Signature, Score) %>%
+	group_by(Signature) %>%
+	spread(key = Somatic.Mutation.Type, value=Score)
+#View(mut_sig_v4)
+write_tsv(mut_sig_v4, "mut_sig_v4.tsv")
+```
+

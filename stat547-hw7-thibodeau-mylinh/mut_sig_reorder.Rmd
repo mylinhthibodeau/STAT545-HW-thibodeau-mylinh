@@ -1,0 +1,27 @@
+---
+title: "mut_sig_reorder"
+author: "My Linh Thibodeau"
+date: '2017-11-11'
+output: html_document
+---
+
+```{r}
+suppressMessages(suppressWarnings(library(plyr)))
+library(tidyverse)
+mut_sig <- read.table("mut_sig.tsv", header = TRUE, sep = "\t")
+```
+Note. I was unable to specify the column types in the read_tsv function. When I tried, I got the error message:
+
+`Error in structure(list(...), class = c(paste0("collector_", type), "collector")) : argument "levels" is missing, with no default`
+
+Therefore, I am changing the columns data type from character to vector manually (if you know how to specify all the columns data type at once, please don't hesitate to let me know!). I am reordering the 96 Somatic.Mutation.Type factors according to the value of Signature.3.
+```{r}
+mut_sig_v3 <- data.frame(mut_sig)
+#sapply(mut_sig_v3, class)
+mut_sig_v3 <- within(mut_sig_v3, Somatic.Mutation.Type <- reorder(Somatic.Mutation.Type, Signature.3))
+saveRDS(mut_sig_v3, "mut_sig_ordered_by_sig3.rds")
+#View(mut_sig_v3)
+#mut_sig_v3 %>%
+	#ggplot(aes(x=Somatic.Mutation.Type, y = Signature.3)) + geom_point()
+```
+

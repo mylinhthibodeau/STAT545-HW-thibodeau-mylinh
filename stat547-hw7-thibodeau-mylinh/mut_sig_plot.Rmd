@@ -1,0 +1,139 @@
+---
+title: "mut_sig_plot"
+author: "My Linh Thibodeau"
+date: '2017-11-11'
+output: html_document
+---
+
+```{r, echo = FALSE}
+suppressMessages(suppressWarnings(library(tidyverse)))
+suppressMessages(suppressWarnings(knitr::opts_chunk$set(fig.width=13, fig.height=8)))
+mut_sig <- read.table("mut_sig.tsv", header = TRUE, sep = "\t")
+mut_sig3 <- readRDS("mut_sig_ordered_by_sig3.rds")
+mut_sig_v2 <- read.table("mut_sig_v2.tsv", header = TRUE, sep="\t")
+#mut_sig_v4 <- read.table("mut_sig_v4.tsv", header = TRUE, sep="\t")
+```
+
+Note. The multiplot_function was taken from the R cookbook (http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/)
+```{r}
+#load packages
+suppressMessages(suppressWarnings(library(tidyverse)))
+suppressMessages(suppressWarnings(library(gapminder)))
+library(devtools)
+suppressMessages(suppressWarnings(library(forcats)))
+#install.packages("ggthemes")
+library(ggthemes)
+library(grid)
+```
+
+```{r multiplot_function, echo=FALSE}
+# Multiple plot function
+#
+# ggplot objects can be passed in ..., or to plotlist (as a list of ggplot objects)
+# - cols:   Number of columns in layout
+# - layout: A matrix specifying the layout. If present, 'cols' is ignored.
+#
+# If the layout is something like matrix(c(1,2,3,3), nrow=2, byrow=TRUE),
+# then plot 1 will go in the upper left, 2 will go in the upper right, and
+# 3 will go all the way across the bottom.
+#
+multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
+	require(grid)
+	
+	# Make a list from the ... arguments and plotlist
+	plots <- c(list(...), plotlist)
+	
+	numPlots = length(plots)
+	
+	# If layout is NULL, then use 'cols' to determine layout
+	if (is.null(layout)) {
+		# Make the panel
+		# ncol: Number of columns of plots
+		# nrow: Number of rows needed, calculated from # of cols
+		layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),
+			ncol = cols, nrow = ceiling(numPlots/cols))
+	}
+	
+	if (numPlots==1) {
+		print(plots[[1]])
+		
+	} else {
+		# Set up the page
+		grid.newpage()
+		pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))
+		
+		# Make each plot, in the correct location
+		for (i in 1:numPlots) {
+			# Get the i,j matrix positions of the regions that contain this subplot
+			matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))
+			
+			print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,
+				layout.pos.col = matchidx$col))
+		}
+	}
+}
+
+```
+
+## Plot 1
+
+```{r}
+Signature3_plot_unordered <- mut_sig %>%
+	group_by(Somatic.Mutation.Type) %>%
+	ggplot(aes(x=Somatic.Mutation.Type, y=Signature.3)) +
+	ggtitle("Unordered Somatic.Mutation.Type according to Signature.3 score") +
+	geom_point(aes(size = Signature.12)) + theme(
+  plot.title= element_text(color = "grey44", size=24, face="bold"),
+  text = element_text(size=8), axis.text.x = element_text(angle=45, hjust=1))
+Signature3_plot <- mut_sig3 %>%
+	group_by(Somatic.Mutation.Type) %>%
+	ggplot(aes(x=Somatic.Mutation.Type, y=Signature.3)) +
+	ggtitle("Ordered Somatic.Mutation.Type according to Signature.3 score") +
+	geom_point(aes(size = Signature.12)) + theme(
+  plot.title= element_text(color = "grey44", size=24, face="bold"),
+  text = element_text(size=8), axis.text.x = element_text(angle=45, hjust=1))
+pdf("plots/Signature3_compare_plots.pdf", width = 13, height = 7)
+multiplot(Signature3_plot_unordered, Signature3_plot) 
+dev.off()
+```
+
+Note. I was able to save the output of the multiplot function to a pdf file based on the suggestion of this Stackoverflow discussion [here](https://stackoverflow.com/questions/11721401/r-save-multiplot-to-file).
+
+## Plot 2
+
+```{r}
+mut_sig_facet <- mut_sig_v2 %>%
+	group_by(Signature) %>%
+	ggplot(aes(x=Somatic.Mutation.Type, y=Score)) + 
+	geom_point(aes(color=Score)) +
+	scale_colour_gradient(low="blue", high="red") +
+	facet_wrap(~Signature) +
+	ggtitle("Mutation scores according to Somatic.Mutation.Type and panel according to Signature type") + 
+	theme(
+  plot.title= element_text(color = "grey44", size=24, face="bold"),
+  text = element_text(size=12), axis.text.x = element_blank(), 
+    axis.ticks.x=element_blank(),
+		panel.background = element_rect(fill = "white"),
+		panel.border = element_rect(fill=NA))
+ggsave("plots/mutation_scores_for_all_snv_facet_signature.pdf", mut_sig_facet, width = 16, height =12) 
+```
+
+## Plot 3
+
+```{r}
+mut_sig_sub <- mut_sig_v2 %>%
+	group_by(Substitution.Type) %>%
+	ggplot(aes(x=Somatic.Mutation.Type, y=Score)) +
+	geom_point(aes(color=Substitution.Type)) +
+	ggtitle("Mutation scores according to individual signatures") + 
+	theme(
+  plot.title= element_text(color = "grey44", size=24, face="bold"),
+  text = element_text(size=12), axis.text.x = element_blank(), 
+    axis.ticks.x=element_blank(),
+		panel.background = element_rect(fill = "white"),
+		panel.border = element_rect(fill=NA)) +
+	facet_wrap(~Signature) 
+ggsave("plots/mutation_scores_for_all_snv_type_facet_signature_colored_snv.pdf", mut_sig_sub, width = 10, height =6) 
+```
+
+

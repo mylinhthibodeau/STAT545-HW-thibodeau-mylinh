@@ -1,8 +1,7 @@
 # STAT545-HW-thibodeau-mylinh
 This file provides a general overview of the content in this repository.
 
-*Note: Homework 1 is in a different repository, please go [here](https://github.com/mylinhthibodeau/STAT545-hw01-thibodeau-mylinh) if you would like to see it.*    
-
+*Note: [Homework 1](https://github.com/mylinhthibodeau/STAT545-hw01-thibodeau-mylinh) is in a different repository.*    
 ### Table of content
 
 - [homework 2](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw2-thibodeau-mylinh)
@@ -11,9 +10,7 @@ This file provides a general overview of the content in this repository.
 - [homework 5](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw5-thibodeau-mylinh)
 - [homework 6](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat547-hw6-thibodeau-mylinh/stat547-hw06-thibodeau-mylinh.Rmd)
 
-*Each homework folder will contain a README.md file, but not the [scratch-space](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/scratch-space) as it is used to store non essential images, gif or files*
-
-*Each homework subfolder will have its own scratch-space if needed, which keeps the folders more organized*
+*Each homework folder in this repository contain a README.md file, and if needed, a scratch-space, which contains manually downloaded files or early drafts, and its use allows to keep the folders more tidy.*
 
 ***
 

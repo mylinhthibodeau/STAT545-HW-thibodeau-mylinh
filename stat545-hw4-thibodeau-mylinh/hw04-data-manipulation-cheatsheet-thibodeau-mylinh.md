@@ -4,26 +4,11 @@ My Linh Thibodeau
 2017-10-07
 
 ``` r
-suppressPackageStartupMessages(library(tidyverse))
-```
-
-    ## Warning: package 'dplyr' was built under R version 3.4.2
-
-``` r
+suppressPackageStartupMessages(suppressWarnings(library(tidyverse)))
 knitr::opts_chunk$set(fig.width=12, fig.height=9)
-library(knitr)
-library(kableExtra)
-library(reshape2)
-```
-
-    ## 
-    ## Attaching package: 'reshape2'
-
-    ## The following object is masked from 'package:tidyr':
-    ## 
-    ##     smiths
-
-``` r
+suppressPackageStartupMessages(suppressWarnings(library(knitr)))
+suppressPackageStartupMessages(suppressWarnings(library(kableExtra)))
+suppressPackageStartupMessages(suppressWarnings(library(reshape2)))
 options(knitr.table.format = "markdown")
 ```
 
@@ -233,24 +218,24 @@ split_R %>% kable("markdown") %>% kable_styling()
 
 ``` r
 stack_tidy <- split_resh %>%
-  gather(key = variable, value = expression, very.low, low,  average, very.high, high)
+  gather(key = expression, value = count_gene, very.low, low,  average, very.high, high)
 stack_tidy %>% kable("markdown") %>% kable_styling()
 ```
 
     ## Currently generic markdown table using pandoc is not supported.
 
-| gene.type | variable  |  expression|
-|:----------|:----------|-----------:|
-| ONC       | very.low  |          NA|
-| TS        | very.low  |           2|
-| ONC       | low       |          NA|
-| TS        | low       |           1|
-| ONC       | average   |          NA|
-| TS        | average   |           1|
-| ONC       | very.high |           1|
-| TS        | very.high |          NA|
-| ONC       | high      |           1|
-| TS        | high      |          NA|
+| gene.type | expression |  count\_gene|
+|:----------|:-----------|------------:|
+| ONC       | very.low   |           NA|
+| TS        | very.low   |            2|
+| ONC       | low        |           NA|
+| TS        | low        |            1|
+| ONC       | average    |           NA|
+| TS        | average    |            1|
+| ONC       | very.high  |            1|
+| TS        | very.high  |           NA|
+| ONC       | high       |            1|
+| TS        | high       |           NA|
 
 ### Reshape
 

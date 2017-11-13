@@ -6,11 +6,11 @@ output: github_document
 ---
 
 ```{r}
-suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(suppressWarnings(library(tidyverse)))
 knitr::opts_chunk$set(fig.width=12, fig.height=9)
-library(knitr)
-library(kableExtra)
-library(reshape2)
+suppressPackageStartupMessages(suppressWarnings(library(knitr)))
+suppressPackageStartupMessages(suppressWarnings(library(kableExtra)))
+suppressPackageStartupMessages(suppressWarnings(library(reshape2)))
 options(knitr.table.format = "markdown")
 ```
 
@@ -129,7 +129,7 @@ split_R %>% kable("markdown") %>% kable_styling()
 
 ```{r}
 stack_tidy <- split_resh %>%
-  gather(key = variable, value = expression, very.low, low,  average, very.high, high)
+  gather(key = expression, value = count_gene, very.low, low,  average, very.high, high)
 stack_tidy %>% kable("markdown") %>% kable_styling()
 ```
 

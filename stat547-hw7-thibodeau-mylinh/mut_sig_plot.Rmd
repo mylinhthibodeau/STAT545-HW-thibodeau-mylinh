@@ -148,6 +148,12 @@ pancreas_mut_p1 <- pancreas_mut_v2 %>%
 	group_by(case_id) %>%
 	ggplot(aes(x=case_id, y=number)) +
 	geom_point()
-pancreas_mut_p1
+ggsave("plots/pancreas_mut_p1.pdf", pancreas_mut_p1 , width = 10, height =6)
+```
+
+## Plot 5
+
+```{r}
+
 ```
 

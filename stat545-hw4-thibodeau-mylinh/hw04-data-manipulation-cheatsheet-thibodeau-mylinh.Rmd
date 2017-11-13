@@ -2,7 +2,9 @@
 title: "hw04-data-manipulation-cheat-sheet-thibodeau-mylinh"
 author: "My Linh Thibodeau"
 date: '2017-10-07'
-output: github_document
+output:
+  html_document:
+    keep_md: yes
 ---
 
 ```{r}
@@ -129,7 +131,7 @@ split_R %>% kable("markdown") %>% kable_styling()
 
 ```{r}
 stack_tidy <- split_resh %>%
-  gather(key = expression, value = count_gene, very.low, low,  average, very.high, high)
+  gather(key = expression, value = count, very.low, low,  average, very.high, high)
 stack_tidy %>% kable("markdown") %>% kable_styling()
 ```
 
@@ -208,7 +210,7 @@ subset_tidy %>% kable("markdown") %>% kable_styling()
 
 ```{r}
 subset_resh <- d1 %>% dcast(gene.type~expression) %>% melt(subset = .(gene.type=="ONC"))
-View(subset_resh)
+#View(subset_resh)
 ```
 
 

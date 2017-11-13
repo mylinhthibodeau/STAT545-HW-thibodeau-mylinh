@@ -58,8 +58,20 @@ Tasks:
 * Fit a linear regression of life expectancy on year within each country. Write the estimated intercepts, slopes, and residual error variance (or sd) to file. The R package broom may be useful here.
 * Find the 3 or 4 “worst” and “best” countries for each continent. You decide the details.
 
-As you know, I am using genomic data, so I have to adapt the tasks to my data.
+As you know, I am using genomic data, so I have to adapt the tasks to my data, so here is what I did:
 
+(1) I am importing and cleaning the data with my script read_clean_genome_text_files.R:
+
+* reference mutation signatures (mut_sig.txt)
+* somatic mutations for 5 types of cancer: ALL, AML, breast, medulloblastoma, pancreas
+
+(2) The Somatic.Mutation.Type of the mut_sig.tsv (reference data) are still ordered according to Signature.3 values, as illustrated in Signature3_compare_plots.pdf
+
+(3) Now we are changing gears a little bit. We are not looking at signatures of the reference somatic mutation (mut_sig.tsv) but we are looking at the Mutation.Type of 5 types of cancer: ALL, AML, breast, medulloblastoma, pancreas.
+
+* We will be looking at the mean, median, standard deviation and count of each Mutation.Type in each dataset (we need the "gathered" versions of files for that step)
+* We will write some stats tables
+* Then, we will (try to) look at linear regression
 
 # Generate figures
 

@@ -1,4 +1,8 @@
-# clean tab separated format for easier data manipulation
+# clean and format the reference mutational signature file 
+mut_sig <- read.table("mut_sig_raw.txt", header = TRUE, sep = "\t")
+write.table(mut_sig, "mut_sig.tsv", quote = FALSE, sep = "\t", row.names = FALSE)
+
+# clean and format the cancer specific mutational signature files
 #setwd("~/Desktop/STAT545-HW-thibodeau-mylinh/stat547-hw7-thibodeau-mylinh/ftp.sanger.ac.uk/pub/cancer/AlexandrovEtAl/mutational_catalogs/genomes")
 ALL_mut <- read.table("~/Desktop/ftp.sanger.ac.uk/pub/cancer/AlexandrovEtAl/mutational_catalogs/genomes/ALL/ALL_genomes_mutational_catalog_96_subs.txt", header=TRUE, sep="\t")
 aml_mut <- read.table("~/Desktop/ftp.sanger.ac.uk/pub/cancer/AlexandrovEtAl/mutational_catalogs/genomes/AML/AML_genomes_mutational_catalog_96_subs.txt", header=TRUE, sep="\t")

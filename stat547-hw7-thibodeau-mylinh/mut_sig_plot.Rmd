@@ -10,16 +10,19 @@ setwd("~/Desktop/STAT545-HW-thibodeau-mylinh/stat547-hw7-thibodeau-mylinh/")
 suppressMessages(suppressWarnings(library(tidyverse)))
 suppressMessages(suppressWarnings(knitr::opts_chunk$set(fig.width=13, fig.height=8)))
 mut_sig <- read.table("mut_sig.tsv", header = TRUE, sep = "\t")
-mut_sig3 <- readRDS("mut_sig_ordered_by_sig3.rds")
-mut_sig_v2 <- read.table("mut_sig_v2.tsv", header = TRUE, sep="\t")
-pancreas_mut_v2 <- read.table("somatic_mutations_formated_files/pancreas_mut_v2.tsv", header = TRUE, sep = "\t")
+ref_mut_sig_ordered_by_sig3 <- readRDS("ref_mut_sig_ordered_by_sig3.rds")
+mut_sig_gather <- read.table("mut_sig_gather.tsv", header = TRUE, sep="\t")
+ALL_mut_gather <- read.table("somatic_mutations_formated_files/ALL_mut_gather.tsv", header = TRUE, sep = "\t")
+aml_mut_gather <- read.table("somatic_mutations_formated_files/aml_mut_gather.tsv", header = TRUE, sep = "\t")
+breast_mut_gather <- read.table("somatic_mutations_formated_files/breast_mut_gather.tsv", header = TRUE, sep = "\t")
+medullo_mut_gather <- read.table("somatic_mutations_formated_files/medulloblastoma_mut_gather.tsv", header = TRUE, sep = "\t")
+pancreas_mut_gather <- read.table("somatic_mutations_formated_files/pancreas_mut_gather.tsv", header = TRUE, sep = "\t")
 ```
 
 Note. The multiplot_function was taken from the R cookbook [here](http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/).
 ```{r}
 #load packages
 suppressMessages(suppressWarnings(library(tidyverse)))
-suppressMessages(suppressWarnings(library(gapminder)))
 library(devtools)
 suppressMessages(suppressWarnings(library(forcats)))
 #install.packages("ggthemes")
@@ -86,7 +89,7 @@ Signature3_plot_unordered <- mut_sig %>%
 	geom_point(aes(size = Signature.12)) + theme(
   plot.title= element_text(color = "grey44", size=24, face="bold"),
   text = element_text(size=8), axis.text.x = element_text(angle=45, hjust=1))
-Signature3_plot <- mut_sig3 %>%
+Signature3_plot <- ref_mut_sig_ordered_by_sig3 %>%
 	group_by(Somatic.Mutation.Type) %>%
 	ggplot(aes(x=Somatic.Mutation.Type, y=Signature.3)) +
 	ggtitle("Ordered Somatic.Mutation.Type according to Signature.3 score") +
@@ -105,7 +108,7 @@ Note. I was able to save the output of the multiplot function to a pdf file base
 ## Plot 2
 
 ```{r}
-mut_sig_facet <- mut_sig_v2 %>%
+mut_sig_facet <- mut_sig_gather %>%
 	group_by(Signature) %>%
 	ggplot(aes(x=Somatic.Mutation.Type, y=Score)) + 
 	geom_point(aes(color=Score)) +
@@ -124,7 +127,7 @@ ggsave("plots/mutation_scores_for_all_snv_facet_signature.pdf", mut_sig_facet, w
 ## Plot 3
 
 ```{r}
-mut_sig_sub <- mut_sig_v2 %>%
+mut_sig_sub <- mut_sig_gather %>%
 	group_by(Substitution.Type) %>%
 	ggplot(aes(x=Somatic.Mutation.Type, y=Score)) +
 	geom_point(aes(color=Substitution.Type)) +
@@ -144,16 +147,58 @@ ggsave("plots/mutation_scores_for_all_snv_type_facet_signature_colored_snv.pdf",
 ## Plot 4
 
 ```{r}
-pancreas_mut_p1 <- pancreas_mut_v2 %>%
+ALL_mut_p1 <- ALL_mut_gather %>%
+	group_by(case_id) %>%
+	ggplot(aes(x=case_id, y=number)) +
+	geom_point()
+ggsave("plots/ALL_mut_p1.pdf", ALL_mut_p1 , width = 10, height =6)
+```
+
+## Plot 5
+
+```{r}
+aml_mut_p1 <- aml_mut_gather %>%
+	group_by(case_id) %>%
+	ggplot(aes(x=case_id, y=number)) +
+	geom_point()
+ggsave("plots/aml_mut_p1.pdf", aml_mut_p1 , width = 10, height =6)
+```
+
+## Plot 6
+
+```{r}
+breast_mut_p1 <- breast_mut_gather %>%
+	group_by(case_id) %>%
+	ggplot(aes(x=case_id, y=number)) +
+	geom_point()
+ggsave("plots/breast_mut_p1.pdf", breast_mut_p1, width = 10, height =6)
+```
+
+## Plot 7
+
+```{r}
+medullo_mut_p1 <- medullo_mut_gather %>%
+	group_by(case_id) %>%
+	ggplot(aes(x=case_id, y=number)) +
+	geom_point()
+ggsave("plots/medullo_mut_p1.pdf", medullo_mut_p1 , width = 10, height =6)
+```
+
+## Plot 8
+
+```{r}
+pancreas_mut_p1 <- pancreas_mut_gather %>%
 	group_by(case_id) %>%
 	ggplot(aes(x=case_id, y=number)) +
 	geom_point()
 ggsave("plots/pancreas_mut_p1.pdf", pancreas_mut_p1 , width = 10, height =6)
 ```
 
-## Plot 5
+## Plot 9 - multiplot
 
 ```{r}
-
+pdf("plots/cancer_type_sig_compare_plots.pdf", width = 30, height = 22)
+multiplot(ALL_mut_p1, aml_mut_p1, breast_mut_p1, medullo_mut_p1, pancreas_mut_p1) 
+dev.off()
 ```
 

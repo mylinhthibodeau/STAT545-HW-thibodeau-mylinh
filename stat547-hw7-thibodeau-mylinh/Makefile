@@ -1,13 +1,18 @@
 all: mut_sig_plot.html 
 
-cleanall:
-	rm -f mut_sig_raw.txt mut_sig.tsv mut_sig_gather.tsv mut_sig_ordered_by_sig3.rds mut_sig_plot.html
+clean:
+	rm -f mut_sig_raw.txt mut_sig_plot.html
+
+.PHONY: all clean
+.DELETE_ON_ERROR:
+.SECONDARY:
 
 mut_sig_raw.txt:
 	curl -o mut_sig_raw.txt ftp://ftp.sanger.ac.uk/pub/cancer/AlexandrovEtAl/signatures.txt
 
 pancreas_mut.tsv mut_sig.tsv: mut_sig_raw.txt
 	Rscript read_clean_genome_text_files.R
+	rm mut_sig_raw.txt
 	
 ref_mut_sig_ordered_by_sig3.rds: mut_sig.tsv mut_sig_reorder.R
 	Rscript mut_sig_reorder.R

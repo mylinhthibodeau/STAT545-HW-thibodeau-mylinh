@@ -70,10 +70,13 @@ As you know, I am using genomic data, so I have to adapt the tasks to my data, s
 (3) Now we are changing gears a little bit. We are not looking at signatures of the reference somatic mutation (mut_sig.tsv) but we are looking at the Mutation.Type of 5 types of cancer: ALL, AML, breast, medulloblastoma, pancreas.
 
 * We will be looking at the mean, median, standard deviation and count of each Mutation.Type in each dataset (we need the "gathered" versions of files for that step)
-* We will write some stats tables
-* Then, we will (try to) look at linear regression
+* We will write some stats tables (I peaked at how to make a loop [here](https://www.datacamp.com/community/tutorials/tutorial-on-loops-in-r), but ended up performing the task on individual dataset because I couldn't figure out how to avoid "overwriting" at each loop iteration). The summary statistics tables are available [here](statistics/)
+* Then, we will (try to) look at linear regression. I have used this website [here](http://varianceexplained.org/r/broom-intro/) discussing broom and variance, and this website [here](https://cran.r-project.org/web/packages/broom/vignettes/broom.html) on some broom vignettes. And that's the moment I realized I didn't have two quantitative variables to perform linear regression modelling. This is a recurring problem with me: I always get into performing the analyses before making sure that the dataset format is appropriate (check this hw04 readme file [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw4-thibodeau-mylinh) if you want an example). So instead of fitting a linear regression of the lifeExp according to year, I will merge the cancer somatic data with the reference signature data, and I will fit a linear regression between Signature.3 and Signature.12 (see [here](http://cancer.sanger.ac.uk/cosmic/signatures) for more details on mutational signatures). 
+* Find the 3 or 4 "worst" or "best" Signature.3 scores for each cancer_type.
 
 # Generate figures
+
+No worries here, I have generated plenty of figures. 
 
 # Automate the pipeline
 

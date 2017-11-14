@@ -9,6 +9,8 @@ output: html_document
 setwd("~/Desktop/STAT545-HW-thibodeau-mylinh/stat547-hw7-thibodeau-mylinh/")
 suppressMessages(suppressWarnings(library(tidyverse)))
 suppressMessages(suppressWarnings(knitr::opts_chunk$set(fig.width=13, fig.height=8)))
+suppressMessages(suppressWarnings(library(ggpmisc)))
+suppressMessages(suppressWarnings(library(nnls)))
 mut_sig <- read.table("mut_sig.tsv", header = TRUE, sep = "\t")
 ref_mut_sig_ordered_by_sig3 <- readRDS("ref_mut_sig_ordered_by_sig3.rds")
 mut_sig_gather <- read.table("mut_sig_gather.tsv", header = TRUE, sep="\t")
@@ -17,6 +19,9 @@ aml_mut_gather <- read.table("somatic_mutations_formated_files/aml_mut_gather.ts
 breast_mut_gather <- read.table("somatic_mutations_formated_files/breast_mut_gather.tsv", header = TRUE, sep = "\t")
 medullo_mut_gather <- read.table("somatic_mutations_formated_files/medulloblastoma_mut_gather.tsv", header = TRUE, sep = "\t")
 pancreas_mut_gather <- read.table("somatic_mutations_formated_files/pancreas_mut_gather.tsv", header = TRUE, sep = "\t")
+all_cancer_types_mut <- read.table("somatic_mutations_formated_files/all_cancer_types_mut.tsv", header = TRUE, sep = "\t")
+all_cancer_types_mut_with_ref_sig <- read.table("somatic_mutations_formated_files/all_cancer_types_mut_with_ref_sig.tsv", sep = "\t", header = TRUE)
+all_cancer_types_mut_proportion_signatures <- read.table("somatic_mutations_formated_files/all_cancer_types_mut_proportion_signatures.tsv", header = TRUE, sep = "\t")
 ```
 
 Note. The multiplot_function was taken from the R cookbook [here](http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/).
@@ -78,6 +83,8 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
 }
 
 ```
+
+# PLOT
 
 ## Plot 1
 
@@ -144,61 +151,274 @@ ggsave("plots/mutation_scores_for_all_snv_type_facet_signature_colored_snv.pdf",
 
 # Ploting data from specific cancer types and their somatic mutations
 
-## Plot 4
+## Plot ALL
 
+Note. There is only one case_id in this dataset, so it doesn't make for a very interesting plot. We will focus on the 4 other datasets in this homework.
 ```{r}
 ALL_mut_p1 <- ALL_mut_gather %>%
-	group_by(case_id) %>%
-	ggplot(aes(x=case_id, y=number)) +
-	geom_point()
-ggsave("plots/ALL_mut_p1.pdf", ALL_mut_p1 , width = 10, height =6)
+	#group_by(case_id) %>%
+	ggplot(aes(x=Mutation.Type, y=number)) +
+	geom_point(aes(colour=case_id)) +
+	ggtitle("Acute lymphoid leukemia - Number of mutations per signatures") + 
+	theme(
+  plot.title= element_text(color = "grey44", size=24, face="bold"),
+  text = element_text(size=10), axis.text.x = element_text(angle=45, hjust=1), 
+    axis.ticks.x=element_blank(), 
+		panel.background = element_rect(fill = "white"),
+		panel.border = element_rect(fill=NA))
+ggsave("plots/ALL_mut_p1.pdf", ALL_mut_p1 , width = 18, height =8)
 ```
 
-## Plot 5
+## Plot aml
 
 ```{r}
 aml_mut_p1 <- aml_mut_gather %>%
-	group_by(case_id) %>%
-	ggplot(aes(x=case_id, y=number)) +
-	geom_point()
-ggsave("plots/aml_mut_p1.pdf", aml_mut_p1 , width = 10, height =6)
+	#group_by(case_id) %>%
+	ggplot(aes(x=Mutation.Type, y=number)) +
+	geom_point(aes(colour=case_id)) +
+	ggtitle("Acute myeloid leukemia - Number of mutations per signatures") + 
+	theme(
+  plot.title= element_text(color = "grey44", size=24, face="bold"),
+  text = element_text(size=10), axis.text.x = element_text(angle=45, hjust=1), 
+    axis.ticks.x=element_blank(), 
+		panel.background = element_rect(fill = "white"),
+		panel.border = element_rect(fill=NA))
+ggsave("plots/aml_mut_p1.pdf", aml_mut_p1 , width = 18, height =8)
 ```
 
-## Plot 6
+## Plot breast cancer
 
 ```{r}
 breast_mut_p1 <- breast_mut_gather %>%
-	group_by(case_id) %>%
-	ggplot(aes(x=case_id, y=number)) +
-	geom_point()
-ggsave("plots/breast_mut_p1.pdf", breast_mut_p1, width = 10, height =6)
+	#group_by(case_id) %>%
+	ggplot(aes(x=Mutation.Type, y=number)) +
+	geom_point(aes(colour=case_id)) +
+	ggtitle("Breast cancer - Number of mutations per signatures") + 
+	theme(
+  plot.title= element_text(color = "grey44", size=24, face="bold"),
+  text = element_text(size=10), axis.text.x = element_text(angle=45, hjust=1), 
+    axis.ticks.x=element_blank(), 
+		panel.background = element_rect(fill = "white"),
+		panel.border = element_rect(fill=NA))
+ggsave("plots/breast_mut_p1.pdf", breast_mut_p1,  width = 18, height =8)
 ```
 
-## Plot 7
+## Plot medulloblastoma cancer
 
 ```{r}
 medullo_mut_p1 <- medullo_mut_gather %>%
-	group_by(case_id) %>%
-	ggplot(aes(x=case_id, y=number)) +
-	geom_point()
-ggsave("plots/medullo_mut_p1.pdf", medullo_mut_p1 , width = 10, height =6)
+	#group_by(case_id) %>%
+	ggplot(aes(x=Mutation.Type, y=number)) +
+	geom_point(aes(colour=case_id)) +
+	ggtitle("Medulloblastoma - Number of mutations per signatures") + 
+	theme(
+  plot.title= element_text(color = "grey44", size=24, face="bold"),
+  text = element_text(size=10), axis.text.x = element_text(angle=45, hjust=1), 
+    axis.ticks.x=element_blank(), 
+		panel.background = element_rect(fill = "white"),
+		panel.border = element_rect(fill=NA))
+ggsave("plots/medullo_mut_p1.pdf", medullo_mut_p1 , width = 18, height =8)
 ```
 
-## Plot 8
+## Plot pancreas cancer
 
 ```{r}
 pancreas_mut_p1 <- pancreas_mut_gather %>%
-	group_by(case_id) %>%
-	ggplot(aes(x=case_id, y=number)) +
-	geom_point()
-ggsave("plots/pancreas_mut_p1.pdf", pancreas_mut_p1 , width = 10, height =6)
+	#group_by(case_id) %>%
+	ggplot(aes(x=Mutation.Type, y=number)) +
+	geom_point(aes(colour=case_id)) +
+	ggtitle("Pancreas cancer - Number of mutations per signatures") + 
+	theme(
+  plot.title= element_text(color = "grey44", size=24, face="bold"),
+  text = element_text(size=10), axis.text.x = element_text(angle=45, hjust=1), 
+    axis.ticks.x=element_blank(), 
+		panel.background = element_rect(fill = "white"),
+		panel.border = element_rect(fill=NA))
+ggsave("plots/pancreas_mut_p1.pdf", pancreas_mut_p1 , width = 18, height = 8)
 ```
 
-## Plot 9 - multiplot
+## Plot - multiplot
 
 ```{r}
 pdf("plots/cancer_type_sig_compare_plots.pdf", width = 30, height = 22)
 multiplot(ALL_mut_p1, aml_mut_p1, breast_mut_p1, medullo_mut_p1, pancreas_mut_p1) 
 dev.off()
+```
+
+# Note. I have joined the datasets with the mut_sig_tables.R script to perform some group analysis.
+
+## Plot - take a peak at different cancer type
+
+```{r}
+pdf("plots/all_cancer_types_mut_geompoint.pdf", width = 13, height = 9)
+all_cancer_types_mut %>%
+	group_by(cancer_type) %>%
+	ggplot(aes(x=Mutation.Type, y = number)) +
+	geom_point(aes(colour=cancer_type), shape=21, alpha = 0.8) +
+	ggtitle("Number of mutations according to individual Mutation.Type") + 
+	theme(
+  plot.title= element_text(color = "grey44", size=24, face="bold"),
+		text = element_text(size=10),
+		axis.text.x = element_text(angle=45, hjust=1),
+    	axis.ticks.x=element_blank(),
+		panel.background = element_rect(fill = "white"),
+		panel.border = element_rect(fill=NA))
+dev.off()
+```
+
+# Practicing tables - to remove
+
+```{r}
+all_cancer_types_mut_with_ref_sig_fraction <- all_cancer_types_mut_with_ref_sig %>%
+	group_by(case_id) %>%
+	mutate(fraction_contribution_per_mutation_type = number/(sum(number)))
+View(all_cancer_types_mut_with_ref_sig_fraction)
+```
+
+
+```{r}
+all_cancer_types_mut_with_ref_sig %>%
+	group_by(Mutation.Type) %>%
+	mutate(mean_mutation_type = mean(number)) %>% head()
+```
+
+# Linear regression plots
+
+Let's just carry some analyses on the aml (acute myeloid leukemia) datasets to start with.
+```{r}
+#View(all_cancer_types_mut_with_ref_sig)
+all_cancer_types_mut_with_ref_sig %>%
+	filter(cancer_type == "aml") %>%
+	group_by(Mutation.Type) %>%
+	ggplot(aes(x=Signature.3, y=number)) +
+	geom_point(aes(colour = case_id), shape = 21, alpha = 0.8) +
+	facet_wrap(~Substitution.Type) +
+	geom_smooth(method = "lm", se = FALSE) 
+```
+
+```{r}
+#View(all_cancer_types_mut_with_ref_sig)
+all_cancer_types_mut_with_ref_sig %>%
+	#filter(cancer_type == "aml") %>%
+	group_by(cancer_type, Mutation.Type) %>%
+	ggplot(aes(x=Signature.3, y=number)) +
+	geom_point(aes(colour = Substitution.Type), shape = 21, alpha = 0.8) +
+	facet_wrap(~cancer_type) +
+	geom_smooth(method = "lm", se = FALSE) 
+```
+
+```{r}
+formula <- y ~ x
+mut_sig %>%
+	ggplot(aes(x=Signature.3, y = Signature.12)) +
+	geom_point(aes(colour = Substitution.Type)) +
+	stat_smooth(method="lm", se = FALSE, color="black", formula = formula) +
+	stat_poly_eq(aes(label = paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")), label.x.npc = "left",
+               formula = formula, parse = TRUE, size = 3,
+               geom="label")
+	
+```
+Note.1. It looks like the T>C somatic mutation group is the one differing the most between Signature.3 and Signature.12, but otherwise, these two signatures could fit "relatively well" a linear regression model (although this is obviously not the best model for this type of data, because the adjusted R-squared value is below zero = the model does not fit the data very well).
+
+Note.2. The code and format used above to add a label with the linear regression formula used the following references:
+
+* A stack overflow discussion on [Regression equation](https://stackoverflow.com/questions/37494969/ggplot2-add-regression-equations-and-r2-and-adjust-their-positions-on-plot)
+* The stack overflow discussion on [Label position](https://stackoverflow.com/questions/37254279/dynamic-label-position-stat-poly-eq-and-ggplot2) discussion was also useful.      
+* This article of the [cran rstudio website](https://cran.rstudio.com/web/packages/ggpmisc/vignettes/user-guide-1.html) was also used.
+
+```{r}
+lm(Signature.12 ~ Signature.3, mut_sig) %>% coef()
+```
+Note. We obtain the same Intercept and Signature.3 coefficient than in our plot (see label formula).
+
+Just for fun, I want to check if a linear regression would be a better fit if I remove the Substitution.Type T>C.
+```{r}
+formula <- y ~ x
+mut_sig %>%
+	filter(Substitution.Type != "T>C") %>%
+	ggplot(aes(x=Signature.3, y = Signature.12)) +
+	geom_point(aes(colour = Substitution.Type)) +
+	stat_smooth(method="lm", se = FALSE, color="black", formula = formula) +
+	stat_poly_eq(aes(label = paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")), label.x.npc = "left",
+               formula = formula, parse = TRUE, size = 3,
+               geom="label")
+```
+Note. It does seem like the most different values between these two signatures are the T>C Substitution.Type, as our new adjusted R-squared tells us that 15% of the variance of Signature.12 can be explained by Signature.3 if we remove T>C.
+
+***
+
+Now, let's assess the linear regression model between Signature.2 and Signature.13.
+
+```{r}
+formula <- y ~ x
+mut_sig %>%
+	ggplot(aes(x=Signature.2, y = Signature.13)) +
+	geom_point(aes(colour = Substitution.Type)) +
+	stat_smooth(method="lm", se = FALSE, color="black", formula = formula) +
+	stat_poly_eq(aes(label = paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")), label.x.npc = "left",
+               formula = formula, parse = TRUE, size = 3,
+               geom="label")
+```
+Note. We do get a very high adjusted R-squared value, and this is because these two signatures are thought to be related to the same underlying mutational processes (see [here](http://cancer.sanger.ac.uk/cosmic/signatures) for more details on mutational signatures). Therefore, we can deduce that the Mutation.Type profiles of Signature.3 and Signature.12 are quite similar.
+
+***
+
+```{r}
+#View(all_cancer_types_mut_proportion_signatures)
+#class(all_cancer_types_mut_proportion_signatures)
+all_cancer_types_mut_proportion_signatures_mean <- all_cancer_types_mut_proportion_signatures %>%
+	group_by(cancer_type, Mutation.Type) %>%
+	mutate(mean_per_cancer_proportion = mean(proportion_number_each_sig))
+all_cancer_types_mut_proportion_signatures_mean_p1 <- all_cancer_types_mut_proportion_signatures_mean %>% ungroup() %>% 
+	#group_by(Mutation.Type) %>%
+	arrange(proportion_number_each_sig) %>%
+	ggplot(aes(x=mean_per_cancer_proportion, y=proportion_number_each_sig)) +
+	geom_point(aes(colour = cancer_type)) +
+	#facet_wrap(~cancer_type) +
+	facet_wrap(~Substitution.Type + cancer_type) +
+	stat_smooth(method="lm", se = FALSE, color="black", formula = formula) +
+	stat_poly_eq(aes(label = paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")), label.x.npc = "left",
+               formula = formula, parse = TRUE, size = 3,
+               geom="label")
+ggsave("plots/all_cancer_types_mut_proportion_signatures_mean_p1.pdf", all_cancer_types_mut_proportion_signatures_mean_p1, width = 50, height = 40, units = "cm")
+```
+
+# SOME STATISTICAL ANALYSIS (to remove/move to stat file)
+
+```{r}
+#View(all_cancer_types_mut_proportion_signatures_mean)
+all_cancer_types_signature_contribution <- all_cancer_types_mut_proportion_signatures_mean %>% ungroup() %>%
+	group_by(case_id) %>%
+	mutate(all_mut_per_case_id = sum(proportion_number_each_sig)) %>%
+	ungroup() %>%
+	group_by(case_id, Signature) %>%
+	mutate(total_mutation_per_signature_fraction = sum(proportion_number_each_sig)/all_mut_per_case_id) %>%
+	select(Signature, cancer_type, total_mutation_per_signature_fraction) %>% unique() %>% arrange(case_id)
+#View(all_cancer_types_signature_contribution)
+```
+
+Let's see the cases with the lowest and highest Signature.3 contribution to their mutational burden.
+```{r}
+all_cancer_types_signature_contribution %>% 
+	group_by(case_id) %>% 
+	filter(Signature=="Signature.2") %>%
+	arrange(total_mutation_per_signature_fraction) %>%
+	head(3) 
+all_cancer_types_signature_contribution %>% 
+	group_by(case_id) %>% 
+	filter(Signature=="Signature.3") %>%
+	arrange(desc(total_mutation_per_signature_fraction)) %>%
+	head(3)
+```
+Note. Interestingly, the 3 lowest cases of Signature.3 contribution are all medulloblastoma cases, and the 3 highest a	re all breast cancer cases. There seems to be a cancer_type effect regarding diverse mutational signatures contribution.
+
+What is the highest Signature contributor to mutational burden for diverse cancer types?
+```{r}
+all_cancer_types_signature_contribution %>%
+	ungroup() %>%
+	group_by(cancer_type, Signature) %>%
+	summarize(max_signatures = max(total_mutation_per_signature_fraction)) %>%
+	arrange(desc(max_signatures)) %>%
+	head(10)
 ```
 

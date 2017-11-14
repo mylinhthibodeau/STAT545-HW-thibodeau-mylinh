@@ -31,10 +31,14 @@ I have a scratch-space in each subfolder of my repository, which contains manual
 
 ### Some issues encoutered during this homework
 
+* Oops, I did it again: I decided to use cancer somatic mutations (and mutational signatures) for this assignment, but I didn't think about the fact that it would be difficult to find a biologically plausible linear regression model to fit the data. Indeed, very much like in [homework 4](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw4-thibodeau-mylinh), I forgot that the lack of a "time variable" (years in Gapminder) could cause significant issues in trying to complete the exercises.
+* 
+
 ***
 
 ## Newly acquired skills or knowledge
 
 Below are some examples of things I learned, but the list is not exhaustive as I have detailed my process comments inside my homework 7.
 
-1.
+1. It's easier to start small before moving on to more complex things. I missed that point again unfortunately, and it took me a lot a lot a lot of time to do this homework. Hopefully, next time, I will plan better before starting coding.
+2. My understanding is that if you have some code that saves output to files in individual scripts, you can not use the "clean" function in the Makefile to clean these files. Clean only applies

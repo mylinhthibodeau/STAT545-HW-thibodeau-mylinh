@@ -1,6 +1,6 @@
 all: mut_sig_plot.html 
 
-clean:
+cleanall:
 	rm -f mut_sig_raw.txt mut_sig.tsv mut_sig_gather.tsv mut_sig_ordered_by_sig3.rds mut_sig_plot.html
 
 mut_sig_raw.txt:

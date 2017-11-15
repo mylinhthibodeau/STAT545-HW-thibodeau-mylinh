@@ -66,5 +66,3 @@ for (i in seq(1, length(all_cancer_types_gather_nested))){
 	#print(head(d_group))
 }	
 '
-
-

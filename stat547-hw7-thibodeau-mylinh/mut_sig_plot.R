@@ -22,8 +22,6 @@ medullo_mut_gather <- read.table("somatic_mutations_formated_files/medulloblasto
 pancreas_mut_gather <- read.table("somatic_mutations_formated_files/pancreas_mut_gather.tsv", header = TRUE, sep = "\t")
 all_cancer_types_mut <- read.table("somatic_mutations_formated_files/all_cancer_types_mut.tsv", header = TRUE, sep = "\t")
 all_cancer_types_mut_with_ref_sig <- read.table("somatic_mutations_formated_files/all_cancer_types_mut_with_ref_sig.tsv", sep = "\t", header = TRUE)
-all_cancer_types_mut_proportion_signatures <- read.table("somatic_mutations_formated_files/all_cancer_types_mut_proportion_signatures.tsv", header = TRUE, sep = "\t")
-all_cancer_types_mut_with_ref_sig_fraction <- read.table("statistics/all_cancer_types_mut_with_ref_sig_fraction.tsv", header = TRUE, sep = "\t")
 
 # Note. The multiplot_function was taken from the R cookbook: http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)
 

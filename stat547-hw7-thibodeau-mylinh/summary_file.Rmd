@@ -8,7 +8,10 @@ output: html_document
 Library and reading tables
 ```{r}
 suppressMessages(suppressWarnings(library(tidyverse)))
-suppressMessages(suppressWarnings(knitr::opts_chunk$set(fig.width=13, fig.height=8)))
+knitr::opts_chunk$set(fig.width=12, fig.height=9)
+library(knitr)
+library(kableExtra)
+options(knitr.table.format = "html")
 mut_sig <- read.table("mut_sig.tsv", header = TRUE, sep = "\t")
 ref_mut_sig_ordered_by_sig3 <- readRDS("somatic_mutations_formated_files/ref_mut_sig_ordered_by_sig3.rds")
 mut_sig_gather <- read.table("mut_sig_gather.tsv", header = TRUE, sep="\t")
@@ -19,25 +22,12 @@ medullo_mut_gather <- read.table("somatic_mutations_formated_files/medulloblasto
 pancreas_mut_gather <- read.table("somatic_mutations_formated_files/pancreas_mut_gather.tsv", header = TRUE, sep = "\t")
 all_cancer_types_mut <- read.table("somatic_mutations_formated_files/all_cancer_types_mut.tsv", header = TRUE, sep = "\t")
 all_cancer_types_mut_with_ref_sig <- read.table("somatic_mutations_formated_files/all_cancer_types_mut_with_ref_sig.tsv", sep = "\t", header = TRUE)
-all_cancer_types_mut_proportion_signatures <- read.table("somatic_mutations_formated_files/all_cancer_types_mut_proportion_signatures.tsv", header = TRUE, sep = "\t")
-all_cancer_types_mut_with_ref_sig_fraction <- read.table("somatic_mutations_formated_files/all_cancer_types_mut_with_ref_sig_fraction.tsv", header = TRUE, sep = "\t")
+all_cancer_mutations_per_snv_sig_score <- read.table("somatic_mutations_formated_files/all_cancer_mutations_per_snv_sig_score.tsv", header = TRUE, sep = "\t")
+all_cancer_types_mut_proportion_signatures <-  read.table("somatic_mutations_formated_files/all_cancer_types_mut_proportion_signatures.tsv", header = TRUE, sep = "\t")
 all_cancer_types_stats <- read.table("statistics/all_cancer_types_stats.tsv", header = TRUE, sep = "\t")
 ```
 
-```{r}
-head(mut_sig)
-head(mut_sig_gather)
-head(ALL_mut_gather)
-head(aml_mut_gather)
-head(breast_mut_gather)
-head(medullo_mut_gather)
-head(pancreas_mut_gather)
-head(all_cancer_types_mut)
-head(all_cancer_types_mut_with_ref_sig)
-head(all_cancer_types_mut_proportion_signatures)
-head(all_cancer_types_mut_with_ref_sig_fraction)
-```
-
+# DATA INFORMATION
 
 For this homework, I will be using open access complete set of cancer somatic mutations from: 
 
@@ -51,8 +41,7 @@ This files will contain a narrative of homework 7 and some helpful notes regardi
 
 # Download the data
 
-I started by using curl shell script in my Makefile to download the complete set of cancer somatic mutations:
-
+I started by using curl shell script in my Makefile to download the complete set of cancer somatic mutations (see Makefile for details):
 ```
 mut_sig_raw.txt:
 	curl -o mut_sig_raw.txt ftp://ftp.sanger.ac.uk/pub/cancer/AlexandrovEtAl/signatures.txt
@@ -66,23 +55,43 @@ Tasks:
 
 * Bring the data in as data frame.
 * Save a couple descriptive plots to file with highly informative names.
-* Reorder the continents based on life expectancy. You decide the details.
-* Sort the actual data in a deliberate fashion. You decide the details, but this should at least implement your new continent ordering.
+* Reorder the continents based on life expectancy. You decide the details. Sort the actual data in a deliberate fashion. You decide the details, but this should at least implement your new continent ordering.
 * Write the Gapminder data to file(s), for immediate and future reuse.
 
 **Please note that I did not complete the 5 tasks above in the order suggested because it made more sense to proceed in the order outlined below with my dataset ! **
 
+The original format of the reference mutation signature is:
+
+```{r}
+mut_sig %>% arrange(Somatic.Mutation.Type) %>% head(5) %>% kable()
+```
+
 (1) I am using my `mut_sig_tables.Rmd` script bring the mutational signatures in as a data frame. I am using the gather function of tidyverse to create a new dataframe table which will facilitate making plots later. I saved the output of this new data frame to mut_sig_gather.tsv.
 
+```{r}
+mut_sig_gather %>% arrange(Somatic.Mutation.Type) %>% head(5) %>% kable()
+```
+Note. This allows us to know how much each Somatic.Mutation.Type contributes to each signature.
+
+(2) Here are some initial plots
+
+![mutation_scores_for_all_snv_facet_signature](plots/mutation_scores_for_all_snv_facet_signature.pdf)
+
+![mutation_scores_for_all_snv_type_facet_signature_colored_snv](plots/mutation_scores_for_all_snv_type_facet_signature_colored_snv.pdf)
+
+![cancer_type_sig_compare_plots](plots/cancer_type_sig_compare_plots.pdf)
+
+![all_cancer_types_mut_geompoint](plots/all_cancer_types_mut_geompoint.pdf)
+
+(3) In this section, I am using the mut_sig_plot.Rmd script to create some plots, which I save in the subfolder called plots. I am reordering the Somatic.Mutation.Type (e.g. A[C>A]A, A[C>A]C, etc.) according to their Signature.3 Score. 
+
+```{r}
+ref_mut_sig_ordered_by_sig3 %>% head(5) %>% kable()
+```
+Note. We are still with the original format of the reference signatures here. I have decided to present only one example of ordering the data according to a factor, for more examples, you may refer to previous work from [homework 5](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw5-thibodeau-mylinh/stat545-hw05-thibodeau-mylinh.md).
 
 
-(2) I am reordering the Somatic.Mutation.Type (e.g. A[C>A]A, A[C>A]C, etc.) according to their Signature.3 Score. 
-
-(3) Sort the actual data in a deliberate fashion: Then I will order the Somatic.Mutation.Type according to ascending Signature.3 Score.
-
-(4)  In this section, I am using the mut_sig_plot.Rmd script to create some plots, which I save in the subfolder called plots.
-
-(5) Writing the mutational signatures input/output to files is performed (embedded) in the scripts mentioned above. 
+(4) Writing the mutational signatures input/output to files is performed (embedded) in the scripts mentioned above. I have read and written a lot of files in each script. Please refer to the section "Automate the pipeline" below.
 
 
 ***
@@ -103,14 +112,91 @@ As you know, I am using genomic data, so I have to adapt the tasks to my data, s
 * reference mutation signatures (mut_sig.txt)
 * somatic mutations for 5 types of cancer: ALL, AML, breast, medulloblastoma, pancreas
 
+I have performed the same "gathering" steps as described in the previous section for each cancer type.
+```{r}
+ALL_mut_gather  %>% arrange(Mutation.Type) %>% head(5) %>% kable()
+aml_mut_gather  %>% arrange(Mutation.Type) %>% head(5) %>% kable()
+breast_mut_gather  %>% arrange(Mutation.Type) %>% head(5) %>% kable()
+medullo_mut_gather  %>% arrange(Mutation.Type) %>% head(5) %>% kable()
+pancreas_mut_gather  %>% arrange(Mutation.Type) %>% head(5) %>% kable()
+```
+
 (2) The Somatic.Mutation.Type of the mut_sig.tsv (reference data) are still ordered according to Signature.3 values, as illustrated in Signature3_compare_plots.pdf
 
-(3) Now we are changing gears a little bit. We are not looking at signatures of the reference somatic mutation (mut_sig.tsv) but we are looking at the Mutation.Type of 5 types of cancer: ALL, AML, breast, medulloblastoma, pancreas.
+![sig3](plots/Signature3_compare_plots.pdf)
 
-* We will be looking at the mean, median, standard deviation and count of each Mutation.Type in each dataset (we need the "gathered" versions of files for that step)
-* We will write some stats tables (I peaked at how to make a loop [here](https://www.datacamp.com/community/tutorials/tutorial-on-loops-in-r), but ended up performing the task on individual dataset because I couldn't figure out how to avoid "overwriting" at each loop iteration). The summary statistics tables are available [here](statistics/)
-* Then, we will (try to) look at linear regression. I have used this website [here](http://varianceexplained.org/r/broom-intro/) discussing broom and variance, and this website [here](https://cran.r-project.org/web/packages/broom/vignettes/broom.html) on some broom vignettes. And that's the moment I realized I didn't have two quantitative variables to perform linear regression modelling. This is a recurring problem with me: I always get into performing the analyses before making sure that the dataset format is appropriate (check this hw04 readme file [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw4-thibodeau-mylinh) if you want an example). So instead of fitting a linear regression of the lifeExp according to year, I will merge the cancer somatic data with the reference signature data, and I will fit a linear regression between Signature.3 and Signature.12 (see [here](http://cancer.sanger.ac.uk/cosmic/signatures) for more details on mutational signatures). 
-* Find the 3 or 4 "worst" or "best" Signature.3 scores for each cancer_type.
+(3) Here, we are not looking at signatures of the reference somatic mutation (mut_sig.tsv) but we are looking at the Mutation.Type of 5 types of cancer: ALL, AML, breast, medulloblastoma, pancreas.
+
+#### Summary statistics
+
+We will be looking at the mean, median, standard deviation and count of each Mutation.Type in each dataset (we need the "gathered" versions of files for that step).
+
+```{r}
+all_cancer_types_stats %>% head(10) %>% kable()
+```
+
+Note. I wrote some stats tables for individual cancer types, then aggregated them (I peaked at how to make a loop [here](https://www.datacamp.com/community/tutorials/tutorial-on-loops-in-r), but ended up performing the task on individual dataset because I couldn't figure out how to avoid "overwriting" at each loop iteration). The summary statistics tables are available [here](statistics/)
+
+#### Some linear regression modeling
+
+*I have used this website [here](http://varianceexplained.org/r/broom-intro/) discussing broom and variance, and this website [here](https://cran.r-project.org/web/packages/broom/vignettes/broom.html) on some broom vignettes. And that's the moment I realized I didn't have two quantitative variables to perform linear regression modelling. This is a recurring problem with me: I always get into performing the analyses before making sure that the dataset format is appropriate (check this hw04 readme file [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw4-thibodeau-mylinh) if you want an example).* 
+
+So instead of fitting a linear regression of the lifeExp according to year, I will do something slightly different:
+
+#### Merging and ploting linear regression
+
+I will merge the cancer somatic data with the reference signature data, and I will fit a linear regression between Signature.3 and Signature.12 and then Signature.2 and Signature.13 (see [here](http://cancer.sanger.ac.uk/cosmic/signatures) for more details on mutational signatures). 
+
+![p3_linear_Sig3_Sig12](plots/p3_linear_Sig3_Sig12.pdf)
+
+Note.1. It looks like the T>C somatic mutation group is the one differing the most between Signature.3 and Signature.12, but otherwise, these two signatures could fit "relatively well" a linear regression model (although this is obviously not the best model for this type of data, because the adjusted R-squared value is below zero = the model does not fit the data very well).
+
+Note.2. The code and format used above to add a label with the linear regression formula used the following references:
+
+* A stack overflow discussion on [Regression equation](https://stackoverflow.com/questions/37494969/ggplot2-add-regression-equations-and-r2-and-adjust-their-positions-on-plot)
+* The stack overflow discussion on [Label position](https://stackoverflow.com/questions/37254279/dynamic-label-position-stat-poly-eq-and-ggplot2) discussion was also useful.      
+* This article of the [cran rstudio website](https://cran.rstudio.com/web/packages/ggpmisc/vignettes/user-guide-1.html) was also used.
+
+```{r}
+lm(Signature.12 ~ Signature.3, mut_sig) %>% coef()
+```
+Note. We obtain the same Intercept and Signature.3 coefficient than in our plot (see label formula)
+
+Just for fun, I want to check if a linear regression would be a better fit if I remove the Substitution.Type T>C.
+
+![p3_linear_Sig3_Sig12](plots/p3_linear_Sig3_Sig12.pdf)
+Note. It does seem like the most different values between these two signatures are the T>C Substitution.Type, as our new adjusted R-squared tells us that 15% of the variance of Signature.12 can be explained by Signature.3 if we remove T>C.
+
+Now, let's assess the linear regression model between Signature.2 and Signature.13.
+
+![p5_linear_Sig2_Sig13](plots/p5_linear_Sig2_Sig13.pdf)
+Note. We do get a very high adjusted R-squared value, and this is because these two signatures are thought to be related to the same underlying mutational processes (see [here](http://cancer.sanger.ac.uk/cosmic/signatures) for more details on mutational signatures). Therefore, we can deduce that the Mutation.Type profiles of Signature.2 and Signature.13 are quite similar.
+
+
+```{r}
+lm(Signature.13 ~ Signature.2, mut_sig) %>% coef()
+```
+
+I will also show a plot of the number of mutations for all cancer types according to Signature.3 and see what the linear regression looks like.
+
+![p2_linear_Sig3_all_cancer_mutations](plots/p2_linear_Sig3_all_cancer_mutations.pdf)
+
+#### Find the 3 or 4 "worst" or "best" Signature.3 scores for each cancer_type.
+
+Let's see the cases with the lowest and highest proportion of mutations caused by Signature.3 :
+```{r}
+all_cancer_types_mut_proportion_signatures  %>% 
+	group_by(case_id, Signature) %>% 
+	filter(Signature=="Signature.3") %>%
+	arrange(mutations_per_snv_sig_score) %>%
+	head(3) %>% kable()
+all_cancer_types_mut_proportion_signatures  %>% 
+	group_by(case_id) %>% 
+	filter(Signature=="Signature.3") %>%
+	arrange(desc(mutations_per_snv_sig_score)) %>%
+	head(3) %>% kable()
+```
+Note. This actually makes sense because breast cancer usually has higher Signature.3 due to homologous recombination repair deficiency, often secondary to *BRCA1/BRCA2* loss of function.
 
 ***
 
@@ -120,5 +206,25 @@ No worries here, I have generated plenty of figures.
 
 ***
 
-# Automate the pipeline
+# Automate the pipeline (see Makefile)
+
+* mut_clean_genome_text_files.R -> takes as input the file mut_sig_raw.txt and writes the cleaned up/formated version mut_sig.txt
+* mut_sig_reorder.R -> reorder the mut_sig.txt Somatic.Mutation.Type according to Signature.3
+* mut_sig_tables.R -> uses tidyverse function gather to go from a "wide" to a "long" dataset format and it is also used to perform aggregation taskts, so that the data can be ready for plots later one.
+* mut_sig_stat.R -> input the "gathered" dataset files of each cancer type, group by Mutation.Type and outputs files containing summary statistics (mean, median, sd, total)
+* mut_sig_plot.R -> input the "gathered" and/or "aggregated" dataset files and produces plots of two types: general data plots, linear modeling plots.
+* summary_file.Rmd -> this current file is a summary of this homework, and it has for input the output of the scripts previously mentioned.
+* Makefile -> this is the script that runs all the scripts above and coordinate the steps.
+
+***
+
+# Additional material - optional
+
+Here are some samples of the data files I have written:
+
+```{r}
+head(all_cancer_types_mut) %>% kable()
+head(all_cancer_types_mut_with_ref_sig) %>% kable()
+head(all_cancer_mutations_per_snv_sig_score) %>% kable()
+```
 

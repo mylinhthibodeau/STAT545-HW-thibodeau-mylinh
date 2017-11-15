@@ -42,7 +42,8 @@ Source of image [here](https://www.tlnt.com/the-new-hiring-mantra-finding-candid
 * I still don't understand why the clean command of my Makefile doesn't get rid of my intermediate files. 
 * I tried to download the full somatic mutation sample data repository of Alexandrov et al (2013) [here](ftp://ftp.sanger.ac.uk/pub/cancer/AlexandrovEtAl/) from the Makefile, but despite trying both wget and curl, it didn't work. I decided to show I could use curl to download the reference signatures set, but I downloaded the rest of the repository data through the command line for further analyses.
 
-I got the following message so often:
+* I got the following message so often, and that is because there were always mistakes in my code somewhere.
+
 ```
 Quitting from lines 10-25 (summary_file.Rmd) 
 Error in file(file, "rt") : cannot open the connection
@@ -52,7 +53,19 @@ make: *** [summary_file.html] Error 1
 
 Exited with status 2.
 ```
-So here is the valuable lesson I have learned by that:
+
+* I never succeeded to clean up my intermediate files with the Makefile. Please (pretty please) don't hesitate to tell me why if you know the reason for this? I tried diverse combinations of this code (and at the beginning vs end) and it never worked out:
+
+```
+.PHONY: all clean
+.DELETE_ON_ERROR:
+.SECONDARY:	
+
+clean:
+	rm -f mut_sig_raw.txt 
+	rm -f mut_sig_gather.tsv 
+	rm -f mut_sig.tsv
+```
 
 ***
 
@@ -63,5 +76,5 @@ Below are some examples of things I learned, but the list is not exhaustive as I
 1. It's easier to start small before moving on to more complex things. Hopefully, next time, I will plan better before starting coding. 
 2. Makefile and how to chain input-output sequences between R scripts. I am still working on becoming familiar with the concept of a Makefile, but I know this skill will be very useful.
 3. A simple linear regression is not the best model for the type of data I picked. A non-negative least square linear model would be better, and I looked into it, but ran out of time to learn enough to use it.
-4. 
-5. 
+4. Never change the path to your files, it is extremely error prone.
+5. Ideally, don't code if you are (too) tired, because typos and mistakes get everywhere.

@@ -73,16 +73,32 @@ all_cancer_types_mut_with_ref_sig_gather <- all_cancer_types_mut_with_ref_sig %>
 	group_by(Mutation.Type) %>%
 	gather(key=Signature, value = Score, Signature.1A:Signature.U2)
 write_tsv(all_cancer_types_mut_with_ref_sig_gather, "somatic_mutations_formated_files/all_cancer_types_mut_with_ref_sig_gather.tsv")
-# all_cancer_types_mut_with_ref_sig_gather %>% arrange(cancer_type, Mutation.Type) %>% View()
+# all_cancer_types_mut_with_ref_sig_gather %>% arrange(Mutation.Type, Signature) %>% View()
+
+absolute_number_mutations_per_case <- all_cancer_types_mut_with_ref_sig_gather %>%  ungroup() %>% group_by(case_id) %>%
+	filter(Signature=="Signature.1A") %>%
+	dplyr::summarize(total_number_mutation_per_case =sum(number), sum_score = sum(Score)) 
+#class(absolute_number_mutations_per_case )
+#View(absolute_number_mutations_per_case )
+
+all_cancer_types_mut_with_ref_sig_gather_with_total <- absolute_number_mutations_per_case %>% select(case_id, total_number_mutation_per_case) %>% 
+	right_join(all_cancer_types_mut_with_ref_sig_gather) 
+all_cancer_types_mut_with_ref_sig_gather_with_total_and_snv_sig_per_case_id <- all_cancer_types_mut_with_ref_sig_gather_with_total %>% ungroup() %>%
+	group_by(case_id) %>%
+	mutate(mutations_per_snv_sig_score = Score*(total_number_mutation_per_case/27)) 
+write_tsv(all_cancer_types_mut_with_ref_sig_gather_with_total_and_snv_sig_per_case_id, "somatic_mutations_formated_files/all_cancer_mutations_per_snv_sig_score.tsv")
+
+#d3 %>% group_by(case_id) %>%
+	#dplyr::summarize(total_should_be = sum(mutations_per_snv_sig_score))
 
 # For now, let's just assume that the Mutation.Type number is proportionally distributed to each signatures
-all_cancer_types_mut_proportion_signatures <- all_cancer_types_mut_with_ref_sig_gather %>% arrange(cancer_type, Mutation.Type) %>%
-	group_by(Mutation.Type, case_id) %>%
-	mutate(proportion_number_each_sig = (Score/sum(Score))*number)
+all_cancer_types_mut_proportion_signatures <- all_cancer_types_mut_with_ref_sig_gather_with_total_and_snv_sig_per_case_id %>% 
+	group_by(case_id, Signature) %>%
+	mutate(proportion_number_each_snv_each_sig = (mutations_per_snv_sig_score/total_number_mutation_per_case))
 write_tsv(all_cancer_types_mut_proportion_signatures, "somatic_mutations_formated_files/all_cancer_types_mut_proportion_signatures.tsv")
+# head(all_cancer_types_mut_proportion_signatures) %>% View()
+# proof
+#all_cancer_types_mut_proportion_signatures %>%
+	#group_by(case_id) %>%
+	#dplyr::summarize(total_number_mutation_per_case =sum(proportion_number_each_snv_each_sig))
 
-# Let's look at the fraction of each signature contributed to by each signature
-all_cancer_types_mut_with_ref_sig_fraction <- all_cancer_types_mut_with_ref_sig %>%
-	group_by(case_id) %>%
-	mutate(fraction_contribution_per_mutation_type = number/(sum(number)))
-write_tsv(all_cancer_types_mut_with_ref_sig_fraction, "somatic_mutations_formated_files/all_cancer_types_mut_with_ref_sig_fraction.tsv") 

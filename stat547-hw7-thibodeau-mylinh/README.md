@@ -1,7 +1,5 @@
 # README - stat547-hw7-thibodeau-mylinh
 
-# IN PROGRESS
-
 # About me
 
 Dear reader,
@@ -24,8 +22,10 @@ Alexandrov, L. B. et al. Signatures of mutational processes in human cancer. 500
 
 # HOMEWORK FILES TO REVIEW
 
-* Homework 7 RMD file 
-* Homework 7 MD file 
+Homework 7 repository [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw7-thibodeau-mylinh)
+
+* Homework 7 summary RMD file [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat547-hw7-thibodeau-mylinh/summary_file.Rmd)
+* Homework 7 summary pdf file [here]()
 
 I have a scratch-space in each subfolder of my repository, which contains manually saved data files or intermediate files to do my homework. It keeps my repository folders more tidy. 
 

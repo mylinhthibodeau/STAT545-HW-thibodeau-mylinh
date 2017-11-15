@@ -1,5 +1,5 @@
 ---
-title: "stat547-hw07-thibodeau-mylinh"
+title: "summary_file"
 author: "My Linh Thibodeau"
 date: '2017-11-11'
 output: html_document
@@ -10,7 +10,7 @@ Library and reading tables
 suppressMessages(suppressWarnings(library(tidyverse)))
 suppressMessages(suppressWarnings(knitr::opts_chunk$set(fig.width=13, fig.height=8)))
 mut_sig <- read.table("mut_sig.tsv", header = TRUE, sep = "\t")
-ref_mut_sig_ordered_by_sig3 <- readRDS("ref_mut_sig_ordered_by_sig3.rds")
+ref_mut_sig_ordered_by_sig3 <- readRDS("somatic_mutations_formated_files/ref_mut_sig_ordered_by_sig3.rds")
 mut_sig_gather <- read.table("mut_sig_gather.tsv", header = TRUE, sep="\t")
 ALL_mut_gather <- read.table("somatic_mutations_formated_files/ALL_mut_gather.tsv", header = TRUE, sep = "\t")
 aml_mut_gather <- read.table("somatic_mutations_formated_files/aml_mut_gather.tsv", header = TRUE, sep = "\t")

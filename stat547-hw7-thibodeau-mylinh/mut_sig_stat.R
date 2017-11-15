@@ -7,7 +7,7 @@ suppressMessages(suppressWarnings(library(tidyverse)))
 #suppressMessages(suppressWarnings(library(dplyr)))
 
 # stats for each cancer type
-ALL_mut_gather <- read.table("/Users/mylinh/Desktop/STAT545-HW-thibodeau-mylinh/stat547-hw7-thibodeau-mylinh/somatic_mutations_formated_files/ALL_mut_gather.tsv", header = TRUE, sep = "\t")
+#ALL_mut_gather <- read.table("/Users/mylinh/Desktop/STAT545-HW-thibodeau-mylinh/stat547-hw7-thibodeau-mylinh/somatic_mutations_formated_files/ALL_mut_gather.tsv", header = TRUE, sep = "\t")
 aml_mut_gather <- read.table("/Users/mylinh/Desktop/STAT545-HW-thibodeau-mylinh/stat547-hw7-thibodeau-mylinh/somatic_mutations_formated_files/aml_mut_gather.tsv", header = TRUE, sep = "\t")
 breast_mut_gather <- read.table("/Users/mylinh/Desktop/STAT545-HW-thibodeau-mylinh/stat547-hw7-thibodeau-mylinh/somatic_mutations_formated_files/breast_mut_gather.tsv", header = TRUE, sep = "\t")
 medullo_mut_gather <- read.table("/Users/mylinh/Desktop/STAT545-HW-thibodeau-mylinh/stat547-hw7-thibodeau-mylinh/somatic_mutations_formated_files/medulloblastoma_mut_gather.tsv", header = TRUE, sep = "\t")
@@ -67,5 +67,4 @@ for (i in seq(1, length(all_cancer_types_gather_nested))){
 }	
 '
 
-# Linear regression - use broom package
 

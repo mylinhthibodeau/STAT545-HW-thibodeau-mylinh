@@ -13,7 +13,7 @@ library(grid)
 
 # read the tables needed for plots
 mut_sig <- read.table("mut_sig.tsv", header = TRUE, sep = "\t")
-ref_mut_sig_ordered_by_sig3 <- readRDS("ref_mut_sig_ordered_by_sig3.rds")
+ref_mut_sig_ordered_by_sig3 <- readRDS("somatic_mutations_formated_files/ref_mut_sig_ordered_by_sig3.rds")
 mut_sig_gather <- read.table("mut_sig_gather.tsv", header = TRUE, sep="\t")
 ALL_mut_gather <- read.table("somatic_mutations_formated_files/ALL_mut_gather.tsv", header = TRUE, sep = "\t")
 aml_mut_gather <- read.table("somatic_mutations_formated_files/aml_mut_gather.tsv", header = TRUE, sep = "\t")

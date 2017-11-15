@@ -42,6 +42,18 @@ Source of image [here](https://www.tlnt.com/the-new-hiring-mantra-finding-candid
 * I still don't understand why the clean command of my Makefile doesn't get rid of my intermediate files. 
 * I tried to download the full somatic mutation sample data repository of Alexandrov et al (2013) [here](ftp://ftp.sanger.ac.uk/pub/cancer/AlexandrovEtAl/) from the Makefile, but despite trying both wget and curl, it didn't work. I decided to show I could use curl to download the reference signatures set, but I downloaded the rest of the repository data through the command line for further analyses.
 
+I got the following message so often:
+```
+Quitting from lines 10-25 (summary_file.Rmd) 
+Error in file(file, "rt") : cannot open the connection
+Calls: <Anonymous> ... withCallingHandlers -> withVisible -> eval -> eval -> read.table -> file
+Execution halted
+make: *** [summary_file.html] Error 1
+
+Exited with status 2.
+```
+So here is the valuable lesson I have learned by that:
+
 ***
 
 ## Newly acquired skills or knowledge

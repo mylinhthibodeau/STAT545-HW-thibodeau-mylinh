@@ -72,7 +72,7 @@ write_tsv(all_cancer_types_mut_with_ref_sig, "somatic_mutations_formated_files/a
 all_cancer_types_mut_with_ref_sig_gather <- all_cancer_types_mut_with_ref_sig %>% 
 	group_by(Mutation.Type) %>%
 	gather(key=Signature, value = Score, Signature.1A:Signature.U2)
-
+write_tsv(all_cancer_types_mut_with_ref_sig_gather, "somatic_mutations_formated_files/all_cancer_types_mut_with_ref_sig_gather.tsv")
 # all_cancer_types_mut_with_ref_sig_gather %>% arrange(cancer_type, Mutation.Type) %>% View()
 
 # For now, let's just assume that the Mutation.Type number is proportionally distributed to each signatures

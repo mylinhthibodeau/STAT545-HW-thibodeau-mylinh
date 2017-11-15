@@ -25,7 +25,11 @@ Alexandrov, L. B. et al. Signatures of mutational processes in human cancer. 500
 Homework 7 repository [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw7-thibodeau-mylinh)
 
 * Homework 7 summary RMD file [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat547-hw7-thibodeau-mylinh/summary_file.Rmd)
-* Homework 7 summary pdf file [here]()
+* Homework 7 produced tables files [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw7-thibodeau-mylinh/somatic_mutations_formated_files)
+* Homework 7 plots files [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw7-thibodeau-mylinh/plots)
+* Homework 7 stats files [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw7-thibodeau-mylinh/statistics)
+
+I also have Homework 7 summary pdf file [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat547-hw7-thibodeau-mylinh/scratch-space/summary_file.pdf), but the visual is not great, sorry for that, I was more preoccupied by trying to get my pipeline working and ran out of time.
 
 I have a scratch-space in each subfolder of my repository, which contains manually saved data files or intermediate files to do my homework. It keeps my repository folders more tidy. 
 

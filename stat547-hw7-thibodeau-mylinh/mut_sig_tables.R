@@ -1,6 +1,7 @@
 suppressMessages(library(tidyverse))
 setwd("~/Desktop/STAT545-HW-thibodeau-mylinh/stat547-hw7-thibodeau-mylinh/")
 mut_sig <- read.table("mut_sig.tsv", header = TRUE, sep ="\t")
+
 mut_sig_gather <- mut_sig %>%
 	group_by(Substitution.Type, Trinucleotide, Somatic.Mutation.Type) %>%
 	gather(key = Signature, value = Score, Signature.1A, Signature.1B, Signature.2, Signature.3, Signature.4, Signature.5, Signature.6, Signature.7, Signature.8, Signature.9, Signature.10, Signature.11, Signature.12, Signature.13, Signature.14, Signature.15, Signature.16, Signature.17, Signature.18, Signature.19, Signature.20, Signature.21, Signature.R1, Signature.R2, Signature.R3, Signature.U1, Signature.U2)
@@ -72,7 +73,7 @@ all_cancer_types_mut_with_ref_sig_gather <- all_cancer_types_mut_with_ref_sig %>
 	group_by(Mutation.Type) %>%
 	gather(key=Signature, value = Score, Signature.1A:Signature.U2)
 
-all_cancer_types_mut_with_ref_sig_gather %>% arrange(cancer_type, Mutation.Type) %>% View()
+# all_cancer_types_mut_with_ref_sig_gather %>% arrange(cancer_type, Mutation.Type) %>% View()
 
 # For now, let's just assume that the Mutation.Type number is proportionally distributed to each signatures
 all_cancer_types_mut_proportion_signatures <- all_cancer_types_mut_with_ref_sig_gather %>% arrange(cancer_type, Mutation.Type) %>%
@@ -80,3 +81,8 @@ all_cancer_types_mut_proportion_signatures <- all_cancer_types_mut_with_ref_sig_
 	mutate(proportion_number_each_sig = (Score/sum(Score))*number)
 write_tsv(all_cancer_types_mut_proportion_signatures, "somatic_mutations_formated_files/all_cancer_types_mut_proportion_signatures.tsv")
 
+# Let's look at the fraction of each signature contributed to by each signature
+all_cancer_types_mut_with_ref_sig_fraction <- all_cancer_types_mut_with_ref_sig %>%
+	group_by(case_id) %>%
+	mutate(fraction_contribution_per_mutation_type = number/(sum(number)))
+write_tsv(all_cancer_types_mut_with_ref_sig_fraction, "somatic_mutations_formated_files/all_cancer_types_mut_with_ref_sig_fraction.tsv") 

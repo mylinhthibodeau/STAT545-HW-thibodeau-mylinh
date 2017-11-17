@@ -29,9 +29,21 @@ Homework 7 repository [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibo
 * Homework 7 plots files [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw7-thibodeau-mylinh/plots)
 * Homework 7 stats files [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw7-thibodeau-mylinh/statistics)
 
-I also have Homework 7 summary pdf file [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat547-hw7-thibodeau-mylinh/scratch-space/summary_file.pdf), but the visual is not great, sorry for that, I was more preoccupied by trying to get my pipeline working and ran out of time.
+I also have Homework 7 summary pdf file [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat547-hw7-thibodeau-mylinh/scratch-space/summary_file.pdf), but the visual is not great, but I highly recommend you stick with the original and cleaner files (hyperlinks in message above) or that you download the original data to run my code, because the pdf does not make justice to the code at all !!
 
 I have a scratch-space in each subfolder of my repository, which contains manually saved data files or intermediate files to do my homework. It keeps my repository folders more tidy. 
+
+# IMPORTANT NOTES FOR PEER REVIEW
+
+* The genomic data used is a set of publicly available reference mutational signatures and cancer genomic mutation samples (ftp://ftp.sanger.ac.uk/pub/cancer/AlexandrovEtAl/). Please note that in order to run my code, you would need to first download the original dataset to your local computer. If you want to skip that step, it's totally fine, but you will have to rely on my output files to assess my homework. To get the dataset, you can enter this code below in the terminal command line and the data will be downloaded to your Desktop (the size of the folder is around 800Mb):
+
+```
+cd ~/Desktop
+wget -r ftp://ftp.sanger.ac.uk/pub/cancer/AlexandrovEtAl/* --ftp-user=guest
+```
+
+* Given the size of genomic data files in general, pushing some raw data files and formatted data files to Github was not feasible and some files are locally stored (again, if you want to test my code, you need to download the raw data first).
+* I have not included the plots directly in the Rmd files because given the number of plots, they were quite distracting in the reading of the code itself and also because I have pdf format images (and not png) and it seemed to automatically display a link instead of the image itself in the Rmd.
 
 ### Some issues encoutered during this homework
 
@@ -82,3 +94,5 @@ Below are some examples of things I learned, but the list is not exhaustive as I
 3. A simple linear regression is not the best model for the type of data I picked. A non-negative least square linear model would be better, and I looked into it, but ran out of time to learn enough to use it.
 4. Never change the path to your files, it is extremely error prone.
 5. Ideally, don't code if you are (too) tired, because typos and mistakes get everywhere.
+
+### Thank you again for your time !!

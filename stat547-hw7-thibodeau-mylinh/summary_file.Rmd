@@ -2,7 +2,7 @@
 title: "summary_file"
 author: "My Linh Thibodeau"
 date: '2017-11-11'
-output: html_document
+output: github_document
 ---
 
 Library and reading tables

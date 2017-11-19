@@ -32,10 +32,12 @@ decipher_DDG2P <- read.table("raw_data/DDG2P_17_11_2017.csv", header = TRUE, sep
 hgnc_phenotype <- read.table("raw_data/hgnc_phenotype.tsv", header = TRUE, sep="\t")
 hgnc_data <- read.table("raw_data/hgnc_data.tsv", sep="\t", header=TRUE, fill=TRUE)
 orphadata_phenotype <- read.table("raw_data/orphadata_phenotypes.csv", sep=",", header = TRUE, fill=TRUE) %>% select(phenotype_id, disorder_name, phenotype_name, diagnostic_criteria, frequency)
+orphadata_genes <- read.table("raw_data/orphadata_genes.tsv", sep="\t", header=TRUE, fill=TRUE)
 # View(decipher_DDG2P)
 # View(hgnc_phenotype)
 # View(hgnc_data)
 # View(orphadata_phenotype)
+# View(orphadata_genes)
 ```
 
 #### Change disease/disorder names to lower cases 
@@ -80,7 +82,8 @@ genes_organs <- DDG2P_hgnc_orphadata %>%
 	mutate(gene_symbol_organ = str_c(gene.symbol, organ.specificity.list, sep=";"))
 # View(genes_organs)
 genes_organs_split <- 
-	str_split_fixed(genes_organs$gene_symbol_organ, ";" , n = 9) %>% as.data.frame()
+	str_split_fixed(genes_organs$gene_symbol_organ, ";" , n = 9) %>% as.data.frame() %>%
+	unique()
 # View(genes_organs_split)
 ```
 
@@ -92,21 +95,37 @@ organs_choices <- genes_organs_split %>%
 	select(value) %>%
 	unique()
 colnames(organs_choices) <- c("organ_types")
-write_tsv(organs_choices, "~/Desktop/STAT545-HW-thibodeau-mylinh/stat547-hw8-thibodeau-mylinh/genomic_disorders_quiz/data/organs_choices.tsv")
+organs_choices <- organs_choices %>% arrange(organ_types)
+write_tsv(organs_choices, "~/Desktop/genomic_disorders_exploration/genomic_disorders_exploration/data/organs_choices.tsv")
 ```
 
-Third, let's attribute column names to genes_organs_split and then join this data to the DDG2P_hgnc_orphadata dataframe.
+Third, let's attribute column names to genes_organs_split and then create a "gathered" dataframe with one column containing the gene name and the second column containing all the potential organs affected for that gene.
 ```{r}
-colnames(genes_organs_split) <- (c("gene.symbol", "organ1", "organ2", "organ3", "organ4", "organ5", "organ6", "organ7", "organ8"))
-DDG2P_hgnc_orphadata_v2 <- DDG2P_hgnc_orphadata %>%
-	left_join(genes_organs_split, by = c("gene.symbol" = "gene.symbol"))
-# View(DDG2P_hgnc_orphadata_v2)
+colnames(genes_organs_split) <- (c("gene.symbol", "organ1", "organ2", "organ3", "organ4", "organ5", "organ6", "organ7", "organ8")) 
+write_tsv(genes_organs_split, "genomic_disorders_quiz/data/genes_organs_split.tsv")
+genes_organs_gather <- genes_organs_split %>%
+	gather(key = organ_number, value = organs_affected, organ1:organ8) %>%
+	group_by(gene.symbol) 
+genes_organs_gather <- genes_organs_gather %>%
+	select(gene.symbol, organs_affected)
+# View(genes_organs_gather)
+write_tsv(genes_organs_gather, "~/Desktop/genomic_disorders_exploration/genomic_disorders_exploration/data/genes_organs_gather.tsv")
 ```
 
 
-## (2) Writing to a data file for the app to use
+
+#### Writing to a data file (DDG2P_hgnc_orphadata.tsv) for the app to use
 
 ```{r}
-write_tsv(DDG2P_hgnc_orphadata_v2, "genomic_disorders_quiz/data/DDG2P_hgnc_orphadata_v2.tsv")
+write_tsv(DDG2P_hgnc_orphadata, "~/Desktop/genomic_disorders_exploration/genomic_disorders_exploration/data/DDG2P_hgnc_orphadata.tsv")
+```
+Note. I tried to add the split organs data, but the file was massive and exceeded the size limit allowed.
+
+#### Writing a short version of orphadata_genes to a file
+
+```{r}
+orphadata_genes_subset <- orphadata_genes %>%
+	select(Disorder.name, Disorder.OrphaNumber, Gene.symbol)
+write_tsv(orphadata_genes_subset, "~/Desktop/genomic_disorders_exploration/genomic_disorders_exploration/data/orphadata_genes_subset.tsv")
 ```
 

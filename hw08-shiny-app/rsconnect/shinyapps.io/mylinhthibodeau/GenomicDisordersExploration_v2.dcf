@@ -1,0 +1,12 @@
+name: GenomicDisordersExploration_v2
+title: GenomicDisordersExploration_v2
+username:
+account: mylinhthibodeau
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 237622
+bundleId: 1085037
+url: https://mylinhthibodeau.shinyapps.io/GenomicDisordersExploration_v2/
+when: 1511150679.41548
+asMultiple: FALSE
+asStatic: FALSE

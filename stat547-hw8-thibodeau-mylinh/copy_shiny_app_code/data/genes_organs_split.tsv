@@ -1,0 +1,1763 @@
+gene.symbol	organ1	organ2	organ3	organ4	organ5	organ6	organ7	organ8
+HMX1	Eye	Ear						
+CEP290	Kidney Renal Tract	Brain/Cognition						
+FLNA	Face	Skeleton	Brain/Cognition					
+SLX4	Bone Marrow/Immune	Skeleton	Brain/Cognition					
+ARG1	Endocrine/Metabolic	Brain/Cognition						
+POLR3A	Teeth & Dentitian	Brain/Cognition	Genitalia					
+ATR	Face	Skeleton	Brain/Cognition					
+FANCB	Bone Marrow/Immune	Skeleton	Cancer predisposition					
+ALG9	Endocrine/Metabolic	Brain/Cognition						
+NTRK1	Spinal cord/Peripheral nerves							
+MYH9	Bone Marrow/Immune							
+YAP1	Kidney Renal Tract	Face	Brain/Cognition	Eye	Ear			
+BBS9	Skeleton	Brain/Cognition	Eye	Respiratory tract				
+TRIM32	Musculature	Kidney Renal Tract	Brain/Cognition	Eye				
+PAX2	Kidney Renal Tract	Eye						
+FGFR3	Skin	Skeleton	Heart/Cardiovasculature/Lymphatic					
+NSD1	Face	Skeleton	Brain/Cognition					
+ADAR	Brain/Cognition							
+MTOR	Brain/Cognition							
+MFRP	Eye							
+FEZF1	Genitalia							
+FLNB	Skeleton							
+NAA10	Face	Brain/Cognition	Heart/Cardiovasculature/Lymphatic					
+MOGS	Endocrine/Metabolic	Brain/Cognition						
+AGPS	Skeleton	Brain/Cognition	Eye					
+OFD1	Kidney Renal Tract	Face	Skeleton	Brain/Cognition				
+PAFAH1B1	Brain/Cognition							
+COL1A1	Skeleton							
+CAMTA1	Brain/Cognition							
+CHST3	Skeleton							
+HRAS	Skin	Face	Brain/Cognition	Heart/Cardiovasculature/Lymphatic				
+RPGRIP1	Eye							
+RIPK4	Skeleton							
+BRIP1	Bone Marrow/Immune	Skeleton						
+TBX3	Musculature	Skeleton						
+LAMA1	Brain/Cognition							
+ERLIN2	Brain/Cognition							
+PCCA	Endocrine/Metabolic	Brain/Cognition						
+FKRP	Musculature	Brain/Cognition	Eye					
+COX15	Musculature	Endocrine/Metabolic	Brain/Cognition	GI tract	Heart/Cardiovasculature/Lymphatic			
+COG7	Endocrine/Metabolic	Brain/Cognition						
+SCN2A	Brain/Cognition							
+MECP2	Brain/Cognition	GI tract						
+BRAF	Skin	Brain/Cognition	Heart/Cardiovasculature/Lymphatic					
+FTL	Endocrine/Metabolic	Eye						
+CBL	Skin	Skeleton	Brain/Cognition	Heart/Cardiovasculature/Lymphatic				
+POMGNT1	Musculature	Brain/Cognition	Eye					
+COL2A1	Face	Skeleton						
+TGFB3	Face	Skeleton	Heart/Cardiovasculature/Lymphatic					
+PIGO	Endocrine/Metabolic	Brain/Cognition						
+GJA1	Teeth & Dentitian	Skeleton	Eye					
+PLK4	Brain/Cognition	Eye						
+ARSA	Endocrine/Metabolic	Brain/Cognition						
+CLN3	Endocrine/Metabolic	Brain/Cognition	Eye					
+LRP5	Skeleton	Eye						
+FOXP2	Brain/Cognition							
+DOCK6	Skin	Skeleton						
+SLC6A3	Brain/Cognition							
+PITX3	Eye							
+CHAMP1	Brain/Cognition							
+XPC	Bone Marrow/Immune	Skin	Skeleton					
+FOXE3	Eye							
+SUMO1	Face							
+STAT1	Bone Marrow/Immune							
+CLN8	Endocrine/Metabolic	Brain/Cognition						
+RTEL1	Bone Marrow/Immune	Brain/Cognition						
+GDF3	Skeleton	Eye						
+MKKS	Kidney Renal Tract	Skeleton	Brain/Cognition	Eye	Genitalia			
+NBAS								
+NPHS1	Kidney Renal Tract							
+ACAN	Skeleton							
+GJA8	Eye							
+LRPAP1	Eye							
+NAGA	Endocrine/Metabolic	Brain/Cognition						
+PLCB1	Brain/Cognition							
+NT5C3A	Bone Marrow/Immune							
+SLC4A11	Eye							
+ARX	Brain/Cognition	Genitalia						
+SMARCA2	Skin	Skeleton	Brain/Cognition					
+IQSEC2	Brain/Cognition							
+VSX2	Eye							
+NSDHL	Skin	Skeleton						
+DPAGT1	Endocrine/Metabolic	Brain/Cognition						
+KBTBD13	Musculature							
+SOX9	Face	Skeleton	Genitalia					
+AMER1	Face	Skeleton						
+PLCB4	Face	Ear						
+LGI1	Brain/Cognition							
+NEK8	Kidney Renal Tract	GI tract	Heart/Cardiovasculature/Lymphatic					
+LDB3	Musculature	Heart/Cardiovasculature/Lymphatic						
+TRAPPC2	Skeleton							
+HOXC13	Hair/Nails							
+CDC6	Skeleton	Brain/Cognition	Ear					
+IFT140	Kidney Renal Tract	Skeleton	Eye					
+PIGV	Endocrine/Metabolic	Brain/Cognition						
+MSX1	Face							
+MAGEL2	Brain/Cognition							
+STIM1	Musculature							
+SLC2A1	Brain/Cognition							
+TWIST2								
+GRHL2	Skin	Skeleton						
+HADH	Endocrine/Metabolic	Brain/Cognition						
+PRRT2	Brain/Cognition							
+GDF5	Skeleton							
+OTC	Endocrine/Metabolic	Brain/Cognition						
+EXPH5	Skin							
+ZEB1	Eye							
+CRYBB2	Eye							
+STAT5B	Endocrine/Metabolic							
+SALL1	Kidney Renal Tract	Skeleton	GI tract	Ear				
+PDE6G	Eye							
+JAM3	Brain/Cognition	Eye						
+NALCN	Skeleton	Brain/Cognition						
+FOXN1	Bone Marrow/Immune	Hair/Nails						
+ATP7A	Skin	Skeleton	Endocrine/Metabolic	Brain/Cognition				
+BBS10	Skeleton	Brain/Cognition	Eye					
+MTO1	Endocrine/Metabolic	Heart/Cardiovasculature/Lymphatic						
+FTO	Skeleton	Brain/Cognition	GI tract	Genitalia	Heart/Cardiovasculature/Lymphatic			
+GBA	Bone Marrow/Immune	Skeleton	Endocrine/Metabolic					
+XYLT1	Skeleton							
+CHRNG	Musculature	Spinal cord/Peripheral nerves						
+CHSY1	Skeleton							
+POMT2	Musculature	Brain/Cognition	Eye					
+NOG	Skeleton							
+KIF1BP	Brain/Cognition	GI tract						
+IFT172	Kidney Renal Tract	Skeleton	Brain/Cognition					
+CC2D2A	Kidney Renal Tract	Skeleton	Brain/Cognition	GI tract				
+INPP5E	Brain/Cognition	Eye	Genitalia					
+CACNA1D	Endocrine/Metabolic	Brain/Cognition						
+SATB2	Face	Brain/Cognition						
+GATA6	Heart/Cardiovasculature/Lymphatic							
+DOCK8	Bone Marrow/Immune	Brain/Cognition						
+SLC46A1	Bone Marrow/Immune	Endocrine/Metabolic	Brain/Cognition					
+DMPK	Musculature	Endocrine/Metabolic	Eye					
+AGA	Skeleton	Endocrine/Metabolic	Brain/Cognition					
+CSTA	Skin							
+SLC25A38	Bone Marrow/Immune							
+COL11A2	Face	Skeleton	Eye	Ear				
+DLX5	Skeleton							
+BRCA1	Brain/Cognition							
+ABCC6	Heart/Cardiovasculature/Lymphatic							
+AFF2	Brain/Cognition							
+MRPS22	Face	Endocrine/Metabolic	Brain/Cognition					
+HOXA1	Brain/Cognition	Heart/Cardiovasculature/Lymphatic						
+KCNE1	Ear	Heart/Cardiovasculature/Lymphatic						
+GPSM2	Brain/Cognition	Ear						
+ACTB	Brain/Cognition	Eye						
+PXDN	Eye							
+AFG3L2	Brain/Cognition							
+EBP	Skeleton	Brain/Cognition						
+PSMB8	Bone Marrow/Immune	Skeleton						
+ASCC3	Brain/Cognition							
+LAMC3	Brain/Cognition							
+PITX2	Teeth & Dentitian	Eye	GI tract					
+XRCC4	Endocrine/Metabolic	Brain/Cognition						
+PEX13	Kidney Renal Tract	Skeleton	Endocrine/Metabolic	Brain/Cognition	GI tract			
+MAT1A	Endocrine/Metabolic	Brain/Cognition						
+SCN11A	Spinal cord/Peripheral nerves							
+COL9A1	Face	Skeleton	Eye					
+NKX2-5	Heart/Cardiovasculature/Lymphatic							
+CRB1	Eye							
+TCF4	Face	Brain/Cognition						
+GFM1	Endocrine/Metabolic	Brain/Cognition						
+TUBA8	Brain/Cognition	Eye						
+IGF2	Endocrine							
+FGFR2	Face	Skeleton						
+BBS4	Skeleton	Brain/Cognition	Eye					
+SLC24A4	Teeth & Dentitian							
+PCNT	Bone Marrow/Immune	Brain/Cognition						
+BUB1B	Skeleton	Brain/Cognition						
+EYA1	Kidney Renal Tract	Eye	Ear					
+NAGS	Endocrine/Metabolic							
+SNAP29	Skin	Spinal cord/Peripheral nerves	Brain/Cognition					
+TBX1	Bone Marrow/Immune	Brain/Cognition	Heart/Cardiovasculature/Lymphatic					
+RPS6KA3	Face	Brain/Cognition						
+SLC25A15	Endocrine/Metabolic	Brain/Cognition						
+PYGL	GI tract							
+BRAT1	Brain/Cognition							
+RFT1	Endocrine/Metabolic							
+ALDH18A1	Skin	Skeleton	Brain/Cognition					
+PYCR1	Skin							
+GDI1	Brain/Cognition							
+COQ2	Endocrine/Metabolic							
+GLDC	Endocrine/Metabolic	Brain/Cognition						
+TBL1XR1	Brain/Cognition							
+L1CAM	Brain/Cognition							
+NOP10	Bone Marrow/Immune	Skin						
+MPDU1	Endocrine/Metabolic	Brain/Cognition						
+TCTN2	Kidney Renal Tract	Skeleton	Brain/Cognition					
+PLEC	Musculature	Skin						
+TCTN1	Brain/Cognition							
+SLC4A1	Kidney Renal Tract	Endocrine/Metabolic						
+FANCC	Bone Marrow/Immune	Skeleton						
+CNTNAP2	Brain/Cognition							
+SMARCE1	Skeleton	Brain/Cognition						
+MRE11	Brain/Cognition							
+RABL6	Brain/Cognition							
+DDB2	Skin	Skeleton						
+FAT4	Brain/Cognition							
+PIK3R1	Skeleton	Endocrine/Metabolic	Eye					
+VPS13B	Teeth & Dentitian	Skeleton	Brain/Cognition					
+ERCC3	Skin	Skeleton	Brain/Cognition	Eye	Ear			
+SMPD1	Endocrine/Metabolic	Brain/Cognition	GI tract					
+WNT4	Brain/Cognition	Genitalia						
+GLUD1	Endocrine/Metabolic							
+B3GALT6	Skin	Skeleton						
+HADHA	Endocrine/Metabolic	Brain/Cognition						
+DDHD1	Brain/Cognition							
+SLC52A3	Brain/Cognition	Ear						
+FRY	Brain/Cognition							
+HUWE1	Skeleton	Brain/Cognition						
+DYNC1H1	Brain/Cognition							
+MEGF10	Musculature							
+ARL14EP	Brain/Cognition							
+ADGRG1	Brain/Cognition							
+MPLKIP	Skin	Brain/Cognition						
+WT1	Kidney Renal Tract	Genitalia	Heart/Cardiovasculature/Lymphatic					
+RECQL4	Bone Marrow/Immune	Skin	Skeleton	Eye				
+CHRDL1	Eye							
+DVL1	Face	Skeleton	Genitalia					
+CNKSR1	Brain/Cognition							
+DSTYK	Kidney Renal Tract							
+TMEM114	Eye							
+ALG8	Endocrine/Metabolic	Brain/Cognition						
+MASP1	Face	Skeleton	Brain/Cognition					
+ROR2	Skeleton	Brain/Cognition	Genitalia					
+KCNC3	Brain/Cognition							
+NDP	Brain/Cognition	Eye						
+KAT6A	Brain/Cognition							
+BCOR	Skeleton	Eye	Heart/Cardiovasculature/Lymphatic					
+ADAMTS18	Skin	Skeleton	Eye					
+HDAC8	Skeleton	Brain/Cognition						
+PDSS1	Endocrine/Metabolic	Brain/Cognition	Heart/Cardiovasculature/Lymphatic					
+FREM2	Skin	Kidney Renal Tract	Eye	Heart/Cardiovasculature/Lymphatic				
+HSPG2	Musculature	Skeleton						
+ALG1	Endocrine/Metabolic	Brain/Cognition	GI tract					
+AUTS2	Brain/Cognition							
+RARS2	Brain/Cognition							
+POLD1	Skin	Ear	Genitalia					
+LRAT	Brain/Cognition	Eye						
+KARS	Spinal cord/Peripheral nerves	Ear						
+GNPTAB	Skeleton	Endocrine/Metabolic	Brain/Cognition					
+SLC35C1	Bone Marrow/Immune	Face	Brain/Cognition					
+SATB2	Face	Skeleton	Brain/Cognition					
+SNX3	Face	Brain/Cognition	Eye					
+NDUFS8	Endocrine/Metabolic	Brain/Cognition						
+PHC1	Brain/Cognition							
+SCN4A	Musculature							
+KRIT1	Skin	Brain/Cognition	Heart/Cardiovasculature/Lymphatic					
+ALG11	Endocrine/Metabolic	Brain/Cognition						
+PEX5	Kidney Renal Tract	Skeleton	Endocrine/Metabolic	Brain/Cognition	GI tract			
+GDF1	Heart/Cardiovasculature/Lymphatic							
+HESX1	Endocrine	Brain/Cognition						
+TRMT1	Brain/Cognition							
+WDR60	Skeleton	Brain/Cognition						
+IKBKG	Bone Marrow/Immune	Skin	Heart/Cardiovasculature/Lymphatic					
+DLL3	Skeleton							
+RASA1	Skeleton	Heart/Cardiovasculature/Lymphatic						
+FANCF	Bone Marrow/Immune	Skeleton						
+FH	Kidney Renal Tract	Endocrine/Metabolic	Brain/Cognition					
+MYO7A	Eye	Ear						
+RUNX2	Teeth & Dentitian	Skeleton						
+CRYGC	Eye							
+OCRL	Skin	Endocrine/Metabolic	Brain/Cognition					
+RFX6	Endocrine/Metabolic	GI tract						
+LRPPRC	Endocrine/Metabolic	Brain/Cognition						
+NUP62	Brain/Cognition							
+NPR2	Skeleton							
+PET100	Endocrine/Metabolic	Brain/Cognition						
+SRCAP	Skeleton	Brain/Cognition						
+COASY	Brain/Cognition							
+NPHP4	Kidney Renal Tract							
+PRRX1	Face	Ear						
+EVC	Teeth & Dentitian	Skeleton	Heart/Cardiovasculature/Lymphatic					
+SCN1A	Brain/Cognition							
+ZFYVE26	Brain/Cognition	Eye						
+PARP1	Brain/Cognition							
+DEAF1	Brain/Cognition							
+WDR35	Skeleton							
+SCAPER	Brain/Cognition							
+ELN	Skin	Heart/Cardiovasculature/Lymphatic						
+RNASEH2A	Skin	Brain/Cognition						
+GJB3	Skin	Ear						
+AP4M1	Brain/Cognition							
+NR2F2	Heart/Cardiovasculature/Lymphatic							
+C12orf57	Brain/Cognition							
+SMARCB1	Musculature	Skeleton	Brain/Cognition	Cancer predisposition				
+MOCS1	Endocrine/Metabolic	Brain/Cognition						
+PAX6	Brain/Cognition	Eye						
+DLAT	Endocrine/Metabolic							
+SH3PXD2B	Skeleton	Eye	Heart/Cardiovasculature/Lymphatic					
+NR2F1	Brain/Cognition	Eye						
+SRPX2	Brain/Cognition							
+KAT6B	Skeleton	Brain/Cognition	Genitalia					
+GLI3	Endocrine	Skeleton	Brain/Cognition					
+RETREG1	Spinal cord/Peripheral nerves							
+PIP5K1C	Skeleton	Spinal cord/Peripheral nerves						
+PAH	Skin	Endocrine/Metabolic	Brain/Cognition					
+TGFBR1	Face	Skeleton	Heart/Cardiovasculature/Lymphatic					
+FKTN	Musculature	Brain/Cognition	Eye					
+LMNA	Musculature	Heart/Cardiovasculature/Lymphatic						
+GHR	Endocrine/Metabolic							
+COQ4	Endocrine/Metabolic	Brain/Cognition	Heart/Cardiovasculature/Lymphatic					
+PAX9	Teeth & Dentitian							
+FHL1	Musculature							
+CDH23	Eye	Ear						
+TRPM1	Eye							
+AP1S2	Brain/Cognition							
+STS	Skin	Eye						
+ALPL	Skeleton							
+GLI2	Brain/Cognition							
+ASAH1	Skin	Spinal cord/Peripheral nerves	Brain/Cognition					
+MMAA	Multisystem	Brain/Cognition						
+PEX14	Endocrine/Metabolic	Brain/Cognition	Eye	GI tract	Ear			
+PGAP2	Skeleton	Brain/Cognition						
+STRA6	Brain/Cognition	Eye	Respiratory tract	Heart/Cardiovasculature/Lymphatic				
+ZNF711	Brain/Cognition							
+PRSS12	Brain/Cognition							
+MYH3	Musculature	Skeleton						
+HCCS	Skin	Eye						
+STAMBP	Skin	Brain/Cognition	Heart/Cardiovasculature/Lymphatic					
+NKX3-2	Skeleton							
+NSUN2	Brain/Cognition							
+TGFBR2	Face	Skeleton	Heart/Cardiovasculature/Lymphatic					
+PEX16	Skeleton	Endocrine/Metabolic	Brain/Cognition	Eye	Ear			
+ITCH	Bone Marrow/Immune							
+DPM3	Face	Endocrine/Metabolic	Brain/Cognition					
+DDC	Endocrine/Metabolic	Brain/Cognition	GI tract					
+NFU1	Endocrine/Metabolic	Brain/Cognition						
+DEPDC5	Brain/Cognition							
+SYT1	Brain/Cognition							
+PIK3CA	Skeleton	Endocrine/Metabolic						
+DHODH	Face	Skeleton						
+PRPS1	Spinal cord/Peripheral nerves	Endocrine/Metabolic						
+GLB1	Endocrine/Metabolic	Brain/Cognition						
+DMP1	Skeleton	Endocrine/Metabolic						
+RAX	Brain/Cognition	Eye						
+SLC25A19	Endocrine/Metabolic	Brain/Cognition						
+B3GALNT2	Musculature	Brain/Cognition	Eye					
+ARHGAP31	Skin	Skeleton						
+BBS5	Skeleton	Brain/Cognition	Eye					
+PECR	Brain/Cognition							
+MPDZ	Brain/Cognition							
+DHTKD1	Endocrine/Metabolic	Brain/Cognition						
+ABCB6	Eye							
+SLC6A1	Brain/Cognition							
+HSPD1	Brain/Cognition							
+ANO5	Musculature	Skeleton						
+GAMT	Endocrine/Metabolic	Brain/Cognition						
+SLC2A10	Heart/Cardiovasculature/Lymphatic							
+CFC1	Heart/Cardiovasculature/Lymphatic							
+PLOD3	Skin	Face	Skeleton	Heart/Cardiovasculature/Lymphatic				
+ARID1B	Skin	Skeleton	Brain/Cognition					
+PLXND1	Spinal cord/Peripheral nerves	Eye	Heart/Cardiovasculature/Lymphatic					
+PLCG2	Bone Marrow/Immune	Skin						
+SHROOM3	Skeleton	Spinal cord/Peripheral nerves						
+VRK1	Brain/Cognition							
+WWOX	Spinal cord/Peripheral nerves	Brain/Cognition						
+AGL	Endocrine/Metabolic							
+TRPS1	Skin	Face	Skeleton					
+BMP4	Face	Skeleton	Eye					
+KLHL40	Musculature							
+LRP2	Brain/Cognition							
+MGAT2	Bone Marrow/Immune	Endocrine/Metabolic	Brain/Cognition					
+SOX11	Brain/Cognition							
+ATP13A2	Brain/Cognition							
+RELN	Brain/Cognition							
+GALT	Endocrine/Metabolic	Brain/Cognition	Eye	GI tract				
+UGT1A1	Endocrine/Metabolic	GI tract						
+LYST	Bone Marrow/Immune	Skin	Kidney Renal Tract					
+ZEB2	Face	Brain/Cognition	GI tract					
+TTC8	Kidney Renal Tract	Skeleton	Brain/Cognition	Eye	Heart/Cardiovasculature/Lymphatic			
+PRKAR1A	Skeleton	Endocrine/Metabolic						
+IFT43	Skin	Skeleton	GI tract	Heart/Cardiovasculature/Lymphatic				
+FLVCR2	Brain/Cognition	Heart/Cardiovasculature/Lymphatic						
+CYP2U1	Brain/Cognition							
+ANTXR1	Teeth & Dentitian	Skin	Endocrine/Metabolic					
+NPHS2	Kidney Renal Tract							
+HOXD13	Skeleton							
+EHMT1	Face	Brain/Cognition	Heart/Cardiovasculature/Lymphatic					
+CDT1	Skeleton	Brain/Cognition	Ear					
+TTN	Musculature	Heart/Cardiovasculature/Lymphatic						
+FBLN1	Skeleton							
+PTPRF	Skin							
+SLC13A5	Teeth & Dentitian	Brain/Cognition						
+ERCC6	Skeleton	Brain/Cognition	Eye					
+MANBA	Spinal cord/Peripheral nerves	Endocrine/Metabolic	Brain/Cognition					
+PTDSS1	Face	Skeleton	Brain/Cognition					
+ARHGEF9	Brain/Cognition							
+RSPO4	Skin							
+SLC25A20	Endocrine/Metabolic	Brain/Cognition						
+WNT10B	Skeleton							
+PEX1	Kidney Renal Tract	Skeleton	Endocrine/Metabolic	Brain/Cognition	GI tract			
+TREX1	Skin	Brain/Cognition						
+KCNA2	Brain/Cognition							
+RAD21	Face	Skeleton	Brain/Cognition					
+SZT2	Brain/Cognition							
+HPD	Endocrine/Metabolic	Brain/Cognition						
+GNPAT	Skin	Skeleton	Endocrine/Metabolic	Brain/Cognition	Eye			
+DNM1	Brain/Cognition							
+COG5	Endocrine/Metabolic	Brain/Cognition						
+HEXB	Endocrine/Metabolic	Brain/Cognition	Eye					
+MED13L	Brain/Cognition	Heart/Cardiovasculature/Lymphatic						
+MESP2	Skeleton							
+CDK5RAP2	Brain/Cognition							
+CTNS	Kidney Renal Tract							
+PCBD1	Endocrine/Metabolic	Brain/Cognition						
+TEK	Skin	Heart/Cardiovasculature/Lymphatic						
+BCAP31	Brain/Cognition	Ear						
+MYH6	Heart/Cardiovasculature/Lymphatic							
+HSD17B4	Brain/Cognition	Ear	Genitalia					
+KANK1	Brain/Cognition							
+ANKRD11	Teeth & Dentitian	Skeleton	Brain/Cognition					
+PHF21A	Brain/Cognition							
+VANGL1	Skeleton	Spinal cord/Peripheral nerves						
+NF1	Skin	Spinal cord/Peripheral nerves	Brain/Cognition					
+BPIFB6	Brain/Cognition							
+PTF1A	Endocrine/Metabolic	Brain/Cognition						
+ASCL1	Brain/Cognition							
+FLG	Skin							
+PIGQ	Brain/Cognition							
+WNT7A	Skeleton							
+FOXL2	Eye	Heart/Cardiovasculature/Lymphatic						
+CFL2	Musculature							
+MED17	Brain/Cognition							
+SMARCA4	Skeleton	Brain/Cognition	Cancer predisposition					
+SLC5A5	Endocrine/Metabolic							
+ACTA2	Heart/Cardiovasculature/Lymphatic							
+FANCG	Bone Marrow/Immune	Skeleton						
+FBXW4	Skeleton							
+ASPH	Face	Eye						
+TUBB2A	Brain/Cognition							
+SUMF1	Endocrine/Metabolic	Brain/Cognition						
+PEX6	Kidney Renal Tract	Endocrine/Metabolic	Brain/Cognition	GI tract				
+CIB2	Eye	Ear						
+RNF135	Skeleton							
+PDCD10	Brain/Cognition	Heart/Cardiovasculature/Lymphatic						
+C2CD3	Face	Brain/Cognition						
+CEP41	Brain/Cognition							
+HCN1	Brain/Cognition							
+TGFB1	Skeleton							
+PTEN	Skin	Skeleton	Brain/Cognition					
+FGFR1	Face	Skeleton	Endocrine/Metabolic					
+SGSH	Bone Marrow/Immune	Brain/Cognition						
+TLL1	Heart/Cardiovasculature/Lymphatic							
+GRIK2	Brain/Cognition							
+ORC1	Skeleton	Brain/Cognition	Ear					
+FANCE	Bone Marrow/Immune	Skeleton						
+SYNE1	Brain/Cognition							
+ARL6	Skeleton	Endocrine/Metabolic	Brain/Cognition	Eye				
+QKI	Brain/Cognition							
+IDUA	Skeleton	Endocrine/Metabolic	Brain/Cognition	GI tract				
+STXBP1	Brain/Cognition							
+DNMT3A	Endocrine/Metabolic	Brain/Cognition						
+UVSSA	Bone Marrow/Immune	Skin						
+PTPN14	Face	Skeleton	Heart/Cardiovasculature/Lymphatic					
+ROBO3	Skeleton	Eye						
+BBS1	Skeleton	Brain/Cognition	Eye					
+ALX1	Face							
+WNT3	Skeleton							
+MT-TP	Bone Marrow/Immune	Endocrine/Metabolic	Brain/Cognition	Eye				
+ALG12	Skeleton	Endocrine/Metabolic	Brain/Cognition					
+OXCT1	Endocrine/Metabolic							
+NFIX	Skeleton	Brain/Cognition	Respiratory tract					
+MFSD8	Brain/Cognition	Eye						
+ERCC2	Skin	Skeleton	Spinal cord/Peripheral nerves	Brain/Cognition				
+PDSS2	Kidney Renal Tract	Brain/Cognition						
+GUSB	Face	Skeleton	Endocrine/Metabolic	Brain/Cognition				
+HSD17B10	Endocrine/Metabolic	Brain/Cognition						
+RET	Kidney Renal Tract	Endocrine/Metabolic	Cancer predisposition					
+RIT1	Face	Skeleton						
+ZFP57	Endocrine/Metabolic							
+ZMPSTE24	Skin	Face	Skeleton	Endocrine/Metabolic				
+ERCC4	Bone Marrow/Immune	Skin	Skeleton					
+TAC3	Endocrine/Metabolic	Genitalia						
+PEX26	Kidney Renal Tract	Skeleton	Endocrine/Metabolic	Brain/Cognition	GI tract			
+DARS2	Endocrine/Metabolic	Brain/Cognition						
+MLYCD	Endocrine/Metabolic	Brain/Cognition						
+KIT	GI tract	Cancer predisposition						
+RBM28	Skin	Endocrine/Metabolic	Brain/Cognition					
+HGSNAT	Endocrine/Metabolic	Brain/Cognition						
+GCDH	Endocrine/Metabolic	Brain/Cognition						
+PIGL	Multisystem	Brain/Cognition	Eye					
+ZFPM2	GI tract	Heart/Cardiovasculature/Lymphatic						
+DNAAF4	Respiratory tract							
+AMPD2	Brain/Cognition							
+ABCC9	Skin	Heart/Cardiovasculature/Lymphatic						
+CLPP	Ear	Genitalia						
+KDM6A	Kidney Renal Tract	Face	Skeleton	Brain/Cognition				
+ASPM	Brain/Cognition							
+SHOX	Skeleton							
+GDF6	Skeleton	Eye						
+TMEM67	Kidney Renal Tract	Skeleton	Brain/Cognition	GI tract				
+ZIC3	Skeleton	Heart/Cardiovasculature/Lymphatic						
+ACVR2B	GI tract	Heart/Cardiovasculature/Lymphatic						
+KCNC1	Brain/Cognition							
+CHRNB2	Brain/Cognition							
+MITF	Skin	Ear						
+MMADHC	Bone Marrow/Immune	Endocrine/Metabolic	Brain/Cognition					
+GALK1	Endocrine/Metabolic	Eye						
+NYX	Eye							
+CRB2	Kidney Renal Tract	Brain/Cognition						
+PC	Endocrine/Metabolic	Brain/Cognition						
+TMEM237	Brain/Cognition							
+PEX12	Skeleton	Endocrine/Metabolic	Brain/Cognition	Eye	GI tract	Ear		
+CCDC78	Musculature							
+GATA4	Heart/Cardiovasculature/Lymphatic							
+SCN8A	Brain/Cognition							
+TMEM5	Brain/Cognition	Genitalia						
+GABRB3	Brain/Cognition							
+CRYAB	Musculature	Eye						
+FOXF1	Respiratory tract	Genitalia	Heart/Cardiovasculature/Lymphatic					
+SOX2	Endocrine/Metabolic	Brain/Cognition	Eye	GI tract				
+SURF1	Endocrine/Metabolic	Brain/Cognition						
+GRIN2B	Brain/Cognition							
+KIF11	Brain/Cognition	Eye	Heart/Cardiovasculature/Lymphatic					
+CTCF	Brain/Cognition							
+EXT2	Skeleton							
+TSEN34	Brain/Cognition							
+RPGRIP1L	Kidney Renal Tract	Brain/Cognition	Eye	GI tract				
+ABCD4	Endocrine/Metabolic	Brain/Cognition						
+OPHN1	Face	Brain/Cognition						
+GJB2	Skin	Ear						
+ZDHHC15	Brain/Cognition							
+ACADM	Endocrine/Metabolic	Brain/Cognition						
+MYO5A	Skin							
+SMAD3	Skeleton	Heart/Cardiovasculature/Lymphatic						
+TACR3	Endocrine/Metabolic	Genitalia						
+LRRC6	Respiratory tract							
+CASK	Face	Brain/Cognition	GI tract					
+ETFDH	Endocrine/Metabolic	Brain/Cognition						
+TFAP2B	Face	Skeleton	Eye	Heart/Cardiovasculature/Lymphatic				
+DDX3X	Brain/Cognition							
+AR	Endocrine/Metabolic	Brain/Cognition	Genitalia					
+TRPV3	Skin							
+SALL4	Kidney Renal Tract	Skeleton	Eye					
+GRHL3	Face	GI tract						
+IRF6	Face	Skeleton						
+ARFGEF2	Brain/Cognition							
+HYLS1	Face	Skeleton	Brain/Cognition					
+SACS	Brain/Cognition							
+BANF1	Skin	Skeleton	Endocrine/Metabolic	Heart/Cardiovasculature/Lymphatic				
+NR1I3	Brain/Cognition							
+ZDHHC9	Brain/Cognition							
+DYM	Skeleton	Brain/Cognition						
+FOXC1	Eye							
+KCNMA1	Brain/Cognition							
+NDUFV1	Endocrine/Metabolic	Brain/Cognition						
+DOLK	Endocrine/Metabolic	Brain/Cognition						
+ATRX	Face	Brain/Cognition	Genitalia					
+IFT122	Skin	Face	Skeleton					
+SLC6A5	Brain/Cognition							
+WDR19	Kidney Renal Tract	Skeleton						
+CEP152	Face	Skeleton	Brain/Cognition					
+DSPP	Teeth & Dentitian	Ear						
+CLCN7	Skeleton							
+OTOGL	Ear							
+PTHLH	Skeleton							
+TBC1D24	Skeleton	Brain/Cognition	Ear					
+MAFB	Skeleton							
+C12orf65	Endocrine/Metabolic	Brain/Cognition						
+PKHD1	Kidney Renal Tract							
+DCX	Brain/Cognition							
+FAM111A	Skeleton	Endocrine/Metabolic	Brain/Cognition					
+MPI	Endocrine/Metabolic	Brain/Cognition						
+POC1B	Eye							
+MCCC2	Endocrine/Metabolic	Brain/Cognition						
+PDHA1	Endocrine/Metabolic	Brain/Cognition						
+CRX	Eye							
+CRYAA	Eye							
+GJC2	Brain/Cognition	Heart/Cardiovasculature/Lymphatic						
+NRXN2	Brain/Cognition							
+JAGN1	Bone Marrow/Immune							
+PMM2	Endocrine/Metabolic	Brain/Cognition						
+SOX10	Skin	Face	Spinal cord/Peripheral nerves	Ear				
+UMPS	Bone Marrow/Immune	Endocrine/Metabolic	Brain/Cognition					
+PEX19	Kidney Renal Tract	Endocrine/Metabolic	Brain/Cognition	Eye	GI tract	Ear		
+SLC4A4	Kidney Renal Tract	Endocrine/Metabolic	Brain/Cognition	Eye				
+FOXE1	Face							
+BLOC1S6	Skin							
+DSG1	Bone Marrow/Immune	Skin	Endocrine/Metabolic					
+SPTAN1	Brain/Cognition							
+ABCB11	GI tract							
+GNAO1	Brain/Cognition							
+ALAD	Endocrine/Metabolic							
+LEMD3	Skeleton							
+FLVCR1	Brain/Cognition	Eye						
+TMEM216	Brain/Cognition							
+THRA	Endocrine	Brain/Cognition						
+CLCNKB	Kidney Renal Tract	Endocrine/Metabolic						
+BFSP2	Eye							
+TUBGCP6	Brain/Cognition	Eye						
+RRAS	Skeleton	Brain/Cognition	Heart/Cardiovasculature/Lymphatic					
+NECTIN4	Skin	Skeleton						
+FRMD7	Brain/Cognition							
+GLUL	Endocrine/Metabolic	Brain/Cognition						
+ORC4	Skeleton	Brain/Cognition	Ear					
+COLEC11	Face	Skeleton	Brain/Cognition					
+CRYGD	Eye							
+CHD7	Skeleton	Brain/Cognition	Eye	Ear	Heart/Cardiovasculature/Lymphatic			
+NEDD4L	Brain/Cognition							
+ZIC2	Brain/Cognition							
+GRIN2A	Brain/Cognition							
+FMR1	Brain/Cognition							
+TBC1D24	Brain/Cognition							
+NFIA	Kidney Renal Tract	Brain/Cognition						
+WDR45	Brain/Cognition							
+TECPR2	Brain/Cognition							
+NEU1	Skeleton	Endocrine/Metabolic	Brain/Cognition	Eye				
+QARS	Brain/Cognition							
+CDH3	Skin	Eye						
+PAX3	Face	GI tract	Ear					
+NKX2-1	Endocrine/Metabolic	Brain/Cognition	Respiratory tract					
+SNRPB	Face	Skeleton	Brain/Cognition					
+CTSA	Skeleton	Endocrine/Metabolic						
+GON4L	Brain/Cognition							
+BMPER	Skeleton							
+SLC19A3	Endocrine/Metabolic	Brain/Cognition						
+SOX17	Kidney Renal Tract							
+AGK								
+ARHGEF6	Brain/Cognition							
+BCL11A	Brain/Cognition							
+GNAS	Skeleton	Endocrine/Metabolic	Brain/Cognition					
+GNS	Skeleton	Endocrine/Metabolic	Brain/Cognition					
+WWOX	Brain/Cognition							
+CRYBB1	Eye							
+SLC6A8	Face	Skeleton	Brain/Cognition					
+PHGDH	Endocrine/Metabolic	Brain/Cognition						
+MTF1	Brain/Cognition							
+ALDH5A1	Endocrine/Metabolic	Brain/Cognition						
+PEX7	Face	Skeleton	Endocrine/Metabolic	Brain/Cognition	GI tract			
+NDUFS4	Endocrine/Metabolic	Brain/Cognition						
+COL4A1	Brain/Cognition	Heart/Cardiovasculature/Lymphatic						
+POMT1	Musculature	Brain/Cognition						
+NRXN3	Brain/Cognition							
+C8orf37	Eye							
+CAV1	Skin							
+SLC39A13	Skin	Skeleton						
+CEP63	Skeleton	Endocrine/Metabolic	Brain/Cognition					
+BICD2	Spinal cord/Peripheral nerves							
+KRT74	Skin							
+B4GALT7	Skeleton							
+EEF1B2	Brain/Cognition							
+RUBCN	Brain/Cognition							
+DHFR	Bone Marrow/Immune	Endocrine/Metabolic	Brain/Cognition					
+HARS	Eye	Ear						
+CA2	Kidney Renal Tract	Skeleton	Brain/Cognition					
+GCSH	Endocrine/Metabolic	Brain/Cognition						
+CHUK	Skin	Face						
+HSF4	Eye							
+RAD51	Brain/Cognition							
+GALC	Brain/Cognition							
+RNASEH2B	Skin	Brain/Cognition						
+ACOX1	Endocrine/Metabolic	Brain/Cognition	GI tract	Respiratory tract				
+CACNA1A	Brain/Cognition	Heart/Cardiovasculature/Lymphatic						
+CDH15	Brain/Cognition							
+MIR17HG	Skeleton	Brain/Cognition						
+DHCR24	Face	Skeleton	Endocrine/Metabolic	Brain/Cognition				
+ZBTB16	Skeleton	Brain/Cognition	Genitalia					
+GFAP	Brain/Cognition							
+MAP2K1	Skin	Skeleton	Brain/Cognition	Heart/Cardiovasculature/Lymphatic				
+TBCE	Bone Marrow/Immune	Skeleton	Brain/Cognition					
+SLC25A22	Brain/Cognition							
+NRXN1	Brain/Cognition							
+JAG1	GI tract	Heart/Cardiovasculature/Lymphatic						
+SOX3	Endocrine/Metabolic	Brain/Cognition						
+TIMM8A	Musculature	Brain/Cognition	Ear					
+SCARF2	Skin	Skeleton						
+DCAF17	Skin	Endocrine/Metabolic	Brain/Cognition					
+MTRR	Bone Marrow/Immune	Endocrine/Metabolic	Brain/Cognition					
+TP63	Skin	Face	Skeleton					
+RALGDS	Brain/Cognition							
+ALG13	Brain/Cognition							
+LAMA2	Musculature	Brain/Cognition						
+PLP1	Brain/Cognition							
+PTS	Endocrine/Metabolic	Brain/Cognition						
+COL10A1	Skeleton							
+FBN2	Skeleton	Ear						
+AAAS	Face	Endocrine/Metabolic	Eye					
+KLF8	Brain/Cognition							
+IMPAD1	Skeleton							
+USP9X	Skeleton	GI tract	Brain/Cognition	Heart/Cardiovasculature/Lymphatic				
+DNAAF3	Respiratory tract	Genitalia						
+SLC6A17	Brain/Cognition							
+DNMT3B	Bone Marrow/Immune	Brain/Cognition						
+SMC3	Skeleton	Brain/Cognition						
+SMOC1	Face	Skeleton	Brain/Cognition	Eye				
+SLC2A2	Kidney Renal Tract	Endocrine/Metabolic	GI tract					
+DNA2	Endocrine/Metabolic	Brain/Cognition						
+LRP2	Kidney Renal Tract	Brain/Cognition	Eye	Ear				
+ZNF526	Brain/Cognition							
+ESCO2	Face	Skeleton	Brain/Cognition					
+CCBE1	Face	Brain/Cognition	Heart/Cardiovasculature/Lymphatic					
+DYNC2H1	Kidney Renal Tract	Skeleton	GI tract					
+RNU4ATAC	Skeleton	Heart/Cardiovasculature/Lymphatic						
+RAPSN	Musculature	Spinal cord/Peripheral nerves	Brain/Cognition					
+POGZ	Brain/Cognition							
+CD151	Skin	Kidney Renal Tract	Ear					
+TUBA1A	Brain/Cognition							
+ACADS	Endocrine/Metabolic							
+ADSL	Endocrine/Metabolic	Brain/Cognition						
+NR5A1	Genitalia							
+COG1	Endocrine/Metabolic	Brain/Cognition						
+ELOVL4	Skin	Brain/Cognition	Eye					
+NDST1	Brain/Cognition							
+FMN2	Brain/Cognition							
+TUBB	Brain/Cognition							
+ZC4H2	Musculature	Skeleton	Brain/Cognition					
+CLN6	Brain/Cognition							
+SHANK3	Brain/Cognition							
+CLDN19	Endocrine/Metabolic	Eye						
+ALS2	Spinal cord/Peripheral nerves	Brain/Cognition						
+SHH	Teeth & Dentitian	Face	Brain/Cognition	Eye				
+ADRA2B	Brain/Cognition							
+BOLA3	Endocrine/Metabolic	Brain/Cognition						
+TCF12	Face	Skeleton						
+TAT	Skin	Endocrine/Metabolic	Brain/Cognition					
+TTC19	Endocrine/Metabolic	Brain/Cognition						
+PURA	Brain/Cognition							
+SLC12A5	Brain/Cognition							
+MNX1	Skeleton	Spinal cord/Peripheral nerves	GI tract					
+ADA	Bone Marrow/Immune							
+AASS	Endocrine/Metabolic	Brain/Cognition						
+TFAP2A	Skin	Face	Eye					
+TBXAS1	Bone Marrow/Immune	Skeleton						
+LHX4	Endocrine/Metabolic							
+FANCL	Bone Marrow/Immune	Skeleton	Cancer predisposition					
+EDA	Teeth & Dentitian	Skin						
+MED23	Brain/Cognition							
+COL11A1	Skeleton	Eye	Ear					
+ATP1A3	Brain/Cognition							
+SLC22A5	Endocrine/Metabolic	Brain/Cognition						
+AIFM1	Endocrine/Metabolic	Brain/Cognition						
+KCNJ11	Endocrine/Metabolic	Brain/Cognition						
+PSPH	Endocrine/Metabolic	Brain/Cognition						
+UBE2A	Brain/Cognition							
+FZD6	Skin							
+CEP135	Brain/Cognition							
+FGF3	Teeth & Dentitian	Ear						
+ISPD	Brain/Cognition	Eye						
+FAM58A	Kidney Renal Tract	Face	Skeleton					
+WRAP53	Bone Marrow/Immune	Skin						
+MAP3K1	Genitalia							
+KRAS	Skin	Face	Brain/Cognition					
+CACNB4	Brain/Cognition							
+TBX5	Skeleton	Heart/Cardiovasculature/Lymphatic						
+MKS1	Kidney Renal Tract	Skeleton	Brain/Cognition	Eye				
+CRYBA4	Eye							
+COL9A2	Face	Skeleton	Eye	Ear				
+PEX3	Kidney Renal Tract	Endocrine/Metabolic	Brain/Cognition					
+LRBA	Bone Marrow/Immune							
+KIF5C	Brain/Cognition							
+EXOSC3	Spinal cord/Peripheral nerves	Brain/Cognition						
+FANCD2	Bone Marrow/Immune	Skeleton						
+AUH	Endocrine/Metabolic	Brain/Cognition						
+PEX2	Kidney Renal Tract	Skeleton	Endocrine/Metabolic	Brain/Cognition	GI tract			
+EXT1	Skin	Face	Skeleton					
+DBT	Endocrine/Metabolic	Brain/Cognition						
+BCKDHA	Endocrine/Metabolic	Brain/Cognition						
+SLC35A1	Endocrine/Metabolic	Brain/Cognition						
+QDPR	Endocrine/Metabolic	Brain/Cognition						
+KMT2D	Kidney Renal Tract	Face	Skeleton	Brain/Cognition				
+HINT1	Musculature	Spinal cord/Peripheral nerves						
+UBR1	Face	Skeleton	Endocrine/Metabolic	Brain/Cognition				
+AIRE	Endocrine/Metabolic							
+ALG6	Endocrine/Metabolic	Brain/Cognition						
+YY1	Brain/Cognition							
+SLC17A5	Endocrine/Metabolic	Brain/Cognition						
+ARID1A	Skin	Skeleton	Brain/Cognition					
+MED12	Skeleton	Brain/Cognition	GI tract	Genitalia				
+ACBD6	Brain/Cognition							
+SRY	Genitalia							
+CRYBA1	Eye							
+SCN1B	Brain/Cognition	Heart/Cardiovasculature/Lymphatic						
+HIST3H3	Brain/Cognition							
+RAI1	Face	Skeleton	Brain/Cognition					
+CD96	Skeleton	Brain/Cognition						
+CSNK1G1	Brain/Cognition							
+TUBB3	Brain/Cognition	Eye						
+SETD5	Brain/Cognition							
+DDHD2	Brain/Cognition							
+CCDC151	GI tract	Respiratory tract						
+KCNJ6	Skin	Brain/Cognition						
+TUBGCP4	Brain/Cognition	Eye						
+MMP13	Skeleton							
+RPS19	Bone Marrow/Immune							
+GAA	Endocrine/Metabolic	Heart/Cardiovasculature/Lymphatic						
+KIRREL3	Brain/Cognition							
+CHRNA2	Brain/Cognition							
+PTH1R	Skeleton	Endocrine/Metabolic						
+PIK3R2	Brain/Cognition							
+KCTD1	Skin	Eye						
+ATOH7	Eye							
+GFER	Musculature	Ear						
+TBX20	Heart/Cardiovasculature/Lymphatic							
+TMEM165	Skeleton	Brain/Cognition	GI tract					
+FAM126A	Brain/Cognition	Eye						
+HNF1B	Skeleton	Endocrine/Metabolic						
+ELP2	Brain/Cognition							
+MOCS2	Endocrine/Metabolic	Brain/Cognition						
+SYNGAP1	Brain/Cognition							
+HR	Skin	Hair/Nails						
+ANKRD26	Bone Marrow/Immune							
+ALDOB	Endocrine/Metabolic							
+SLC12A6	Face	Spinal cord/Peripheral nerves	Brain/Cognition					
+SLC35A2	Endocrine/Metabolic	Brain/Cognition						
+ABCD1	Endocrine/Metabolic	Brain/Cognition						
+SMS	Face	Skeleton	Brain/Cognition					
+FTCD	Bone Marrow/Immune	Endocrine/Metabolic	Brain/Cognition					
+KCNQ2	Musculature	Brain/Cognition						
+ASPA	Endocrine/Metabolic	Brain/Cognition	Eye					
+ZNF750	Skin							
+EP300	Face	Skeleton	Brain/Cognition					
+UPF3B	Skeleton	Brain/Cognition						
+SAMHD1	Skin	Brain/Cognition						
+ASL	Endocrine/Metabolic							
+STX1B	Brain/Cognition							
+SLC26A2	Skeleton							
+GABRA1	Brain/Cognition							
+MYH8	Skin	Skeleton	Cancer predisposition					
+SIX5	Skin	Face	Eye					
+COQ9	Endocrine/Metabolic							
+PPT1	Endocrine/Metabolic	Brain/Cognition	Eye					
+SLC9A6	Brain/Cognition							
+BRCA2	Bone Marrow/Immune	Skeleton	Cancer predisposition					
+CENPJ	Face	Skeleton	Brain/Cognition					
+MICU1	Musculature	Endocrine/Metabolic	Brain/Cognition					
+NDUFS1	Endocrine/Metabolic	Brain/Cognition						
+AARS	Brain/Cognition							
+EPG5	Musculature	Skin	Brain/Cognition	Eye				
+ADK	Brain/Cognition							
+LRP4	Skeleton							
+SIX1	Kidney Renal Tract	Ear						
+SETBP1	Face	Skeleton	Brain/Cognition					
+PNPLA2	Musculature	Endocrine/Metabolic						
+WDR34	Skeleton							
+AP4B1	Brain/Cognition							
+CLP1	Brain/Cognition							
+HOXB1	Face							
+MAGI2	Brain/Cognition							
+ETFA	Endocrine/Metabolic	Brain/Cognition						
+CHMP1A	Brain/Cognition							
+COQ5	Brain/Cognition							
+NECTIN1	Skin	Face						
+NOTCH1	Heart/Cardiovasculature/Lymphatic							
+CBS	Skeleton	Endocrine/Metabolic	Brain/Cognition	Eye	Heart/Cardiovasculature/Lymphatic			
+PNPLA1	Skin							
+PIGA	Brain/Cognition							
+NIPBL	Bone Marrow/Immune	Face	Skeleton	Brain/Cognition	GI tract	Genitalia	Ear	Heart/Cardiovasculature/Lymphatic
+KCNQ1	Ear	Heart/Cardiovasculature/Lymphatic						
+C2orf71	Eye							
+KCNK9	Face	Brain/Cognition						
+WNT1	Skeleton							
+SIK1	Brain/Cognition							
+CA8	Brain/Cognition							
+ELAC2	Endocrine/Metabolic	Brain/Cognition	Heart/Cardiovasculature/Lymphatic					
+PTPN11	Skeleton	Ear	Heart/Cardiovasculature/Lymphatic					
+TWIST1	Skeleton	Brain/Cognition						
+EOGT	Skin	Skeleton						
+GUCY2C	GI tract							
+OBSL1	Skeleton	Brain/Cognition						
+RARB	Brain/Cognition	Eye	Respiratory tract					
+MMAB	Endocrine/Metabolic	Brain/Cognition						
+RAB39B	Brain/Cognition							
+AXIN1	Skeleton							
+MTHFR	Endocrine/Metabolic	Brain/Cognition						
+LARS2	Ear	Genitalia						
+HMGCL	Endocrine/Metabolic	Brain/Cognition						
+ALDOA	Musculature	Endocrine/Metabolic						
+NAGLU	Skeleton	Endocrine/Metabolic	Brain/Cognition					
+WDR73	Kidney Renal Tract	Brain/Cognition						
+PDHX	Endocrine/Metabolic							
+NOTCH2	Kidney Renal Tract	Skeleton						
+TNFRSF13B	Bone Marrow/Immune							
+PEX10	Kidney Renal Tract	Skeleton	Endocrine/Metabolic	Brain/Cognition	GI tract			
+ARSB	Skeleton	Endocrine/Metabolic	Brain/Cognition	GI tract				
+PCGF2	Brain/Cognition							
+RMND1	Endocrine/Metabolic	Brain/Cognition						
+NHS	Teeth & Dentitian	Eye						
+GABRG2								
+COX7B	Skin	Eye						
+PEPD	Bone Marrow/Immune	Endocrine/Metabolic	Brain/Cognition					
+NGLY1	Endocrine/Metabolic	Brain/Cognition						
+SC5D	Endocrine/Metabolic	Brain/Cognition	GI tract					
+ECEL1	Skeleton							
+ALMS1	Endocrine/Metabolic	Brain/Cognition	Eye	Heart/Cardiovasculature/Lymphatic				
+GATAD2B	Brain/Cognition							
+ARMC4	Respiratory tract							
+RYR1	Musculature							
+FGF10	Teeth & Dentitian	Skeleton	Eye					
+KCNT1	Brain/Cognition							
+ABHD5	Bone Marrow/Immune	Musculature	Skin	Eye				
+MATN3	Skeleton							
+FAR1	Endocrine/Metabolic	Brain/Cognition	Eye					
+NDUFS7	Endocrine/Metabolic	Brain/Cognition						
+GMPPB	Musculature							
+CYC1	Endocrine/Metabolic	Brain/Cognition						
+P4HB	Face	Skeleton	Brain/Cognition	Eye				
+ANKH	Skeleton	Brain/Cognition	Ear					
+WDR45B	Brain/Cognition							
+ACO2	Endocrine/Metabolic	Brain/Cognition	Eye					
+GNPTG	Skeleton	Endocrine/Metabolic	Brain/Cognition					
+TTC7A	Bone Marrow/Immune	GI tract						
+RGS7	Brain/Cognition							
+PGK1	Bone Marrow/Immune	Musculature	Endocrine/Metabolic	Brain/Cognition				
+CLCNKA	Kidney Renal Tract	Endocrine/Metabolic						
+FANCA	Bone Marrow/Immune	Skeleton						
+LEFTY2	GI tract	Heart/Cardiovasculature/Lymphatic						
+FAM20A	Teeth & Dentitian							
+ACY1	Endocrine/Metabolic	Brain/Cognition						
+PROP1	Endocrine/Metabolic							
+GTPBP3	Musculature	Brain/Cognition	Heart/Cardiovasculature/Lymphatic					
+PTCHD1	Brain/Cognition							
+ACSL4	Face	Brain/Cognition						
+ITGA3	Skin	Kidney Renal Tract	Respiratory tract					
+AGTR2	Brain/Cognition							
+DDR2	Skeleton							
+LARGE1	Musculature	Brain/Cognition						
+MYO5B	GI tract							
+ZBTB40	Brain/Cognition							
+SLC16A2	Endocrine/Metabolic	Brain/Cognition						
+BHLHA9	Skeleton							
+HPRT1	Endocrine/Metabolic	Brain/Cognition						
+ZMYND10	Respiratory tract							
+KCNH5	Brain/Cognition							
+ASXL3	Face	Brain/Cognition						
+KCTD7	Brain/Cognition							
+DAG1	Musculature	Brain/Cognition						
+ABCB7	Bone Marrow/Immune	Brain/Cognition						
+CTC1	Brain/Cognition	Heart/Cardiovasculature/Lymphatic						
+CLMP	GI tract							
+FAH	Kidney Renal Tract	Endocrine/Metabolic	Brain/Cognition	GI tract				
+SMC1A	Skeleton	Brain/Cognition	GI tract	Genitalia				
+COMP	Skeleton							
+CHST14	Skin	Eye						
+CRYBB3	Eye							
+IHH	Skeleton							
+CDON	Brain/Cognition							
+FUCA1	Skeleton	Endocrine/Metabolic	Brain/Cognition	GI tract				
+CACNA1C	Skeleton	Heart/Cardiovasculature/Lymphatic						
+TRIP11	Skeleton							
+COL4A3	Kidney Renal Tract	Eye	Ear					
+IDS	Skeleton	Endocrine/Metabolic	Brain/Cognition	GI tract				
+SPRED1	Skin							
+TGIF1	Brain/Cognition							
+BCS1L	Skeleton	Endocrine/Metabolic	GI tract					
+AIPL1	Eye							
+PHF6	Face	Brain/Cognition						
+CCDC114	Respiratory tract							
+KIF1A	Peripheral nerves	Brain/Cognition						
+FAM20C	Skeleton	Brain/Cognition						
+GRM6	Eye							
+SNRPE	Hair/Nails							
+RAF1	Skin	Skeleton	Brain/Cognition	Ear				
+KIF1A	Peripheral nerves							
+SRD5A3	Endocrine/Metabolic	Brain/Cognition						
+IGF1R	Endocrine/Metabolic							
+IARS2	Endocrine/Metabolic	Brain/Cognition						
+CAPN10	Brain/Cognition							
+FAM161A	Eye							
+MID1	Face	Brain/Cognition						
+PNPT1	Ear							
+PLCE1	Kidney Renal Tract							
+VLDLR	Skeleton	Brain/Cognition						
+MEF2C	Face	Brain/Cognition						
+SOBP	Face	Brain/Cognition	Eye					
+MSX2	Skeleton							
+ZNF599	Brain/Cognition							
+NLGN4X	Brain/Cognition							
+ALDH7A1	Brain/Cognition							
+NMNAT1	Eye							
+TUBB4A	Brain/Cognition							
+AK2	Bone Marrow/Immune	Ear						
+HSD3B7	Endocrine/Metabolic	GI tract						
+EGR2	Spinal cord/Peripheral nerves							
+ZMYM6	Brain/Cognition							
+SIX6	Eye							
+IGSF1	Endocrine/Metabolic	Genitalia						
+ERCC6L2	Bone Marrow/Immune	Brain/Cognition						
+CEP57	Bone Marrow/Immune	Brain/Cognition						
+HPSE2	Kidney Renal Tract	Face						
+NLGN3	Brain/Cognition							
+IRX5	Bone Marrow/Immune	Face	Skeleton	Brain/Cognition				
+KIF7	Brain/Cognition							
+LMBRD1	Skeleton	Endocrine/Metabolic	Heart/Cardiovasculature/Lymphatic					
+RMRP	Skeleton							
+LAMP2	Musculature	Heart/Cardiovasculature/Lymphatic						
+GAD1	Brain/Cognition							
+HNF4A	Kidney Renal Tract	Endocrine/Metabolic						
+LTBP2	Eye							
+MAPK10	Brain/Cognition							
+OTX2	Endocrine/Metabolic	Brain/Cognition	Eye					
+UQCRQ	Endocrine/Metabolic	Brain/Cognition						
+DIP2B	Brain/Cognition							
+GATA2	Bone Marrow/Immune	Heart/Cardiovasculature/Lymphatic						
+SDHAF1	Endocrine/Metabolic	Brain/Cognition						
+FBN1	Skeleton	Eye	Heart/Cardiovasculature/Lymphatic					
+ATP8B1	Endocrine/Metabolic	GI tract						
+FIG4	Skeleton	Spinal cord/Peripheral nerves	Brain/Cognition					
+SECISBP2	Endocrine							
+MTMR14	Musculature							
+MAN2B1	Bone Marrow/Immune	Endocrine/Metabolic	Brain/Cognition					
+RAD51C	Bone Marrow/Immune	Skeleton	Brain/Cognition					
+FOXG1	Brain/Cognition							
+CCNA2	Brain/Cognition							
+TWIST2	Skin							
+ADNP	Brain/Cognition							
+NDUFAF2	Endocrine/Metabolic	Brain/Cognition						
+IGBP1	Face	Brain/Cognition	Eye					
+GCH1	Endocrine/Metabolic	Brain/Cognition						
+TRPV4	Skeleton							
+LIG4	Bone Marrow/Immune	Brain/Cognition						
+COA5	Endocrine/Metabolic	Brain/Cognition	GI tract	Heart/Cardiovasculature/Lymphatic				
+COL25A1	Spinal cord/Peripheral nerves	Eye						
+POLR1C	Face	Ear						
+KCNH1	Skeleton	Brain/Cognition						
+IFIH1	Bone Marrow/Immune	Teeth & Dentitian	Skin	Skeleton	Brain/Cognition	Eye		
+SIX3	Brain/Cognition							
+CHRNA4	Brain/Cognition							
+PCDH19	Brain/Cognition							
+TBX4	Skeleton							
+HEXA	Endocrine/Metabolic	Brain/Cognition						
+ATP6V1B1	Kidney Renal Tract	Ear						
+RSPH1	Respiratory tract							
+SMAD4	Skeleton	GI tract	Heart/Cardiovasculature/Lymphatic					
+C5orf42	Brain/Cognition							
+ALX4	Face	Skeleton						
+SCO2	Endocrine/Metabolic	Brain/Cognition						
+MAF	Face	Brain/Cognition	Eye					
+CCNO	Respiratory tract							
+WDPCP	Kidney Renal Tract	Skeleton	Brain/Cognition	Eye				
+ALX3	Face							
+FREM1	Skin	Kidney Renal Tract	Skeleton	Brain/Cognition	Eye	GI tract		
+CKAP2L	Face	Skeleton	Brain/Cognition					
+UBE3A	Face	Brain/Cognition						
+POLR3B	Teeth & Dentitian	Endocrine/Metabolic	Brain/Cognition					
+SEC23A	Skeleton	Eye						
+WNT5A	Face	Skeleton						
+MAMLD1	Genitalia							
+STT3A	Brain/Cognition							
+UBE3B	Skin	Skeleton	Brain/Cognition	GI tract				
+JAK3	Bone Marrow/Immune							
+AP4S1	Brain/Cognition							
+COX10	Musculature	Endocrine/Metabolic	Brain/Cognition	Heart/Cardiovasculature/Lymphatic				
+ALG3	Endocrine/Metabolic	Brain/Cognition						
+KIF2A	Brain/Cognition							
+NDE1	Brain/Cognition							
+KANSL1	Brain/Cognition							
+WDR11	Endocrine	Genitalia						
+ALDH1A3	Brain/Cognition	Eye						
+THAP1	Brain/Cognition							
+SOS1	Skin	Brain/Cognition	Heart/Cardiovasculature/Lymphatic					
+HAX1	Bone Marrow/Immune							
+COX14	Endocrine/Metabolic	Brain/Cognition						
+ITGA7	Musculature							
+TSPAN7	Brain/Cognition							
+MYOC	Eye							
+CASP2	Brain/Cognition							
+MBD5	Brain/Cognition							
+RPE65	Eye							
+CUL4B	Brain/Cognition	Genitalia						
+TMCO1	Face	Skeleton	Brain/Cognition					
+AKT3	Brain/Cognition							
+FOLR1	Endocrine/Metabolic	Brain/Cognition						
+PAPSS2	Skeleton	Endocrine/Metabolic						
+TRIO	Brain/Cognition							
+ASH1L	Brain/Cognition							
+SDHA	Endocrine/Metabolic	Brain/Cognition	Heart/Cardiovasculature/Lymphatic					
+TSHR	Endocrine/Metabolic							
+COL9A3	Musculature	Skeleton						
+GRIA3	Brain/Cognition							
+PHIP	Brain/Cognition							
+ERCC5	Skin	Skeleton	Spinal cord/Peripheral nerves	Brain/Cognition	Eye	Ear		
+TSC2	Skin	Kidney Renal Tract	Brain/Cognition					
+NPHP1	Kidney Renal Tract	Eye						
+VDR	Skeleton	Endocrine/Metabolic						
+PRSS56	Eye							
+TUFM	Endocrine/Metabolic	Brain/Cognition						
+GRIN1	Brain/Cognition							
+PIGT	Skeleton	Endocrine/Metabolic	Brain/Cognition	Eye				
+MIR184	Eye							
+SPG11	Brain/Cognition							
+TYRP1	Skin	Eye						
+PAK3	Brain/Cognition							
+CSPP1	Skeleton	Brain/Cognition						
+EMX2	Brain/Cognition							
+ALG2	Endocrine/Metabolic	Brain/Cognition						
+TACO1	Endocrine/Metabolic	Brain/Cognition						
+TUBB3	Brain/Cognition							
+CCND2	Skeleton	Brain/Cognition						
+TTC37	Skin	GI tract						
+P3H1	Skeleton							
+GNAI3	Face	Ear						
+ALDH4A1	Endocrine/Metabolic	Brain/Cognition						
+RBPJ	Skin	Skeleton						
+GPR179	Eye							
+MTM1	Musculature							
+ERBB3	Skeleton	Spinal cord/Peripheral nerves						
+CTDP1	Musculature	Spinal cord/Peripheral nerves	Brain/Cognition	Eye				
+LFNG	Skeleton							
+EVC2	Teeth & Dentitian	Skeleton	Heart/Cardiovasculature/Lymphatic					
+CA5A	Endocrine/Metabolic							
+MAN1B1	Brain/Cognition							
+LONP1	Skeleton	Brain/Cognition	GI tract	Ear	Genitalia	Heart/Cardiovasculature/Lymphatic		
+NSMCE3	Respiratory tract							
+CRELD1	GI tract	Heart/Cardiovasculature/Lymphatic						
+ACAD9	Endocrine/Metabolic	Brain/Cognition	Heart/Cardiovasculature/Lymphatic					
+SPR	Brain/Cognition							
+GABBR2	Brain/Cognition							
+SMOC2	Teeth & Dentitian							
+MCEE	Multisystem							
+CNKSR2	Brain/Cognition							
+EDN1	Face	Ear						
+ATIC	Endocrine/Metabolic	Brain/Cognition						
+AP4E1	Brain/Cognition							
+ERMARD	Brain/Cognition							
+KPTN	Brain/Cognition							
+CPS1	Endocrine/Metabolic	Brain/Cognition						
+INPPL1	Skeleton							
+MC2R	Endocrine/Metabolic							
+DYRK1A	Face	Brain/Cognition						
+ACTA1	Musculature							
+PREPL	Kidney Renal Tract	Endocrine/Metabolic	Brain/Cognition					
+DDX58	Teeth & Dentitian	Skin	Skeleton	Eye				
+DECR1	Endocrine/Metabolic	Brain/Cognition						
+POMGNT2	Brain/Cognition	Eye						
+TM4SF20	Brain/Cognition							
+COL4A3BP	Brain/Cognition							
+AKT1	Skin	Skeleton	Heart/Cardiovasculature/Lymphatic					
+PITX1	Skeleton							
+LAMB1	Brain/Cognition							
+BCKDHB	Endocrine/Metabolic	Brain/Cognition						
+TAZ	Endocrine/Metabolic	Brain/Cognition	Heart/Cardiovasculature/Lymphatic					
+MTR	Bone Marrow/Immune	Endocrine/Metabolic	Brain/Cognition	Heart/Cardiovasculature/Lymphatic				
+MYCN	Skeleton	Brain/Cognition	GI tract	Ear				
+ACP5	Bone Marrow/Immune	Skeleton						
+FTSJ1	Brain/Cognition							
+GBA2	Brain/Cognition							
+IL1RAPL1	Brain/Cognition							
+ST3GAL5	Brain/Cognition							
+RBM8A	Bone Marrow/Immune	Skeleton						
+SRGAP3	Brain/Cognition							
+KCNJ10	Endocrine/Metabolic	Brain/Cognition	Ear					
+PLOD2	Skeleton							
+FANCM	Bone Marrow/Immune	Skeleton	Cancer predisposition					
+COL18A1	Skin	Skeleton	Eye					
+COG4	Endocrine/Metabolic	Brain/Cognition						
+TYR	Skin	Eye						
+IGHMBP2	Musculature	Respiratory tract						
+KLF1	Bone Marrow/Immune							
+MLC1	Brain/Cognition							
+TGFB2	Heart/Cardiovasculature/Lymphatic							
+DNAAF5	Respiratory tract							
+RYR3	Brain/Cognition							
+TRAPPC11	Musculature	Brain/Cognition						
+SPEG	Musculature	Heart/Cardiovasculature/Lymphatic						
+HIBCH	Endocrine/Metabolic	Brain/Cognition						
+SCO1	Musculature	Endocrine/Metabolic	Brain/Cognition	GI tract	Heart/Cardiovasculature/Lymphatic			
+LHX3	Skeleton	Endocrine/Metabolic	Ear					
+NHP2	Skin	Endocrine/Metabolic						
+UROS	Skin							
+SHANK2	Brain/Cognition							
+NEB	Musculature	Spinal cord/Peripheral nerves						
+L2HGDH	Endocrine/Metabolic	Brain/Cognition						
+FGF9	Skeleton	Ear						
+RAB3GAP2	Brain/Cognition	Eye	Genitalia					
+TGDS	Face	Skeleton						
+LBR	Bone Marrow/Immune	Skeleton	Brain/Cognition					
+SEC23B	Bone Marrow/Immune							
+MTOR	Face	Brain/Cognition						
+HOXA13	Skeleton	Genitalia						
+SLC27A4	Skin	Respiratory tract						
+ALDH3A2	Brain/Cognition							
+TBX22	Face							
+HPS1	Bone Marrow/Immune	Skin						
+GK	Endocrine/Metabolic							
+TUBB2B	Brain/Cognition							
+CCDC103	Lungs	GI tract	Heart/Cardiovasculature/Lymphatic					
+STT3B	Endocrine/Metabolic	Brain/Cognition						
+CLPB	Bone Marrow/Immune	Endocrine/Metabolic	Brain/Cognition	Eye				
+DMD	Musculature	Brain/Cognition						
+RBM10	Face	Brain/Cognition						
+EFTUD2	Face	Brain/Cognition	Genitalia					
+FASN	Brain/Cognition							
+APTX	Spinal cord/Peripheral nerves	Brain/Cognition	Eye					
+MCCC1	Endocrine/Metabolic	Brain/Cognition						
+SLC35D1	Skeleton							
+PMS2	GI tract							
+TAB2	Heart/Cardiovasculature/Lymphatic							
+LTBP3	Teeth & Dentitian	Skeleton						
+ZCCHC8	Brain/Cognition							
+KDM6B	Brain/Cognition							
+IFT80	Skeleton							
+FKBP14	Musculature	Skin	Skeleton	Ear				
+FOXC2	Eye	Heart/Cardiovasculature/Lymphatic						
+LINS1	Brain/Cognition							
+DLD	Endocrine/Metabolic	Brain/Cognition						
+PAX8	Endocrine/Metabolic	Brain/Cognition						
+ENPP1	Heart/Cardiovasculature/Lymphatic							
+PDE4D	Skeleton							
+TRAPPC9	Brain/Cognition							
+CTNNB1	Brain/Cognition							
+ZNF713	Brain/Cognition							
+KDM5C	Face	Brain/Cognition						
+FLT4	Heart/Cardiovasculature/Lymphatic							
+SMAD2	Heart/Cardiovasculature/Lymphatic							
+CACNA1G	Brain/Cognition							
+MPV17	Endocrine/Metabolic	GI tract						
+TSC1	Skin	Kidney Renal Tract	Brain/Cognition					
+PNKP	Brain/Cognition							
+SEC24D	Face	Skeleton						
+SYN1	Brain/Cognition							
+CCDC22	Brain/Cognition							
+SKI	Skeleton	Brain/Cognition	Heart/Cardiovasculature/Lymphatic					
+DGAT1	GI tract							
+DCHS1	Brain/Cognition							
+POLR1D	Face	Ear						
+ACVR1	Musculature	Skeleton						
+PHOX2B	Endocrine/Metabolic	Brain/Cognition	GI tract					
+ST14	Skin							
+PLA2G6	Brain/Cognition							
+BRWD3	Brain/Cognition							
+WDR62	Brain/Cognition							
+MYT1L	Brain/Cognition							
+PPP2R5D	Brain/Cognition							
+B9D1	Skeleton	Brain/Cognition						
+ERCC8	Skin	Skeleton	Brain/Cognition					
+COL4A2	Brain/Cognition	Heart/Cardiovasculature/Lymphatic						
+DKC1	Bone Marrow/Immune	Skin	Endocrine/Metabolic					
+NPC1	Endocrine/Metabolic	Brain/Cognition						
+GJA3	Eye							
+DPM1	Endocrine/Metabolic	Brain/Cognition						
+DLG3	Brain/Cognition							
+STAR	Genitalia							
+GALE	Endocrine/Metabolic	Brain/Cognition	Eye	GI tract	Ear			
+MMACHC	Skeleton	Endocrine/Metabolic	Brain/Cognition	Heart/Cardiovasculature/Lymphatic				
+FYCO1	Eye							
+BBS2	Skeleton	Brain/Cognition	Eye					
+APOPT1	Endocrine/Metabolic	Brain/Cognition						
+FBXL4	Endocrine/Metabolic	Brain/Cognition						
+FBP1	Endocrine/Metabolic							
+AGXT	Kidney Renal Tract	Endocrine/Metabolic						
+C21orf59	Respiratory tract							
+TUSC3	Brain/Cognition							
+TSEN2	Brain/Cognition							
+LRIG2	Kidney Renal Tract	Face						
+SNIP1	Skeleton	Brain/Cognition						
+PCYT1A	Skeleton	Eye						
+ZSWIM6	Face	Skeleton						
+MAP2K2	Skin	Skeleton	Brain/Cognition	Heart/Cardiovasculature/Lymphatic				
+CAPRIN1	Brain/Cognition							
+MMP14	Skeleton							
+TAF2	Brain/Cognition							
+RAB23	Skeleton	Brain/Cognition	Heart/Cardiovasculature/Lymphatic					
+TMPRSS6	Bone Marrow/Immune							
+HMGCS2	Endocrine/Metabolic							
+ASS1	Endocrine/Metabolic							
+POLG	Brain/Cognition							
+VPS33B	Kidney Renal Tract	Skeleton	GI tract					
+DCDC2	Kidney Renal Tract	GI tract						
+RNASET2	Brain/Cognition							
+MGP	Skeleton	Brain/Cognition	Ear	Heart/Cardiovasculature/Lymphatic				
+TCOF1	Face	Ear						
+DOCK7	Brain/Cognition							
+AIMP1	Brain/Cognition							
+HDAC4	Skeleton	Brain/Cognition						
+CRBN	Brain/Cognition							
+ROGDI	Teeth & Dentitian	Brain/Cognition						
+NRAS	Skin	Brain/Cognition	Heart/Cardiovasculature/Lymphatic					
+NBN	Bone Marrow/Immune	Skeleton						
+LMX1B	Skin	Skeleton						
+ACAT1	Endocrine/Metabolic							
+TSHB	Endocrine/Metabolic	Brain/Cognition						
+NPHP3	Kidney Renal Tract	GI tract						
+KDM5A	Brain/Cognition							
+PDE6H	Eye							
+DIS3L2	Cancer predisposition							
+GTF2H5	Bone Marrow/Immune	Skin	Brain/Cognition					
+HYAL1	Skeleton	Endocrine/Metabolic						
+HCFC1	Brain/Cognition							
+RNF168	Bone Marrow/Immune	Face	Brain/Cognition					
+CEP83	Kidney Renal Tract	Brain/Cognition						
+ITPR1	Brain/Cognition							
+WAC	Brain/Cognition							
+CHD8	Brain/Cognition							
+CYP1B1	Eye							
+SF3B4	Face							
+HNRNPU	Brain/Cognition							
+ATP8A2	Brain/Cognition							
+BTD	Skin	Endocrine/Metabolic	Brain/Cognition	Ear				
+SYP	Brain/Cognition							
+UROC1	Endocrine/Metabolic	Brain/Cognition						
+IGFBP7	Eye	Heart/Cardiovasculature/Lymphatic						
+IVD	Endocrine/Metabolic	Brain/Cognition						
+LRIT3	Eye							
+SIL1	Skeleton	Endocrine/Metabolic	Brain/Cognition	Eye				
+SOX5	Brain/Cognition							
+PORCN	Skin	Skeleton						
+NAA15	Heart/Cardiovasculature/Lymphatic							
+BBS7	Skeleton	Brain/Cognition	Eye					
+PTH	Skeleton							
+ETHE1	Endocrine/Metabolic	Brain/Cognition	Heart/Cardiovasculature/Lymphatic					
+CTSK	Skeleton							
+COL3A1	Skin	Skeleton	Heart/Cardiovasculature/Lymphatic					
+CCDC8	Skeleton	Brain/Cognition						
+LIPN	Skin							
+SLC24A1	Eye							
+ATM	Bone Marrow/Immune	Brain/Cognition	Heart/Cardiovasculature/Lymphatic					
+ERCC4	Skin	Skeleton						
+TMEM70	Endocrine/Metabolic	Brain/Cognition						
+PGM1	Face	Endocrine/Metabolic						
+NEK1	Skeleton							
+FOXP1	Brain/Cognition							
+SMARCAL1	Skeleton							
+SPECC1L	Face							
+DHCR7	Face	Skeleton	Endocrine/Metabolic	Brain/Cognition	Genitalia			
+RSPH3								
+LARP7	Teeth & Dentitian	Skin	Face	Brain/Cognition	Heart/Cardiovasculature/Lymphatic			
+KMT2A	Skin	Skeleton	Brain/Cognition					
+CYB5R3	Bone Marrow/Immune	Endocrine/Metabolic	Brain/Cognition					
+CRADD	Brain/Cognition							
+PHF8	Brain/Cognition							
+ARSE	Skeleton	Brain/Cognition						
+GRM1	Brain/Cognition							
+STIL	Brain/Cognition							
+PIGN	Brain/Cognition							
+MAF	Eye							
+BIN1	Musculature							
+DARS	Brain/Cognition							
+CDKN1C	Endocrine/Metabolic	Cancer predisposition						
+CHD2	Brain/Cognition							
+CHM	Eye							
+PTCH1	Skin	Brain/Cognition						
+ERCC1	Bone Marrow/Immune	Endocrine/Metabolic	Brain/Cognition	Eye				
+POC1A	Skeleton							
+BMPR1B	Skeleton							
+MUT	Endocrine/Metabolic	Brain/Cognition						
+PSAT1	Brain/Cognition							
+TSHZ1	Ear							
+PACS1	Brain/Cognition							
+FANCI	Bone Marrow/Immune	Skeleton	Cancer predisposition					
+GSPT2	Brain/Cognition							
+GLIS3	Kidney Renal Tract	Endocrine/Metabolic						
+RNF113A	Skin	Skeleton	Brain/Cognition					
+PPP2R1A	Brain/Cognition							
+KIF4A	Brain/Cognition							
+MAOA	Brain/Cognition							
+MEGF8	Skeleton	GI tract	Heart/Cardiovasculature/Lymphatic					
+SKIV2L	Skin	GI tract						
+BBS12	Skeleton	Brain/Cognition	Eye					
+C4orf26	Teeth & Dentitian							
+AFF4	Brain/Cognition							
+IFITM5	Skeleton							
+NPC2	Endocrine/Metabolic	Brain/Cognition						
+SLC9A9	Brain/Cognition							
+CIC	Brain/Cognition							
+EIF4A3	Face	Skeleton						
+CACNA1H	Brain/Cognition							
+ST3GAL3	Brain/Cognition							
+CLCN4	Brain/Cognition							
+MAB21L2	Skeleton	Brain/Cognition	Eye					
+ATP6AP2	Brain/Cognition							
+SLC33A1	Endocrine/Metabolic	Eye	Ear					
+FGD1	Face	Skeleton	Genitalia					
+PRMT9	Brain/Cognition							
+HPGD	Skeleton							
+COQ8A	Musculature	Endocrine/Metabolic	Brain/Cognition					
+XPA	Bone Marrow/Immune	Skin	Skeleton					
+TDRD7	Eye							
+TTI2	Brain/Cognition							
+NODAL	GI tract	Heart/Cardiovasculature/Lymphatic						
+BLM	Bone Marrow/Immune	Skin	Brain/Cognition					
+TMEM135	Brain/Cognition							
+MEOX1	Skeleton							
+IL11	Teeth & Dentitian	Skeleton						
+AMT	Endocrine/Metabolic	Brain/Cognition						
+XPNPEP3	Kidney Renal Tract							
+CUL7	Skeleton	Brain/Cognition						
+CTSD	Endocrine/Metabolic	Brain/Cognition						
+RAB3GAP1	Brain/Cognition	Eye	Genitalia					
+EDNRB	Multisystem							
+SDCCAG8	Kidney Renal Tract	Eye						
+ATP6V1B2	Teeth & Dentitian	Skin	Brain/Cognition					
+PQBP1	Brain/Cognition	Eye	Genitalia					
+MCPH1	Brain/Cognition							
+NEXMIF	Brain/Cognition							
+SPAG1	Respiratory tract							
+GLE1	Skeleton	Spinal cord/Peripheral nerves						
+CCDC39	Multisystem							
+NUBPL	Endocrine/Metabolic	Brain/Cognition						
+ITGA6	Skin	GI tract						
+GPC6	Skeleton							
+POMP	Skin							
+EZH2	Skeleton	Brain/Cognition						
+GLMN	Heart/Cardiovasculature/Lymphatic							
+COL4A4	Kidney Renal Tract	Eye	Ear					
+TK2	Endocrine/Metabolic	Brain/Cognition						
+ETFB	Endocrine/Metabolic	Brain/Cognition						
+UTP4	GI tract							
+TXNL4A	Face	Heart/Cardiovasculature/Lymphatic						
+ITGA8	Kidney Renal Tract							
+ORC6	Skeleton	Brain/Cognition	Ear					
+POU1F1	Endocrine/Metabolic							
+ENTPD1	Brain/Cognition							
+EFNB1	Face	Skeleton						
+CC2D1A	Brain/Cognition							
+UBR7	Brain/Cognition							
+DDX59	Face	Skeleton	GI tract					
+NDUFB11	Endocrine/Metabolic	Eye						
+GM2A	Endocrine/Metabolic	Brain/Cognition						
+MCOLN1	Endocrine/Metabolic	Brain/Cognition	Eye	GI tract				
+ERF	Face	Skeleton						
+EDNRA	Face	Hair/Nails						
+TRIM37	Musculature	Brain/Cognition	Eye	GI tract				
+AKR1D1	Endocrine/Metabolic	GI tract						
+RANBP2	Brain/Cognition							
+SCRIB	Brain/Cognition	Eye						
+PGAP3	Endocrine/Metabolic	Brain/Cognition						
+SPTLC2	Peripheral nerves							
+HIST1H4B	Brain/Cognition							
+ACADVL	Endocrine/Metabolic							
+PCCB	Endocrine/Metabolic	Brain/Cognition						
+FOXP3	Bone Marrow/Immune	Endocrine/Metabolic	Brain/Cognition					
+NOTCH3	Skin	GI tract						
+BSND	Kidney Renal Tract	Ear						
+COX6B1	Musculature	Endocrine/Metabolic	Brain/Cognition	Heart/Cardiovasculature/Lymphatic				
+PUF60	Kidney Renal Tract	Skeleton	Eye	Brain/Cognition	Ear	Heart/Cardiovasculature/Lymphatic		
+PALB2	Bone Marrow/Immune	Skeleton						
+VIP	Brain/Cognition							
+PGM3	Bone Marrow/Immune	Skeleton						
+SUCLG1	Endocrine/Metabolic	Brain/Cognition						
+INPP4A	Brain/Cognition							
+SLC31A1	Brain/Cognition							
+CSTB	Brain/Cognition							
+TH	Brain/Cognition							
+MAGT1	Brain/Cognition							
+CCDC65	Respiratory tract							
+DRC1	Respiratory tract							
+RAD50	Bone Marrow/Immune	Brain/Cognition						
+RNASEH2C	Skin	Brain/Cognition						
+CCDC40								
+PYCR2	Brain/Cognition							
+SBDS	Bone Marrow/Immune	Endocrine/Metabolic						
+RTTN	Brain/Cognition							
+IGF1	Skeleton	Brain/Cognition	Ear					
+FRAS1	Skin	Eye	Respiratory tract	Heart/Cardiovasculature/Lymphatic				
+SNX14	Brain/Cognition							
+PDGFRB	Musculature	Skin	Skeleton					
+SPRTN	Bone Marrow/Immune	Cancer predisposition						
+FBXO25	Brain/Cognition							
+GATM	Endocrine/Metabolic	Brain/Cognition						
+AHDC1	Brain/Cognition							
+DDOST	Endocrine/Metabolic	Brain/Cognition						
+RAB18	Brain/Cognition	Eye	Genitalia					
+CHRNA1	Musculature	Spinal cord/Peripheral nerves						
+CDKL5	Brain/Cognition							
+KCNB1	Brain/Cognition							
+PSAP	Endocrine/Metabolic	Brain/Cognition						
+GMPPA	Endocrine/Metabolic	Brain/Cognition						
+EEF1A2	Brain/Cognition							
+TPP1	Endocrine/Metabolic	Brain/Cognition						
+PIEZO2	Musculature	Eye	Respiratory tract					
+ZBTB20	Brain/Cognition							
+EOMES	Brain/Cognition							
+VIPAS39	Kidney Renal Tract	Skeleton	Spinal cord/Peripheral nerves	GI tract				
+CISD2	Endocrine/Metabolic	Brain/Cognition	GI tract	Ear				
+DDX11	Bone Marrow/Immune	Skin	Brain/Cognition					
+TSEN54	Brain/Cognition							
+FOXRED1	Endocrine/Metabolic	Brain/Cognition						
+POLR1A	Face	Skeleton						
+GALNS	Skeleton	Endocrine/Metabolic	Brain/Cognition					
+COG8	Endocrine/Metabolic	Brain/Cognition						
+PLOD1	Skin	Skeleton						
+UQCRB	Endocrine/Metabolic	Brain/Cognition						
+SHANK1	Brain/Cognition							
+HYDIN	GI tract	Respiratory tract	Heart/Cardiovasculature/Lymphatic					
+TCTN3	Skeleton							
+KIF22	Skeleton							
+NDUFA1	Endocrine/Metabolic	Brain/Cognition						
+GLIS2	Kidney Renal Tract							
+ASXL1	Face	Brain/Cognition						
+TBR1	Brain/Cognition							
+CLN5	Endocrine/Metabolic	Brain/Cognition	Eye					
+CREBBP	Skeleton	Brain/Cognition						
+GPC3	Face	Skeleton	Heart/Cardiovasculature/Lymphatic					
+SHOC2	Skin	Skeleton	Multisystem					
+EIF2AK3	Skeleton	Endocrine/Metabolic	Brain/Cognition	GI tract				
+ACTG1	Brain/Cognition	Eye						
+HLCS	Endocrine/Metabolic							
+ZMYND11	Face	Brain/Cognition						
+USB1	Bone Marrow/Immune	Skin	Skeleton					
+STAT2	Multisystem	Brain/Cognition						
+RIN2	Skin	Skeleton	Brain/Cognition					
+HACE1	Brain/Cognition							
+KIAA0586	Brain/Cognition							
+MMP21	GI tract	Brain/Cognition	Heart/Cardiovasculature/Lymphatic					
+PRMT7	Skeleton	Brain/Cognition						
+SCN3A	Brain/Cognition							
+AHI1								
+TUBB	Skin	Skeleton	Face	Brain/Cognition				
+MAPRE2	Bone Marrow/Immune	Skin	Skeleton	Face				
+MECOM	Bone Marrow/Immune	Skeleton						
+HOXA11	Bone Marrow/Immune	Skeleton						
+SCYL1	Peripheral nerves	GI tract	Brain/Cognition					
+COL13A1	Musculature	Peripheral nerves						
+SLC39A8	Brain/Cognition							
+GMNN	Skeleton	Brain/Cognition	Ear					
+TAF1	Face	Brain/Cognition						
+DKC1	Bone Marrow/Immune	Skeleton	Brain/Cognition					
+TERT	Bone Marrow/Immune	Skin	Skeleton	Brain/Cognition				
+PARN	Bone Marrow/Immune	Skin	Skeleton	Brain/Cognition				
+TINF2	Bone Marrow/Immune	Skin	Skeleton	GI tract	Brain/Cognition			
+TPM2	Musculature							
+TCN2	Endocrine/Metabolic	Brain/Cognition						
+CLIC2	Brain/Cognition	Heart/Cardiovasculature/Lymphatic						
+TERC	Bone Marrow/Immune							
+TRAIP	Skeleton	Brain/Cognition						
+COL6A3								
+ADGRG6								
+XYLT2								
+SPARC								
+UBE2T								
+TBX18								
+THOC2								
+ZIC1								
+SPATA5								
+PDGFRB								
+DLL4								
+ALDH18A1								
+TAPT1								
+GAS8								
+NUP107								
+RSPRY1								
+MAGEL2								
+SLC25A26								
+RTN4IP1	Endocrine/Metabolic	Brain/Cognition						
+CEP104								
+KITLG								
+MFSD2A								
+PRDM12								
+CRIPT								
+D2HGDH								
+CNTNAP1								
+DSE								
+WDR81								
+CCDC88C								
+NDUFA10								
+NDUFA9								
+PIGW								
+GPX4								
+CNOT3								
+CSNK2A1								
+GNAI1								
+KCNQ3								
+KDM5B								
+MSL3								
+MYT1L								
+PPM1D	Brain/Cognition							
+PUF60								
+QRICH1	Face	Brain/Cognition						
+SET	Brain/Cognition							
+KMT5B								
+TCF20								
+ZBTB18								
+WAC								
+UNC80	Brain/Cognition							
+CCDC115	Endocrine/Metabolic	GI tract	Brain/Cognition					
+TMEM199								
+TANGO2	Musculature	Endocrine/Metabolic	Brain/Cognition	Heart/Cardiovasculature/Lymphatic				
+TRIP4	Spinal cord/Peripheral nerves	Skeleton	Brain/Cognition					
+ASCC1	Spinal cord/Peripheral nerves	Skeleton	Brain/Cognition					
+DVL3	Skeleton	Face	Genitalia					
+EMC1	Skeleton	Brain/Cognition						
+FGFR1	Skin	Skeleton	Brain/Cognition					
+PIGG	Brain/Cognition							
+GTF2E2	Bone Marrow/Immune	Skin	Brain/Cognition					
+SMG9	Face	Brain/Cognition	Heart/Cardiovasculature/Lymphatic					
+PDE10A	Brain/Cognition							
+TBCK	Musculature	Face	Brain/Cognition					
+GNAQ	Heart/Cardiovasculature/Lymphatic							
+GNA11	Heart/Cardiovasculature/Lymphatic							
+TELO2	Skeleton	Face	Eye	Brain/Cognition	Ear	Heart/Cardiovasculature/Lymphatic		
+RERE	Kidney Renal Tract	Face	Brain/Cognition	Genitalia	Ear	Heart/Cardiovasculature/Lymphatic		
+ITPR1	Eye	Brain/Cognition						
+TRMT10C	Endocrine/Metabolic	Brain/Cognition	Ear					
+GNB1	Brain/Cognition							
+GNB3	Eye							
+PRDM6	Heart/Cardiovasculature/Lymphatic							
+FLAD1	Endocrine/Metabolic	Brain/Cognition						
+SAMD9L	Bone Marrow/Immune	Brain/Cognition						
+MAFB	Eye	Ear						
+TKT	Skeleton	Brain/Cognition	Heart/Cardiovasculature/Lymphatic					
+BGN	Skeleton							
+FRRS1L	Brain/Cognition							
+SMO	Skeleton	Face	Brain/Cognition					
+TFRC	Bone Marrow/Immune							
+FZD5								
+COL6A1								
+CDC45	Skeleton	Brain/Cognition	Ear					
+SEC61A1	Bone Marrow/Immune	Kidney Renal Tract						
+VAC14	Brain/Cognition							
+TMEM126B	Musculature	Endocrine/Metabolic						
+TSEN15	Brain/Cognition							
+KLHL7	Eye	Brain/Cognition						
+POT1	Eye	Brain/Cognition	Heart/Cardiovasculature/Lymphatic					
+CCDC88A	Brain/Cognition							
+PPP1CB	Multisystem	Hair/Nails	Brain/Cognition	Heart/Cardiovasculature/Lymphatic				
+NONO	Brain/Cognition	Heart/Cardiovasculature/Lymphatic						
+ATAD3A	Spinal cord/Peripheral nerves	Endocrine/Metabolic	Eye	Brain/Cognition				
+GORAB	Skin	Skeleton	Brain/Cognition					
+CYP24A1	Kidney Renal Tract	Endocrine/Metabolic						
+UBA5	Brain/Cognition							
+TBX15	Skeleton	Face						
+CHD4	Brain/Cognition	Heart/Cardiovasculature/Lymphatic						
+SH3BP2	Skeleton	Face						
+CDK13	Brain/Cognition	Heart/Cardiovasculature/Lymphatic						
+PRKD1	Brain/Cognition	Heart/Cardiovasculature/Lymphatic						
+CREBBP	Brain/Cognition							
+KPNA7	Brain/Cognition							
+TLK2								
+PPA2	Heart/Cardiovasculature/Lymphatic							
+NAA10								
+SMCHD1	Face	Eye						
+MYT1	Skeleton	Face	Eye	Ear				
+PKD1L1	Heart/Cardiovasculature/Lymphatic							
+MAP3K7	Skeleton	Face	Ear	Heart/Cardiovasculature/Lymphatic				
+MAP3K7	Skeleton							
+IL11RA	Teeth & Dentitian	Skeleton	Heart/Cardiovasculature/Lymphatic					
+IL11RA	Skeleton	Face	Ear					
+EIF2S3	Brain/Cognition							
+PPP1R15B	Brain/Cognition							
+NCAPD2	Skeleton	Brain/Cognition						
+NCAPD3	Skeleton	Brain/Cognition						
+NCAPH	Brain/Cognition							
+ARCN1	Skeleton	Brain/Cognition						
+PIGY								
+HTRA2	Endocrine/Metabolic	Brain/Cognition	Heart/Cardiovasculature/Lymphatic					
+PIEZO1	Heart/Cardiovasculature/Lymphatic							
+SNORD118	Brain/Cognition							
+OTULIN	Bone Marrow/Immune	Skin	Multisystem	GI tract				
+USP18	Lungs	Skeleton	Multisystem	Brain/Cognition				
+BGN	Skeleton	Face	Heart/Cardiovasculature/Lymphatic					
+NLRP5	Multisystem	Brain/Cognition						
+NANS	Skeleton	Brain/Cognition						
+TRIT1	Musculature	Endocrine/Metabolic	Brain/Cognition					
+PIEZO2	Musculature	Skeleton						
+BRPF1	Face	Brain/Cognition						
+HIVEP2	Brain/Cognition							
+CRIM1	Eye							
+HMGB3								
+KMT2B	Brain/Cognition							
+SETD1A	Brain/Cognition							
+STAG1	Face	Brain/Cognition						
+SLC1A2								
+ELMO2	Skeleton	Heart/Cardiovasculature/Lymphatic						
+IARS	Bone Marrow/Immune	Musculature	GI tract					
+GNA14	Heart/Cardiovasculature/Lymphatic							
+TTC25	Lungs	GI tract	Heart/Cardiovasculature/Lymphatic					
+DNAJB13	Lungs	Genitalia						
+CIT	Brain/Cognition							
+SIN3A	Face	Brain/Cognition						
+GNB5								
+SON	Skeleton	Brain/Cognition						
+HNRNPH2	Brain/Cognition							
+SLC5A7	Musculature	Peripheral nerves						
+EMG1	Bone Marrow/Immune	Multisystem	Brain/Cognition					
+GRIN2D	Brain/Cognition							
+ATAD3A	Brain/Cognition							
+SLC25A4	Musculature	Brain/Cognition	Heart/Cardiovasculature/Lymphatic					
+NAXE	Skin	Brain/Cognition						
+FGF12	Brain/Cognition							
+EBF3	Face	Brain/Cognition						
+KIDINS220	Endocrine/Metabolic	Eye	Brain/Cognition					
+MBOAT7	Brain/Cognition							
+GLDN	Spinal cord/Peripheral nerves							
+TBCD	Brain/Cognition							
+TBCE	Spinal cord/Peripheral nerves	Brain/Cognition						
+ASXL2	Face	Brain/Cognition						
+ARID2								
+CARS2	Brain/Cognition							
+CLTC	Brain/Cognition							
+CUL3	Brain/Cognition							
+DLG4	Brain/Cognition							
+FBXO11	Brain/Cognition							
+HECW2	Brain/Cognition							
+MORC2								
+TRIP12								
+PYROXD1	Musculature							
+SLC6A9	Endocrine/Metabolic	Brain/Cognition						
+TMTC3	Brain/Cognition							
+MECR								
+PLPBP	Brain/Cognition							
+CPAMD8	Eye							
+DENND5A	Brain/Cognition							
+AP3B2	Brain/Cognition							
+MITF								
+MDH2	Endocrine/Metabolic	Brain/Cognition						
+PIH1D3								
+MYPN								
+DNAJC12	Endocrine/Metabolic	Brain/Cognition						
+NEXMIF	Skeleton	Brain/Cognition						
+MYH10	Skeleton	Respiratory tract	Brain/Cognition					
+LRP6	GI tract							
+PRUNE1	Brain/Cognition							
+HIST1H4C	Face	Brain/Cognition						
+EPB41L1	Brain/Cognition							
+HIST1H1E	Skeleton	Brain/Cognition						
+RAB11B	Brain/Cognition							
+PSMD12	Kidney Renal Tract	Face	Brain/Cognition	Heart/Cardiovasculature/Lymphatic				
+CDH1	Teeth & Dentitian	Face	GI tract	Eye				
+CTNND1	Teeth & Dentitian	Face	GI tract	Eye				
+ACTB	Kidney Renal Tract	Brain/Cognition	Heart/Cardiovasculature/Lymphatic					
+AFF3	Skeleton	Brain/Cognition						
+KIAA1109	Skeleton	Brain/Cognition						
+BMP2								
+THOC6	Kidney Renal Tract	Face	Brain/Cognition					
+DNAH5	Lungs	Liver	Genitalia	Heart/Cardiovasculature/Lymphatic				
+FRMPD4	Brain/Cognition							
+KLHL15								
+LAS1L	Brain/Cognition							
+RLIM	Brain/Cognition	Genitalia						
+USP27X	Brain/Cognition							
+CDK16	Brain/Cognition							
+C21orf2	Skeleton	Eye						
+RRM2B	Multisystem	Brain/Cognition						
+BHLHA9								
+ZNF462	Face	Multisystem	Eye	Brain/Cognition				
+WDR26	Face	Brain/Cognition						
+ERF	Skeleton	Face	Respiratory tract					
+MRPS34	Endocrine/Metabolic	Brain/Cognition						
+UBTF	Brain/Cognition							
+LIPT2	Endocrine/Metabolic	Brain/Cognition						
+TRAPPC12	Brain/Cognition							
+YWHAG	Brain/Cognition							
+LIAS	Endocrine/Metabolic	Brain/Cognition						
+LIPT1	Endocrine/Metabolic	Brain/Cognition						
+ARMC9	Eye: Retina	Brain/Cognition						
+KCNQ5	Brain/Cognition							
+MYLK	Kidney Renal Tract	GI tract						
+NKX6-2	Brain/Cognition							
+PLAA	Brain/Cognition							
+EED								
+SLC45A1	Brain/Cognition							
+GZF1	Skeleton	Eye						
+CWC27	Skeleton	Eye	Brain/Cognition					
+LGI4	Skeleton	Peripheral nerves						
+TMEM260	Kidney Renal Tract	Brain/Cognition	Heart/Cardiovasculature/Lymphatic					
+OTUD6B	Skeleton	Brain/Cognition						
+RPS23	Face	Brain/Cognition	Ear					
+INPP5K	Musculature	Skeleton	Eye: Lens	Brain/Cognition				
+TAF13	Brain/Cognition							
+NACC1	Eye	Brain/Cognition						
+TRIP13	Kidney Renal Tract	Skeleton	Brain/Cognition					
+DCC	Brain/Cognition							
+ABL1	Skeleton	Heart/Cardiovasculature/Lymphatic						
+TOE1	Brain/Cognition							
+KDM1A	Face	Brain/Cognition						
+COLEC10	Kidney Renal Tract	Face	Brain/Cognition	Heart/Cardiovasculature/Lymphatic				
+DHRS3	Skeleton	Face	Brain/Cognition					
+PEX11B	Skeleton	Multisystem	Eye	Brain/Cognition				
+TUBG1	Brain/Cognition							
+FGFR1								

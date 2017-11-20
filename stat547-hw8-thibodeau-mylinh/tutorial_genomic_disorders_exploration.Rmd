@@ -1,0 +1,103 @@
+---
+title: "genomic_disorders_exploration_app_tutorial"
+author: "My Linh Thibodeau"
+date: '2017-11-19'
+output: github_document
+---
+
+# Welcome to the tutorial for my Genomic disorders exploration Shiny App
+
+Since the field of genetics/genomics is quite specialized, I realized it might pose difficulties for people to review my Shiny App without any guidance. Therefore, I decided to write a short tutorial to easy the process.
+
+
+## Why this app?
+
+I initially intended to make a Shiny App quiz on genomic disorders as a learning tool. A dear friend and colleague of mine will be passing her Royal College of Physicians and Surgeons Canada Medical Genetics and Genomics Specialty exam this year and I wanted to offer her this app as a gift. That being said, in the timeframe allowed for this assignment, I was only able to reach the level of an "exploration tool", so I will continue to work on this app even after this assignement ;)
+
+## What kind of data does it use?
+
+The app uses data from different resources (see at the end of this document for exact references):
+
+1. DECIPHER: A database of chromosomal imbalances (deletion/duplication) associated with abnormal phenotype.
+2. HGNC (HUGO Gene Nomemclature Committee): Provides a standardized language to refer to human genes and also links to other genetic/genomic databases.
+3. Orphanet: A resource for phenotypic and clinical information on rare genetic disorders. 
+
+The main dataset used in this app is from the aggregation of the 3 above mentioned datasets. Since it is based on the **overlap** between these datasets, it mainly contains Mendelian genomic disorders caused by chromosomal deletions/duplications and it does **not** include the vast majority of disorders purely caused by other molecular mechanisms (e.g. triplet repeat expansion disorders, point mutations). However, since some disorders can be caused by different types of of molecular mechanisms (e.g. neurofibromatosis can be caused by point mutations or more rarely, by large deletions), some of these disorders may also be included in my app. 
+
+## What does it do so far?
+
+The app has 3 tabs:
+
+* First tab: User input - It is meant for the user to enter  a phenotype and select the frequency of this phenotype, and then the app results the following data:
+	- A table with a list of syndromes (and associated characteristics if available, e.g. gene name)
+	- A bar plot of the distribution of the mutation consequence types (syn. types of mutations) for this specific phenotype + frequency of phenotype combination
+* Second tab: Add organ selection - The user might have a large table when entering a common phenotype (e.g. intellectual disability + very frequent ~ 40 syndromes) and might want to refine his search further more by adding another organ system that is affected in this syndrome.
+	- The user needs to select an organ and then click on the "CLICK HERE" button to make the table appear. The new table will only contain syndromes that fulfill all 3 criteria: phenotype + frequency + additional organ system involed. For example, selecting "Cancer predisposition" reduce the list of syndromes from ~40 to one: pearlman syndrome.
+	- If no syndrome corresponds to the combination of the 3 criteria, the table will be empty.
+* Third tab: Overview of source dataf - Contains general summary plots/figures of the aggregated data used for the app. 
+
+## How to use it?
+
+Here is a stepwise approach to use the app:
+
+1. Enter a phenotype (see next section for ideas of phenotypes to enter) and consult the table of syndromes and mutation consequence frequency.
+2. Move to the second tab and select an additional organ involved in the syndrome. Click on the "CLICK HERE" button to see a table of syndromes fulfilling all 3 criteria.
+3. Check out the third tab (overview of data) to have an overview of the source data (aggregated data) and some sample data to get a general idea of the format of data used in the app. 
+
+## Here are "premade" scenarios for you to test my app
+
+### Scenario 1 - Intellectual disability
+
+I described this scenario above, but let's break it down for ease:
+
+1. Enter the phenotype "intellectual disability" and leave the frequency of feature at the default feature "Very frequent (99-80%)"
+2. Navigate to second tab (Add organ selection) and select "Cancer predisposition"
+3. Press the "CLICK HERE" button and see the resulting table.f As you can see you only have one hit now: pearlman syndrome.
+
+### Scenario 2 - Cleft palate
+
+1. Enter the phenotype "cleft palate", but this time change the frequency to "Occasional (29-5%)" and browse the resulting table and plot.
+2. Navigate to second tab (Add organ selection) and select "Bone marrow failure"
+3. Press the "CLICK HERE" button and see the resulting table containing seven entities, many of which share a lot of phenotypic similarities. 
+	- This information is not in the table, I am providing it for your interest: The syndromes listed are part of the chromosomal breakage disorders group and they are complex disorders associated with multiple malformations and hematological involvement (not only bone marrow failure, but also hematological malignancies). The 
+
+### Scenario 3 - Skeletal dysplasia
+
+1. Enter the phenotype "skeletal dysplasia", but this time select the frequency to "Frequent (79-30%)".
+	- You will note that only one disorder, Neurofibromatosis type 1, frequently present skeletal dyplasia. 
+	- The reason is that skeletal dysplasias are caused by high penetrance mutations. These disorders are often in the "all or nothing" category. It is extremely rare to see an individual with one/two pathogenic mutation(s) (depending on inheritance) and no phenotype at all. If you change the frequency to "Very frequent (99-80%)", you will see a longer list of disorders.
+
+### Scenario 4 - Hearing impairment
+
+1. Enter the phenotype "hearing impairment" and leave the frequency of feature at the default feature "Very frequent (99-80%)".
+	- I have chosen this feature to illustrate that the full standardized Human Phenotype Ontology (HPO) phenotype name has to be entered in order for the app to work. I have not figured yet how to do "contains the term" yet.
+	- Therefore, entering "hearing" or "hearing loss" will not provide any results.
+2. Navigate to second tab (Add organ selection) and select "Heart/Cardiovasculature/Lymphatic".
+3. Press the "CLICK HERE" button and see the resulting table of some syndromes of interest.
+ 
+### Don't forget to check out the overview tab
+
+Although it is still in progress, check out the overview tab to peak at the type of data used in the app.
+ 
+# Final note
+
+I hope you will enjoy trying out my app !
+
+I am still in the process of troubleshooting and I have issues with duplicates and overview plots. There are many things I would like to do (e.g. put the list of organs in two columns, make the App into a quiz-like app, etc.) so please don't hesitate to provide your tips and recommendations to improve this app, I could use some technical help here :D !
+
+If you have any questions, please don't hesitate to let me know,
+
+Warm regards,
+My Linh Thibodeau
+
+***
+## SOURCE OF DATA
+
+* DECIPHER: Database of Chromosomal Imbalance and Phenotype in Humans using Ensembl Resources. Firth, H.V. et al (2009). Am.J.Hum.Genet 84, 524-533 (DOI: dx.doi.org/10/1016/j.ajhg.2009.03.010). 
+* This homework makes use of data generated by the DECIPHER community. A full list of centres who contributed to the generation of the data is available from http://decipher.sanger.ac.uk and via email from decipher@sanger.ac.uk. Funding for the project was provided by the Wellcome Trust.
+* Gray KA, Yates B, Seal RL, Wright MW, Bruford EA. genenames.org: the HGNC resources in 2015. Nucleic Acids Res. 2015 Jan;43(Database issue):D1079-85. doi: 10.1093/nar/gku1071. PMID:25361968. 
+* HGNC Database, HUGO Gene Nomenclature Committee (HGNC), EMBL Outstation - Hinxton, European Bioinformatics Institute, Wellcome Trust Genome Campus, Hinxton, Cambridgeshire, CB10 1SD, UK www.genenames.org (complete HGNC dataset downloaded [here](https://www.genenames.org/cgi-bin/statistics) on November 17/2017).
+* Orphanet: an online database of rare diseases and orphan drugs. Copyright, INSERM 1997. Available at http://www.orpha.net Accessed (accessed November 17, 2017).
+* Orphadata: Free access data from Orphanet. © INSERM 1997. Available on http://www.orphadata.org. Data version (XML data version en_product4_HPO.xml).
+
+

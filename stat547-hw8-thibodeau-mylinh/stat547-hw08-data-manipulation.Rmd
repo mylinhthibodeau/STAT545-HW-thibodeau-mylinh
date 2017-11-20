@@ -70,8 +70,12 @@ orphadata_phenotype <- orphadata_phenotype %>%
 ```{r}
 orphadata_genes_subset <- orphadata_genes %>%
 	select(Disorder.name, Disorder.OrphaNumber, Gene.symbol)
+```
+
+```{r}
 write_tsv(orphadata_genes_subset, "~/Desktop/genomic_disorders_exploration/genomic_disorders_exploration/data/orphadata_genes_subset.tsv")
 ```
+
 
 #### Joining orphadata_phenotype and orphadata_genes_subset
 

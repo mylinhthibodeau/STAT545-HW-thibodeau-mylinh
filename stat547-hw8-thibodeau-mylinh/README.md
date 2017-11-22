@@ -15,8 +15,6 @@ This application was created for learning purposes only. The references used for
 
 # FILES TO REVIEW FOR STAT547
 
-I experienced many challenges (see section below) during this homework. 
-
 * My online Shiny App [Genomics Disorders Exploration](https://www.shinyapps.io/admin/#/application/237622)
 * My Shiny App files
 	- File [User Interface (UI)](ui.R)

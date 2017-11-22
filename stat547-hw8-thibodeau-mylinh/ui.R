@@ -33,11 +33,12 @@ fluidPage(
 	# TAB TITLE		
 			"Phenotype and frequency",
 			tags$h1("Genomic Disorders Exploration"),
-			tags$em("You know nothing about clinical genetics/genomics and would like to try the App? 
+			tags$br(),
+			tags$h5(tags$em("You know nothing about clinical genetics/genomics and would like to try the App? 
 				No problem at all, you can check out my tutorial:", tags$strong("5th tab of the app"), 
 				"or on my github README file", 
 				tags$a("HERE", href ="https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw8-thibodeau-mylinh"), 
-				"to get some premade scenarios to test my app !"),
+				"to get some premade scenarios to test my app !")),
 			tags$hr(),
 			
 			wellPanel(
@@ -45,7 +46,7 @@ fluidPage(
 					column(8, align="center", offset = 2,
 						
 						textInput(inputId = "phenotype_input", 
-							tags$em(tags$h3("Enter a phenotype (e.g. cleft palate):"))),
+							label = tags$strong(tags$h3("Enter a phenotype (e.g. cleft palate):"))),
 						tags$style(type="text/css", "#phenotype_input { height: 50px; width: 100%; text-align:center; font-size: 30px; display: block;}")
 					)
 					)
@@ -70,9 +71,6 @@ fluidPage(
 			
 			# MAIN PANEL		
 				mainPanel(
-					tags$br(),
-					tags$hr(),
-					tags$br(),
 					plotOutput(outputId = "plot1_mut_conseq"),
 					tags$br(),
 					
@@ -114,9 +112,10 @@ fluidPage(
 		# TAB TITLE	
 			"Check out this checkbox",
 			tags$h1("Genomic Disorders Exploration!"),
+			tags$br(),
 			wellPanel(
 				checkboxInput(inputId = "checkbox", 
-					label = "Want a specific mutation consequence ?", FALSE),
+					label = tags$h4("Want a specific mutation consequence ?")),
 				uiOutput("conditionalInput")
 					),
 			
@@ -150,12 +149,13 @@ fluidPage(
 	# TAB TITLE 		
 			"Add organ selection",
 			tags$h1("Genomic Disorders Exploration!"),
-			tags$h2("Add an additional organ involved"),
-			tags$p("This page is for you to select an organ affected by the disorder."),
+			tags$br(),
+			#tags$h2("Add an additional organ involved"),
+			tags$p(tags$h4("You can add an additional organ affected by the disorder to narrow down the list of disorders.")),
 			
 	# WELL PANEL + RADIOBUTTON
 			wellPanel(
-				selectInput(inputId = "organs_user_input", label = "Select an additional target organ involved (optional):", choices = 
+				selectInput(inputId = "organs_user_input", label = tags$h4("Select a target organ (optional):"), choices = 
 						c(
 						"None",
 						"Bone Marrow/Immune",
@@ -189,12 +189,14 @@ fluidPage(
 				# Table depending on organs will only be displayed when click
 			
 		# ACTION BUTTON + MESSAGE + OUTPUT TABLE ORGANS
-			tags$h4(
+			wellPanel(
+				tags$h4(
 					"To make the table according to the phenotype feature entered initially\n
 					and the target organ selected above \n
 					(or to refresh the table if you changed the selected target organ)!"),		
 	
-			actionButton(inputId = "ready", label = "CLICK HERE"),
+			actionButton(inputId = "ready", label = "CLICK HERE")
+				),
 			tags$br(),		
 			tags$br(),
 			
@@ -227,6 +229,7 @@ fluidPage(
 	# TAB TITLE		
 			"Overview of source data",
 			tags$h1("Overview of source data"),
+			tags$br(),
 	# PLOT ALLELIC 		
 			tags$h3("Allelic requirement distribution in aggregated data"),
 			plotOutput(outputId = "plot_summary_allelic"),
@@ -270,7 +273,7 @@ fluidPage(
 		# TAB TITLE
 			"Tutorial",
 			tags$h1("Quick tutorial on how to use the app !"),
-			
+			tags$br(),
 			tags$h4(tags$em("Welcome to the tutorial for my Genomic Disorders Exploration Shiny App")),
 			
 			tags$p("I decided to write a short tutorial to ease the understanding of this app."),
@@ -384,6 +387,8 @@ fluidPage(
 # TAB 6 ALL PHENOTYPES TABLE  				
 		tabPanel(
 			"Supplement - All phenotypes",
+			tags$h1("Phenotypes"),
+			tags$br(),
 			DT::dataTableOutput(outputId = "all_phenotypes_choices"),
 			tags$br(),	
 			tags$hr(),

@@ -126,6 +126,7 @@ function(input, output) {
 		}
 		genomic_disorders_organs_listed %>%
 			filter(phenotype_name == str_to_lower(input$phenotype_input[1])) %>%
+			filter(frequency == input$frequency_user_input[1]) %>%
 			filter(mutation.consequence == input$mut_conseq_user_input_check) %>%
 			ungroup() %>%
 			filter(!duplicated(disorder_name))

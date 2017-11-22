@@ -19,7 +19,7 @@ suppressMessages(suppressWarnings(library(ggmap)))
 suppressMessages(suppressWarnings(library(maptools)))
 suppressMessages(suppressWarnings(library(maps)))
 
-phenotypes_choices <- read.table("data/orphadata_phenotype_choices.tsv", sep = "\t", stringsAsFactors = FALSE,header = FALSE) 
+phenotypes_choices <- read.table("data/orphadata_phenotype_choices.tsv", sep = "\t", stringsAsFactors = FALSE,header = TRUE) 
 
 ## ui.R ##
 fluidPage(

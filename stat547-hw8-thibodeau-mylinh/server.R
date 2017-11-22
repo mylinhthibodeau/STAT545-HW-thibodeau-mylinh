@@ -13,6 +13,7 @@ suppressMessages(suppressWarnings(library(shinythemes)))
 suppressMessages(suppressWarnings(library(DT)))
 suppressMessages(suppressWarnings(library(leaflet)))
 suppressMessages(suppressWarnings(library(shinyjs)))
+suppressMessages(suppressWarnings(library(shinysky)))
 suppressMessages(suppressWarnings(library(colourpicker)))
 suppressMessages(suppressWarnings(library(V8)))
 suppressMessages(suppressWarnings(library(reshape)))
@@ -22,15 +23,19 @@ suppressMessages(suppressWarnings(library(ggmap)))
 suppressMessages(suppressWarnings(library(maptools)))
 suppressMessages(suppressWarnings(library(maps)))
 
+# GET THE GENOMIC DATA	
+
+genomic_disorders_organs_listed <- read.table("data/DDG2P_hgnc_orphadata_organs_listed.tsv", sep = "\t", header = TRUE)
+#genomic_disorders <- read.table("data/DDG2P_hgnc_orphadata.tsv", sep = "\t", header = TRUE)
+#organs_choices <- read.table("data/organs_choices.tsv", sep = "\t", header = TRUE)
+#organs_genes <- read.table("data/genes_organs_gather.tsv", sep = "\t", header = TRUE)
+
+phenotypes_choices <- read.table("data/orphadata_phenotype_choices.tsv", sep = "\t", header = TRUE)
+
+
 
 ## server.R ##
 function(input, output) {
-# GET THE DATA	
-	genomic_disorders_organs_listed <- read.table("data/DDG2P_hgnc_orphadata_organs_listed.tsv", sep = "\t", header = TRUE)
-	#genomic_disorders <- read.table("data/DDG2P_hgnc_orphadata.tsv", sep = "\t", header = TRUE)
-	#organs_choices <- read.table("data/organs_choices.tsv", sep = "\t", header = TRUE)
-	#organs_genes <- read.table("data/genes_organs_gather.tsv", sep = "\t", header = TRUE)
-	phenotypes_choices <- read.table("data/orphadata_phenotype_choices.tsv", sep = "\t", header = TRUE)
 
 # FORMAT TO LOWER CASE		
 	# str_to_lower to genomic_disorders data phenotypic features to ensure match with user input
@@ -68,7 +73,7 @@ function(input, output) {
 
 # TAB 1 - TABLE - DOWNLOAD
 	
-	output$downloadData <- downloadHandler(
+	output$downloadData1 <- downloadHandler(
 		filename = function() {
 			paste("data-", Sys.Date(), ".csv", sep="")
 		},
@@ -92,7 +97,7 @@ function(input, output) {
 				text = element_text(size =16), axis.text.x = element_text(angle=45, hjust=1))
 	})	
 		
-# TAB1 - TABLE 2 - CONDITIONAL + RENDERUI + OUTPUT		
+# TAB 2 - TABLE 1 - CONDITIONAL + RENDERUI + OUTPUT		
 # MUTATION CONSEQUENCES
 	# CHECKBOX + DROPDOWN 
 	# Part 1 - conditionalInput and selectInput 
@@ -132,7 +137,7 @@ function(input, output) {
 	})
 	
 # SYNDROMES - ORGANS 
-# TAB2 - TABLE 1
+# TAB 3 - TABLE 1
 	# ORGAN USER INPUT
 	output$organs_user_input <- renderPrint({
 		input$organs_user_input
@@ -157,7 +162,18 @@ function(input, output) {
 		filtered_genomic_disorders_organs_selected()
 	})
 	
-# TAB3 - OVERVIEW OF DATA	
+# TAB 2 - TABLE - DOWNLOAD
+	
+	output$downloadData2 <- downloadHandler(
+		filename = function() {
+			paste("data-", Sys.Date(), ".csv", sep="")
+		},
+		content = function(file) {
+			write.csv(filtered_genomic_disorders(), file)
+		}
+	)
+	
+# TAB 4 - OVERVIEW OF DATA	
 ## ALLELIC PLOT
 	output$plot_summary_allelic <- renderPlot({
 		genomic_disorders_organs_listed %>%
@@ -222,5 +238,11 @@ function(input, output) {
 			head(10)
 		
 	})
-	
+
+# TAB 6 - Supplementary - All phenotypes
+# Non reactive table	
+	output$all_phenotypes_choices <- DT::renderDataTable({
+		phenotypes_choices
+	})	
+
 }

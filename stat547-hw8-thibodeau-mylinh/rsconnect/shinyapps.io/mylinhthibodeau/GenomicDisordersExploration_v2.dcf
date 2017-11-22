@@ -5,8 +5,8 @@ account: mylinhthibodeau
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 237622
-bundleId: 1085273
+bundleId: 1089495
 url: https://mylinhthibodeau.shinyapps.io/GenomicDisordersExploration_v2/
-when: 1511168685.53907
+when: 1511322090.53289
 asMultiple: FALSE
 asStatic: FALSE

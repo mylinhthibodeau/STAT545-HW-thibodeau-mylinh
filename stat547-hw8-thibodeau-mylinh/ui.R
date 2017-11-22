@@ -9,6 +9,7 @@ suppressMessages(suppressWarnings(library(shinythemes)))
 suppressMessages(suppressWarnings(library(DT)))
 suppressMessages(suppressWarnings(library(leaflet)))
 suppressMessages(suppressWarnings(library(shinyjs)))
+suppressMessages(suppressWarnings(library(shinysky)))
 suppressMessages(suppressWarnings(library(colourpicker)))
 suppressMessages(suppressWarnings(library(V8)))
 suppressMessages(suppressWarnings(library(reshape)))
@@ -17,6 +18,8 @@ suppressMessages(suppressWarnings(library(forcats)))
 suppressMessages(suppressWarnings(library(ggmap)))
 suppressMessages(suppressWarnings(library(maptools)))
 suppressMessages(suppressWarnings(library(maps)))
+
+phenotypes_choices <- read.table("data/orphadata_phenotype_choices.tsv", sep = "\t", stringsAsFactors = FALSE,header = FALSE) 
 
 ## ui.R ##
 fluidPage(
@@ -30,12 +33,17 @@ fluidPage(
 	# TAB TITLE		
 			"Phenotype and frequency",
 			tags$h1("Genomic Disorders Exploration"),
-			tags$em("You don't know anything about clinical genetics/genomics? No problem at all, you can check out my tutorial (5th tab of the app or on my github README file", tags$a("HERE", href =), "to get some premade scenarios to test my app !"),
+			tags$em("You know nothing about clinical genetics/genomics and would like to try the App? 
+				No problem at all, you can check out my tutorial:", tags$strong("5th tab of the app"), 
+				"or on my github README file", 
+				tags$a("HERE", href ="https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw8-thibodeau-mylinh"), 
+				"to get some premade scenarios to test my app !"),
 			tags$hr(),
 			
 			wellPanel(
 				fluidRow(
 					column(8, align="center", offset = 2,
+						
 						textInput(inputId = "phenotype_input", 
 							tags$em(tags$h3("Enter a phenotype (e.g. cleft palate):"))),
 						tags$style(type="text/css", "#phenotype_input { height: 50px; width: 100%; text-align:center; font-size: 30px; display: block;}")
@@ -68,7 +76,7 @@ fluidPage(
 					plotOutput(outputId = "plot1_mut_conseq"),
 					tags$br(),
 					
-					tags$h4(downloadButton("downloadData", "Download"), align = "right"),
+					tags$h4(downloadButton("downloadData1", "Download"), align = "right"),
 		
 					DT::dataTableOutput(outputId = "examples_syndromes"),
 
@@ -92,7 +100,12 @@ fluidPage(
 			img(src="brainprocess.jpg", width="30%"),
 			tags$h4("Disclaimer. This app has been made for learning purposes only.")
 					)
-				)
+				),
+			wellPanel(tags$em("Author: My Linh Thibodeau"),
+				tags$br(),
+				tags$em(tags$a( "Open source code available on my Github" ,href= "https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw8-thibodeau-mylinh")),
+				tags$br(),
+				tags$em("Last updated November 21, 2017"))
 			),
 				
 		
@@ -124,7 +137,12 @@ fluidPage(
 					tags$a("HERE", href = "https://www.genenames.org/cgi-bin/statistics")),
 			tags$p("Orphanet: an online database of rare diseases and orphan drugs. Copyright, INSERM 1997. 
 				Available at http://www.orpha.net", tags$a("HERE", href = "http://www.orpha.net"), "(Accessed November 17, 2017)."),
-			tags$p("Orphadata: Free access data from Orphanet. © INSERM 1997. Available on http://www.orphadata.org. Data version (XML data version en_product4_HPO.xml and en_product6.xml).")
+			tags$p("Orphadata: Free access data from Orphanet. © INSERM 1997. Available on http://www.orphadata.org. Data version (XML data version en_product4_HPO.xml and en_product6.xml)."),
+			wellPanel(tags$em("Author: My Linh Thibodeau"),
+				tags$br(),
+				tags$em(tags$a( "Open source code available on my Github" ,href= "https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw8-thibodeau-mylinh")),
+				tags$br(),
+				tags$em("Last updated November 21, 2017"))
 			),
 	
 # TAB 3 - ORGANS
@@ -176,9 +194,11 @@ fluidPage(
 					and the target organ selected above \n
 					(or to refresh the table if you changed the selected target organ)!"),		
 	
-			actionButton(inputId = "ready", label = "CLICK HERE"), 
+			actionButton(inputId = "ready", label = "CLICK HERE"),
 			tags$br(),		
 			tags$br(),
+			
+			tags$h4(downloadButton("downloadData2", "Download"), align = "right"),
 			
 			DT::dataTableOutput(outputId = "syndromes_and_organs"),
 		
@@ -194,13 +214,18 @@ fluidPage(
 				tags$a("HERE", href = "https://www.genenames.org/cgi-bin/statistics")),
 			tags$p("Orphanet: an online database of rare diseases and orphan drugs. Copyright, INSERM 1997. Available at http://www.orpha.net", tags$a("HERE", href = "http://www.orpha.net"), "(Accessed November 17, 2017)."),
 			tags$p("Orphadata: Free access data from Orphanet. © INSERM 1997. Available on http://www.orphadata.org. Data version (XML data version en_product4_HPO.xml and en_product6.xml)."
-			)
+			),
+			wellPanel(tags$em("Author: My Linh Thibodeau"),
+				tags$br(),
+				tags$em(tags$a( "Open source code available on my Github" ,href= "https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw8-thibodeau-mylinh")),
+			tags$br(),
+			tags$em("Last updated November 21, 2017"))
 			),
 
 # TAB 4 - OVERVIEW
 		tabPanel(
 	# TAB TITLE		
-			"Overview of souce data",
+			"Overview of source data",
 			tags$h1("Overview of source data"),
 	# PLOT ALLELIC 		
 			tags$h3("Allelic requirement distribution in aggregated data"),
@@ -233,7 +258,12 @@ fluidPage(
 				tags$a("HERE", href = "https://www.genenames.org/cgi-bin/statistics")),
 			tags$p("Orphanet: an online database of rare diseases and orphan drugs. Copyright, INSERM 1997. Available at http://www.orpha.net", tags$a("HERE", href = "http://www.orpha.net"), "(Accessed November 17, 2017)."),
 			tags$p("Orphadata: Free access data from Orphanet. © INSERM 1997. Available on http://www.orphadata.org. Data version (XML data version en_product4_HPO.xml and en_product6.xml)."
-			)
+			),
+			wellPanel(tags$em("Author: My Linh Thibodeau"),
+				tags$br(),
+				tags$em(tags$a( "Open source code available on my Github" ,href= "https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw8-thibodeau-mylinh")),
+				tags$br(),
+				tags$em("Last updated November 21, 2017"))
 			),
 # TAB 5 - TUTORIAL		
 		tabPanel(
@@ -258,8 +288,8 @@ fluidPage(
 				),
 
 			tags$p("The main dataset used in this app is from the aggregation of the 3 above mentioned datasets. 
-				Since it is based on the **overlap** between these datasets, it mainly contains Mendelian genomic disorders caused by chromosomal deletions/duplications 
-				and it does **not** include the vast majority of disorders purely caused by other molecular mechanisms (e.g. triplet repeat expansion disorders, point mutations). 
+				Since it is based on the overlap between these datasets, it mainly contains Mendelian genomic disorders caused by chromosomal deletions/duplications 
+				and it does not include the vast majority of disorders purely caused by other molecular mechanisms (e.g. triplet repeat expansion disorders, point mutations). 
 				However, since some disorders can be caused by different types of of molecular mechanisms (e.g. neurofibromatosis can be caused by point mutations or more rarely, 
 				by large deletions), some of these disorders may also be included in my app."),
 			
@@ -279,8 +309,9 @@ fluidPage(
 					tags$strong("(A) The user needs to select an organ and then click on the \"CLICK HERE\" button to make the table appear. The new table will only contain syndromes that fulfill all 3 criteria: phenotype + frequency + additional organ system involed. For example, selecting \"Cancer predisposition\" reduce the list of syndromes from ~40 to one: pearlman syndrome."),
 					tags$strong("(B) If no syndrome corresponds to the combination of the 3 criteria, the table will be empty.")),
 			
-				tags$li("Fourth tab: Overview of source dataf - Contains general summary plots/figures of the aggregated data used for the app."),
-				tags$li("Fifth tab: Tutorial !")
+				tags$li("Fourth tab: Overview of source data - Contains general summary plots/figures of the aggregated data used for the app."),
+				tags$li("Fifth tab: Tutorial !"),
+				tags$li("Sixth tab: Supplement - All phenotypes - Contains a table of all the possible phenotypes to enter")
 				),
 		
 		# HOW		
@@ -291,7 +322,8 @@ fluidPage(
 				tags$li("Move to the second tab and look at a subset of the table corresponding to the specific mutation consequence type."),
 				tags$li("Move to the third tab and select an additional organ involved in the syndrome. Click on the \"CLICK HERE\" button to see a table of syndromes fulfilling all 3 criteria."),
 				tags$li("Check out the fourth tab (overview of genomic data) to have an overview of the source data (aggregated data) and some sample data to get a general idea of the format of genomic data used in the app. "),
-				tags$li("The fifth tab contains the tutorial information.")
+				tags$li("The fifth tab contains the tutorial information."),
+				tags$li("Navigate to the sixth tab for a complete list of phenotypes.")
 				),
 	
 		# PREMADE EXAMPLES	
@@ -315,12 +347,12 @@ fluidPage(
 			
 			tags$h4(tags$em("Scenario 3 - Skeletal dysplasia")),
 			tags$p("
-				1. Enter the phenotype \"skeletal dysplasia\", but this time select the frequency to \"Frequent (79-30%)\".
-				- You will note that only one disorder, Neurofibromatosis type 1, frequently present skeletal dyplasia. 
-				- The reason is that skeletal dysplasias are caused by high penetrance mutations. These disorders are often in the \"all or nothing\" category. It is extremely rare to see an individual with one/two pathogenic mutation(s) (depending on inheritance) and no phenotype at all. If you change the frequency to \"Very frequent (99-80%)\", you will see a longer list of disorders.
-				2. Change the frequency back to \"Very frequent\" and navigate to second tab (Check out this checkbox) and select the \"dominant negative\" mutation type to see a subset of skeletal dysplasias !"),
+				(1) Enter the phenotype \"skeletal dysplasia\", but this time select the frequency to \"Frequent (79-30%)\".
+				You will note that only one disorder, Neurofibromatosis type 1, frequently present skeletal dyplasia. 
+				The reason is that skeletal dysplasias are caused by high penetrance mutations. These disorders are often in the \"all or nothing\" category. It is extremely rare to see an individual with one/two pathogenic mutation(s) (depending on inheritance) and no phenotype at all. If you change the frequency to \"Very frequent (99-80%)\", you will see a longer list of disorders.
+				(2) Change the frequency back to \"Very frequent\" and navigate to second tab (Check out this checkbox) and select the \"dominant negative\" mutation type to see a subset of skeletal dysplasias !"),
 			
-			tags$h4(tags$em("Hearing impairment")),
+			tags$h4(tags$em("Scenario 4 - Hearing impairment")),
 			tags$p("
 				(1) Enter the phenotype \"hearing impairment\" and leave the frequency of feature at the default feature \"Very frequent (99-80%)\".
 				I have chosen this feature to illustrate that the full standardized Human Phenotype Ontology (HPO) phenotype name has to be entered in order for the app to work. I have not figured yet how to do \"contains the term\" yet.
@@ -341,7 +373,36 @@ fluidPage(
 				tags$a("HERE", href = "https://www.genenames.org/cgi-bin/statistics")),
 			tags$p("Orphanet: an online database of rare diseases and orphan drugs. Copyright, INSERM 1997. Available at http://www.orpha.net", tags$a("HERE", href = "http://www.orpha.net"), "(Accessed November 17, 2017)."),
 			tags$p("Orphadata: Free access data from Orphanet. © INSERM 1997. Available on http://www.orphadata.org. Data version (XML data version en_product4_HPO.xml and en_product6.xml)."
-			)
+			),
+			wellPanel(tags$em("Author: My Linh Thibodeau"),
+				tags$br(),
+				tags$em(tags$a( "Open source code available on my Github" ,href= "https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw8-thibodeau-mylinh")),
+				tags$br(),
+				tags$em("Last updated November 21, 2017"))
+		),
+
+# TAB 6 ALL PHENOTYPES TABLE  				
+		tabPanel(
+			"Supplement - All phenotypes",
+			DT::dataTableOutput(outputId = "all_phenotypes_choices"),
+			tags$br(),	
+			tags$hr(),
+			
+			tags$h2("Sources/references of genomic data"),
+			tags$h3("All data used in this app is publicly available"),
+			tags$p("DECIPHER: Database of Chromosomal Imbalance and Phenotype in Humans using Ensembl Resources. Firth, H.V. et al (2009). Am.J.Hum.Genet 84, 524-533 (DOI: dx.doi.org/10/1016/j.ajhg.2009.03.010).\n
+				A full list of centres who contributed to the generation of the data is available from http://decipher.sanger.ac.uk and via email from decipher@sanger.ac.uk. Funding for the project was provided by the Wellcome Trust."),
+			tags$p("Gray KA, Yates B, Seal RL, Wright MW, Bruford EA. genenames.org: the HGNC resources in 2015. Nucleic Acids Res. 2015 Jan;43(Database issue):D1079-85. doi: 10.1093/nar/gku1071. PMID:25361968."),
+			tags$p("HGNC Database, HUGO Gene Nomenclature Committee (HGNC), EMBL Outstation - Hinxton, European Bioinformatics Institute, Wellcome Trust Genome Campus, Hinxton, Cambridgeshire, CB10 1SD, UK www.genenames.org. Complete HGNC dataset downloaded", 
+				tags$a("HERE", href = "https://www.genenames.org/cgi-bin/statistics")),
+			tags$p("Orphanet: an online database of rare diseases and orphan drugs. Copyright, INSERM 1997. Available at http://www.orpha.net", tags$a("HERE", href = "http://www.orpha.net"), "(Accessed November 17, 2017)."),
+			tags$p("Orphadata: Free access data from Orphanet. © INSERM 1997. Available on http://www.orphadata.org. Data version (XML data version en_product4_HPO.xml and en_product6.xml)."
+			),
+			wellPanel(tags$em("Author: My Linh Thibodeau"),
+				tags$br(),
+				tags$em(tags$a( "Open source code available on my Github" ,href= "https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw8-thibodeau-mylinh")),
+				tags$br(),
+				tags$em("Last updated November 21, 2017"))
 		)
 	)
 )

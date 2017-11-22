@@ -17,7 +17,8 @@ This application was created for learning purposes only. The references used for
 
 I experienced many challenges (see section below) during this homework. 
 
-* My Shiny App 
+* My online Shiny App [Genomics Disorders Exploration](https://www.shinyapps.io/admin/#/application/237622)
+* My Shiny App files
 	- File [User Interface (UI)](ui.R)
 	- File [Server](server.R)
 	- Folder [data](data/)
@@ -108,6 +109,7 @@ The app has 5 tabs:
 	- If no syndrome corresponds to the combination of the 3 criteria, the table will be empty.
 * Fourth tab: Overview of source dataf - Contains general summary plots/figures of the aggregated data used for the app. 
 * Fifth tab: Tutorial !
+* Sixth tab:
 
 ## How to use it?
 

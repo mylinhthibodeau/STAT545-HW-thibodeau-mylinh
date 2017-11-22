@@ -21,8 +21,8 @@ This application was created for learning purposes only. The references used for
 	- File [Server](server.R)
 	- Folder [data](data/)
 	- Folder [www](www/)
-* Since medical genetics/genomics is specialized topic, I made a tutorial for you to test my app.
-* Extensive data manipulation/transformation was required to obtain correctly formated datasets for the app, so I have a dedicated Rmd/Md file for data manipulation [here](genomic-disorders-exploration-data-manipulation.Rmd).
+* Since medical genetics/genomics is specialized topic, I made a tutorial for you to test my app and it can be found both in the Genomic Disorders Exploration App and at the end of the README file.
+* Extensive data manipulation/transformation was required to obtain correctly formatted datasets for the app, so I have a dedicated Rmd/Md file for data manipulation [here](genomic-disorders-exploration-data-manipulation.Rmd).
 
 ## Some issues encoutered during this homework
 

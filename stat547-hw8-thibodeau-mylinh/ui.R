@@ -30,7 +30,7 @@ fluidPage(
 	# TAB TITLE		
 			"Phenotype and frequency",
 			tags$h1("Genomic Disorders Exploration"),
-			
+			tags$em("You don't know anything about clinical genetics/genomics? No problem at all, you can check out my tutorial (5th tab of the app or on my github README file", tags$a("HERE", href =), "to get some premade scenarios to test my app !"),
 			tags$hr(),
 			
 			wellPanel(
@@ -77,7 +77,7 @@ fluidPage(
 			
 # SOURCE OF DATA - REFERENCES
 			
-			tags$h2("Source of data"),
+			tags$h2("Sources/references of genomic data"),
 			tags$h3("All data used in this app is publicly available"),
 			tags$p("DECIPHER: Database of Chromosomal Imbalance and Phenotype in Humans using Ensembl Resources. Firth, H.V. et al (2009). Am.J.Hum.Genet 84, 524-533 (DOI: dx.doi.org/10/1016/j.ajhg.2009.03.010).\n
 				A full list of centres who contributed to the generation of the data is available from http://decipher.sanger.ac.uk and via email from decipher@sanger.ac.uk. Funding for the project was provided by the Wellcome Trust."),
@@ -112,7 +112,7 @@ fluidPage(
 			tags$br(),
 			tags$hr(),
 			
-			tags$h2("Source of data"),
+			tags$h2("Sources/references of genomic data"),
 			tags$h3("All data used in this app is publicly available"),
 			tags$p("DECIPHER: Database of Chromosomal Imbalance and Phenotype in Humans using Ensembl Resources. Firth, H.V. et al (2009). Am.J.Hum.Genet 84, 524-533 (DOI: dx.doi.org/10/1016/j.ajhg.2009.03.010).\n
 				A full list of centres who contributed to the generation of the data is available 
@@ -185,7 +185,7 @@ fluidPage(
 			tags$br(),	
 			tags$hr(),
 		
-			tags$h2("Source of data"),
+			tags$h2("Sources/references of genomic data"),
 			tags$h3("All data used in this app is publicly available"),
 			tags$p("DECIPHER: Database of Chromosomal Imbalance and Phenotype in Humans using Ensembl Resources. Firth, H.V. et al (2009). Am.J.Hum.Genet 84, 524-533 (DOI: dx.doi.org/10/1016/j.ajhg.2009.03.010).\n
 				A full list of centres who contributed to the generation of the data is available from http://decipher.sanger.ac.uk and via email from decipher@sanger.ac.uk. Funding for the project was provided by the Wellcome Trust."),
@@ -224,7 +224,7 @@ fluidPage(
 	
 # SOURCE OF DATA - REFERENCES
 			
-			tags$h2("Source of data"),
+			tags$h2("Sources/references of genomic data"),
 			tags$h3("All data used in this app is publicly available"),
 			tags$p("DECIPHER: Database of Chromosomal Imbalance and Phenotype in Humans using Ensembl Resources. Firth, H.V. et al (2009). Am.J.Hum.Genet 84, 524-533 (DOI: dx.doi.org/10/1016/j.ajhg.2009.03.010).\n
 				A full list of centres who contributed to the generation of the data is available from http://decipher.sanger.ac.uk and via email from decipher@sanger.ac.uk. Funding for the project was provided by the Wellcome Trust."),
@@ -248,7 +248,7 @@ fluidPage(
 			tags$h3("Why this app?"),
 			tags$p("I would like to make this app a useful tools for learning genomic disorders features!"),
 			
-			tags$h3("What kind of data does the app use?"),
+			tags$h3("What kind of genomic data does the app use?"),
 			tags$p("The app uses data from different resources (see at the end of this document for exact references):"),
 	
 			tags$ol(
@@ -290,7 +290,7 @@ fluidPage(
 				tags$li("Enter a phenotype (see next section for ideas of phenotypes to enter) and consult the table of syndromes and mutation consequence frequency."),
 				tags$li("Move to the second tab and look at a subset of the table corresponding to the specific mutation consequence type."),
 				tags$li("Move to the third tab and select an additional organ involved in the syndrome. Click on the \"CLICK HERE\" button to see a table of syndromes fulfilling all 3 criteria."),
-				tags$li("Check out the fourth tab (overview of data) to have an overview of the source data (aggregated data) and some sample data to get a general idea of the format of data used in the app. "),
+				tags$li("Check out the fourth tab (overview of genomic data) to have an overview of the source data (aggregated data) and some sample data to get a general idea of the format of genomic data used in the app. "),
 				tags$li("The fifth tab contains the tutorial information.")
 				),
 	
@@ -332,7 +332,7 @@ fluidPage(
 			tags$hr(),	
 # SOURCE OF DATA - REFERENCES
 			
-			tags$h2("Source of data"),
+			tags$h2("Sources/references of genomic data"),
 			tags$h3("All data used in this app is publicly available"),
 			tags$p("DECIPHER: Database of Chromosomal Imbalance and Phenotype in Humans using Ensembl Resources. Firth, H.V. et al (2009). Am.J.Hum.Genet 84, 524-533 (DOI: dx.doi.org/10/1016/j.ajhg.2009.03.010).\n
 				A full list of centres who contributed to the generation of the data is available from http://decipher.sanger.ac.uk and via email from decipher@sanger.ac.uk. Funding for the project was provided by the Wellcome Trust."),

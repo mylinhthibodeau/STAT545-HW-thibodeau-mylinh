@@ -15,7 +15,7 @@ This application was created for learning purposes only. The references used for
 
 # FILES TO REVIEW FOR STAT547
 
-* My online Shiny App [Genomics Disorders Exploration](https://www.shinyapps.io/admin/#/application/237622)
+* My online Shiny App [Genomics Disorders Exploration](https://mylinhthibodeau.shinyapps.io/GenomicDisordersExploration_v2/)
 * My Shiny App files
 	- File [User Interface (UI)](ui.R)
 	- File [Server](server.R)

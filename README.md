@@ -10,6 +10,7 @@ This file provides a general overview of the content in this repository.
 - [homework 5](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw5-thibodeau-mylinh)
 - [homework 6](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat547-hw6-thibodeau-mylinh/stat547-hw06-thibodeau-mylinh.Rmd)
 - [homework 7](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw7-thibodeau-mylinh)
+- [homework 8](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw8-thibodeau-mylinh)
 
 *Each homework folder in this repository contain a README.md file, and if needed, a scratch-space, which contains manually downloaded files or early drafts, and its use allows to keep the folders more tidy.*
 

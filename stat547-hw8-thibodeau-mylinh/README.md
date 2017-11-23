@@ -77,7 +77,7 @@ My Linh Thibodeau
 
 ## Welcome to the tutorial for my Genomic Disorders Exploration Shiny App
 
-Since the field of genetics/genomics is quite specialized, I realized it might pose difficulties for people to review my Shiny App without any guidance. Therefore, I decided to write a short tutorial to easy the process.
+Since the field of genetics/genomics is quite specialized, I realized it might pose difficulties for people to review my Shiny App without any guidance. Therefore, I decided to write a short tutorial to easy the process. Please note that this information can also be found in the GDE App itself (tab 5 - Tutorial).
 
 
 ## Why this app?

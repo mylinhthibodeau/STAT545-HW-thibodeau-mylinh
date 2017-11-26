@@ -1,5 +1,5 @@
 # clean and format the reference mutational signature file 
-mut_sig <- read.table("mut_sig_raw.txt", header = TRUE, sep = "\t")
+mut_sig <- read.table("stat547-hw7-thibodeau-mylinh/mut_sig_raw.txt", header = TRUE, sep = "\t")
 write.table(mut_sig, "mut_sig.tsv", quote = FALSE, sep = "\t", row.names = FALSE)
 
 # clean and format the cancer specific mutational signature files

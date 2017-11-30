@@ -11,6 +11,7 @@ knitr::opts_chunk$set(fig.width=12, fig.height=9)
 suppressMessages(suppressWarnings(library(knitr)))
 suppressMessages(suppressWarnings(library(kableExtra)))
 options(knitr.table.format = "html")
+library(stringr)
 ```
 
 
@@ -92,7 +93,7 @@ get_omim_to_xml(geneMap = TRUE)
 ```
 
 
-### Part 3 - Function get_title (example of XML parsing)
+### Part 3A - Function get_title (example of XML parsing)
 
 Now, we need a function to parse the XML and retrieve the disorder **titles** corresponding to the OMIM id. 
 ```{r}
@@ -109,7 +110,7 @@ Using the default option (Werner syndrome), we obtained the preferredTitle of th
 get_title(get_omim_to_xml())
 ```
 
-### Part 4 - Write a get titles function that accepts a list of OMIM ids
+### Part 3B - Write a get titles function that accepts a list of OMIM ids
 
 ```{r}
 get_titles_from_list <- function(
@@ -131,6 +132,84 @@ get_titles_from_list <- function(
 ```{r}
 get_titles_from_list() %>% kable()
 ```
+
+### Part 4 - Function get_inheritance (example of XML parsing)
+
+Now, we need a function to parse the XML and retrieve the disorder **inheritance** corresponding to the OMIM id. 
+```{r}
+get_inheritance_mlt <- function(xml =  277700){
+  xml_list <- xmlToList(xml)
+  return(xml_list$entryList$entry$clinicalSynopsis$inheritance)
+}
+```
+
+```{r}
+get_inheritance_mlt(get_omim_to_xml(clinicalSynopsis = TRUE))
+```
+
+? Discard ? Get inheritance from list?
+
+FUNCTION OR ROMIM 
+
+```{r}
+get_inheritance <- function(my_xml){
+  my_inheritance_node <- getNodeSet(my_xml, path = "/omim/entryList/entry/phenotypeMapList/phenotypeMap/phenotypeInheritance")
+  xmlSApply(my_inheritance_node, xmlValue)
+}
+get_inheritance(get_omim_to_xml(303600, geneMap=TRUE))
+```
+
+```{r}
+# my_omim_list
+get_inheritance_from_list <- function(user_list){
+	inheritance_list <- list()
+	if (is.list(user_list)){
+		for (i in 1:length(user_list)){
+			inheritance <- get_inheritance(get_omim_to_xml(user_list[i], geneMap=TRUE))
+			if (length(inheritance) >1){
+				inheritance <- paste(inheritance, collapse = "/")
+			}
+		}
+
+		#inheritance_list[i] <- as.character(inheritance)
+		#print(inheritance)
+		
+
+		if (!is.null(str_length(inheritance))) {
+			inheritance_list[i] <- inheritance
+			print(inheritance_list[i])
+		}
+#else {
+#	inheritance_list[i] <- "NA"
+#}
+return(inheritance_list)
+	}
+	else
+		return("You have to input an Robject typeof list")
+}
+```
+
+```{r}
+essai1 <- get_inheritance_from_list(my_omim_list)
+```
+
+
+```{r}
+#View(inheritance_list)
+inheritance_list_df <- inheritance_list %>% as.data.frame()
+write_tsv(inheritance_list_df, "data/partial_inheritance_list.tsv")
+```
+
+
+```{r}
+get_inheritance(get_omim_to_xml(my_omim_list[5], geneMap=TRUE)) 
+```
+
+
+```{r}
+get_inheritance_from_my_omim_list <- get_inheritance_from_list(my_omim_list) 
+```
+
 
 #### Part 5 - Function get_gene (example of "nested" function to parse XML)
 
@@ -173,6 +252,10 @@ get_clinical_synopsis <- function(xml){
 }
 ```
 
+Remove?
+```{r}
+d_test1 <- get_clinical_synopsis(get_omim_to_xml(clinicalSynopsis = TRUE)) 
+```
 
 ```{r}
 #get_clinical_synopsis(get_omim_to_xml())
@@ -196,6 +279,28 @@ split_d3 <- split_data_curly(d3)
 View(split_d3)
 ```
 
+Consider discarding - not working
+```{r}
+get_inheritance_from_list_mlt <- function(
+	user_list = list(187500, 214800, 188400, 217095) # Set default as diseases with tetralogy of fallot (very frequent or frequent)
+	){
+	if (is.list(user_list)){
+		my_list_titles <- lapply(lapply(user_list, get_omim_to_xml), get_inheritance)
+		df <- data.frame(id=unlist(user_list),
+                 title=unlist(my_list_titles))
+		return(df)
+	}
+	else
+		return("You have to provide an R Object typeof list.")
+}
+```
+
+Oops
+```{r}
+get_inheritance_from_list_mlt(get_clinical_synopsis(get_omim_to_xml(clinicalSynopsis = TRUE)))
+get_inheritance_from_list_mlt(get_omim_to_xml(clinicalSynopsis = TRUE))
+```
+
 
 ## SECTION B - Merging data from mim2gene dataset with OMIM API output from functions
 
@@ -212,6 +317,7 @@ colnames(mim2gene_data) <- c("id", "mim_entry_type", "entrez_gene_id", "hgnc", "
 ```{r}
 head(mim2gene_data) %>% kable()
 ```
+
 
 
 ### Part 2 - Merge with OMIM API data
@@ -274,12 +380,42 @@ Therefore, instead of reinventing the wheel, I will build on some of the previou
 
 ```{r}
 DDG2P_hgnc_orphadata <- read.table("data/DDG2P_hgnc_orphadata.tsv", header = TRUE, sep = "\t")
+DDG2P_hgnc_orphadata_list_disease_mim <- read.table("data/DDG2P_orphadata_list_disease.mim.txt", header = TRUE, sep = "\t")
 ```
 
 Please refer to homework 8 for additional details on these datasets, but here is a sample.
 ```{r}
 DDG2P_hgnc_orphadata %>% head() %>% kable()
 ```
+
+And also we have 1580 disease OMIM ids.
+
+```{r}
+dim(DDG2P_hgnc_orphadata_list_disease_mim)
+DDG2P_hgnc_orphadata_list_disease_mim %>% head() %>% kable()
+```
+(CONSIDER as list ???)
+
+# TO DISCARD - XML EXPLORATION
+
+```{r}
+typeof(DDG2P_hgnc_orphadata_list_disease_mim$disease.mim)
+my_omim_list <- DDG2P_hgnc_orphadata_list_disease_mim$disease.mim %>% as.list()
+class(my_omim_list)
+typeof(my_omim_list)
+length(my_omim_list)
+my_omim_list[[1]]
+
+my_omim_vector <- DDG2P_hgnc_orphadata_list_disease_mim$disease.mim %>% as.vector()
+typeof(my_omim_vector)
+my_omim_vector[1]
+
+```
+
+```{r}
+xmltop = xmlRoot()
+```
+
 
 #### Part 2 - Merge data
 
@@ -317,3 +453,4 @@ TO COMPLETE -
 ## GENERAL REFERENCES
 
 * stat545 webdata03 lecture 2015 [here](http://stat545.com/webdata03_activity.html)
+* collapse a vector into a string [here](http://r.789695.n4.nabble.com/Concatenating-one-character-vector-into-one-string-td835795.html)

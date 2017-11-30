@@ -1,0 +1,35 @@
+---
+title: "stat547-hw10-thibodeau-mylinh"
+author: "My Linh Thibodeau"
+date: '2017-11-29'
+output: github_document
+---
+
+```{r}
+library(httr)
+```
+
+
+# Homework 10 - Data from the web
+
+Approaches to get web data
+
+* Manual download (use curl/wget to obtain flat files like txt, csv, xls)
+* Manual (unwrapped) API queries with httr 
+* R Wrapped API (e.g. rebird and geonames, rplos packages rOpenSci)
+* Scrape the web (e.g. using package rvest to get html content)
+
+# Approach for this homework
+
+In this homework, I opted to make short examples of each way to get web data instead of providing a single example with a lot of details. 
+
+## (1) Manual download 
+
+
+## (2) Manual unwrapped API with httr
+
+
+## (3) R wrapped API
+
+
+## (4) Scrape the web

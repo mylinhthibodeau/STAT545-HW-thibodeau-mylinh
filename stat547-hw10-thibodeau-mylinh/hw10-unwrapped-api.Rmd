@@ -1,0 +1,319 @@
+---
+title: "hw10-unwrapped-api"
+author: "My Linh Thibodeau"
+date: '2017-11-29'
+output: github_document
+---
+
+```{r}
+library(XML)
+knitr::opts_chunk$set(fig.width=12, fig.height=9)
+suppressMessages(suppressWarnings(library(knitr)))
+suppressMessages(suppressWarnings(library(kableExtra)))
+options(knitr.table.format = "html")
+```
+
+
+# Introduction
+
+In this homework, I will be working with the Online Mendelian Inheritance of Man - [OMIM](https://omim.org/) data. 
+
+Extensive information on the OMIM API is available [here](https://omim.org/help/api), but I will provide a few examples of query and functions to query the API.
+
+IMPORTANT: This work is adapted from Dave Tang's tutorial on Getting started with the OMIM api [here](https://davetang.org/muse/2015/03/17/getting-started-with-the-omim-api/).
+
+# Homework 10 requirements
+
+Here is the breakdown of requirements and corresponding sections:
+
+* Get data from API - Section A (part 1, 2, 3)
+* Clean and tidy into a dataframe - Section A (part 4) and Section B 
+
+## SECTION A - Writing functions to work with OMIM API
+
+### Part 1 - Get the OMIM API key "privately"
+
+I have stored privately my OMIM API key and I will set the key for later use in building queries.
+```{r}
+key <- getOption("private_omim_api_key")
+my_key <- paste0("apiKey=", key)
+```
+
+
+### Part 2 - Function to build URL and get XML
+
+The general format of query (defaul XML) is `http://api.omim.org/api/entry?mimNumber=100100&apiKey=key&include=text&include=geneMap`. This link does not work because my API key is private, but it gives you a general idea of the format.
+
+```{r}
+get_omim_to_xml <- function(
+	omim_id = 277700,
+	text = FALSE, #Includes the text field sections with the entry.
+  	existflags = FALSE, #Include the 'exists' flags with the entry (clinical synopsis, allelic variant, gene map & phenotype map).
+  	allelicVariantList = FALSE, #Includes the allelic variant list with the entry.
+  	clinicalSynopsis = FALSE, #Include the clinical synopsis with the entry.
+  	seeAlso = FALSE, #Includes the 'see also' field with the entry.
+  	referenceList = FALSE, #Include the reference list with the entry.
+  	geneMap = FALSE, #Include the gene map/phenotype map data with the entry.
+  	externalLinks = FALSE, #Include the external links with the entry.
+  	contributors = FALSE, #Includes the 'contributors' field with the entry.
+  	creationDate = FALSE, #Includes the 'creation date' field with the entry.
+  	editHistory = FALSE, #Includes the 'edit history' field with the entry.
+  	dates = FALSE, #Include the dates data with the entry.
+  	all = FALSE #Include the above data with the entry.
+){
+	# Obtain the arguments the functions calls to build an URL and get XML
+	list_arguments <- as.list(match.call())
+  	my_mim   <- paste('mimNumber=', omim_id, sep='')
+  	my_link  <- 'http://api.omim.org/api/entry?'
+  	my_query <- paste(my_link, my_mim, my_key, sep = "&")
+  	
+  	#loop through all the arguments
+  	for (elem in names(list_arguments)){
+  		#skip the omid_id and blank argument
+  		if(!elem %in% '' && !elem %in% 'omim_id'){
+  			 my_include <- paste('&', 'include=', elem, sep='')
+  			 my_query <- paste(my_query, my_include, sep='')
+  			 }
+  		}
+xmlParse(my_query)
+}
+```
+
+#### Peak at data output
+
+I have set the default OMIM id to 277700, which corresponds to Werner syndrome. 
+```{r}
+get_omim_to_xml()
+```
+
+Let's peak at the structure of the geneMap and the information it contains.
+```{r}
+get_omim_to_xml(geneMap = TRUE)
+```
+
+
+### Part 3 - Function get_title (example of XML parsing)
+
+Now, we need a function to parse the XML and retrieve the disorder **titles** corresponding to the OMIM id. 
+```{r}
+get_title <- function(xml =  277700){
+  xml_list <- xmlToList(xml)
+  return(xml_list$entryList$entry$titles$preferredTitle)
+}
+```
+
+#### Peak at the data output
+
+Using the default option (Werner syndrome), we obtained the preferredTitle of this disorder. 
+```{r}
+get_title(get_omim_to_xml())
+```
+
+### Part 4 - Write a get titles function that accepts a list of OMIM ids
+
+```{r}
+get_titles_from_list <- function(
+	user_list = list(187500, 214800, 188400, 217095) # Set default as diseases with tetralogy of fallot (very frequent or frequent)
+	){
+	if (is.list(user_list)){
+		my_list_titles <- lapply(lapply(user_list, get_omim_to_xml), get_title)
+		df <- data.frame(id=unlist(user_list),
+                 title=unlist(my_list_titles))
+		return(df)
+	}
+	else
+		return("You have to provide an R Object typeof list.")
+}
+```
+
+#### Peak at the data output
+
+```{r}
+get_titles_from_list() %>% kable()
+```
+
+#### Part 5 - Function get_gene (example of "nested" function to parse XML)
+
+Code from Dave Tang github [here](https://github.com/davetang/romim)
+```{r}
+get_gene <- function(my_xml){
+  my_gene_node <- getNodeSet(my_xml, path = "/omim/entryList/entry/phenotypeMapList/phenotypeMap/geneSymbols")
+  xmlSApply(my_gene_node, xmlValue)
+}
+```
+
+And then we can retrieve the gene corresponding to a specific OMIM id (default is Werner syndrome).
+```{r}
+get_gene(get_omim_to_xml(geneMap = TRUE)) 
+```
+
+
+TO CONSIDER (or remove) Write a general API query function that accepts lists of OMIM ids ???
+
+
+#### Part 6 - Get multiple items from OMIM API
+
+CONSIDER - ONLY RETRIEVING THE CLINICAL SYNOPSIS THAT HAS HPO TERMS
+
+So far, we got the titles (diseases names) from the API, but we can also see what we could do with the clinical synopsis. Let's start by peaking at the structure of xml for clinical synopsis data.
+
+```{r}
+get_omim_to_xml(clinicalSynopsis = TRUE)
+```
+
+
+```{r}
+get_clinical_synopsis <- function(xml){
+	xml_list <- xmlToList(xml)
+	#my_clinical_node <- getNodeSet(my_xml, path = "/omim/entryList/entry/clinicalSynopsisList/clinicalSynopsis")
+  	#xmlSApply(my_clinical_node, xmlValue)
+	my_query <- xml_list$entryList$entry$clinicalSynopsis
+	#my_query_parse <- xml_list()
+  	return(my_query)
+}
+```
+
+
+```{r}
+#get_clinical_synopsis(get_omim_to_xml())
+d1 <- get_clinical_synopsis(get_omim_to_xml(clinicalSynopsis = TRUE)) 
+d2 <- ldply(d1, data.frame)
+colnames(d2) <- c("clinical_category", "clinical_content")
+d3 <- d2$clinical_content %>% as.character() %>% as.data.frame() 
+colnames(d3) <- c("list_to_sep")
+d3$list_to_sep <- as.character(d3$list_to_sep) 
+typeof(d3)
+d3[1,]
+View(d3)
+list_example <- list()
+split_data_curly <- function(my_d){
+	for (i in 1:nrow(my_d)){
+		list_example[i] <- gsub("[{}]","",strsplit(my_d[i,],"\\}\\{")[[1]])
+		}
+		return(list_example)
+}
+split_d3 <- split_data_curly(d3)
+View(split_d3)
+```
+
+
+## SECTION B - Merging data from mim2gene dataset with OMIM API output from functions
+
+### Part 1 - Get the mim2gene data
+
+Complementary to getting access to the OMIM API, OMIM allowed me to download the mim2gene.txt data, which lists OMIM ids and the corresponding OMIM entry type, Entrez gene id, HGNC is and Ensembl id.
+```{r}
+mim2gene_data <- read.table("data/mim2gene.txt", header=FALSE, sep="\t")
+colnames(mim2gene_data) <- c("id", "mim_entry_type", "entrez_gene_id", "hgnc", "ensembl_gene_id")
+```
+
+#### Peak at the data output
+
+```{r}
+head(mim2gene_data) %>% kable()
+```
+
+
+### Part 2 - Merge with OMIM API data
+
+The mim2gene_data is not really useful in this state, but if we leverage the data from the OMIM API, we will be able to expand this table and make useful genotype-phenotype correlations.
+
+```
+system.time(mim2gene_get_mim_api_titles <- lapply(lapply(mim2gene_data$id, get_omim_to_xml), get_title))
+```
+	user   system  elapsed 
+  99.193   13.788 5675.498 
+
+*So it did take about 3h, as mentioned by David Tang.* 
+
+Transform the largest list obtained into a dataframe.
+```{r}
+df <- data.frame(id=mim2gene_data$id,
+                 title=unlist(mim2gene_get_mim_api_titles))
+```
+
+Let's peak at the data.
+```{r}
+head(df) %>% kable()
+```
+
+
+```{r}
+mim2gene_data_expanded_titles <- merge(x=mim2gene_data, y=df, by='id')
+dim(mim2gene_data_expanded_titles)
+```
+
+So now we have a much more informative dataframe, which contains both the OMIM ids and the diseases names (**titles**).
+```{r}
+mim2gene_data_expanded_titles %>% head() %>% kable()
+```
+
+Let's save this new dataset.
+```{r}
+write_tsv(mim2gene_data_expanded_titles, "data/mim2gene_data_expanded_titles.tsv")
+```
+
+### SECTION C - BUILDING ON PREVIOUS STAT545/547 HOMEWORK
+
+If at this point, you are not convinced that I can obtain from the web and manipulate messy data, you have to checkout my previous homeworks. 
+
+Data manipulation (joining, cleaning and tidying) has been a necessary (and often painful, as explained in most repository README) step in most of my previous STAT545/547 homework and I encountered common challenges. Here are some examples:
+
+- [homework 3](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw3-thibodeau-mylinh) - [tables and plots](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw3-thibodeau-mylinh/stat545-hw03-thibodeau-mylinh.md) - Challenge with duplicated factors (genes names)
+- [homework 4](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw4-thibodeau-mylinh) - [long version](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw4-thibodeau-mylinh/long-version-stat545-hw04-thibodeau-mylinh.md) - Challenge with data structure, as I realized midway that I could not perform some of the required analyses due to the characteristics of my dataset, and I had to restart with a new dataset (The Cancer Genome Atlas).
+- [homework 5](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw5-thibodeau-mylinh) - [tables and plots](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw5-thibodeau-mylinh/stat545-hw05-thibodeau-mylinh.md) - Challenge with `read_table2()`, and subsequent discovery that some reading functions do no deal with white spaces well. 
+- [homework 6](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat547-hw6-thibodeau-mylinh/stat547-hw06-thibodeau-mylinh.Rmd) - [gene ontology and Genomic Data Commons](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat547-hw6-thibodeau-mylinh/stat547-hw06-thibodeau-mylinh.Rmd) - Challenges dealing with a new file format (".obo") and new data structure/organization of gene ontology, and challenges dealing with nested list of Genomic Data Commons (cancer data), and the whole SSL certificate issue.
+- [homework 7](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw7-thibodeau-mylinh) - [mut_sig_tables.R](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat547-hw7-thibodeau-mylinh/mut_sig_tables.R) - Multiple data manipulation steps with `gather()` function of tidyr, and challenges in trying to join them with mutational signatures.
+- [homework 8](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw8-thibodeau-mylinh) - [dataframe manipulation](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat547-hw8-thibodeau-mylinh/genomic-disorders-exploration-data-manipulation.Rmd) - There were so many steps of data manipulation required that I decided to make and Rmd file and explain the process as part of building my ShinyApp - Genomic Disorders Exploration.
+- [homework 9](https://github.com/mylinhthibodeau/powers3) - Challenge with the superpowers dataset, which contains non ASCII characters (still under work at this time).
+
+
+Therefore, instead of reinventing the wheel, I will build on some of the previous work accomplished ! Specifically, I will use the data from my [homework 8](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw8-thibodeau-mylinh) Shiny App (partial data available [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw8-thibodeau-mylinh/data))
+
+#### Part 1 - Read and peak at merged dataset (DECIPHER, HGNC and Orphanet)
+
+```{r}
+DDG2P_hgnc_orphadata <- read.table("data/DDG2P_hgnc_orphadata.tsv", header = TRUE, sep = "\t")
+```
+
+Please refer to homework 8 for additional details on these datasets, but here is a sample.
+```{r}
+DDG2P_hgnc_orphadata %>% head() %>% kable()
+```
+
+#### Part 2 - Merge data
+
+TO COMPLETE - MERGE DATA API + ABOVE
+
+### SECTION D - DATA EXPLORATION
+
+Please note that data exploration for the API-related dataframe has been performed in the relevant sections above: refer to tables sample provided by the `head()` function.
+
+TO COMPLETE - 
+
+
+
+### SECTION E - PLOTS
+
+TO COMPLETE - 
+
+
+***
+
+## THIS WORK HAS BEEN COMPLETED FOR LEARNING PURPOSES ONLY
+
+## SOURCES OF DATA - REFERENCES
+
+* Online Mendelian Inheritance in Man, OMIM®. McKusick-Nathans Institute of Genetic Medicine, Johns Hopkins University (Baltimore, MD), November 29 2017. World Wide Web URL: https://omim.org/
+* Code adapted from Dave Tang tutorial Getting started with the OMIM api [here](https://davetang.org/muse/2015/03/17/getting-started-with-the-omim-api/)
+* DECIPHER: Database of Chromosomal Imbalance and Phenotype in Humans using Ensembl Resources. Firth, H.V. et al (2009). Am.J.Hum.Genet 84, 524-533 (DOI: dx.doi.org/10/1016/j.ajhg.2009.03.010). 
+* This homework makes use of genomic data generated by the DECIPHER community. A full list of centres who contributed to the generation of the data is available from http://decipher.sanger.ac.uk and via email from decipher@sanger.ac.uk. Funding for the project was provided by the Wellcome Trust.
+* Gray KA, Yates B, Seal RL, Wright MW, Bruford EA. genenames.org: the HGNC resources in 2015. Nucleic Acids Res. 2015 Jan;43(Database issue):D1079-85. doi: 10.1093/nar/gku1071. PMID:25361968. 
+* HGNC Database, HUGO Gene Nomenclature Committee (HGNC), EMBL Outstation - Hinxton, European Bioinformatics Institute, Wellcome Trust Genome Campus, Hinxton, Cambridgeshire, CB10 1SD, UK www.genenames.org (complete HGNC dataset downloaded [here](https://www.genenames.org/cgi-bin/statistics) on November 17/2017).
+* Orphanet: an online database of rare diseases and orphan drugs. Copyright, INSERM 1997. Available at http://www.orpha.net Accessed (accessed November 17, 2017).
+* Orphadata: Free access data from Orphanet. © INSERM 1997. Available on http://www.orphadata.org. Data version (XML data version en_product4_HPO.xml).
+
+
+## GENERAL REFERENCES
+
+* stat545 webdata03 lecture 2015 [here](http://stat545.com/webdata03_activity.html)

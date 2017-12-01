@@ -17,7 +17,7 @@ library(stringr)
 
 # Introduction
 
-In this homework, I will be working with the Online Mendelian Inheritance of Man - [OMIM](https://omim.org/) data. 
+In this homework, I will be working with the Online Mendelian Inheritance of Man - [OMIM](https://omim.org/) data as well as previously used merged data from [DECIPHER](http://decipher.sanger.ac.uk), [Orphanet](http://www.orpha.net) and [HGNC](https://www.genenames.org/cgi-bin/statistics) (see references and [homework 8](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw8-thibodeau-mylinh) for more information)
 
 Extensive information on the OMIM API is available [here](https://omim.org/help/api), but I will provide a few examples of query and functions to query the API.
 
@@ -27,8 +27,8 @@ IMPORTANT: This work is adapted from Dave Tang's tutorial on Getting started wit
 
 Here is the breakdown of requirements and corresponding sections:
 
-* Get data from API - Section A (part 1, 2, 3)
-* Clean and tidy into a dataframe - Section A (part 4) and Section B 
+* Get data from API - Section __ (part 1, 2, 3)
+* Clean and tidy into a dataframe - Section __ (part 4) and Section __
 
 ## SECTION A - Writing functions to work with OMIM API
 
@@ -83,8 +83,10 @@ xmlParse(my_query)
 #### Peak at data output
 
 I have set the default OMIM id to 277700, which corresponds to Werner syndrome. 
+
 ```{r}
-get_omim_to_xml()
+get_omim_to_xml() %>% class()
+get_omim_to_xml() 
 ```
 
 Let's peak at the structure of the geneMap and the information it contains.
@@ -133,76 +135,218 @@ get_titles_from_list <- function(
 get_titles_from_list() %>% kable()
 ```
 
-### Part 4 - Function get_inheritance (example of XML parsing)
+
+## SECTION B - Merging data from mim2gene dataset with OMIM API output from functions
+
+### Part 1 - Get the mim2gene data
+
+Complementary to getting access to the OMIM API, OMIM allowed me to download the mim2gene.txt data, which lists OMIM ids and the corresponding OMIM entry type, Entrez gene id, HGNC is and Ensembl id.
+```
+mim2gene_data <- read.table("data/mim2gene.txt", header=FALSE, sep="\t")
+colnames(mim2gene_data) <- c("id", "mim_entry_type", "entrez_gene_id", "hgnc", "ensembl_gene_id")
+```
+
+#### Peak at the data output
+
+```{r}
+head(mim2gene_data) %>% kable()
+```
+
+
+### Part 2 - Merge with OMIM API data
+
+The mim2gene_data is not really useful in this state, but if we leverage the data from the OMIM API, we will be able to expand this table and make useful genotype-phenotype correlations.
+
+```
+system.time(mim2gene_get_mim_api_titles <- lapply(lapply(mim2gene_data$id, get_omim_to_xml), get_title))
+```
+	user   system  elapsed 
+  99.193   13.788 5675.498 
+
+*So it did take about 3h, as mentioned by David Tang.* 
+
+Transform the largest list obtained into a dataframe.
+```
+df <- data.frame(id=mim2gene_data$id,
+                 title=unlist(mim2gene_get_mim_api_titles))
+```
+
+Let's merge this list of diseases titles with the previous mim2gene_data table. 
+```
+mim2gene_data_expanded_titles <- merge(x=mim2gene_data, y=df, by='id')
+dim(mim2gene_data_expanded_titles)
+```
+
+Let's save this new dataset.
+```
+write_tsv(mim2gene_data_expanded_titles, "data/mim2gene_data_expanded_titles.tsv")
+```
+
+*Since I haven't re-queried the database for all the diseases titles (which takes 3h), I have to read the table I generated earlier.*
+```{r}
+mim2gene_data_expanded_titles <- read.table("data/mim2gene_data_expanded_titles.tsv", sep = "\t", header = TRUE)
+```
+
+*And let's store the diseases OMIM ids in a variable for later use.*
+
+```{r}
+omim_db_ids <- mim2gene_data_expanded_titles$id %>% as.data.frame()
+colnames(omim_db_ids) <- c("disease.mim")
+head(omim_db_ids)
+```
+
+
+So now we have a much more informative dataframe, which contains both the OMIM ids and the diseases names (**titles**).
+```{r}
+mim2gene_data_expanded_titles %>% head() %>% kable()
+```
+
+
+## SECTION C - BUILDING ON PREVIOUS STAT545/547 HOMEWORK 
+
+Data manipulation (joining, cleaning and tidying) has been a necessary (and often painful, as explained in most repository README) step in most of my previous STAT545/547 homework and I encountered common challenges. If at this point, you are not convinced that I can obtain from the web and manipulate messy data, you have to checkout my previous homeworks. Here are some examples:
+
+- [homework 3](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw3-thibodeau-mylinh) - [tables and plots](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw3-thibodeau-mylinh/stat545-hw03-thibodeau-mylinh.md) - Challenge with duplicated factors (genes names)
+- [homework 4](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw4-thibodeau-mylinh) - [long version](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw4-thibodeau-mylinh/long-version-stat545-hw04-thibodeau-mylinh.md) - Challenge with data structure, as I realized midway that I could not perform some of the required analyses due to the characteristics of my dataset, and I had to restart with a new dataset (The Cancer Genome Atlas).
+- [homework 5](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw5-thibodeau-mylinh) - [tables and plots](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw5-thibodeau-mylinh/stat545-hw05-thibodeau-mylinh.md) - Challenge with `read_table2()`, and subsequent discovery that some reading functions do no deal with white spaces well. 
+- [homework 6](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat547-hw6-thibodeau-mylinh/stat547-hw06-thibodeau-mylinh.Rmd) - [gene ontology and Genomic Data Commons](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat547-hw6-thibodeau-mylinh/stat547-hw06-thibodeau-mylinh.Rmd) - Challenges dealing with a new file format (".obo") and new data structure/organization of gene ontology, and challenges dealing with nested list of Genomic Data Commons (cancer data), and the whole SSL certificate issue.
+- [homework 7](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw7-thibodeau-mylinh) - [mut_sig_tables.R](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat547-hw7-thibodeau-mylinh/mut_sig_tables.R) - Multiple data manipulation steps with `gather()` function of tidyr, and challenges in trying to join them with mutational signatures.
+- [homework 8](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw8-thibodeau-mylinh) - [dataframe manipulation](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat547-hw8-thibodeau-mylinh/genomic-disorders-exploration-data-manipulation.Rmd) - There were so many steps of data manipulation required that I decided to make and Rmd file and explain the process as part of building my ShinyApp - Genomic Disorders Exploration.
+- [homework 9](https://github.com/mylinhthibodeau/powers3) - Challenge with the superpowers dataset, which contains non ASCII characters (still under work at this time).
+
+
+Therefore, instead of reinventing the wheel, I will build on some of the previous work accomplished ! Specifically, I will use the data from my [homework 8](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw8-thibodeau-mylinh) Shiny App (partial data available [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw8-thibodeau-mylinh/data))
+
+#### Part 1 - Read and peak at merged dataset (DECIPHER, HGNC and Orphanet)
+
+Now, let's read the previously generated merged data from DECIPHER, HGNC and Orphanet as well as the list of omim disease ids from this merged dataset. 
+```{r}
+DDG2P_hgnc_orphadata <- read.table("data/DDG2P_hgnc_orphadata.tsv", header = TRUE, sep = "\t")
+DDG2P_hgnc_orphadata_list_disease_mim <- read.table("data/DDG2P_orphadata_list_disease.mim.txt", header = TRUE, sep = "\t")
+```
+
+Please refer to homework 8 for additional details on these datasets, but here is a little peak at the data.
+```{r}
+DDG2P_hgnc_orphadata %>% head() %>% kable()
+```
+
+And a peak at the diseases OMIM ids.
+
+```{r}
+# dim(DDG2P_hgnc_orphadata_list_disease_mim)
+# class(DDG2P_hgnc_orphadata_list_disease_mim)
+DDG2P_hgnc_orphadata_list_disease_mim %>% head() %>% kable()
+```
+
+Now, let's find the OMIM ids common to OMIM database and orphadata
+
+```{r}
+common_mim_ids <- inner_join(DDG2P_hgnc_orphadata_list_disease_mim, omim_db_ids, by = c( "disease.mim" = "disease.mim"))
+dim(common_mim_ids)
+```
+
+## SECTION D - TARGETED API QUERIES
+
+Since we saw that an OMIM database-wide query can take up to 3h, we will only make targeted data queries on a subset of the OMIM data now.
+
+### Part 1 - Function get_inheritance (example of XML parsing)
 
 Now, we need a function to parse the XML and retrieve the disorder **inheritance** corresponding to the OMIM id. 
 ```{r}
-get_inheritance_mlt <- function(xml =  277700){
-  xml_list <- xmlToList(xml)
-  return(xml_list$entryList$entry$clinicalSynopsis$inheritance)
-}
-```
-
-```{r}
-get_inheritance_mlt(get_omim_to_xml(clinicalSynopsis = TRUE))
-```
-
-? Discard ? Get inheritance from list?
-
-FUNCTION OR ROMIM 
-
-```{r}
 get_inheritance <- function(my_xml){
-  my_inheritance_node <- getNodeSet(my_xml, path = "/omim/entryList/entry/phenotypeMapList/phenotypeMap/phenotypeInheritance")
-  xmlSApply(my_inheritance_node, xmlValue)
+    my_inheritance_node <- NULL
+	my_inheritance_node <- getNodeSet(my_xml, path = "/omim/entryList/entry/phenotypeMapList/phenotypeMap/phenotypeInheritance")
+  my_inheritance_result <- xmlSApply(my_inheritance_node, xmlValue)
+  
+  if (is.null(my_inheritance_node)){
+  	
+  }
+  return(my_inheritance_result)
 }
 get_inheritance(get_omim_to_xml(303600, geneMap=TRUE))
 ```
 
-```{r}
-# my_omim_list
-get_inheritance_from_list <- function(user_list){
-	inheritance_list <- list()
-	if (is.list(user_list)){
-		for (i in 1:length(user_list)){
-			inheritance <- get_inheritance(get_omim_to_xml(user_list[i], geneMap=TRUE))
-			if (length(inheritance) >1){
-				inheritance <- paste(inheritance, collapse = "/")
-			}
-		}
-
-		#inheritance_list[i] <- as.character(inheritance)
-		#print(inheritance)
-		
-
-		if (!is.null(str_length(inheritance))) {
-			inheritance_list[i] <- inheritance
-			print(inheritance_list[i])
-		}
-#else {
-#	inheritance_list[i] <- "NA"
-#}
-return(inheritance_list)
-	}
-	else
-		return("You have to input an Robject typeof list")
-}
-```
-
-```{r}
-essai1 <- get_inheritance_from_list(my_omim_list)
-```
-
-
-```{r}
-#View(inheritance_list)
-inheritance_list_df <- inheritance_list %>% as.data.frame()
-write_tsv(inheritance_list_df, "data/partial_inheritance_list.tsv")
-```
-
-
+Let's peak at the output.
 ```{r}
 get_inheritance(get_omim_to_xml(my_omim_list[5], geneMap=TRUE)) 
+```
+
+
+
+Let's make a function that accepts a list of OMIM ids and provides the inheritance for these 918 OMIM ids. The first step is to make a function that will determine if the data is already available or not.
+
+```{r}
+get_inheritance_from_list <- function(my_file, user_list){
+	inheritance_list <- try(read.table(my_file, header = TRUE, sep = "\t", silent = TRUE)) 
+	if (!inherits(inheritance_list, "try-error")) {
+  		read.table(inheritance_list, header = TRUE, sep = "\t")
+  		return("The file is present")
+		}
+	else
+		inheritance_list <- list()
+		if (is.list(user_list)){
+			for (i in 1:length(user_list)){
+				inheritance <- get_inheritance(get_omim_to_xml(user_list[i], geneMap=TRUE))
+				
+				if (length(inheritance) >1){
+					inheritance <- paste(inheritance, collapse = "/")
+				}
+				if (is.list(inheritance) || inheritance == ""){ inheritance_list[i] <- "0" # Missing values are replaced by the "0" character
+				} 
+				else
+					{ inheritance_list[i] <- as.character(inheritance)}
+			}
+		}
+	if (length(inheritance_list) !=0){
+		inheritance_df <- inheritance_list %>% as.data.frame()
+		file_name <- as.character(my_file)
+		my_new_file_name <- paste0(str_trunc(file_name, width =-5, side = c("right"), ellipsis = ""), ".tsv")
+		
+		write.table(inheritance_df, my_new_file_name)
+		print("The inheritance file was not available, an OMIM API query has been performed.")
+	}
+	else
+		print("The inheritance file was available")
+	return(inheritance_list)
+	}
+```
+
+Let's test the function
+```{r}
+my_file <- "data/get_inheritance_from_my_omim_list.tsv"
+my_omim_list <- common_mim_ids$disease.mim %>% as.list()
+my_test1 <- get_inheritance_from_list(my_file, my_omim_list)
+View(my_test1)
+```
+
+
+```{r}
+
+get_inheritance_from_list <- function(user_list){
+		
+	
+	inheritance_list <- list()
+		if (is.list(user_list)){
+			for (i in 1:length(user_list)){
+				inheritance <- get_inheritance(get_omim_to_xml(user_list[i], geneMap=TRUE))
+				
+				if (length(inheritance) >1){
+					inheritance <- paste(inheritance, collapse = "/")
+				}
+				if (is.list(inheritance) || inheritance == ""){ inheritance_list[i] <- "0" # Missing values are replaced by the "0" character
+				} else{ inheritance_list[i] <- as.character(inheritance)}
+			}
+		}
+}
+
+```
+
+```{r}
+
+#if("try-error" %in% class(get_inheritance_from_my_omim_list)) get_inheritance_from_my_omim_list <- get_inheritance_from_list(my_omim_list)
+
+#get_inheritance_from_my_omim_list <- get_inheritance_from_list(my_omim_list)
+length(get_inheritance_from_my_omim_list) # Just making sure we have the same number of entries (918)
 ```
 
 
@@ -211,7 +355,7 @@ get_inheritance_from_my_omim_list <- get_inheritance_from_list(my_omim_list)
 ```
 
 
-#### Part 5 - Function get_gene (example of "nested" function to parse XML)
+#### Part __ - Function get_gene (example of "nested" function to parse XML)
 
 Code from Dave Tang github [here](https://github.com/davetang/romim)
 ```{r}
@@ -230,7 +374,7 @@ get_gene(get_omim_to_xml(geneMap = TRUE))
 TO CONSIDER (or remove) Write a general API query function that accepts lists of OMIM ids ???
 
 
-#### Part 6 - Get multiple items from OMIM API
+#### Part __ - Get multiple items from OMIM API
 
 CONSIDER - ONLY RETRIEVING THE CLINICAL SYNOPSIS THAT HAS HPO TERMS
 
@@ -279,6 +423,18 @@ split_d3 <- split_data_curly(d3)
 View(split_d3)
 ```
 
+```{r}
+tmp_str <- "Autosomal recessive {SNOMEDCT:258211005} {UMLS C0441748 HP:0000007} {HPO HP:0000007 C0441748,C4020899}"
+# stringr::str_c(tmp_str, sep = " ") %>% as.list()
+# library
+# str_split(tmp_str, sep = " {")
+# str_split
+#as.list(paste("{", strsplit(tmp_str,  "\\{")[[1]], sep = ""))
+#list_str <- str_split(tmp_str, boundary("word")) 
+#str_c(list_str)
+```
+
+
 Consider discarding - not working
 ```{r}
 get_inheritance_from_list_mlt <- function(
@@ -302,105 +458,14 @@ get_inheritance_from_list_mlt(get_omim_to_xml(clinicalSynopsis = TRUE))
 ```
 
 
-## SECTION B - Merging data from mim2gene dataset with OMIM API output from functions
-
-### Part 1 - Get the mim2gene data
-
-Complementary to getting access to the OMIM API, OMIM allowed me to download the mim2gene.txt data, which lists OMIM ids and the corresponding OMIM entry type, Entrez gene id, HGNC is and Ensembl id.
-```{r}
-mim2gene_data <- read.table("data/mim2gene.txt", header=FALSE, sep="\t")
-colnames(mim2gene_data) <- c("id", "mim_entry_type", "entrez_gene_id", "hgnc", "ensembl_gene_id")
-```
-
-#### Peak at the data output
-
-```{r}
-head(mim2gene_data) %>% kable()
-```
 
 
-
-### Part 2 - Merge with OMIM API data
-
-The mim2gene_data is not really useful in this state, but if we leverage the data from the OMIM API, we will be able to expand this table and make useful genotype-phenotype correlations.
-
-```
-system.time(mim2gene_get_mim_api_titles <- lapply(lapply(mim2gene_data$id, get_omim_to_xml), get_title))
-```
-	user   system  elapsed 
-  99.193   13.788 5675.498 
-
-*So it did take about 3h, as mentioned by David Tang.* 
-
-Transform the largest list obtained into a dataframe.
-```{r}
-df <- data.frame(id=mim2gene_data$id,
-                 title=unlist(mim2gene_get_mim_api_titles))
-```
-
-Let's peak at the data.
-```{r}
-head(df) %>% kable()
-```
-
-
-```{r}
-mim2gene_data_expanded_titles <- merge(x=mim2gene_data, y=df, by='id')
-dim(mim2gene_data_expanded_titles)
-```
-
-So now we have a much more informative dataframe, which contains both the OMIM ids and the diseases names (**titles**).
-```{r}
-mim2gene_data_expanded_titles %>% head() %>% kable()
-```
-
-Let's save this new dataset.
-```{r}
-write_tsv(mim2gene_data_expanded_titles, "data/mim2gene_data_expanded_titles.tsv")
-```
-
-### SECTION C - BUILDING ON PREVIOUS STAT545/547 HOMEWORK
-
-If at this point, you are not convinced that I can obtain from the web and manipulate messy data, you have to checkout my previous homeworks. 
-
-Data manipulation (joining, cleaning and tidying) has been a necessary (and often painful, as explained in most repository README) step in most of my previous STAT545/547 homework and I encountered common challenges. Here are some examples:
-
-- [homework 3](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw3-thibodeau-mylinh) - [tables and plots](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw3-thibodeau-mylinh/stat545-hw03-thibodeau-mylinh.md) - Challenge with duplicated factors (genes names)
-- [homework 4](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw4-thibodeau-mylinh) - [long version](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw4-thibodeau-mylinh/long-version-stat545-hw04-thibodeau-mylinh.md) - Challenge with data structure, as I realized midway that I could not perform some of the required analyses due to the characteristics of my dataset, and I had to restart with a new dataset (The Cancer Genome Atlas).
-- [homework 5](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat545-hw5-thibodeau-mylinh) - [tables and plots](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat545-hw5-thibodeau-mylinh/stat545-hw05-thibodeau-mylinh.md) - Challenge with `read_table2()`, and subsequent discovery that some reading functions do no deal with white spaces well. 
-- [homework 6](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat547-hw6-thibodeau-mylinh/stat547-hw06-thibodeau-mylinh.Rmd) - [gene ontology and Genomic Data Commons](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat547-hw6-thibodeau-mylinh/stat547-hw06-thibodeau-mylinh.Rmd) - Challenges dealing with a new file format (".obo") and new data structure/organization of gene ontology, and challenges dealing with nested list of Genomic Data Commons (cancer data), and the whole SSL certificate issue.
-- [homework 7](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw7-thibodeau-mylinh) - [mut_sig_tables.R](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat547-hw7-thibodeau-mylinh/mut_sig_tables.R) - Multiple data manipulation steps with `gather()` function of tidyr, and challenges in trying to join them with mutational signatures.
-- [homework 8](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw8-thibodeau-mylinh) - [dataframe manipulation](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat547-hw8-thibodeau-mylinh/genomic-disorders-exploration-data-manipulation.Rmd) - There were so many steps of data manipulation required that I decided to make and Rmd file and explain the process as part of building my ShinyApp - Genomic Disorders Exploration.
-- [homework 9](https://github.com/mylinhthibodeau/powers3) - Challenge with the superpowers dataset, which contains non ASCII characters (still under work at this time).
-
-
-Therefore, instead of reinventing the wheel, I will build on some of the previous work accomplished ! Specifically, I will use the data from my [homework 8](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw8-thibodeau-mylinh) Shiny App (partial data available [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw8-thibodeau-mylinh/data))
-
-#### Part 1 - Read and peak at merged dataset (DECIPHER, HGNC and Orphanet)
-
-```{r}
-DDG2P_hgnc_orphadata <- read.table("data/DDG2P_hgnc_orphadata.tsv", header = TRUE, sep = "\t")
-DDG2P_hgnc_orphadata_list_disease_mim <- read.table("data/DDG2P_orphadata_list_disease.mim.txt", header = TRUE, sep = "\t")
-```
-
-Please refer to homework 8 for additional details on these datasets, but here is a sample.
-```{r}
-DDG2P_hgnc_orphadata %>% head() %>% kable()
-```
-
-And also we have 1580 disease OMIM ids.
-
-```{r}
-dim(DDG2P_hgnc_orphadata_list_disease_mim)
-DDG2P_hgnc_orphadata_list_disease_mim %>% head() %>% kable()
-```
-(CONSIDER as list ???)
 
 # TO DISCARD - XML EXPLORATION
 
 ```{r}
 typeof(DDG2P_hgnc_orphadata_list_disease_mim$disease.mim)
-my_omim_list <- DDG2P_hgnc_orphadata_list_disease_mim$disease.mim %>% as.list()
+
 class(my_omim_list)
 typeof(my_omim_list)
 length(my_omim_list)

@@ -1,9 +1,8 @@
-# README 
+# README - IN PROGRESS
 
 stat547-hw10-thibodeau-mylinh
 
 ## HOMEWORK 10 
-
 
 
 

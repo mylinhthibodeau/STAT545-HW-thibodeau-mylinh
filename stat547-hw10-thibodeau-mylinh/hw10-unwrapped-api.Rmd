@@ -184,7 +184,8 @@ str(clinical_synopsis_werner_list)
 ### Part 1 - Get the mim2gene data
 
 Complementary to getting access to the OMIM API, OMIM allowed me to download the mim2gene.txt data, which lists OMIM ids and the corresponding OMIM entry type, Entrez gene id, HGNC is and Ensembl id.
-```
+
+```{r}
 mim2gene_data <- read.table("data/mim2gene.txt", header=FALSE, sep="\t")
 colnames(mim2gene_data) <- c("id", "mim_entry_type", "entrez_gene_id", "hgnc", "ensembl_gene_id")
 ```
@@ -289,6 +290,12 @@ common_mim_ids <- inner_join(DDG2P_hgnc_orphadata_list_disease_mim, omim_db_ids,
 dim(common_mim_ids)
 ```
 
+Let's make a list of these omim diseases ids of interest.
+```{r}
+my_omim_list <- common_mim_ids$disease.mim %>% as.list()
+```
+
+
 ## SECTION D - TARGETED API QUERIES
 
 Since we saw that an OMIM database-wide query can take up to 3h, we will only make targeted data queries on a subset of the OMIM data now.
@@ -319,9 +326,9 @@ Let's make a function that accepts a list of OMIM ids and provides the inheritan
 
 ```{r}
 get_inheritance_from_list <- function(my_file, user_list){
-	inheritance_list <- try(read.table(my_file, header = TRUE, sep = "\t", silent = TRUE)) 
+	inheritance_list <- try(read_tsv(my_file))
 	if (!inherits(inheritance_list, "try-error")) {
-  		read.table(inheritance_list, header = TRUE, sep = "\t")
+  		read_tsv(my_file)
   		return("The file is present")
 		}
 	else
@@ -353,7 +360,7 @@ get_inheritance_from_list <- function(my_file, user_list){
 Let's test the function!
 ```{r}
 my_file <- "data/get_inheritance_from_my_omim_list.tsv"
-my_omim_list <- common_mim_ids$disease.mim %>% as.list()
+# my_omim_list <- common_mim_ids$disease.mim %>% as.list() # we already defined this list in a previous section
 get_inheritance_from_my_omim_list <- get_inheritance_from_list(my_file, my_omim_list)
 #View(get_inheritance_from_my_omim_list)
 ```
@@ -451,7 +458,8 @@ mim2gene_and_inheritance_DDG2P_hgnc_orphadata %>%
 ```{r}
 mim2gene_and_inheritance_DDG2P_hgnc_orphadata %>% 
 	group_by(inheritance) %>%
-	summarize(total = n())
+	arrange(total) %>%
+	summarize(total_diseases = n())
 ```
 
 
@@ -464,12 +472,9 @@ mim2gene_and_inheritance_DDG2P_hgnc_orphadata %>%
 
 ```{r}
 mim2gene_and_inheritance_DDG2P_hgnc_orphadata %>%
-	#filter(phenotype_name != "/") %>%
-	#group_by(inheritance) %>%
 	mutate(inheritance = inheritance %>% fct_infreq() %>% fct_rev()) %>%
 			unique() %>%
 			group_by(disease.mim) %>%
-			#head(50) %>% 
 			ggplot(aes(inheritance)) +
 			geom_bar(aes(fill=inheritance)) +
 			ggtitle("Inheritance mode of diseases of merged data") +

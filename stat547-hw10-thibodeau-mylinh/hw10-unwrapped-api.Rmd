@@ -6,7 +6,9 @@ output: github_document
 ---
 
 ```{r}
-library(XML)
+suppressMessages(suppressWarnings(library(XML)))
+suppressMessages(suppressWarnings(library(xml2)))
+suppressMessages(suppressWarnings(library(dplyr)))
 knitr::opts_chunk$set(fig.width=12, fig.height=9)
 suppressMessages(suppressWarnings(library(knitr)))
 suppressMessages(suppressWarnings(library(kableExtra)))
@@ -14,6 +16,11 @@ options(knitr.table.format = "html")
 suppressMessages(suppressWarnings(library(tidyverse)))
 suppressMessages(suppressWarnings(library(purrr)))
 suppressMessages(suppressWarnings(library(stringr)))
+suppressMessages(suppressWarnings(library(forcats)))
+suppressMessages(suppressWarnings(library(httr)))
+suppressMessages(suppressWarnings(library(jsonlite)))
+suppressMessages(suppressWarnings(library(glue)))
+suppressMessages(suppressWarnings(library(methods)))
 ```
 
 
@@ -23,14 +30,24 @@ In this homework, I will be working with the Online Mendelian Inheritance of Man
 
 Extensive information on the OMIM API is available [here](https://omim.org/help/api), but I will provide a few examples of query and functions to query the API.
 
-IMPORTANT: This work is adapted from Dave Tang's tutorial on Getting started with the OMIM api [here](https://davetang.org/muse/2015/03/17/getting-started-with-the-omim-api/).
+**IMPORTANT:** This work is adapted from Dave Tang's tutorial on Getting started with the OMIM api [here](https://davetang.org/muse/2015/03/17/getting-started-with-the-omim-api/).
+
+**IMPORTANT:** An alternative method has been used to retrieve the OMIM API data: I mainly used adapted functions instead of `GET()` from the library httr.
+
+**IMPORTANT:** I spent quite a bit of time trying to make some output files that you guys could see while respecting the protected data restriction of the OMIM API. Please install the packages XML and xml2 in order to be able to take a better look at the OMIM API xml output examples in the [data_sample folder]("stat547-hw10-thibodeau-mylinh/data_sample"), and otherwise, I have put some data samples in the homework, but the aesthetic of it is not great. 
 
 # Homework 10 requirements
 
 Here is the breakdown of requirements and corresponding sections:
 
-* Get data from API - Section __ (part 1, 2, 3)
-* Clean and tidy into a dataframe - Section __ (part 4) and Section __
+* Get data from API - Section A (part 1, 2, 3, 4, 5) and Section D (part 1) 
+* Clean and tidy into dataframes - Section B (part 2) and Section C and Section D (part 2)
+* Save output to files
+	- protected data has been saved under the data folder - not public (e.g. mim2gene_and_inheritance_DDG2P_hgnc_orphadata.tsv)
+	- sample data for reviewers saved under [data_sample folder]("stat547-hw10-thibodeau-mylinh/data_sample")
+* Use httr and `GET()` - Section F contains some examples of API query using httr. A new function using httr and glue is defined.
+
+Section F contains two very brief examples of purrr exploration, but I opted to build on previous work relating to writing functions instead of purrr nested list applications.
 
 ## SECTION A - Writing functions to work with OMIM API
 
@@ -84,16 +101,25 @@ xmlParse(my_query)
 
 #### Peak at data output
 
-I have set the default OMIM id to 277700, which corresponds to Werner syndrome. 
+I have set the default OMIM id to 277700, which corresponds to Werner syndrome.
 
+**IMPORTANT** The xml functions can not be knitr to github document as they are using my private key. As a replacement, I have saved some samples of data for you under [data_sample]("stat547-hw10-thibodeau-mylinh/data_sample"). I have kept the functions below to indicate the code that was used to generate the xml documents and associated datasets. 
 ```{r}
-get_omim_to_xml() %>% class()
-get_omim_to_xml() 
+# get_omim_xml_werner_example1 <- get_omim_to_xml()
+# class(get_omim_xml_werner_example1)
+# saveXML(get_omim_xml_werner_example1, "data_sample/get_omim_xml_werner_example1.xml")
+read_xml("data_sample/get_omim_xml_werner_example1.xml") %>% 
+	xmlParse() 
 ```
 
 Let's peak at the structure of the geneMap and the information it contains.
+
+**IMPORTANT** The xml functions can not be knitr to github document as they are using my private key. As a replacement, I have saved some samples of data for you under [data_sample]("stat547-hw10-thibodeau-mylinh/data_sample"). I have kept the functions below to indicate the code that was used to generate the xml documents and associated datasets. 
 ```{r}
-get_omim_to_xml(geneMap = TRUE)
+# get_omim_xml_werner_example2 <- get_omim_to_xml(geneMap = TRUE)
+# saveXML(get_omim_xml_werner_example2, "data_sample/get_omim_xml_werner_example2.xml")
+read_xml("data_sample/get_omim_xml_werner_example2.xml") %>% 
+	xmlParse() 
 ```
 
 ### Part 3 - Function get_gene (example of "nested" function to parse XML)
@@ -107,8 +133,12 @@ get_gene <- function(my_xml){
 ```
 
 And then we can retrieve the gene corresponding to a specific OMIM id (default is Werner syndrome).
+
+**IMPORTANT** The xml functions can not be knitr to github document as they are using my private key. As a replacement, I have saved some samples of data for you under [data_sample]("stat547-hw10-thibodeau-mylinh/data_sample"). I have kept the functions below to indicate the code that was used to generate the xml documents and associated datasets. 
 ```{r}
-get_gene(get_omim_to_xml(geneMap = TRUE)) 
+# get_gene_werner_example3 <- get_gene(get_omim_to_xml(geneMap = TRUE)) %>% as.data.frame()
+# write_tsv(get_gene_werner_example3, "data_sample/get_gene_werner_example3.tsv")
+read.table("data_sample/get_gene_werner_example3.tsv", sep = "\t", header = TRUE) %>% kable()
 ```
 
 ### Part 4A - Function get_title (example of XML parsing)
@@ -124,8 +154,12 @@ get_title <- function(xml =  277700){
 #### Peak at the data output
 
 Using the default option (Werner syndrome), we obtained the preferredTitle of this disorder. 
+
+**IMPORTANT** The xml functions can not be knitr to github document as they are using my private key. As a replacement, I have saved some samples of data for you under [data_sample]("stat547-hw10-thibodeau-mylinh/data_sample"). I have kept the functions below to indicate the code that was used to generate the xml documents and associated datasets. 
 ```{r}
-get_title(get_omim_to_xml())
+# get_title_werner_example4 <- get_title(get_omim_to_xml()) %>% as.data.frame()
+# write_tsv(get_title_werner_example4, "data_sample/get_title_werner_example4.tsv")
+read.table("data_sample/get_title_werner_example4.tsv", sep = "\t", header = TRUE) %>% kable()
 ```
 
 ### Part 4B - Write a get titles function that accepts a list of OMIM ids
@@ -147,17 +181,26 @@ get_titles_from_list <- function(
 
 #### Peak at the data output
 
+**IMPORTANT** The xml functions can not be knitr to github document as they are using my private key. As a replacement, I have saved some samples of data for you under [data_sample]("stat547-hw10-thibodeau-mylinh/data_sample"). I have kept the functions below to indicate the code that was used to generate the xml documents and associated datasets. 
 ```{r}
-get_titles_from_list() %>% kable()
+# get_titles_from_list_tetralogy_fallot <- get_titles_from_list() 
+# write_tsv(get_titles_from_list_tetralogy_fallot, "data_sample/get_titles_from_list_tetralogy_fallot.tsv")
+read.table("data_sample/get_titles_from_list_tetralogy_fallot.tsv", sep = "\t", header = TRUE) %>% kable()
 ```
+
 
 ### Part 5 - Get multiple items from OMIM API
 
 So far, we got the titles (diseases names) from the API, but we can also see what we could do with the clinical synopsis. Let's start by peaking at the structure of xml for clinical synopsis data.
 
+**IMPORTANT** The xml functions can not be knitr to github document as they are using my private key. As a replacement, I have saved some samples of data for you under [data_sample]("stat547-hw10-thibodeau-mylinh/data_sample"). I have kept the functions below to indicate the code that was used to generate the xml documents and associated datasets. 
 ```{r}
-get_omim_to_xml(clinicalSynopsis = TRUE)
+# get_omim_xml_werner_example5 <- get_omim_to_xml(clinicalSynopsis = TRUE)
+# saveXML(get_omim_xml_werner_example5, "data_sample/get_omim_xml_werner_example5.xml")
+read_xml("data_sample/get_omim_xml_werner_example5.xml") %>% 
+	xmlParse() 
 ```
+
 
 ```{r}
 get_clinical_synopsis_as_list <- function(xml){
@@ -170,14 +213,13 @@ get_clinical_synopsis_as_list <- function(xml){
 }
 ```
 
+**IMPORTANT** The xml functions can not be knitr to github document as they are using my private key. As a replacement, I have saved some samples of data for you under [data_sample]("stat547-hw10-thibodeau-mylinh/data_sample"). I have kept the functions below to indicate the code that was used to generate the xml documents and associated datasets. 
 ```{r}
-clinical_synopsis_werner_list <- get_clinical_synopsis_as_list(get_omim_to_xml(clinicalSynopsis = TRUE))
-#class(clinical_synopsis_werner_list)
-#View(clinical_synopsis_werner_list)
-#clinical_synopsis_werner_df <- do.call('rbind', lapply(clinical_synopsis_werner_list, data.frame)) 
-#clinical_synopsis_werner_df %>% head() %>% kable()
-str(clinical_synopsis_werner_list) 
+# clinical_synopsis_werner_list <- get_clinical_synopsis_as_list(get_omim_to_xml(clinicalSynopsis = TRUE))
+# capture.output(clinical_synopsis_werner_list, file = "data_sample/clinical_synopsis_werner_list.txt")
+read.table("data_sample/clinical_synopsis_werner_list.txt", sep="\t") %>% kable()
 ```
+Note. I know the output is not visually pleasing, but I am just trying to show that the API query worked and to prove to you that I was able to obtain the desired web data outpub. 
 
 ## SECTION B - Merging data from mim2gene dataset with OMIM API output from functions
 
@@ -314,19 +356,23 @@ get_inheritance <- function(my_xml){
   }
   return(my_inheritance_result)
 }
-get_inheritance(get_omim_to_xml(303600, geneMap=TRUE))
+
 ```
 
-Let's peak at the output.
+Let's peak at the output for mim.disease 303600 (Coffin-Lowry syndrome).
+
+**IMPORTANT** The xml functions can not be knitr to github document as they are using my private key. As a replacement, I have saved some samples of data for you under [data_sample]("stat547-hw10-thibodeau-mylinh/data_sample"). I have kept the functions below to indicate the code that was used to generate the xml documents and associated datasets. 
 ```{r}
-get_inheritance(get_omim_to_xml(my_omim_list[5], geneMap=TRUE)) 
+# get_inheritance_coffin_lowry_example6 <- get_inheritance(get_omim_to_xml(303600, geneMap=TRUE))
+# capture.output(get_inheritance_coffin_lowry_example6, file = "data_sample/get_inheritance_coffin_lowry_example6.txt")
+read.table("data_sample/get_inheritance_coffin_lowry_example6.txt", sep = "\t") %>% kable()
 ```
 
 Let's make a function that accepts a list of OMIM ids and provides the inheritance for these 918 OMIM ids. The first step is to make a function that will determine if the data is already available or not.
 
 ```{r}
 get_inheritance_from_list <- function(my_file, user_list){
-	inheritance_list <- try(read_tsv(my_file))
+	inheritance_list <- try(read_tsv(my_file, col_names = FALSE))
 	if (!inherits(inheritance_list, "try-error")) {
   		read_tsv(my_file)
   		return("The file is present")
@@ -348,8 +394,8 @@ get_inheritance_from_list <- function(my_file, user_list){
 		}
 	if (length(inheritance_list) !=0){
 		inheritance_df <- inheritance_list %>% as.data.frame()
-		write_tsv(inheritance_df, "data/get_inheritance_from_my_omim_list.tsv")
-		print("The inheritance file was not available, an OMIM API query has been performed and a file written to the folder data/ .")
+		write.table(inheritance_df, "data_sample/get_inheritance_from_my_omim_list.tsv", sep = "\n", col.names = FALSE)
+		print("The inheritance file was not available, an OMIM API query has been performed and a file written to the folder data_sample/ .")
 	}
 	else
 		print("The inheritance file was available and data has been read.")
@@ -358,31 +404,37 @@ get_inheritance_from_list <- function(my_file, user_list){
 ```
 
 Let's test the function!
+
+**IMPORTANT** The xml functions can not be knitr to github document as they are using my private key. As a replacement, I have saved some samples of data for you under [data_sample]("stat547-hw10-thibodeau-mylinh/data_sample"). I have kept the functions below to indicate the code that was used to generate the xml documents and associated datasets. 
 ```{r}
-my_file <- "data/get_inheritance_from_my_omim_list.tsv"
+# my_file <- "stat547-hw10-thibodeau-mylinh/data_sample/get_inheritance_from_my_omim_list.tsv"
 # my_omim_list <- common_mim_ids$disease.mim %>% as.list() # we already defined this list in a previous section
-get_inheritance_from_my_omim_list <- get_inheritance_from_list(my_file, my_omim_list)
+# get_inheritance_from_my_omim_list <- get_inheritance_from_list(my_file, my_omim_list)
 #View(get_inheritance_from_my_omim_list)
+get_inheritance_from_my_omim_list2 <- read.table("data_sample/get_inheritance_from_my_omim_list.tsv", sep = "\t", header = FALSE) %>% as.list()
+get_inheritance_from_my_omim_list2 <- get_inheritance_from_my_omim_list2$V1
 ```
-(message from function pasted below)
-`[1] "The inheritance file was not available, an OMIM API query has been performed and a file written to the folder data/ ."`
+(message from function pasted below as an example)
+`[1] "The inheritance file was not available, an OMIM API query has been performed and a file written to the folder data_sample/ ."`
 
 #### Peak at the data output
 
-Let's look at what kind of data we are dealing with here (and make sure we have the same number of items we started with)
+Let's look at what kind of data we are dealing with here (and make sure we have the same number of items we started with).
 ```{r}
-length(get_inheritance_from_my_omim_list)
-class(get_inheritance_from_my_omim_list)
-typeof(get_inheritance_from_my_omim_list)
-head(get_inheritance_from_my_omim_list) %>% kable()
+length(get_inheritance_from_my_omim_list2) # For some reason, there is an added row with the number 1, I will remove it
+get_inheritance_from_my_omim_list2 <- get_inheritance_from_my_omim_list2[2:919]
+class(get_inheritance_from_my_omim_list2)
+typeof(get_inheritance_from_my_omim_list2)
+get_inheritance_from_my_omim_list2 %>% head(10) %>% kable()
 ```
 Both the inheritance list and the omim ids list have 918 items, perfect ! Let's create a dataframe with them, so that we can join this data to the bigger dataset (DECIPHER, HGNC, Orphadata from Orphanet, mim2gene).
 
-```{r}
-inheritance_mim_df <- data_frame(as.vector(my_omim_list), as.vector(get_inheritance_from_my_omim_list))
-colnames(inheritance_mim_df) <- c("disease.mim", "inheritance")
+### Part 2 - Make some dataframes !
 
-# inheritance_mim_df %>% head() %>% kable()
+```{r}
+inheritance_mim_df <- data_frame(as.vector(my_omim_list), as.vector(get_inheritance_from_my_omim_list2))
+colnames(inheritance_mim_df) <- c("disease.mim", "inheritance")
+inheritance_mim_df %>% head() %>% kable()
 ```
 
 Merge with the previously made dataframe of mim2gene_data_expanded_titles.
@@ -442,7 +494,7 @@ write_tsv(mim2gene_and_inheritance_DDG2P_hgnc_orphadata , "data/mim2gene_and_inh
 ```
 
 
-### SECTION D - DATA EXPLORATION - ALL TOGETHER
+### SECTION E - DATA EXPLORATION - ALL TOGETHER
 
 Please note that data exploration for the API-related dataframe has been performed in the relevant sections above: refer to tables sample provided by the `head()` function.
 
@@ -451,28 +503,37 @@ summary(mim2gene_and_inheritance_DDG2P_hgnc_orphadata) %>%
 	kable()
 mim2gene_and_inheritance_DDG2P_hgnc_orphadata %>% 
 	group_by(frequency) %>%
-	summarize(total = n()) %>%
+	summarize(total_features = n()) %>%
+	arrange(desc(total_features)) %>%
 	kable()
 ``` 
+Note. Most diseases in the list do not have phenotypic feature frequency specified.
 
 ```{r}
 mim2gene_and_inheritance_DDG2P_hgnc_orphadata %>% 
 	group_by(inheritance) %>%
-	arrange(total) %>%
-	summarize(total_diseases = n())
+	summarize(total_diseases = n()) %>%
+	arrange(desc(total_diseases))
 ```
+Note. The most frequent mode of disease inheritance in this subset is autosomal dominant (AD = 274) and autosomal recessive (AR = 255), followed by not available (/ =99). 
 
-
+Digenic recessive, Somatic mosaicism and X-linked recessive are rare modes of inheritance, I wonder which diseases it concerns.
 ```{r}
-
+mim2gene_and_inheritance_DDG2P_hgnc_orphadata %>%
+	ungroup() %>%
+ 	filter(grepl("Digenic|Somatic|X-linked recessive", inheritance)) %>%
+	select(disorder_name, gene.symbol, inheritance) %>% 
+	kable()
 ```
 
 
 ### SECTION E - PLOTS
 
 ```{r}
+mim2gene_and_inheritance_DDG2P_hgnc_orphadata$inheritance <- as.factor(mim2gene_and_inheritance_DDG2P_hgnc_orphadata$inheritance) # Change inheritance into a factor in order to use forcats to reorder the bars according to frequency
 mim2gene_and_inheritance_DDG2P_hgnc_orphadata %>%
-	mutate(inheritance = inheritance %>% fct_infreq() %>% fct_rev()) %>%
+	ungroup() %>%
+	mutate(inheritance = inheritance %>% fct_infreq()) %>%
 			unique() %>%
 			group_by(disease.mim) %>%
 			ggplot(aes(inheritance)) +
@@ -483,11 +544,178 @@ mim2gene_and_inheritance_DDG2P_hgnc_orphadata %>%
 				axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
+Let's take a look at the types and distribution of OMIM entry type (mim_entry_type) we obtained from the OMIM API query above. 
+```{r}
+mim2gene_and_inheritance_DDG2P_hgnc_orphadata %>%
+  ggplot(aes(x=factor(1), fill=mim_entry_type)) + 
+	geom_bar(width =1) + coord_polar("y")
+```
+Note. We mainly obtained phenotype data and this is not suprising considering that I have obtained this dataset from overlapping the OMIM API data with the merged DECIPHER/HGNC/Orphanet-Orphadata data, the latter being mainly focused on phenotype.
+
+Now, let's look at the phenotype_name data.
 
 ```{r}
+mim2gene_and_inheritance_DDG2P_hgnc_orphadata %>%
+		ungroup() %>%
+			filter(phenotype_name != "") %>%
+			filter(!is.na(phenotype_name)) %>%
+			ggplot(aes(x=factor(1), fill=phenotype_name)) +
+			geom_bar(width =1, show.legend = FALSE) +
+			coord_polar("y") +
+			ggtitle("Phenotypic features - Distribution") +
+			theme_bw() + theme(
+				plot.title= element_text(color = "grey44", size=18, face="bold"),
+				axis.title.x=element_blank(),
+				axis.text.x = element_blank())
+```
+Note. Most features are only mentioned once or twice, so this looks like a color wheel to pick paint colors of my next apartment, but I thought it would still be interesting to have a visual. Let's take a look at the most frequent phenotypes next.
 
+```{r}
+mim2gene_and_inheritance_DDG2P_hgnc_orphadata %>%
+	ungroup() %>%
+	filter(phenotype_name != "") %>%
+	filter(!is.na(phenotype_name)) %>%
+	group_by(phenotype_name) %>%
+	summarize(phenotype_count = n()) %>%
+	arrange(desc(phenotype_count)) %>%
+	head()
+```
+Note. Cryptorchidism is a frequent phenotype of the merged dataset we have and it is present in 12 diseases. It is not surprising given the fact that up to 4% of healthy baby boys present cryptorchidism at birth [Virtanen and Topari, 2007](https://academic.oup.com/humupd/article/14/1/49/823056).
+
+
+## SECTION F - using httr and GET()
+
+As mentioned previously, I used an alternative method to query the OMIM API database, but just in case the homework requirements are strict, I thought I should show that I can also use httr and `GET()` in the setting of API query. 
+
+Let's take another disease for a change (Caffey disease, mim.disease = 114000): for the clinical synopsis, the url is "https://api.omim.org/api/clinicalSynopsis?mimNumber=114000&format=xml".
+
+Therefore, we could define a function that query the API according to the mimNumber.
+```{r}
+get_clinical_synopsis_httr <- function(mim.disease){
+	query_string <- glue("https://api.omim.org/api/clinicalSynopsis?mimNumber={mim.disease}&format=xml&{my_key}")
+	clinical_synopsis_result <- GET(query_string)
+	clinical_synopsis_content <- content(clinical_synopsis_result)
+	clinical_synopsis_content_parse <- XML::xmlParse(clinical_synopsis_content)
+	return(clinical_synopsis_content_parse)
+}
 ```
 
+Let's look at the information available for Caffey disease. 
+
+**IMPORTANT** The xml functions can not be knitr to github document as they are using my private key. As a replacement, I have saved some samples of data for you under [data_sample]("stat547-hw10-thibodeau-mylinh/data_sample"). I have kept the functions below to indicate the code that was used to generate the xml documents and associated datasets. 
+```{r}
+# clinical_synopsis_caffey <- get_clinical_synopsis_httr(114000)
+# saveXML(clinical_synopsis_caffey, "data_sample/clinical_synopsis_caffey_example1.xml")
+read_xml("data_sample/clinical_synopsis_caffey_example1.xml") %>% 
+	xmlParse() 
+```
+
+Maybe we want a function that looks at a lot more things than the clinical synopsis tree format.
+```{r}
+get_lots_of_info <- function(mim.disease){
+	query_string = glue("https://api.omim.org/api/entry?mimNumber={mim.disease}&include=text&format=xml&{my_key}")
+	lots_info_result <- GET(query_string)
+	lots_info_content <- content(lots_info_result)
+	lots_info_content_parse <- xmlParse(lots_info_content)
+	return(lots_info_content_parse)
+}
+```
+
+Let's take a look at some Caffey disease information !
+
+**IMPORTANT** The xml functions can not be knitr to github document as they are using my private key. As a replacement, I have saved some samples of data for you under [data_sample]("stat547-hw10-thibodeau-mylinh/data_sample"). I have kept the functions below to indicate the code that was used to generate the xml documents and associated datasets. 
+```{r}
+# get_lots_of_info_caffey <- get_lots_of_info(114000)
+# saveXML(get_lots_of_info_caffey, "data_sample/get_lots_of_info_caffey_example2.xml")
+read_xml("data_sample/get_lots_of_info_caffey_example2.xml") %>% 
+	xmlParse() 
+```
+
+A more general httr function for OMIM query.
+```{r}
+get_omim_search_httr <- 
+	function(
+	search_term = "coloboma",
+	text = FALSE, #Includes the text field sections with the entry.
+  	existflags = FALSE, #Include the 'exists' flags with the entry (clinical synopsis, allelic variant, gene map & phenotype map).
+  	allelicVariantList = FALSE, #Includes the allelic variant list with the entry.
+  	clinicalSynopsis = FALSE, #Include the clinical synopsis with the entry.
+  	seeAlso = FALSE, #Includes the 'see also' field with the entry.
+  	referenceList = FALSE, #Include the reference list with the entry.
+  	geneMap = FALSE, #Include the gene map/phenotype map data with the entry.
+  	externalLinks = FALSE, #Include the external links with the entry.
+  	contributors = FALSE, #Includes the 'contributors' field with the entry.
+  	creationDate = FALSE, #Includes the 'creation date' field with the entry.
+  	editHistory = FALSE, #Includes the 'edit history' field with the entry.
+  	dates = FALSE, #Include the dates data with the entry.
+  	all = FALSE #Include the above data with the entry.
+	)
+	
+	{
+	# Obtain the arguments the functions calls to build an URL and get XML
+	list_arguments <- as.list(match.call())
+  	my_search  <- paste(search_term, '&filter=&fields=&retrieve=&start=0&limit=10&sort=&operator=format=xml', sep='')
+  	my_link  <- 'https://api.omim.org/api/entry/search?search='
+  	my_query <- glue(my_link, my_search)
+  	#loop through all the arguments
+  	for (elem in names(list_arguments)){
+  		#skip the search_term and blank argument
+  		if(!elem %in% '' && !elem %in% 'search_term'){
+  			 my_include <- paste('&', 'include=', elem, sep='')
+  			 my_query <- paste(my_query, my_include, sep='')
+  			 }
+  	}
+  	my_query_string <- as.character(glue(my_query,"&" ,my_key))
+  	print(my_query_string)
+  	my_search_query_result <- GET(my_query_string)
+	my_search_query_content <- content(my_search_query_result)
+	my_search_query_content_parse <- xmlParse(my_search_query_content, useInternalNodes = TRUE)
+	return(my_search_query_content_parse)
+}
+```
+
+So if we take a look at the search for coloboma (default search term).
+```{r}
+# get_omim_search_httr_coloboma <- get_omim_search_httr() 
+# saveXML(get_omim_search_httr_coloboma, "data_sample/get_omim_search_httr_coloboma_example1.xml")
+read_xml("data_sample/get_omim_search_httr_coloboma_example1.xml") %>% 
+	xmlParse() 
+```
+
+Let's just make sure we are able to specify additional terms in the query function `get_omim_search_httr()`, say for example, geneMap for coloboma.
+```{r}
+# get_omim_search_httr_coloboma_genemap <- get_omim_search_httr(geneMap = TRUE) 
+# saveXML(get_omim_search_httr_coloboma_genemap, "data_sample/get_omim_search_httr_coloboma_genemap_example2.xml")
+read_xml("data_sample/get_omim_search_httr_coloboma_genemap_example2.xml") %>% 
+	xmlParse(useInternalNodes = TRUE) 
+```
+
+## SECTION F - Very brief purrr exploration
+
+As mentioned previously, here are two very brief examples of purrr exploration, but please note that I opted to build on previous work relating to writing functions instead of purrr nested list applications and I am including this section purely for your interest. Please refer to [homework 6](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat547-hw6-thibodeau-mylinh/stat547-hw06-thibodeau-mylinh.Rmd) if you would like further examples of purrr nested list handling.
+
+Let's look at the list structure of the coloboma gene map OMIM API query first. 
+```{r}
+coloboma2_list <- read_xml("data_sample/get_omim_search_httr_coloboma_genemap_example2.xml") %>% 
+	xmlParse(useInternalNodes = TRUE) %>%
+	xmlToList()
+coloboma2_list_search <- coloboma2_list[[1]]
+map(coloboma2_list_search["entryList"], 1)
+```
+
+
+```{r}
+list_coloboma_map <- coloboma2_list_search %>%
+map(`[`, c(1, 2, 3)) %>%
+  str()
+```
+
+# FINAL NOTE
+
+The following requirements from hw10 were unclear to me, and I interpreted them as follow:
+
+* Traverse pages: obtain API data from different API webpages, which has been completed in this homework.
+* Send an authorization token: since this assignment is focused on how to get web data with an API and not on writing an API (which is beyond what is covered in this course), I interpret that this requirement refers to "obtaining an authorization token and using it to query an API", which has also been completed in this homework. Note that additional effort has been made to respect the restrictions of the OMIM API and that only a sample of data is provided to the reviewers in line with these restrictions.
 
 ***
 
@@ -509,3 +737,5 @@ mim2gene_and_inheritance_DDG2P_hgnc_orphadata %>%
 
 * stat545 webdata03 lecture 2015 [here](http://stat545.com/webdata03_activity.html)
 * collapse a vector into a string [here](http://r.789695.n4.nabble.com/Concatenating-one-character-vector-into-one-string-td835795.html)
+* capture output use [here](https://stackoverflow.com/questions/27594541/export-a-list-into-a-csv-or-txt-file-in-r)
+

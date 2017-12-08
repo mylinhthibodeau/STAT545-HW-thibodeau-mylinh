@@ -4,6 +4,26 @@ stat547-hw10-thibodeau-mylinh
 
 ## HOMEWORK 10 
 
+### FILES
+
+* Unwrapped OMIM API data exploration Rmd file [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat547-hw10-thibodeau-mylinh/hw10-unwrapped-api.Rmd)
+* Unwrapped OMIM API data exploration md file [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat547-hw10-thibodeau-mylinh/hw10-unwrapped-api.md)
+* Data sample [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat547-hw10-thibodeau-mylinh/data_sample)
+* **NOTE.** The homework 10 requirements specified to put our process in an Rmd file, therefore, this README does not contain the process summary, and instead, it can be found [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat547-hw10-thibodeau-mylinh/stat547-hw10-thibodeau-mylinh.Rmd)
+
+## Homework 10 requirements
+
+Here is the breakdown of requirements and corresponding sections:
+
+* Get data from API - Section A (part 1, 2, 3, 4, 5) and Section D (part 1) 
+* Clean and tidy into dataframes - Section B (part 2) and Section C and Section D (part 2)
+* Save output to files
+	- protected data has been saved under the data folder - not public (e.g. mim2gene_and_inheritance_DDG2P_hgnc_orphadata.tsv)
+	- sample data for reviewers saved under [data_sample folder](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw10-thibodeau-mylinh/data_sample)
+* Use httr and `GET()` - Section F contains some examples of API query using httr. A new function using httr and glue is defined.
+
+### NOTES
+
 In this homework, I will be working with the Online Mendelian Inheritance of Man - [OMIM](https://omim.org/) data as well as previously used merged data from [DECIPHER](http://decipher.sanger.ac.uk), [Orphanet](http://www.orpha.net) and [HGNC](https://www.genenames.org/cgi-bin/statistics) (see references and [homework 8](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw8-thibodeau-mylinh) for more information)
 
 Extensive information on the OMIM API is available [here](https://omim.org/help/api), but I will provide a few examples of query and functions to query the API.
@@ -12,45 +32,8 @@ Extensive information on the OMIM API is available [here](https://omim.org/help/
 
 **IMPORTANT:** An alternative method has been used to retrieve the OMIM API data: I mainly used adapted functions instead of `GET()` from the library httr.
 
-**IMPORTANT:** I spent quite a bit of time trying to make some output files that you guys could see while respecting the protected data restriction of the OMIM API. Please install the packages XML and xml2 in order to be able to take a better look at the OMIM API xml output examples in the [data_sample folder]("stat547-hw10-thibodeau-mylinh/data_sample"), and otherwise, I have put some data samples in the homework, but the aesthetic of it is not great. 
+**IMPORTANT:** I spent quite a bit of time trying to make some output files that you guys could see while respecting the protected data restriction of the OMIM API. Please install the packages XML and xml2 in order to be able to take a better look at the OMIM API xml output examples in the [data_sample folder](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw10-thibodeau-mylinh/data_sample), and otherwise, I have put some data samples in the homework, but the aesthetic of it is not great. 
 
-# Homework 10 requirements
-
-Here is the breakdown of requirements and corresponding sections:
-
-* Get data from API - Section A (part 1, 2, 3, 4, 5) and Section D (part 1) 
-* Clean and tidy into dataframes - Section B (part 2) and Section C and Section D (part 2)
-* Save output to files
-	- protected data has been saved under the data folder - not public (e.g. mim2gene_and_inheritance_DDG2P_hgnc_orphadata.tsv)
-	- sample data for reviewers saved under [data_sample folder]("stat547-hw10-thibodeau-mylinh/data_sample")
-* Use httr and `GET()` - Section F contains some examples of API query using httr. A new function using httr and glue is defined.
-
-The following requirements from hw10 were unclear, so I interpreted them as follow:
-
-* Traverse pages: obtain API data from different API webpages, which has been completed in this homework.
-* Send an authorization token: since this assignment is focused on how to get web data with an API and not on writing an API (which is beyond what is covered in this course), I interpret that this requirement refers to "obtaining an authorization token and using it to query an API", which has also been completed in this homework. Note that additional effort has been made to respect the restrictions of the OMIM API and that only a sample of data is provided to the reviewers in line with these restrictions.
-
-*Please note that I have not used purrr to 
-
-### Challenges encountered
-
-#### Example 1
-
-
-#### Example 2
-
-
-#### Example 3
-
-
-### Open questions
-
-### New skills acquired
-
-1. Store API key safely and privately in an .Rprofile file and add the file name to .gitignore file (so that the file will not be pushed to github). This is a way to keep an API key private. 
-2. Use an API to make web data query: format of query and particularities relating to the OMIM API format.
-3. Write functions to make API data query: main code was adapted from Dave Tang tutorial Getting started with the OMIM api [here](https://davetang.org/muse/2015/03/17/getting-started-with-the-omim-api/) for main body of the homework, but a I wrote a new function that builds on previous work and uses httr and `GET()` in the final section of the homework.
-4. 
 
 ***
 

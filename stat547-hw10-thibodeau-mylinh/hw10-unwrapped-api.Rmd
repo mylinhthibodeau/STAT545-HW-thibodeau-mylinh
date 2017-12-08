@@ -34,7 +34,7 @@ Extensive information on the OMIM API is available [here](https://omim.org/help/
 
 **IMPORTANT:** An alternative method has been used to retrieve the OMIM API data: I mainly used adapted functions instead of `GET()` from the library httr.
 
-**IMPORTANT:** I spent quite a bit of time trying to make some output files that you guys could see while respecting the protected data restriction of the OMIM API. Please install the packages XML and xml2 in order to be able to take a better look at the OMIM API xml output examples in the [data_sample folder]("stat547-hw10-thibodeau-mylinh/data_sample"), and otherwise, I have put some data samples in the homework, but the aesthetic of it is not great. 
+**IMPORTANT:** I spent quite a bit of time trying to make some output files that you guys could see while respecting the protected data restriction of the OMIM API. Please install the packages XML and xml2 in order to be able to take a better look at the OMIM API xml output examples in the [data_sample folder](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw10-thibodeau-mylinh/data_sample), and otherwise, I have put some data samples in the homework, but the aesthetic of it is not great. 
 
 # Homework 10 requirements
 
@@ -46,8 +46,6 @@ Here is the breakdown of requirements and corresponding sections:
 	- protected data has been saved under the data folder - not public (e.g. mim2gene_and_inheritance_DDG2P_hgnc_orphadata.tsv)
 	- sample data for reviewers saved under [data_sample folder]("stat547-hw10-thibodeau-mylinh/data_sample")
 * Use httr and `GET()` - Section F contains some examples of API query using httr. A new function using httr and glue is defined.
-
-Section F contains two very brief examples of purrr exploration, but I opted to build on previous work relating to writing functions instead of purrr nested list applications.
 
 ## SECTION A - Writing functions to work with OMIM API
 
@@ -690,32 +688,13 @@ read_xml("data_sample/get_omim_search_httr_coloboma_genemap_example2.xml") %>%
 	xmlParse(useInternalNodes = TRUE) 
 ```
 
-## SECTION F - Very brief purrr exploration
-
-As mentioned previously, here are two very brief examples of purrr exploration, but please note that I opted to build on previous work relating to writing functions instead of purrr nested list applications and I am including this section purely for your interest. Please refer to [homework 6](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat547-hw6-thibodeau-mylinh/stat547-hw06-thibodeau-mylinh.Rmd) if you would like further examples of purrr nested list handling.
-
-Let's look at the list structure of the coloboma gene map OMIM API query first. 
-```{r}
-coloboma2_list <- read_xml("data_sample/get_omim_search_httr_coloboma_genemap_example2.xml") %>% 
-	xmlParse(useInternalNodes = TRUE) %>%
-	xmlToList()
-coloboma2_list_search <- coloboma2_list[[1]]
-map(coloboma2_list_search["entryList"], 1)
-```
-
-
-```{r}
-list_coloboma_map <- coloboma2_list_search %>%
-map(`[`, c(1, 2, 3)) %>%
-  str()
-```
-
 # FINAL NOTE
 
-The following requirements from hw10 were unclear to me, and I interpreted them as follow:
+The following requirements from hw10 were unclear, so I interpreted them as follow:
 
 * Traverse pages: obtain API data from different API webpages, which has been completed in this homework.
 * Send an authorization token: since this assignment is focused on how to get web data with an API and not on writing an API (which is beyond what is covered in this course), I interpret that this requirement refers to "obtaining an authorization token and using it to query an API", which has also been completed in this homework. Note that additional effort has been made to respect the restrictions of the OMIM API and that only a sample of data is provided to the reviewers in line with these restrictions.
+
 
 ***
 

@@ -3,6 +3,14 @@ stat547-hw10-thibodeau-mylinh
 My Linh Thibodeau
 2017-11-29
 
+FILES
+-----
+
+-   Unwrapped OMIM API data exploration Rmd file [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat547-hw10-thibodeau-mylinh/hw10-unwrapped-api.Rmd)
+-   Unwrapped OMIM API data exploration md file [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat547-hw10-thibodeau-mylinh/hw10-unwrapped-api.md)
+-   Data sample [HERE](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat547-hw10-thibodeau-mylinh/data_sample)
+-   **NOTE.** The homework 10 requirements specified to put our process in an Rmd file, therefore, this README does not contain the process summary, and instead, it can be found [here](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat547-hw10-thibodeau-mylinh/stat547-hw10-thibodeau-mylinh.Rmd)
+
 HOMEWORK 10
 -----------
 

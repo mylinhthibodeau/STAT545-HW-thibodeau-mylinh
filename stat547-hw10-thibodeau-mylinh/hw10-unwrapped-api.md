@@ -32,7 +32,7 @@ Extensive information on the OMIM API is available [here](https://omim.org/help/
 
 **IMPORTANT:** An alternative method has been used to retrieve the OMIM API data: I mainly used adapted functions instead of `GET()` from the library httr.
 
-**IMPORTANT:** I spent quite a bit of time trying to make some output files that you guys could see while respecting the protected data restriction of the OMIM API. Please install the packages XML and xml2 in order to be able to take a better look at the OMIM API xml output examples in the [data\_sample folder](%22stat547-hw10-thibodeau-mylinh/data_sample%22), and otherwise, I have put some data samples in the homework, but the aesthetic of it is not great.
+**IMPORTANT:** I spent quite a bit of time trying to make some output files that you guys could see while respecting the protected data restriction of the OMIM API. Please install the packages XML and xml2 in order to be able to take a better look at the OMIM API xml output examples in the [data\_sample](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw10-thibodeau-mylinh/data_sample), and otherwise, I have put some data samples in the homework, but the aesthetic of it is not great.
 
 Homework 10 requirements
 ========================
@@ -43,10 +43,8 @@ Here is the breakdown of requirements and corresponding sections:
 -   Clean and tidy into dataframes - Section B (part 2) and Section C and Section D (part 2)
 -   Save output to files
     -   protected data has been saved under the data folder - not public (e.g. mim2gene\_and\_inheritance\_DDG2P\_hgnc\_orphadata.tsv)
-    -   sample data for reviewers saved under [data\_sample folder](%22stat547-hw10-thibodeau-mylinh/data_sample%22)
+    -   sample data for reviewers saved under [data\_sample](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw10-thibodeau-mylinh/data_sample)
 -   Use httr and `GET()` - Section F contains some examples of API query using httr. A new function using httr and glue is defined.
-
-Section F contains two very brief examples of purrr exploration, but I opted to build on previous work relating to writing functions instead of purrr nested list applications.
 
 SECTION A - Writing functions to work with OMIM API
 ---------------------------------------------------
@@ -4059,182 +4057,10 @@ read_xml("data_sample/get_omim_search_httr_coloboma_genemap_example2.xml") %>%
     ## </omim>
     ## 
 
-SECTION F - Very brief purrr exploration
-----------------------------------------
-
-As mentioned previously, here are two very brief examples of purrr exploration, but please note that I opted to build on previous work relating to writing functions instead of purrr nested list applications and I am including this section purely for your interest. Please refer to [homework 6](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/blob/master/stat547-hw6-thibodeau-mylinh/stat547-hw06-thibodeau-mylinh.Rmd) if you would like further examples of purrr nested list handling.
-
-Let's look at the list structure of the coloboma gene map OMIM API query first.
-
-``` r
-coloboma2_list <- read_xml("data_sample/get_omim_search_httr_coloboma_genemap_example2.xml") %>% 
-    xmlParse(useInternalNodes = TRUE) %>%
-    xmlToList()
-coloboma2_list_search <- coloboma2_list[[1]]
-map(coloboma2_list_search["entryList"], 1)
-```
-
-    ## $entryList
-    ## $entryList$prefix
-    ## [1] "#"
-    ## 
-    ## $entryList$mimNumber
-    ## [1] "120330"
-    ## 
-    ## $entryList$status
-    ## [1] "live"
-    ## 
-    ## $entryList$titles
-    ## $entryList$titles$preferredTitle
-    ## [1] "PAPILLORENAL SYNDROME; PAPRS"
-    ## 
-    ## $entryList$titles$alternativeTitles
-    ## [1] "RENAL-COLOBOMA SYNDROME;;\nOPTIC NERVE COLOBOMA WITH RENAL DISEASE;;\nCOLOBOMA OF OPTIC NERVE WITH RENAL DISEASE;;\nOPTIC COLOBOMA, VESICOURETERAL REFLUX, AND RENAL ANOMALIES;;\nRENAL-COLOBOMA SYNDROME WITH MACULAR ABNORMALITIES;;\nCONGENITAL ANOMALIES OF THE KIDNEY AND URINARY TRACT WITH OR WITHOUT OCULAR ABNORMALITIES;;\nCAKUT WITH OR WITHOUT OCULAR ABNORMALITIES"
-    ## 
-    ## 
-    ## $entryList$phenotypeMapList
-    ## $entryList$phenotypeMapList$phenotypeMap
-    ## $entryList$phenotypeMapList$phenotypeMap$mimNumber
-    ## [1] "167409"
-    ## 
-    ## $entryList$phenotypeMapList$phenotypeMap$phenotype
-    ## [1] "Papillorenal syndrome"
-    ## 
-    ## $entryList$phenotypeMapList$phenotypeMap$phenotypeMimNumber
-    ## [1] "120330"
-    ## 
-    ## $entryList$phenotypeMapList$phenotypeMap$phenotypeMappingKey
-    ## [1] "3"
-    ## 
-    ## $entryList$phenotypeMapList$phenotypeMap$phenotypeInheritance
-    ## [1] "Autosomal dominant"
-    ## 
-    ## $entryList$phenotypeMapList$phenotypeMap$sequenceID
-    ## [1] "8354"
-    ## 
-    ## $entryList$phenotypeMapList$phenotypeMap$chromosome
-    ## [1] "10"
-    ## 
-    ## $entryList$phenotypeMapList$phenotypeMap$chromosomeSymbol
-    ## [1] "10"
-    ## 
-    ## $entryList$phenotypeMapList$phenotypeMap$chromosomeSort
-    ## [1] "439"
-    ## 
-    ## $entryList$phenotypeMapList$phenotypeMap$chromosomeLocationStart
-    ## [1] "100732939"
-    ## 
-    ## $entryList$phenotypeMapList$phenotypeMap$chromosomeLocationEnd
-    ## [1] "100829940"
-    ## 
-    ## $entryList$phenotypeMapList$phenotypeMap$transcript
-    ## [1] "uc001kro.4"
-    ## 
-    ## $entryList$phenotypeMapList$phenotypeMap$cytoLocation
-    ## [1] "10q24.3-q25.1"
-    ## 
-    ## $entryList$phenotypeMapList$phenotypeMap$computedCytoLocation
-    ## [1] "10q24.31"
-    ## 
-    ## $entryList$phenotypeMapList$phenotypeMap$geneSymbols
-    ## [1] "PAX2, PAPRS, FSGS7"
-    ## 
-    ## $entryList$phenotypeMapList$phenotypeMap$geneInheritance
-    ## NULL
-    ## 
-    ## 
-    ## 
-    ## $entryList$matches
-    ## [1] "coloboma"
-
-``` r
-list_coloboma_map <- coloboma2_list_search %>%
-map(`[`, c(1, 2, 3)) %>%
-  str()
-```
-
-    ## List of 16
-    ##  $ search          : chr [1:3] "coloboma" NA NA
-    ##  $ expandedSearch  : chr [1:3] "coloboma" NA NA
-    ##  $ parsedSearch    : chr [1:3] "+(number:coloboma^5.0 | text:coloboma | title:coloboma^3.0) ()" NA NA
-    ##  $ searchSuggestion: NULL
-    ##  $ searchSpelling  : NULL
-    ##  $ filter          : NULL
-    ##  $ expandedFilter  : NULL
-    ##  $ fields          : NULL
-    ##  $ searchReport    : NULL
-    ##  $ totalResults    : chr [1:3] "312" NA NA
-    ##  $ startIndex      : chr [1:3] "0" NA NA
-    ##  $ endIndex        : chr [1:3] "9" NA NA
-    ##  $ sort            : NULL
-    ##  $ operator        : chr [1:3] "format=xml" NA NA
-    ##  $ searchTime      : chr [1:3] "2.0" NA NA
-    ##  $ entryList       :List of 3
-    ##   ..$ entry:List of 6
-    ##   .. ..$ prefix          : chr "#"
-    ##   .. ..$ mimNumber       : chr "120330"
-    ##   .. ..$ status          : chr "live"
-    ##   .. ..$ titles          :List of 2
-    ##   .. .. ..$ preferredTitle   : chr "PAPILLORENAL SYNDROME; PAPRS"
-    ##   .. .. ..$ alternativeTitles: chr "RENAL-COLOBOMA SYNDROME;;\nOPTIC NERVE COLOBOMA WITH RENAL DISEASE;;\nCOLOBOMA OF OPTIC NERVE WITH RENAL DISEAS"| __truncated__
-    ##   .. ..$ phenotypeMapList:List of 1
-    ##   .. .. ..$ phenotypeMap:List of 16
-    ##   .. .. .. ..$ mimNumber              : chr "167409"
-    ##   .. .. .. ..$ phenotype              : chr "Papillorenal syndrome"
-    ##   .. .. .. ..$ phenotypeMimNumber     : chr "120330"
-    ##   .. .. .. ..$ phenotypeMappingKey    : chr "3"
-    ##   .. .. .. ..$ phenotypeInheritance   : chr "Autosomal dominant"
-    ##   .. .. .. ..$ sequenceID             : chr "8354"
-    ##   .. .. .. ..$ chromosome             : chr "10"
-    ##   .. .. .. ..$ chromosomeSymbol       : chr "10"
-    ##   .. .. .. ..$ chromosomeSort         : chr "439"
-    ##   .. .. .. ..$ chromosomeLocationStart: chr "100732939"
-    ##   .. .. .. ..$ chromosomeLocationEnd  : chr "100829940"
-    ##   .. .. .. ..$ transcript             : chr "uc001kro.4"
-    ##   .. .. .. ..$ cytoLocation           : chr "10q24.3-q25.1"
-    ##   .. .. .. ..$ computedCytoLocation   : chr "10q24.31"
-    ##   .. .. .. ..$ geneSymbols            : chr "PAX2, PAPRS, FSGS7"
-    ##   .. .. .. ..$ geneInheritance        : NULL
-    ##   .. ..$ matches         : chr "coloboma"
-    ##   ..$ entry:List of 6
-    ##   .. ..$ prefix          : chr "#"
-    ##   .. ..$ mimNumber       : chr "120200"
-    ##   .. ..$ status          : chr "live"
-    ##   .. ..$ titles          :List of 2
-    ##   .. .. ..$ preferredTitle   : chr "COLOBOMA, OCULAR, AUTOSOMAL DOMINANT"
-    ##   .. .. ..$ alternativeTitles: chr "COLOBOMA, UVEORETINAL;;\nCOLOBOMA OF IRIS, CHOROID, AND RETINA; COI"
-    ##   .. ..$ phenotypeMapList:List of 1
-    ##   .. .. ..$ phenotypeMap:List of 16
-    ##   .. .. .. ..$ mimNumber              : chr "607108"
-    ##   .. .. .. ..$ phenotype              : chr "?Coloboma, ocular"
-    ##   .. .. .. ..$ phenotypeMimNumber     : chr "120200"
-    ##   .. .. .. ..$ phenotypeMappingKey    : chr "3"
-    ##   .. .. .. ..$ phenotypeInheritance   : chr "Autosomal dominant"
-    ##   .. .. .. ..$ sequenceID             : chr "8790"
-    ##   .. .. .. ..$ chromosome             : chr "11"
-    ##   .. .. .. ..$ chromosomeSymbol       : chr "11"
-    ##   .. .. .. ..$ chromosomeSort         : chr "262"
-    ##   .. .. .. ..$ chromosomeLocationStart: chr "31784791"
-    ##   .. .. .. ..$ chromosomeLocationEnd  : chr "31817960"
-    ##   .. .. .. ..$ transcript             : chr "uc058abq.1"
-    ##   .. .. .. ..$ cytoLocation           : chr "11p13"
-    ##   .. .. .. ..$ computedCytoLocation   : chr "11p13"
-    ##   .. .. .. ..$ geneSymbols            : chr "PAX6, AN2, MGDA, FVH1, ASGD5"
-    ##   .. .. .. ..$ geneInheritance        : NULL
-    ##   .. ..$ matches         : chr "coloboma"
-    ##   ..$ entry:List of 5
-    ##   .. ..$ prefix   : chr "%"
-    ##   .. ..$ mimNumber: chr "243910"
-    ##   .. ..$ status   : chr "live"
-    ##   .. ..$ titles   :List of 2
-    ##   .. .. ..$ preferredTitle   : chr "ARIMA SYNDROME"
-    ##   .. .. ..$ alternativeTitles: chr "DEKABAN-ARIMA SYNDROME;;\nJOUBERT SYNDROME WITH BILATERAL CHORIORETINAL COLOBOMA;;\nCOLOBOMA, CHORIORETINAL, WI"| __truncated__
-    ##   .. ..$ matches  : chr "coloboma"
-
 FINAL NOTE
 ==========
 
-The following requirements from hw10 were unclear to me, and I interpreted them as follow:
+The following requirements from hw10 were unclear, so I interpreted them as follow:
 
 -   Traverse pages: obtain API data from different API webpages, which has been completed in this homework.
 -   Send an authorization token: since this assignment is focused on how to get web data with an API and not on writing an API (which is beyond what is covered in this course), I interpret that this requirement refers to "obtaining an authorization token and using it to query an API", which has also been completed in this homework. Note that additional effort has been made to respect the restrictions of the OMIM API and that only a sample of data is provided to the reviewers in line with these restrictions.

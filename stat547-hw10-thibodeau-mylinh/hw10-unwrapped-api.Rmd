@@ -34,7 +34,7 @@ Extensive information on the OMIM API is available [here](https://omim.org/help/
 
 **IMPORTANT:** An alternative method has been used to retrieve the OMIM API data: I mainly used adapted functions instead of `GET()` from the library httr.
 
-**IMPORTANT:** I spent quite a bit of time trying to make some output files that you guys could see while respecting the protected data restriction of the OMIM API. Please install the packages XML and xml2 in order to be able to take a better look at the OMIM API xml output examples in the [data_sample folder](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw10-thibodeau-mylinh/data_sample), and otherwise, I have put some data samples in the homework, but the aesthetic of it is not great. 
+**IMPORTANT:** I spent quite a bit of time trying to make some output files that you guys could see while respecting the protected data restriction of the OMIM API. Please install the packages XML and xml2 in order to be able to take a better look at the OMIM API xml output examples in the [data_sample](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw10-thibodeau-mylinh/data_sample), and otherwise, I have put some data samples in the homework, but the aesthetic of it is not great. 
 
 # Homework 10 requirements
 
@@ -44,7 +44,7 @@ Here is the breakdown of requirements and corresponding sections:
 * Clean and tidy into dataframes - Section B (part 2) and Section C and Section D (part 2)
 * Save output to files
 	- protected data has been saved under the data folder - not public (e.g. mim2gene_and_inheritance_DDG2P_hgnc_orphadata.tsv)
-	- sample data for reviewers saved under [data_sample folder]("stat547-hw10-thibodeau-mylinh/data_sample")
+	- sample data for reviewers saved under [data_sample](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw10-thibodeau-mylinh/data_sample)
 * Use httr and `GET()` - Section F contains some examples of API query using httr. A new function using httr and glue is defined.
 
 ## SECTION A - Writing functions to work with OMIM API

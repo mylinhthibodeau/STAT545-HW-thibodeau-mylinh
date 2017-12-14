@@ -555,6 +555,8 @@ $molecularBasis
 </table>
 Note. I know the output is not visually pleasing, but I am just trying to show that the API query worked and to prove to you that I was able to obtain the desired web data outpub.
 
+------------------------------------------------------------------------
+
 SECTION B - Merging data from mim2gene dataset with OMIM API output from functions
 ----------------------------------------------------------------------------------
 
@@ -875,6 +877,9 @@ MOVED TO 200150
 </tr>
 </tbody>
 </table>
+
+------------------------------------------------------------------------
+
 SECTION C - BUILDING ON PREVIOUS STAT545/547 HOMEWORK
 -----------------------------------------------------
 
@@ -1476,6 +1481,8 @@ Let's make a list of these omim diseases ids of interest.
 ``` r
 my_omim_list <- common_mim_ids$disease.mim %>% as.list()
 ```
+
+------------------------------------------------------------------------
 
 SECTION D - TARGETED API QUERIES
 --------------------------------
@@ -3337,6 +3344,9 @@ AR; Digenic recessive
 </tr>
 </tbody>
 </table>
+
+------------------------------------------------------------------------
+
 ### SECTION E - PLOTS
 
 ``` r
@@ -3407,6 +3417,8 @@ mim2gene_and_inheritance_DDG2P_hgnc_orphadata %>%
     ## 6        High palate               2
 
 Note. Cryptorchidism is a frequent phenotype of the merged dataset we have and it is present in 12 diseases. It is not surprising given the fact that up to 4% of healthy baby boys present cryptorchidism at birth [Virtanen and Topari, 2007](https://academic.oup.com/humupd/article/14/1/49/823056).
+
+------------------------------------------------------------------------
 
 SECTION F - using httr and GET()
 --------------------------------

@@ -101,7 +101,7 @@ xmlParse(my_query)
 
 I have set the default OMIM id to 277700, which corresponds to Werner syndrome.
 
-**IMPORTANT** The xml functions can not be knitr to github document as they are using my private key. As a replacement, I have saved some samples of data for you under [data\_sample](%22stat547-hw10-thibodeau-mylinh/data_sample%22). I have kept the functions below to indicate the code that was used to generate the xml documents and associated datasets.
+**IMPORTANT** The xml functions can not be knitr to github document as they are using my private key. As a replacement, I have saved some samples of data for you under [data\_sample](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw10-thibodeau-mylinh/data_sample). I have kept the functions below to indicate the code that was used to generate the xml documents and associated datasets.
 
 ``` r
 # get_omim_xml_werner_example1 <- get_omim_to_xml()
@@ -128,7 +128,7 @@ read_xml("data_sample/get_omim_xml_werner_example1.xml") %>%
 
 Let's peak at the structure of the geneMap and the information it contains.
 
-**IMPORTANT** The xml functions can not be knitr to github document as they are using my private key. As a replacement, I have saved some samples of data for you under [data\_sample](%22stat547-hw10-thibodeau-mylinh/data_sample%22). I have kept the functions below to indicate the code that was used to generate the xml documents and associated datasets.
+**IMPORTANT** The xml functions can not be knitr to github document as they are using my private key. As a replacement, I have saved some samples of data for you under [data\_sample](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw10-thibodeau-mylinh/data_sample). I have kept the functions below to indicate the code that was used to generate the xml documents and associated datasets.
 
 ``` r
 # get_omim_xml_werner_example2 <- get_omim_to_xml(geneMap = TRUE)
@@ -185,7 +185,7 @@ get_gene <- function(my_xml){
 
 And then we can retrieve the gene corresponding to a specific OMIM id (default is Werner syndrome).
 
-**IMPORTANT** The xml functions can not be knitr to github document as they are using my private key. As a replacement, I have saved some samples of data for you under [data\_sample](%22stat547-hw10-thibodeau-mylinh/data_sample%22). I have kept the functions below to indicate the code that was used to generate the xml documents and associated datasets.
+**IMPORTANT** The xml functions can not be knitr to github document as they are using my private key. As a replacement, I have saved some samples of data for you under [data\_sample](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw10-thibodeau-mylinh/data_sample). I have kept the functions below to indicate the code that was used to generate the xml documents and associated datasets.
 
 ``` r
 # get_gene_werner_example3 <- get_gene(get_omim_to_xml(geneMap = TRUE)) %>% as.data.frame()
@@ -224,7 +224,7 @@ get_title <- function(xml =  277700){
 
 Using the default option (Werner syndrome), we obtained the preferredTitle of this disorder.
 
-**IMPORTANT** The xml functions can not be knitr to github document as they are using my private key. As a replacement, I have saved some samples of data for you under [data\_sample](%22stat547-hw10-thibodeau-mylinh/data_sample%22). I have kept the functions below to indicate the code that was used to generate the xml documents and associated datasets.
+**IMPORTANT** The xml functions can not be knitr to github document as they are using my private key. As a replacement, I have saved some samples of data for you under [data\_sample](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw10-thibodeau-mylinh/data_sample). I have kept the functions below to indicate the code that was used to generate the xml documents and associated datasets.
 
 ``` r
 # get_title_werner_example4 <- get_title(get_omim_to_xml()) %>% as.data.frame()
@@ -267,7 +267,7 @@ get_titles_from_list <- function(
 
 #### Peak at the data output
 
-**IMPORTANT** The xml functions can not be knitr to github document as they are using my private key. As a replacement, I have saved some samples of data for you under [data\_sample](%22stat547-hw10-thibodeau-mylinh/data_sample%22). I have kept the functions below to indicate the code that was used to generate the xml documents and associated datasets.
+**IMPORTANT** The xml functions can not be knitr to github document as they are using my private key. As a replacement, I have saved some samples of data for you under [data\_sample](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw10-thibodeau-mylinh/data_sample). I have kept the functions below to indicate the code that was used to generate the xml documents and associated datasets.
 
 ``` r
 # get_titles_from_list_tetralogy_fallot <- get_titles_from_list() 
@@ -325,7 +325,7 @@ CONOTRUNCAL HEART MALFORMATIONS; CTHM
 
 So far, we got the titles (diseases names) from the API, but we can also see what we could do with the clinical synopsis. Let's start by peaking at the structure of xml for clinical synopsis data.
 
-**IMPORTANT** The xml functions can not be knitr to github document as they are using my private key. As a replacement, I have saved some samples of data for you under [data\_sample](%22stat547-hw10-thibodeau-mylinh/data_sample%22). I have kept the functions below to indicate the code that was used to generate the xml documents and associated datasets.
+**IMPORTANT** The xml functions can not be knitr to github document as they are using my private key. As a replacement, I have saved some samples of data for you under [data\_sample](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw10-thibodeau-mylinh/data_sample). I have kept the functions below to indicate the code that was used to generate the xml documents and associated datasets.
 
 ``` r
 # get_omim_xml_werner_example5 <- get_omim_to_xml(clinicalSynopsis = TRUE)
@@ -384,7 +384,7 @@ get_clinical_synopsis_as_list <- function(xml){
 }
 ```
 
-**IMPORTANT** The xml functions can not be knitr to github document as they are using my private key. As a replacement, I have saved some samples of data for you under [data\_sample](%22stat547-hw10-thibodeau-mylinh/data_sample%22). I have kept the functions below to indicate the code that was used to generate the xml documents and associated datasets.
+**IMPORTANT** The xml functions can not be knitr to github document as they are using my private key. As a replacement, I have saved some samples of data for you under [data\_sample](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw10-thibodeau-mylinh/data_sample). I have kept the functions below to indicate the code that was used to generate the xml documents and associated datasets.
 
 ``` r
 # clinical_synopsis_werner_list <- get_clinical_synopsis_as_list(get_omim_to_xml(clinicalSynopsis = TRUE))
@@ -1501,7 +1501,7 @@ get_inheritance <- function(my_xml){
 
 Let's peak at the output for mim.disease 303600 (Coffin-Lowry syndrome).
 
-**IMPORTANT** The xml functions can not be knitr to github document as they are using my private key. As a replacement, I have saved some samples of data for you under [data\_sample](%22stat547-hw10-thibodeau-mylinh/data_sample%22). I have kept the functions below to indicate the code that was used to generate the xml documents and associated datasets.
+**IMPORTANT** The xml functions can not be knitr to github document as they are using my private key. As a replacement, I have saved some samples of data for you under [data\_sample](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw10-thibodeau-mylinh/data_sample). I have kept the functions below to indicate the code that was used to generate the xml documents and associated datasets.
 
 ``` r
 # get_inheritance_coffin_lowry_example6 <- get_inheritance(get_omim_to_xml(303600, geneMap=TRUE))
@@ -1562,7 +1562,7 @@ get_inheritance_from_list <- function(my_file, user_list){
 
 Let's test the function!
 
-**IMPORTANT** The xml functions can not be knitr to github document as they are using my private key. As a replacement, I have saved some samples of data for you under [data\_sample](%22stat547-hw10-thibodeau-mylinh/data_sample%22). I have kept the functions below to indicate the code that was used to generate the xml documents and associated datasets.
+**IMPORTANT** The xml functions can not be knitr to github document as they are using my private key. As a replacement, I have saved some samples of data for you under [data\_sample](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw10-thibodeau-mylinh/data_sample). I have kept the functions below to indicate the code that was used to generate the xml documents and associated datasets.
 
 ``` r
 # my_file <- "stat547-hw10-thibodeau-mylinh/data_sample/get_inheritance_from_my_omim_list.tsv"
@@ -3429,7 +3429,7 @@ get_clinical_synopsis_httr <- function(mim.disease){
 
 Let's look at the information available for Caffey disease.
 
-**IMPORTANT** The xml functions can not be knitr to github document as they are using my private key. As a replacement, I have saved some samples of data for you under [data\_sample](%22stat547-hw10-thibodeau-mylinh/data_sample%22). I have kept the functions below to indicate the code that was used to generate the xml documents and associated datasets.
+**IMPORTANT** The xml functions can not be knitr to github document as they are using my private key. As a replacement, I have saved some samples of data for you under [data\_sample](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw10-thibodeau-mylinh/data_sample). I have kept the functions below to indicate the code that was used to generate the xml documents and associated datasets.
 
 ``` r
 # clinical_synopsis_caffey <- get_clinical_synopsis_httr(114000)
@@ -3464,7 +3464,7 @@ get_lots_of_info <- function(mim.disease){
 
 Let's take a look at some Caffey disease information !
 
-**IMPORTANT** The xml functions can not be knitr to github document as they are using my private key. As a replacement, I have saved some samples of data for you under [data\_sample](%22stat547-hw10-thibodeau-mylinh/data_sample%22). I have kept the functions below to indicate the code that was used to generate the xml documents and associated datasets.
+**IMPORTANT** The xml functions can not be knitr to github document as they are using my private key. As a replacement, I have saved some samples of data for you under [data\_sample](https://github.com/mylinhthibodeau/STAT545-HW-thibodeau-mylinh/tree/master/stat547-hw10-thibodeau-mylinh/data_sample). I have kept the functions below to indicate the code that was used to generate the xml documents and associated datasets.
 
 ``` r
 # get_lots_of_info_caffey <- get_lots_of_info(114000)
